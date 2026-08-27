@@ -61,52 +61,59 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
 
     def _handle_get_projects(self):
         projects = []
-        for item in BASE_DIR.iterdir():
-            if not item.is_dir() or item.name in {".git", "public", "__pycache__", ".agents"}:
-                continue
-            tokens_file = item / "design-tokens.json"
-            guide_file = item / "style-guide.html"
+        try:
+            for item in BASE_DIR.iterdir():
+                try:
+                    if not item.is_dir() or item.name in {".git", "public", "__pycache__", ".agents"}:
+                        continue
+                    tokens_file = item / "design-tokens.json"
+                    guide_file = item / "style-guide.html"
 
-            if tokens_file.exists() or guide_file.exists():
-                meta = {}
-                if tokens_file.exists():
-                    try:
-                        tokens = json.loads(tokens_file.read_text(encoding="utf-8"))
-                        colors_dict = tokens.get("colors", {}) if isinstance(tokens.get("colors"), dict) else {}
-                        top_colors = list(colors_dict.values())[:10]
-                        fonts_val = tokens.get("fonts", {})
-                        fonts_count = len([k for k in fonts_val if isinstance(k, str) and not k.startswith("_")]) if isinstance(fonts_val, (dict, list)) else 0
-                        fw = tokens.get("frameworks", {})
-                        fw_list = list(fw.keys()) if isinstance(fw, dict) else (fw if isinstance(fw, list) else [])
-                        meta = {
-                            "source": tokens.get("source"),
-                            "generated": tokens.get("generated"),
-                            "colors_count": len(colors_dict),
-                            "top_colors": top_colors,
-                            "roles": tokens.get("roles", {}) if isinstance(tokens.get("roles"), dict) else {},
-                            "fonts_count": fonts_count,
-                            "font_files_count": len(tokens.get("font_files", [])) if isinstance(tokens.get("font_files"), list) else 0,
-                            "gradients_count": len(tokens.get("gradients", [])) if isinstance(tokens.get("gradients"), list) else 0,
-                            "frameworks": fw_list,
-                            "logo": tokens.get("logo"),
-                        }
-                    except Exception as exc:  # noqa: BLE001
-                        print(f"Error parsing tokens for {item.name}: {exc}")
+                    if tokens_file.exists() or guide_file.exists():
+                        meta = {}
+                        if tokens_file.exists():
+                            try:
+                                tokens = json.loads(tokens_file.read_text(encoding="utf-8"))
+                                colors_dict = tokens.get("colors", {}) if isinstance(tokens.get("colors"), dict) else {}
+                                top_colors = list(colors_dict.values())[:10]
+                                fonts_val = tokens.get("fonts", {})
+                                fonts_count = len([k for k in fonts_val if isinstance(k, str) and not k.startswith("_")]) if isinstance(fonts_val, (dict, list)) else 0
+                                fw = tokens.get("frameworks", {})
+                                fw_list = list(fw.keys()) if isinstance(fw, dict) else (fw if isinstance(fw, list) else [])
+                                meta = {
+                                    "source": tokens.get("source") or "",
+                                    "generated": tokens.get("generated") or "",
+                                    "colors_count": len(colors_dict),
+                                    "top_colors": top_colors,
+                                    "roles": tokens.get("roles", {}) if isinstance(tokens.get("roles"), dict) else {},
+                                    "fonts_count": fonts_count,
+                                    "font_files_count": len(tokens.get("font_files", [])) if isinstance(tokens.get("font_files"), list) else 0,
+                                    "gradients_count": len(tokens.get("gradients", [])) if isinstance(tokens.get("gradients"), list) else 0,
+                                    "frameworks": fw_list,
+                                    "logo": tokens.get("logo"),
+                                }
+                            except Exception as exc:  # noqa: BLE001
+                                print(f"Error parsing tokens for {item.name}: {exc}")
 
-                files = [f.name for f in item.iterdir() if f.is_file()]
-                if (item / "fonts").exists():
-                    files.append("fonts/")
+                        files = [f.name for f in item.iterdir() if f.is_file()] if item.exists() else []
+                        if (item / "fonts").exists():
+                            files.append("fonts/")
 
-                projects.append({
-                    "domain": item.name,
-                    "path": str(item),
-                    "files": files,
-                    "has_style_guide": guide_file.exists(),
-                    "has_tokens": tokens_file.exists(),
-                    "meta": meta,
-                })
+                        projects.append({
+                            "domain": item.name,
+                            "path": str(item),
+                            "files": files,
+                            "has_style_guide": guide_file.exists(),
+                            "has_tokens": tokens_file.exists(),
+                            "meta": meta,
+                        })
+                except Exception as exc:  # noqa: BLE001
+                    print(f"Error reading project item {item}: {exc}")
 
-        projects.sort(key=lambda p: p.get("meta", {}).get("generated", ""), reverse=True)
+            projects.sort(key=lambda p: str(p.get("meta", {}).get("generated") or ""), reverse=True)
+        except Exception as exc:  # noqa: BLE001
+            print(f"Error in _handle_get_projects: {exc}")
+
         self._send_json({"projects": projects})
 
     def _handle_serve_output(self, rel_path: str):

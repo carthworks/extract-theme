@@ -39,6 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalCloseBtn = document.getElementById('modal-close');
   const modalBackdrop = previewModal.querySelector('.modal-backdrop');
 
+  const statusBadge = document.querySelector('.status-badge');
+  if (statusBadge) {
+    statusBadge.innerHTML = `<span class="pulse"></span> Host Active: ${window.location.origin}`;
+  }
+
   let allProjects = [];
 
   // --- Initial Load ---
@@ -157,11 +162,15 @@ document.addEventListener('DOMContentLoaded', () => {
   async function fetchProjects() {
     try {
       const res = await fetch('/api/projects');
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status} ${res.statusText}`);
+      }
       const data = await res.json();
       allProjects = data.projects || [];
       renderProjects(allProjects);
     } catch (err) {
-      projectsGrid.innerHTML = `<div class="skeleton-card" style="color:var(--danger)">Failed to load extracted projects from server.</div>`;
+      console.error('fetchProjects error:', err);
+      projectsGrid.innerHTML = `<div class="skeleton-card" style="color:var(--danger)">Failed to load extracted projects from server (${err.message}).</div>`;
     }
   }
 
