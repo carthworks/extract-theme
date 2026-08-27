@@ -2611,7 +2611,7 @@ def run(args: argparse.Namespace) -> int:
         "components.css", "tailwind.theme.css", "tailwind.config.js",
         "raw/combined.css",
     ):
-        _p(f"  {out / f}")
+        _p(f"  {(out / f).as_posix()}")
     _p("")
     return 0
 

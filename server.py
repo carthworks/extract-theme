@@ -246,8 +246,15 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
             domain = re.sub(r"^www\.", "", domain, flags=re.I)
             domain = re.sub(r"[^\w.-]", "_", domain)
 
+            host_header = self.headers.get("Host") or "localhost:8000"
+            proto = "https" if self.headers.get("X-Forwarded-Proto") == "https" or "onrender.com" in host_header else "http"
+            base_url = f"{proto}://{host_header}"
+
             if proc.returncode == 0:
-                self._send_chunk(f"\n✨ SUCCESS! Extracted design system saved to: {domain}\n")
+                self._send_chunk(f"\n✨ SUCCESS! Extracted design system saved for: {domain}\n")
+                self._send_chunk(f"🔗 Style Guide: {base_url}/output/{domain}/style-guide.html\n")
+                self._send_chunk(f"🔗 DESIGN.md:   {base_url}/output/{domain}/DESIGN.md\n")
+                self._send_chunk(f"🔗 Tokens JSON: {base_url}/output/{domain}/design-tokens.json\n")
             else:
                 self._send_chunk(f"\n❌ ERROR: Process exited with code {proc.returncode}\n")
 
