@@ -966,12 +966,19 @@ def collect_leading(counts: Counter[str], root_px: float) -> dict[str, str]:
     out: dict[str, str] = {}
     for raw, _n in counts.most_common(24):
         raw = raw.strip()
+        ratio = None
         if raw in ("normal", "inherit"):
             ratio = 1.5
         elif re.fullmatch(rf"{_NUM}", raw):
-            ratio = float(raw)
+            try:
+                ratio = float(raw)
+            except ValueError:
+                pass
         elif raw.endswith("%"):
-            ratio = float(raw[:-1]) / 100
+            try:
+                ratio = float(raw[:-1]) / 100
+            except ValueError:
+                pass
         else:
             px = to_px(raw, root_px)
             ratio = px / root_px if px else None
@@ -987,10 +994,19 @@ def collect_tracking(counts: Counter[str], root_px: float) -> dict[str, str]:
     out: dict[str, str] = {}
     for raw, _n in counts.most_common(24):
         raw = raw.strip()
+        em = None
         if raw == "normal":
             em = 0.0
+        elif raw.endswith("rem"):
+            try:
+                em = float(raw[:-3])
+            except ValueError:
+                pass
         elif raw.endswith("em"):
-            em = float(raw[:-2])
+            try:
+                em = float(raw[:-2])
+            except ValueError:
+                pass
         else:
             px = to_px(raw, root_px)
             em = px / root_px if px is not None else None
