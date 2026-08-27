@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS Extraction & Style Guide Generator — Studio Workbench</title>
+  <meta name="description" content="Extract production-ready design systems, CSS variables, Tailwind themes, WCAG contrast audits, font files, and interactive style guides from any website.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="app-header">
+    <div class="header-content">
+      <div class="brand">
+        <div class="brand-icon">🎨</div>
+        <div>
+          <h1>ExtractTheme <span>Studio</span></h1>
+          <p class="brand-sub">CSS Extraction & Style Guide Generator</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="status-badge"><span class="pulse"></span> Host Active: http://localhost:8000</span>
+        <button id="refresh-projects" class="btn btn-secondary btn-sm">🔄 Refresh Workspace</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main">
+
+    <!-- Hero Extraction Form Section -->
+    <section class="hero-section">
+      <div class="hero-card">
+        <div class="hero-badge">✨ Automated Design Token Extraction</div>
+        <h2>Pull a Production Design System from Any Website</h2>
+        <p class="hero-desc">Extract CSS variables, Tailwind configs, typography, WCAG contrast matrices, font files, logos, and interactive HTML style guides in seconds.</p>
+
+        <!-- Main Form -->
+        <form id="extract-form" class="extract-form">
+          <div class="url-input-group">
+            <span class="input-icon">🌐</span>
+            <input type="text" id="target-url" placeholder="Enter site URL (e.g. https://stripe.com or interiorio.com)" required autocomplete="off">
+            <button type="submit" id="submit-btn" class="btn btn-primary">
+              <span class="btn-text">⚡ Extract Design System</span>
+              <span class="spinner hidden"></span>
+            </button>
+          </div>
+
+          <!-- Common Variations / Quick Presets -->
+          <div class="preset-section">
+            <span class="preset-label">Quick Presets:</span>
+            <div class="preset-pills">
+              <button type="button" class="preset-pill" data-url="https://stripe.com">Stripe</button>
+              <button type="button" class="preset-pill" data-url="https://linear.app">Linear</button>
+              <button type="button" class="preset-pill" data-url="https://vercel.com">Vercel</button>
+              <button type="button" class="preset-pill" data-url="https://airbnb.com">Airbnb</button>
+              <button type="button" class="preset-pill" data-url="https://pitowings.com">Pitowings</button>
+              <button type="button" class="preset-pill" data-url="https://interiorio.com">InteriorIO</button>
+            </div>
+          </div>
+
+          <!-- Flags Customization Drawer -->
+          <div class="flags-accordion">
+            <button type="button" id="toggle-flags" class="flags-toggle-btn">
+              <span>⚙️ Customize CLI Flags & Extraction Parameters</span>
+              <span id="flags-arrow">▼</span>
+            </button>
+
+            <div id="flags-panel" class="flags-panel hidden">
+              <div class="flags-grid">
+
+                <!-- Crawl Depth -->
+                <div class="field-group">
+                  <label for="flag-crawl">Crawl Depth <span>(--crawl)</span></label>
+                  <select id="flag-crawl">
+                    <option value="1">1 page (Single entry URL)</option>
+                    <option value="5" selected>5 pages (Recommended)</option>
+                    <option value="10">10 pages (Thorough)</option>
+                    <option value="20">20 pages (Deep audit)</option>
+                  </select>
+                  <span class="field-help">Crawls same-site subpages to collect comprehensive CSS.</span>
+                </div>
+
+                <!-- Max Colors -->
+                <div class="field-group">
+                  <div class="label-with-value">
+                    <label for="flag-max-colors">Max Palette Colors <span>(--max-colors)</span></label>
+                    <span id="max-colors-val" class="value-badge">40</span>
+                  </div>
+                  <input type="range" id="flag-max-colors" min="12" max="64" value="40" step="2">
+                  <span class="field-help">Upper bound on distinct brand palette entries.</span>
+                </div>
+
+                <!-- Min Frequency Count -->
+                <div class="field-group">
+                  <div class="label-with-value">
+                    <label for="flag-min-count">Min Frequency Count <span>(--min-count)</span></label>
+                    <span id="min-count-val" class="value-badge">2</span>
+                  </div>
+                  <input type="range" id="flag-min-count" min="1" max="10" value="2" step="1">
+                  <span class="field-help">Ignore rare un-reusable colors used fewer times.</span>
+                </div>
+
+                <!-- Color Distance Tolerance -->
+                <div class="field-group">
+                  <div class="label-with-value">
+                    <label for="flag-color-tolerance">Color Merging Distance <span>(--color-tolerance)</span></label>
+                    <span id="color-tolerance-val" class="value-badge">0.03</span>
+                  </div>
+                  <input type="range" id="flag-color-tolerance" min="0.0" max="0.1" value="0.03" step="0.005">
+                  <span class="field-help">Merge near-identical shades in OKLab space.</span>
+                </div>
+
+                <!-- Root Font Size -->
+                <div class="field-group">
+                  <label for="flag-root-font-size">Root Font Size <span>(--root-font-size)</span></label>
+                  <input type="number" id="flag-root-font-size" value="16" min="10" max="24">
+                  <span class="field-help">Base rem pixel ratio for spacing & typography calculations.</span>
+                </div>
+
+                <!-- Custom Output Dir -->
+                <div class="field-group">
+                  <label for="flag-output-dir">Custom Output Folder <span>(-o / --output-dir)</span></label>
+                  <input type="text" id="flag-output-dir" placeholder="Auto-detect (e.g. domain.com)">
+                  <span class="field-help">Leave empty to automatically use domain name.</span>
+                </div>
+
+                <!-- SSL Verification Checkbox -->
+                <div class="field-group checkbox-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="flag-no-verify">
+                    <span>Disable SSL Verification <span>(--no-verify)</span></span>
+                  </label>
+                  <span class="field-help">Useful for self-signed certificates or intranet targets.</span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Terminal & Progress Section -->
+    <section id="terminal-section" class="terminal-section hidden">
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="terminal-title">Console Output — extract_theme.py</span>
+          <button type="button" id="clear-log-btn" class="btn-text-sm">Clear</button>
+        </div>
+        <pre id="terminal-log" class="terminal-body"></pre>
+      </div>
+    </section>
+
+    <!-- Out Folder List & Projects Explorer Section -->
+    <section class="projects-section">
+      <div class="section-header">
+        <div>
+          <h2>Output Folder Explorer 📁</h2>
+          <p class="section-sub">Extracted design systems ready for developers & designers</p>
+        </div>
+        <div class="filter-controls">
+          <input type="text" id="search-projects" placeholder="Filter projects by domain..." class="search-input">
+        </div>
+      </div>
+
+      <div id="projects-grid" class="projects-grid">
+        <!-- Project cards rendered dynamically via app.js -->
+        <div class="skeleton-card">Loading extracted folders...</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal for Code & File Preview -->
+  <div id="preview-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">File Preview</h3>
+        <button id="modal-close" class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-toolbar">
+          <span id="modal-file-path" class="file-path-badge"></span>
+          <button id="modal-copy-btn" class="btn btn-secondary btn-sm">📋 Copy to Clipboard</button>
+        </div>
+        <pre id="modal-code" class="code-block"></pre>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <p>ExtractTheme Studio · Automated Design System Extraction Pipeline · Powered by <code>tinycss2</code> & Python</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

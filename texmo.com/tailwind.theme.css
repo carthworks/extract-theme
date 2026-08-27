@@ -1,0 +1,117 @@
+/* Tailwind v4 theme extracted from https://texmo.com/ */
+@import "tailwindcss";
+
+@theme {
+  --color-white: #ffffff;
+  --color-orange-400: #ff6900;
+  --color-red-600: #cf2e2e;
+  --color-slate-300: #abb8c3;
+  --color-yellow-300: #fcb900;
+  --color-sky-500: #0693e3;
+  --color-purple-600: #9b51e0;
+  --color-emerald-300: #7bdcb5;
+  --color-emerald-400: #00d084;
+  --color-black: #000000;
+  --color-pink-300: #f78da7;
+  --color-sky-300: #8ed1fc;
+  --color-neutral-900: #32373c;
+  --color-orange-500: #e55e20;
+  --color-neutral-100: #eeeeee;
+  --color-red-500: #fe2d2d;
+  --color-teal-200: #4aeadc;
+  --color-violet-500: #9778d1;
+  --color-fuchsia-600: #cf2aba;
+  --color-pink-500: #ee2c82;
+  --color-red-400: #fb6962;
+  --color-yellow-50: #fef84c;
+  --color-pink-200: #ffceec;
+  --color-violet-400: #9896f0;
+  --color-orange-200: #fecda5;
+  --color-pink-900: #6b003e;
+  --color-amber-200: #ffcb70;
+  --color-fuchsia-500: #c751c0;
+  --color-indigo-700: #4158d0;
+  --color-yellow-50-2: #fff5cb;
+  --color-zinc-200: #b6e3d4;
+  --color-cyan-400: #33a7b5;
+  --color-lime-100: #caf880;
+  --color-green-300: #71ce7e;
+  --color-blue-950: #020381;
+  --color-blue-600: #2874fc;
+  --color-neutral-900-2: #424244;
+  --color-neutral-300-a30: rgb(0 0 0 / 0.3);
+  --color-neutral-200: #dbdbdb;
+  --color-slate-950: #181822;
+
+  --color-background: var(--color-white);
+  --color-foreground: var(--color-black);
+  --color-muted-foreground: var(--color-neutral-900);
+  --color-primary: var(--color-orange-400);
+  --color-accent: var(--color-red-600);
+  --color-border: var(--color-slate-300);
+  --color-destructive: var(--color-orange-400);
+  --color-warning: var(--color-yellow-300);
+  --color-success: var(--color-emerald-300);
+  --color-info: var(--color-sky-500);
+
+  --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --text-xs: 13px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 1.125em;
+  --text-xl: 20px;
+  --text-2xl: 1.5em;
+  --text-3xl: 1.7rem;
+  --text-4xl: 36px;
+  --text-5xl: 47px;
+  --leading-none: 1;
+  --leading-tight: 1.2;
+  --leading-snug: 1.4;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+  --leading-loose: 2.5rem;
+
+  --spacing-0: 0px;
+  --spacing-1px: 1px;
+  --spacing-2px: 2px;
+  --spacing-3px: 3px;
+  --spacing-1: 4px;
+  --spacing-4_8px: 4.8px;
+  --spacing-5px: 5px;
+  --spacing-6px: 6px;
+  --spacing-7px: 7px;
+  --spacing-2: 8px;
+  --spacing-9_6px: 9.6px;
+  --spacing-10px: 10px;
+  --spacing-3: 12px;
+  --spacing-15px: 15px;
+  --spacing-4: 16px;
+  --spacing-19_2px: 19.2px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-30px: 30px;
+  --spacing-8: 32px;
+  --spacing-35px: 35px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-65px: 65px;
+
+  --radius-none: 0;
+  --radius: 0.2rem;
+  --radius-2xl: 16px;
+  --radius-3xl: 28px;
+  --radius-full: 9999px;
+
+  --shadow-xs: 0 0 1px 0 #888;
+  --shadow-sm: inset 0px 0px 0px 3px #E55E20;
+  --shadow: 1px 1px 4px rgba(0,0,0,.2);
+
+  --breakpoint-md: 800px;
+  --breakpoint-md-880: 880px;
+  --breakpoint-lg: 1120px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xl-1280: 1280px;
+  --breakpoint-xl-1312: 1312px;
+  --breakpoint-2xl: 1500px;
+}

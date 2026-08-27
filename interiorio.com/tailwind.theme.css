@@ -1,0 +1,128 @@
+/* Tailwind v4 theme extracted from https://interiorio.com/ */
+@import "tailwindcss";
+
+@theme {
+  --color-white: #ffffff;
+  --color-red-600: #dc2626;
+  --color-slate-600: #64748b;
+  --color-slate-950: #0f172a;
+  --color-neutral-100: #e5e7eb;
+  --color-stone-50-a8: rgb(220 38 38 / 0.08);
+  --color-slate-900: #334155;
+  --color-neutral-50: #f1f5f9;
+  --color-emerald-400: #10b981;
+  --color-red-700: #b91c1c;
+  --color-slate-400: #94a3b8;
+  --color-amber-300: #f59e0b;
+  --color-neutral-50-a8: rgb(16 185 129 / 0.08);
+  --color-stone-50-a8-2: rgb(245 158 11 / 0.08);
+  --color-white-a95: rgb(255 255 255 / 0.95);
+  --color-slate-50-a8: rgb(139 92 246 / 0.08);
+  --color-red-500: #ef4444;
+  --color-stone-50-a8-3: rgb(239 68 68 / 0.08);
+  --color-violet-600: #8b5cf6;
+  --color-rose-200: #fecaca;
+  --color-white-a85: rgb(255 255 255 / 0.85);
+  --color-stone-100-a15: rgb(220 38 38 / 0.15);
+  --color-neutral-50-a5: rgb(0 0 0 / 0.05);
+  --color-neutral-200: #d1d5db;
+  --color-emerald-700: #047857;
+  --color-neutral-50-a8-2: rgb(59 130 246 / 0.08);
+  --color-blue-500: #3b82f6;
+  --color-white-a0: rgb(255 255 255 / 0.0);
+  --color-green-500: #16a34a;
+  --color-neutral-50-2: #fff8f0;
+  --color-orange-600: #b45309;
+  --color-blue-600: #2563eb;
+  --color-violet-600-2: #7c3aed;
+  --color-emerald-600: #059669;
+  --color-orange-500: #d97706;
+  --color-stone-200-a20: rgb(220 38 38 / 0.2);
+  --color-blue-300: #93c5fd;
+  --color-blue-700: #1d4ed8;
+  --color-red-900: #7f1d1d;
+  --color-white-a12: rgb(255 255 255 / 0.12);
+  --color-white-a20: rgb(255 255 255 / 0.2);
+  --color-white-a75: rgb(255 255 255 / 0.75);
+
+  --color-background: var(--color-white);
+  --color-foreground: var(--color-slate-950);
+  --color-muted-foreground: var(--color-slate-600);
+  --color-primary: var(--color-red-600);
+  --color-accent: var(--color-emerald-400);
+  --color-border: var(--color-neutral-100);
+  --color-destructive: var(--color-red-600);
+  --color-warning: var(--color-amber-300);
+  --color-success: var(--color-emerald-400);
+  --color-info: var(--color-blue-300);
+
+  --font-sans: "Inter",sans-serif;
+  --font-sans-2: "Inter", sans-serif;
+  --font-sans-3: "Phosphor";
+  --font-sans-4: "Phosphor-Bold";
+
+  --text-xs: 13px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 24px;
+  --text-3xl: 28px;
+  --text-4xl: 36px;
+  --text-5xl: 48px;
+  --text-6xl: 56px;
+  --leading-none: 1;
+  --leading-tight: 1.2;
+  --leading-snug: 1.4;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.6;
+  --tracking-tighter: -1px;
+  --tracking-tight: -0.5px;
+  --tracking-normal: 0;
+  --tracking-wide: 0.3px;
+  --tracking-wider: 0.06em;
+  --tracking-widest: 0.08em;
+
+  --spacing-0: 0px;
+  --spacing-2px: 2px;
+  --spacing-1: 4px;
+  --spacing-6px: 6px;
+  --spacing-2: 8px;
+  --spacing-10px: 10px;
+  --spacing-3: 12px;
+  --spacing-14px: 14px;
+  --spacing-4: 16px;
+  --spacing-18px: 18px;
+  --spacing-5: 20px;
+  --spacing-22px: 22px;
+  --spacing-6: 24px;
+  --spacing-7: 28px;
+  --spacing-8: 32px;
+  --spacing-9: 36px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-14: 56px;
+  --spacing-15: 60px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-25: 100px;
+  --spacing-30: 120px;
+
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 100px;
+  --radius-full: 50%;
+
+  --shadow-xs: 0 0 0 0 rgba(245,158,11,0.6);
+  --shadow-sm: 0 0 0 0 rgba(220,38,38,0.30);
+  --shadow: 0 0 0 0 rgba(220,38,38,0.25);
+  --shadow-md: 0 0 0 3px rgba(220,38,38,0.08);
+  --shadow-lg: 0 0 0 4px rgba(220,38,38,0.10);
+  --shadow-xl: 0 0 0 5px rgba(220,38,38,0.10);
+  --shadow-2xl: 0 1px 3px rgba(15,23,42,0.04),0 1px 2px rgba(15,23,42,0.02);
+
+}

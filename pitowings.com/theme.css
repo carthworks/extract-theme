@@ -1,0 +1,154 @@
+/* ---------------------------------------------------------------
+   Design tokens extracted from https://www.pitowings.com
+   extract-theme v2.0.0
+   --------------------------------------------------------------- */
+
+:root {
+  /* palette */
+  --color-white: #ffffff;
+  --color-white-a0: rgb(255 255 255 / 0.0);
+  --color-stone-100-a14: rgb(225 29 63 / 0.139);
+  --color-stone-100: #ffe0e4;
+  --color-stone-50: #fff1f3;
+  --color-stone-50-a8: rgb(225 29 63 / 0.076);
+  --color-white-a0-2: rgb(0 0 0 / 0.0);
+  --color-rose-200: #ffc6cf;
+  --color-rose-600: #e11d3f;
+  --color-stone-200-a20: rgb(225 29 63 / 0.197);
+  --color-rose-300: #ff9aab;
+  --color-rose-800: #a50d26;
+  --color-neutral-100: #f3e9ea;
+  --color-rose-400: #f65a76;
+  --color-rose-700: #c8102e;
+  --color-neutral-950: #1b1418;
+  --color-zinc-400: #a999aa;
+  --color-red-500: #fb2c36;
+  --color-rose-900: #7a0c1f;
+  --color-rose-400-2: #ff6467;
+  --color-red-600: #e7000b;
+  --color-rose-950: #5c0a17;
+  --color-stone-950: #3a2f35;
+  --color-stone-700: #6b5b62;
+  --color-white-a35: rgb(255 255 255 / 0.35);
+  --color-white-a0-3: rgb(225 29 63 / 0.0);
+  --color-white-a70: rgb(255 255 255 / 0.702);
+  --color-neutral-50-a6: rgb(200 16 46 / 0.059);
+  --color-white-a80: rgb(255 255 255 / 0.8);
+  --color-stone-100-2: #ffe6da;
+  --color-stone-100-a80: rgb(255 224 228 / 0.8);
+  --color-neutral-50-a50: rgb(255 241 243 / 0.502);
+  --color-neutral-50-a4: rgb(246 90 118 / 0.043);
+  --color-white-a40: rgb(255 255 255 / 0.4);
+  --color-stone-50-a30: rgb(255 198 207 / 0.302);
+  --color-white-a10: rgb(255 255 255 / 0.102);
+  --color-white-a95: rgb(255 255 255 / 0.949);
+  --color-white-a85: rgb(255 255 255 / 0.851);
+  --color-stone-100-a70: rgb(255 224 228 / 0.702);
+  --color-stone-100-a50: rgb(255 198 207 / 0.502);
+  --color-neutral-50-a40: rgb(255 241 243 / 0.4);
+  --color-neutral-50-a60: rgb(255 241 243 / 0.6);
+  --color-neutral-50-a80: rgb(255 241 243 / 0.8);
+  --color-neutral-50-a40-2: rgb(255 224 228 / 0.4);
+  --color-stone-50-a45: rgb(255 224 228 / 0.451);
+  --color-stone-50-a50: rgb(255 224 228 / 0.502);
+  --color-stone-50-a60: rgb(255 224 228 / 0.6);
+  --color-stone-100-a40: rgb(255 198 207 / 0.4);
+
+  /* semantic roles */
+  --background: var(--color-white);
+  --foreground: var(--color-neutral-950);
+  --muted-foreground: var(--color-stone-950);
+  --primary: var(--color-rose-600);
+  --accent: var(--color-rose-300);
+  --border: var(--color-stone-100);
+  --destructive: var(--color-rose-600);
+
+  /* typography */
+  --font-sans: "Poppins",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-mono: ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;
+  --text-xs: .75rem;
+  --text-sm: .875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  --weight-black: 900;
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+  --tracking-tight: -.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: .025em;
+  --tracking-wider: .06em;
+  --tracking-widest: .1em;
+
+  /* spacing */
+  --space-0: 0px;
+  --space-1px: 1px;
+  --space-2_56px: 2.56px;
+  --space-3px: 3px;
+  --space-1: 4px;
+  --space-4_48px: 4.48px;
+  --space-4_8px: 4.8px;
+  --space-8_8px: 8.8px;
+  --space-9_6px: 9.6px;
+  --space-14_4px: 14.4px;
+  --space-17_6px: 17.6px;
+  --space-5: 20px;
+  --space-23_2px: 23.2px;
+  --space-27px: 27px;
+  --space-7: 28px;
+  --space-50_4px: 50.4px;
+  --space-13: 52px;
+  --space-62_4px: 62.4px;
+  --space-70_4px: 70.4px;
+
+  /* radius */
+  --radius-none: 0;
+  --radius: .25rem;
+  --radius-lg: .5rem;
+  --radius-xl: .75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+
+  /* elevation */
+  --shadow-xs: 0 0 #0000,0 0 #0000,0 0 #0000,initial 0 0 0 calc(4px + 0px) oklch(93.6% .032 17.717),0 8px 24px -16px initial;
+  --shadow-sm: 0 20px 50px -28px #1b141859;
+  --shadow: 0 22px 60px -22px #c8102e73;
+
+  /* gradients */
+  --gradient-1: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
+  --gradient-2: linear-gradient(140deg, rgba(225,29,63,0.139), rgba(255,255,255,0));
+  --gradient-3: linear-gradient(140deg, rgba(225,29,63,0.076), rgba(255,255,255,0));
+  --gradient-4: linear-gradient(140deg, rgba(225,29,63,0.103), rgba(255,255,255,0));
+  --gradient-5: linear-gradient(140deg, rgba(225,29,63,0.181), rgba(255,255,255,0));
+  --gradient-6: linear-gradient(140deg, rgba(225,29,63,0.117), rgba(255,255,255,0));
+  --gradient-7: radial-gradient(circle at 50% 50%, #ffe3e8, transparent 68%);
+  --gradient-8: radial-gradient(circle at 50% 50%, #f3e9ea, transparent 68%);
+  --gradient-9: radial-gradient(circle at 50% 50%, #ffd8de, transparent 68%);
+  --gradient-10: radial-gradient(circle at 50% 50%, #eee5e2, transparent 68%);
+  --gradient-11: radial-gradient(circle at 50% 50%, #ffe9ec, transparent 68%);
+  --gradient-12: radial-gradient(circle, rgba(225,29,63,0.085) 0%, rgba(246,90,118,0.0425) 38%, rgba(225,29,63,0) 70%);
+  --gradient-13: radial-gradient(circle, rgba(225,29,63,0.16) 0%, rgba(225,29,63,0.07) 45%, rgba(225,29,63,0) 72%);
+  --gradient-14: linear-gradient(140deg, rgba(225,29,63,0.197), rgba(255,255,255,0));
+  --gradient-15: linear-gradient(140deg, rgba(225,29,63,0.059), rgba(255,255,255,0));
+  --gradient-16: linear-gradient(140deg, rgba(225,29,63,0.110), rgba(255,255,255,0));
+}
+
+/* Breakpoints (custom media — needs postcss-custom-media) */
+@custom-media --sm (min-width: 640px);
+@custom-media --md (min-width: 768px);
+@custom-media --lg (min-width: 1024px);
+@custom-media --xl (min-width: 1280px);
+@custom-media --2xl (min-width: 1536px);

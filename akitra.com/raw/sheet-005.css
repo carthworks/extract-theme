@@ -1,0 +1,40 @@
+/**
+ * Custom User Registration Fields for Tutor LMS — Frontend Styles v2.0
+ */
+
+/* ----------------------------------------------------------------
+   Required field asterisk
+---------------------------------------------------------------- */
+.tutor-cuf-required {
+	color: #e53935;
+	margin-left: 3px;
+	font-weight: 700;
+	line-height: 1;
+}
+
+/* ----------------------------------------------------------------
+   Registration form field group wrapper.
+   Provides a small visual separator from Tutor's default fields.
+---------------------------------------------------------------- */
+.tutor-cuf-reg-group {
+	margin-top: 4px;
+	width: 100%;
+}
+
+/* ----------------------------------------------------------------
+   Profile settings section — shown on the Tutor dashboard profile
+   edit page via tutor_profile_edit_input_after.
+---------------------------------------------------------------- */
+.tutor-cuf-profile-section {
+	margin-top: 8px;
+	width: 100%;
+}
+
+.tutor-cuf-section-title {
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--tutor-color-black, #1d2327);
+	margin: 24px 0 12px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid var(--tutor-color-border, #e2e4e7);
+}
