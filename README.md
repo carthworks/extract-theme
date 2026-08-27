@@ -52,7 +52,7 @@ example.com/
 Ensure Python 3.9+ is installed, then install required dependencies:
 
 ```bash
-pip install requests beautifulsoup4 tinycss2
+pip install -r requirements.txt
 ```
 
 ---
