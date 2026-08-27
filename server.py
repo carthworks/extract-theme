@@ -270,14 +270,14 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
 
 def main():
     port = int(os.environ.get("PORT", 8000))
-    server_address = ("", port)
+    server_address = ("0.0.0.0", port)
 
     # Create public directory if not exists
     PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
 
     httpd = HTTPServer(server_address, ExtractThemeHandler)
     print(f"\n=======================================================")
-    print(f"  Theme Extractor Web UI running on http://localhost:{port}")
+    print(f"  ExtractTheme Studio running on port {port} (0.0.0.0)")
     print(f"=======================================================\n")
     try:
         httpd.serve_forever()
