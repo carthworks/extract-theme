@@ -6,6 +6,8 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_v3_%26_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
+![ExtractTheme Studio Web Workbench](homepage.png)
+
 ---
 
 ## ✨ Features & Capabilities
