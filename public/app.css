@@ -1292,12 +1292,165 @@ body {
   to { transform: rotate(360deg); }
 }
 
+/* Brand & Copyright Metadata inside Cards */
+.project-brand-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.project-domain-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 1px;
+}
+
+.project-domain {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-sub);
+  word-break: break-all;
+}
+
+.project-date-inline {
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+.card-copyright-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  margin-bottom: 6px;
+  padding: 4px 8px;
+  background: rgba(11, 15, 25, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+.card-copyright-row i, .card-copyright-row .lucide {
+  color: #34d399;
+}
+
+.copyright-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Brand & Copyright inside Table Format */
+.table-site-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.table-brand-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.table-domain-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.table-domain-meta .table-domain {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-sub);
+}
+
+.table-copyright-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9.5px;
+  color: var(--text-muted);
+  background: rgba(11, 15, 25, 0.4);
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 2px;
+  max-width: 220px;
+}
+
+.table-copyright-pill i, .table-copyright-pill .lucide {
+  color: #34d399;
+}
+
+.table-copyright-pill span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Modal Copyright Pill */
+.modal-copy-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #a7f3d0;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-weight: 500;
+}
+
+.modal-path-tag {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--primary);
+  background: rgba(99, 102, 241, 0.1);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+}
+
 .app-footer {
   text-align: center;
-  padding: 24px;
+  padding: 20px 24px;
   border-top: 1px solid var(--border);
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 11.5px;
+  background: #090d16;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.footer-main-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: var(--text-sub);
+}
+
+.footer-legal-notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
 }
 
 /* Pagination Styling */

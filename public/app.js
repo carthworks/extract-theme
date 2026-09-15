@@ -359,6 +359,9 @@ document.addEventListener('DOMContentLoaded', () => {
            </div>`
         : '';
 
+      const brandTitle = meta.brand_name || proj.domain;
+      const copyrightText = meta.copyright || `© 2026 ${brandTitle}. All rights reserved.`;
+
       return `
         <div class="project-card">
           <div>
@@ -366,8 +369,11 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="project-title-area">
                 ${logoThumb}
                 <div>
-                  <div class="project-domain">${escapeHtml(proj.domain)}</div>
-                  <div class="project-date">${icon('calendar', 'icon-xs', 'vertical-align:-1px;margin-right:2px;')} ${formattedDate}</div>
+                  <div class="project-brand-title">${escapeHtml(brandTitle)}</div>
+                  <div class="project-domain-row">
+                    <span class="project-domain">${escapeHtml(proj.domain)}</span>
+                    <span class="project-date-inline">&bull; ${formattedDate}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -380,6 +386,11 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="stat-pill">${icon('folder-archive', 'icon-xs')} Files: <strong>${meta.font_files_count || 0}</strong></span>
               <span class="stat-pill">${icon('sparkles', 'icon-xs')} Gradients: <strong>${meta.gradients_count || 0}</strong></span>
               ${frameworkPills}
+            </div>
+
+            <div class="card-copyright-row" title="${escapeHtml(meta.legal_notice || copyrightText)}">
+              ${icon('shield-check', 'icon-xs', 'color:var(--text-muted);')}
+              <span class="copyright-text">${escapeHtml(copyrightText)}</span>
             </div>
           </div>
 
@@ -401,8 +412,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const logoFile = meta.logo ? (meta.logo.logo_svg || meta.logo.logo_img || meta.logo.favicon) : null;
 
         const logoThumb = logoFile 
-          ? `<img src="/output/${encodeURIComponent(proj.domain)}/${encodeURIComponent(logoFile)}" class="project-logo-thumb" style="width:24px;height:24px;" alt="Logo">`
-          : `<div class="project-logo-thumb" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;">${icon('globe', 'icon-xs', 'color:var(--text-sub);')}</div>`;
+          ? `<img src="/output/${encodeURIComponent(proj.domain)}/${encodeURIComponent(logoFile)}" class="project-logo-thumb" style="width:26px;height:26px;" alt="Logo">`
+          : `<div class="project-logo-thumb" style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;">${icon('globe', 'icon-xs', 'color:var(--text-sub);')}</div>`;
 
         const formattedDate = meta.generated ? new Date(meta.generated).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) : 'Recent';
 
@@ -417,14 +428,23 @@ document.addEventListener('DOMContentLoaded', () => {
           `<span class="stat-pill fw-pill" style="font-size:9.5px;padding:1px 4px;">${icon('layers', 'icon-xs')} ${escapeHtml(fw)}</span>`
         ).join('');
 
+        const brandTitle = meta.brand_name || proj.domain;
+        const copyrightText = meta.copyright || `© 2026 ${brandTitle}. All rights reserved.`;
+
         return `
           <tr>
             <td>
               <div class="table-site-cell">
                 ${logoThumb}
-                <div>
-                  <div class="table-domain">${escapeHtml(proj.domain)}</div>
-                  <div class="project-date" style="font-size:10px;">${formattedDate}</div>
+                <div class="table-site-info">
+                  <div class="table-brand-title">${escapeHtml(brandTitle)}</div>
+                  <div class="table-domain-meta">
+                    <span class="table-domain">${escapeHtml(proj.domain)}</span>
+                    <span class="project-date" style="font-size:9.5px;">&bull; ${formattedDate}</span>
+                  </div>
+                  <div class="table-copyright-pill" title="${escapeHtml(meta.legal_notice || copyrightText)}">
+                    ${icon('shield-check', 'icon-xs')} <span>${escapeHtml(copyrightText)}</span>
+                  </div>
                 </div>
               </div>
             </td>
@@ -524,8 +544,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function openFilePreview(domain, file) {
-    modalTitle.textContent = `${domain} / ${file}`;
-    modalFilePath.textContent = `${domain}/${file}`;
+    const proj = allProjects.find(p => p.domain === domain) || {};
+    const meta = proj.meta || {};
+    const brandTitle = meta.brand_name || domain;
+    const copyrightText = meta.copyright || `© 2026 ${brandTitle}. All rights reserved.`;
+
+    modalTitle.innerHTML = `<span style="font-weight:700;color:var(--text-main);">${escapeHtml(brandTitle)}</span> <span style="font-size:12px;color:var(--text-sub);font-weight:400;">(${escapeHtml(domain)})</span> &bull; <span style="color:var(--primary);font-size:13px;font-family:var(--font-mono);">${escapeHtml(file)}</span>`;
+    modalFilePath.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><span class="modal-path-tag">${escapeHtml(domain)}/${escapeHtml(file)}</span> <span class="modal-copy-pill" title="${escapeHtml(meta.legal_notice || copyrightText)}">${icon('shield-check', 'icon-xs')} ${escapeHtml(copyrightText)}</span></span>`;
     modalCode.textContent = 'Loading content...';
     previewModal.classList.remove('hidden');
     refreshIcons();
@@ -537,6 +562,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) {
       modalCode.textContent = `Error loading file: ${err.message}`;
     }
+    refreshIcons();
   }
 
   // Close Modal

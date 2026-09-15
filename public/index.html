@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="app.css?v=11">
+  <link rel="stylesheet" href="app.css?v=12">
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -294,10 +294,19 @@
   </div>
 
   <footer class="app-footer">
-    <p>ExtractTheme Studio · Automated Design System Extraction Pipeline · Powered by <code>tinycss2</code> & Python</p>
+    <div class="footer-container">
+      <div class="footer-main-text">
+        <i data-lucide="palette" class="icon-xs" style="color:var(--primary);"></i>
+        <span>ExtractTheme Studio &bull; Automated Design System Extraction Pipeline</span>
+      </div>
+      <div class="footer-legal-notice">
+        <i data-lucide="shield-check" class="icon-xs" style="color:var(--success);"></i>
+        <span>All extracted trademarks, brand logos, color tokens, and design assets remain the intellectual property of their respective website and brand owners.</span>
+      </div>
+    </div>
   </footer>
 
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=11"></script>
 </body>
 </html>
 

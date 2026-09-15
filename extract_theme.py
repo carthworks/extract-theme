@@ -1478,6 +1478,86 @@ def extract_logo(
     return result
 
 
+def extract_copyright_and_brand(
+    fetcher: "Fetcher", pages: list[tuple[str, str]], primary_url: str
+) -> dict[str, str]:
+    """Extract brand name, copyright notice, and legal ownership information from the page HTML."""
+    if not pages:
+        return {}
+
+    html = pages[0][1]
+    result: dict[str, str] = {}
+    p = urlparse(primary_url)
+    domain = p.netloc or primary_url
+    domain_clean = domain.split(":")[0]
+    domain_parts = domain_clean.split(".")
+    brand_guess = domain_parts[-2].capitalize() if len(domain_parts) >= 2 and domain_parts[-2] not in {"co", "com", "org", "net", "io", "ai", "app"} else domain_parts[0].capitalize()
+
+    # 1. Look for meta og:site_name, author, copyright, title
+    og_site = re.search(r'<meta\b[^>]+(?:property|name)=["\']og:site_name["\'][^>]+content=["\']([^"\']+)["\']', html, re.I)
+    if not og_site:
+        og_site = re.search(r'<meta\b[^>]+content=["\']([^"\']+)["\'][^>]+(?:property|name)=["\']og:site_name["\']', html, re.I)
+    
+    meta_author = re.search(r'<meta\b[^>]+name=["\']author["\'][^>]+content=["\']([^"\']+)["\']', html, re.I)
+    if not meta_author:
+        meta_author = re.search(r'<meta\b[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']author["\']', html, re.I)
+
+    meta_copy = re.search(r'<meta\b[^>]+name=["\']copyright["\'][^>]+content=["\']([^"\']+)["\']', html, re.I)
+    if not meta_copy:
+        meta_copy = re.search(r'<meta\b[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']copyright["\']', html, re.I)
+
+    # Clean brand name
+    if og_site and og_site.group(1).strip():
+        result["brand_name"] = html_lib.unescape(og_site.group(1).strip())
+    elif meta_author and meta_author.group(1).strip():
+        result["brand_name"] = html_lib.unescape(meta_author.group(1).strip())
+    else:
+        title_m = re.search(r'<title\b[^>]*>(.*?)</title>', html, re.I | re.S)
+        if title_m:
+            raw_title = html_lib.unescape(title_m.group(1).strip())
+            parts = re.split(r'[\s\—\-\|:•]+', raw_title)
+            if parts and parts[0] and len(parts[0]) <= 30:
+                result["brand_name"] = parts[0].strip()
+            else:
+                result["brand_name"] = brand_guess
+        else:
+            result["brand_name"] = brand_guess
+
+    # 2. Extract Copyright text
+    copyright_text = ""
+    if meta_copy and meta_copy.group(1).strip():
+        copyright_text = html_lib.unescape(meta_copy.group(1).strip())
+
+    if not copyright_text:
+        # Search in <footer> or bottom of HTML for copyright strings
+        footer_block = re.search(r'<footer\b[^>]*>(.*?)</footer>', html, re.I | re.S)
+        search_zone = footer_block.group(0) if footer_block else html[-20000:]
+        
+        # Regex to match copyright patterns like "© 2026 Stripe, Inc. All rights reserved"
+        copy_pattern = re.compile(
+            r'(?:(?:©|&copy;|&#169;|\(c\)|Copyright)\s*(?:(?:\d{4}\s*[-–—]\s*)?\d{4})?\s*[^<>\n\r]{2,80}?(?:all\s+rights?\s+reserved|inc\.?|llc\.?|corp\.?|ltd\.?|gmbh|co\.?|studio|technologies|group)?)',
+            re.I
+        )
+        match = copy_pattern.search(search_zone)
+        if match:
+            raw_match = re.sub(r'<[^>]+>', ' ', match.group(0))
+            raw_match = html_lib.unescape(raw_match).strip()
+            raw_match = ' '.join(raw_match.split())
+            if len(raw_match) > 6 and len(raw_match) < 120:
+                if not raw_match.startswith("©") and not raw_match.lower().startswith("copyright"):
+                    raw_match = f"© {raw_match}"
+                copyright_text = raw_match
+
+    current_year = time.strftime("%Y")
+    brand = result.get("brand_name", brand_guess)
+    if not copyright_text:
+        copyright_text = f"© {current_year} {brand}. All rights reserved."
+
+    result["copyright"] = copyright_text
+    result["legal_notice"] = f"All trademarks, logos, brand names, and design tokens belong to {brand}. Extracted for design system analysis and interoperability."
+    return result
+
+
 # ===========================================================================
 # 7.  SEMANTIC ROLES
 # ===========================================================================
@@ -1939,6 +2019,13 @@ Generated on: {_clean_str(tokens.get("generated", "N/A"))}
 
 ---
 
+## ⚖️ Brand Ownership & Copyright Attribution
+- **Brand / Entity**: {_clean_str(tokens.get("brand_name", domain))}
+- **Copyright Notice**: {_clean_str(tokens.get("copyright", f"© {time.strftime('%Y')} {domain}. All rights reserved."))}
+- **Attribution Policy**: {_clean_str(tokens.get("legal_notice", "All brand assets, trademarks, and design tokens belong to their respective owners."))}
+
+---
+
 ## 🚀 Copy-Paste AI Prompt
 
 ```markdown
@@ -2251,6 +2338,20 @@ def emit_style_guide(tokens: dict, source: str, stats: dict) -> str:
         for k, v in stats.items()
     )
 
+    domain_label = _esc(urlparse(source).netloc or source)
+    brand_title = _esc(tokens.get("brand_name") or domain_label)
+    copyright_line = _esc(tokens.get("copyright") or f"© {time.strftime('%Y')} {brand_title}. All rights reserved.")
+    legal_line = _esc(tokens.get("legal_notice") or f"All trademarks, logos, brand assets, and design tokens belong to {brand_title}.")
+
+    brand_attribution_section = f"""
+<h2>Brand Ownership &amp; Legal Notice</h2>
+<div class="panel" style="padding:18px 24px;border-left:4px solid var(--acc)">
+  <div style="font-weight:700;font-size:14px;color:var(--tx)">{copyright_line}</div>
+  <div style="margin-top:6px;font-size:12.5px;color:var(--tx2);line-height:1.5">{legal_line}</div>
+  <div style="margin-top:8px;font-size:11px;color:var(--tx2);opacity:.8">Source: <a href="{_esc(source)}" target="_blank" style="color:var(--acc)">{_esc(source)}</a> &bull; Extracted for design analysis &amp; interoperability by extract-theme</div>
+</div>
+"""
+
     return f"""<!DOCTYPE html>
 <html lang="en" data-t="light">
 <head>
@@ -2330,6 +2431,13 @@ def emit_style_guide(tokens: dict, source: str, stats: dict) -> str:
 {gradient_section}
 
 {animation_section}
+
+{brand_attribution_section}
+
+<footer style="margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--tx2)">
+  <div>{copyright_line}</div>
+  <div style="font-size:11px;opacity:0.8">Generated by ExtractTheme Studio &bull; {time.strftime('%Y')}</div>
+</footer>
 
 </div>
 <div class="copy" id="toast"></div>
@@ -2487,6 +2595,12 @@ def run(args: argparse.Namespace) -> int:
     else:
         log("  none found")
 
+    log("\n▸ Extracting brand & copyright information")
+    brand_info = extract_copyright_and_brand(fetcher, pages, primary)
+    if brand_info:
+        log(f"  brand: {brand_info.get('brand_name')}")
+        log(f"  copyright: {brand_info.get('copyright')}")
+
     log("\n▸ Downloading font files")
     font_files = download_fonts(fetcher, all_faces, out)
     log(f"  {len(font_files)} font files saved")
@@ -2540,6 +2654,10 @@ def run(args: argparse.Namespace) -> int:
         "source": primary,
         "generated": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "generator": f"extract-theme {__version__}",
+        "brand": brand_info,
+        "brand_name": brand_info.get("brand_name", ""),
+        "copyright": brand_info.get("copyright", ""),
+        "legal_notice": brand_info.get("legal_notice", ""),
         "colors": {name: c.css for name, c in palette.items()},
         "color_rgb_channels": {name: c.rgb_channels for name, c in palette.items()},
         "roles": guess_roles(palette, fg, bg, entries),

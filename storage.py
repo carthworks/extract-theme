@@ -242,11 +242,23 @@ class S3Storage:
                             top_colors = list(colors_dict.values())[:10]
                             fonts_val = tokens.get("fonts", {})
                             fonts_count = len([k for k in fonts_val if isinstance(k, str) and not k.startswith("_")]) if isinstance(fonts_val, (dict, list)) else 0
-                            fw = tokens.get("frameworks", {})
-                            fw_list = list(fw.keys()) if isinstance(fw, dict) else (fw if isinstance(fw, list) else [])
+                            brand_name = tokens.get("brand_name") or (tokens.get("brand") or {}).get("brand_name")
+                            if not brand_name:
+                                domain_parts = domain.split(".")
+                                brand_name = domain_parts[-2].capitalize() if len(domain_parts) >= 2 and domain_parts[-2] not in {"co", "com", "org", "net", "io", "ai", "app"} else domain_parts[0].capitalize()
+
+                            copyright_info = tokens.get("copyright") or (tokens.get("brand") or {}).get("copyright")
+                            if not copyright_info:
+                                copyright_info = f"© 2026 {brand_name}. All rights reserved."
+
+                            legal_notice = tokens.get("legal_notice") or (tokens.get("brand") or {}).get("legal_notice") or f"All trademarks, logos, and design tokens belong to {brand_name}."
+
                             proj["meta"] = {
                                 "source": tokens.get("source") or "",
                                 "generated": tokens.get("generated") or "",
+                                "brand_name": brand_name,
+                                "copyright": copyright_info,
+                                "legal_notice": legal_notice,
                                 "colors_count": len(colors_dict),
                                 "top_colors": top_colors,
                                 "roles": tokens.get("roles", {}) if isinstance(tokens.get("roles"), dict) else {},
