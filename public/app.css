@@ -244,7 +244,9 @@ body {
 }
 
 .sidebar-card {
-  background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent 50%), var(--bg-card);
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 16px 18px;
@@ -252,6 +254,141 @@ body {
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
+  isolation: isolate;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sidebar-card:hover {
+  border-color: rgba(99, 102, 241, 0.45);
+  box-shadow: 0 16px 32px -10px rgba(99, 102, 241, 0.2), 0 0 0 1px rgba(99, 102, 241, 0.15);
+}
+
+/* Ambient Background Layer */
+.sidebar-card-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+/* Ambient Floating Glowing Orbs */
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(44px);
+  opacity: 0.32;
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+  pointer-events: none;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.sidebar-card:hover .ambient-orb {
+  opacity: 0.48;
+}
+
+.orb-1 {
+  width: 240px;
+  height: 240px;
+  top: -70px;
+  right: -60px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.9) 0%, rgba(139, 92, 246, 0.5) 45%, transparent 70%);
+  animation: orb-drift-1 16s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+}
+
+.orb-2 {
+  width: 200px;
+  height: 200px;
+  bottom: -50px;
+  left: -40px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.8) 0%, rgba(99, 102, 241, 0.4) 45%, transparent 70%);
+  animation: orb-drift-2 13s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+}
+
+/* Subtle Animated Micro-Grid Texture */
+.ambient-mesh {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 16px 16px;
+  opacity: 0.4;
+  mask-image: radial-gradient(ellipse at 50% 25%, black 40%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 25%, black 40%, transparent 85%);
+  animation: mesh-pulse 8s ease-in-out infinite alternate;
+}
+
+/* Top Subtle Shimmer / Light Beam */
+.ambient-beam {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 1.5px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(99, 102, 241, 0.1) 20%, 
+    rgba(129, 140, 248, 0.9) 50%, 
+    rgba(56, 189, 248, 0.9) 60%, 
+    rgba(99, 102, 241, 0.1) 80%, 
+    transparent 100%
+  );
+  animation: beam-sweep 9s ease-in-out infinite;
+  opacity: 0.8;
+}
+
+@keyframes orb-drift-1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-35px, 45px) scale(1.15) rotate(20deg);
+  }
+  100% {
+    transform: translate(-65px, 20px) scale(0.92) rotate(-15deg);
+  }
+}
+
+@keyframes orb-drift-2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(45px, -35px) scale(1.18) rotate(-25deg);
+  }
+  100% {
+    transform: translate(25px, -65px) scale(0.94) rotate(15deg);
+  }
+}
+
+@keyframes mesh-pulse {
+  0% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0.45;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes beam-sweep {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Ensure all interactive card content stays sharply on top */
+.sidebar-card > *:not(.sidebar-card-ambient) {
+  position: relative;
+  z-index: 1;
 }
 
 .sidebar-header {
@@ -264,12 +401,37 @@ body {
   gap: 4px;
   font-size: 10.5px;
   font-weight: 600;
-  color: var(--primary);
-  background: rgba(99, 102, 241, 0.12);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.35);
   padding: 2px 8px;
   border-radius: 99px;
   margin-bottom: 6px;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.15);
+  transition: all 0.25s ease;
+}
+
+.sidebar-badge:hover {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 14px rgba(99, 102, 241, 0.35);
+}
+
+.sidebar-badge [data-lucide="sparkles"],
+.sidebar-badge .lucide-sparkles {
+  color: #818cf8;
+  animation: sparkle-glow 3s ease-in-out infinite;
+}
+
+@keyframes sparkle-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(129, 140, 248, 0.4));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(129, 140, 248, 0.9));
+    transform: scale(1.15) rotate(8deg);
+  }
 }
 
 .sidebar-title {

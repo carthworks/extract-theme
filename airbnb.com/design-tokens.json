@@ -1,0 +1,30 @@
+{
+  "source": "https://www.airbnb.com/",
+  "generated": "2026-09-15T21:59:50",
+  "generator": "extract-theme 2.0.0",
+  "colors": {},
+  "color_rgb_channels": {},
+  "roles": {},
+  "fonts": {},
+  "font_sizes": {},
+  "font_weights": {},
+  "line_heights": {},
+  "letter_spacing": {},
+  "spacing": {},
+  "radius": {},
+  "shadows": {},
+  "gradients": [],
+  "animations": {
+    "keyframes": [],
+    "durations": [],
+    "easings": [],
+    "transitions": []
+  },
+  "frameworks": {},
+  "font_files": [],
+  "logo": {},
+  "breakpoints": {},
+  "dark_vars": {},
+  "source_variables": {},
+  "contrast": []
+}

@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="app.css?v=10">
+  <link rel="stylesheet" href="app.css?v=11">
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -51,6 +51,12 @@
     <!-- Left Column (1/3 width): Compact Extraction Control & Live Console -->
     <aside class="workbench-sidebar">
       <div class="sidebar-card">
+        <div class="sidebar-card-ambient" aria-hidden="true">
+          <div class="ambient-orb orb-1"></div>
+          <div class="ambient-orb orb-2"></div>
+          <div class="ambient-mesh"></div>
+          <div class="ambient-beam"></div>
+        </div>
         <div class="sidebar-header">
           <span class="sidebar-badge"><i data-lucide="sparkles" class="icon-xs"></i> Token Extractor</span>
           <h2 class="sidebar-title">Extract Design System</h2>
