@@ -36,3 +36,11 @@ Thumbs.db
 # Task & Scratch directories
 scratch/
 .system_generated/
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+credentials.json

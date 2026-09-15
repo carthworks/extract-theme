@@ -1,0 +1,30 @@
+services:
+  extract-theme:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: extract-theme-studio
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PORT=8000
+      # Optional: Cloud storage persistence (Cloudflare R2 or AWS S3)
+      - S3_ENDPOINT_URL=${S3_ENDPOINT_URL:-}
+      - S3_ACCESS_KEY_ID=${S3_ACCESS_KEY_ID:-}
+      - S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY:-}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME:-}
+      - S3_REGION_NAME=${S3_REGION_NAME:-auto}
+    volumes:
+      # Mount local persistent storage for extracted themes if object storage is not used
+      - theme-storage:/app/output
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')\" || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  theme-storage:
+    driver: local

@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CSS Extraction & Style Guide Generator — Studio Workbench</title>
   <meta name="description" content="Extract production-ready design systems, CSS variables, Tailwind themes, WCAG contrast audits, font files, and interactive style guides from any website.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+  <meta property="og:title" content="ExtractTheme Studio — CSS Extraction & Design System Generator">
+  <meta property="og:description" content="Extract production-ready design systems, CSS variables, Tailwind themes, WCAG contrast audits, font files, and interactive style guides from any website.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ExtractTheme Studio — CSS Extraction & Design System Generator">
+  <meta name="twitter:description" content="Automated CSS design token extraction and interactive style guide workbench.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -42,8 +49,8 @@
         <form id="extract-form" class="extract-form">
           <div class="url-input-group">
             <span class="input-icon">🌐</span>
-            <input type="text" id="target-url" placeholder="Enter site URL (e.g. https://stripe.com or interiorio.com)" required autocomplete="off">
-            <button type="submit" id="submit-btn" class="btn btn-primary">
+            <input type="text" id="target-url" placeholder="Enter site URL (e.g. https://stripe.com or interiorio.com)" aria-label="Target website URL to extract" required autocomplete="off">
+            <button type="submit" id="submit-btn" class="btn btn-primary" aria-label="Extract Design System">
               <span class="btn-text">⚡ Extract Design System</span>
               <span class="spinner hidden"></span>
             </button>
@@ -168,7 +175,7 @@
           <p class="section-sub">Extracted design systems ready for developers & designers</p>
         </div>
         <div class="filter-controls">
-          <input type="text" id="search-projects" placeholder="Filter projects by domain..." class="search-input">
+          <input type="text" id="search-projects" placeholder="Filter projects by domain..." aria-label="Filter projects by domain name" class="search-input">
         </div>
       </div>
 

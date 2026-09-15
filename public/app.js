@@ -84,12 +84,22 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Refresh Projects
-  refreshProjectsBtn.addEventListener('click', fetchProjects);
+  refreshProjectsBtn.addEventListener('click', async () => {
+    refreshProjectsBtn.disabled = true;
+    const origText = refreshProjectsBtn.innerHTML;
+    refreshProjectsBtn.innerHTML = '🔄 Refreshing...';
+    try {
+      await fetchProjects();
+    } finally {
+      refreshProjectsBtn.disabled = false;
+      refreshProjectsBtn.innerHTML = origText;
+    }
+  });
 
   // Search Filter Projects
   searchProjectsInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().strip ? e.target.value.toLowerCase().trim() : '';
-    renderProjects(allProjects.filter(p => p.domain.toLowerCase().includes(query)));
+    const query = e.target.value.trim().toLowerCase();
+    renderProjects(query ? allProjects.filter(p => p.domain.toLowerCase().includes(query)) : allProjects);
   });
 
   // Form Submit Execution
@@ -161,13 +171,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchProjects() {
     try {
-      const res = await fetch('/api/projects');
+      const res = await fetch(`/api/projects?_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache' }
+      });
       if (!res.ok) {
         throw new Error(`HTTP ${res.status} ${res.statusText}`);
       }
       const data = await res.json();
       allProjects = data.projects || [];
-      renderProjects(allProjects);
+      if (statusBadge) {
+        if (data.storage_configured) {
+          statusBadge.innerHTML = `<span class="pulse" style="background:#10b981;box-shadow:0 0 8px rgba(16,185,129,0.5)"></span> Cloud Storage: Connected`;
+          statusBadge.title = 'Persistent S3 / R2 storage active';
+        } else {
+          statusBadge.innerHTML = `<span class="pulse" style="background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,0.5)"></span> Storage: Local Ephemeral`;
+          statusBadge.title = 'S3 / R2 not configured. Files stored on local disk only.';
+        }
+      }
+      const query = searchProjectsInput.value.trim().toLowerCase();
+      renderProjects(query ? allProjects.filter(p => p.domain.toLowerCase().includes(query)) : allProjects);
     } catch (err) {
       console.error('fetchProjects error:', err);
       projectsGrid.innerHTML = `<div class="skeleton-card" style="color:var(--danger)">Failed to load extracted projects from server (${err.message}).</div>`;
