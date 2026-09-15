@@ -5,12 +5,14 @@ extract-theme web server — hostable web UI backend for design system extractio
 
 from __future__ import annotations
 
+import io
 import json
 import os
 import re
 import subprocess
 import sys
 import tempfile
+import zipfile
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
@@ -19,6 +21,7 @@ from storage import get_mime_type, storage
 
 BASE_DIR = Path(__file__).parent.resolve()
 PUBLIC_DIR = BASE_DIR / "public"
+DOWNLOADED_THEMES_DIR = BASE_DIR / "downloaded-themes"
 
 
 
@@ -49,6 +52,9 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                 "service": "extract-theme"
             })
 
+        if parsed.path == "/api/download":
+            return self._handle_download_project(parsed)
+
         if parsed.path == "/api/projects":
             return self._handle_get_projects()
 
@@ -77,11 +83,12 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
     def _handle_get_projects(self):
         projects_by_domain: dict[str, dict] = {}
 
-        # 1. Read local projects from BASE_DIR
-        try:
-            for item in BASE_DIR.iterdir():
+        def _scan_dir(dir_path: Path):
+            if not dir_path.exists() or not dir_path.is_dir():
+                return
+            for item in dir_path.iterdir():
                 try:
-                    if not item.is_dir() or item.name in {".git", "public", "__pycache__", ".agents", "api"}:
+                    if not item.is_dir() or item.name in {".git", "public", "__pycache__", ".agents", "api", "node_modules", "downloaded-themes"}:
                         continue
                     tokens_file = item / "design-tokens.json"
                     guide_file = item / "style-guide.html"
@@ -126,7 +133,12 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                             "source_type": "local",
                         }
                 except Exception as exc:  # noqa: BLE001
-                    print(f"Error reading local project item {item}: {exc}")
+                    print(f"Error reading project item {item}: {exc}")
+
+        # 1. Scan downloaded-themes directory first, then root BASE_DIR
+        try:
+            _scan_dir(DOWNLOADED_THEMES_DIR)
+            _scan_dir(BASE_DIR)
         except Exception as exc:  # noqa: BLE001
             print(f"Error scanning local projects: {exc}")
 
@@ -160,41 +172,33 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
 
     def _handle_serve_output(self, rel_path: str):
         decoded_path = unquote(rel_path)
-        target = (BASE_DIR / decoded_path).resolve()
 
-        # 1. Check if local file exists in BASE_DIR
-        if target.exists() and target.is_file():
-            try:
-                target.relative_to(BASE_DIR)
-                content = target.read_bytes()
-                content_type = get_mime_type(target.name)
-                self.send_response(200)
-                self.send_header("Content-Type", content_type)
-                self.send_header("Content-Length", str(len(content)))
-                self.send_header("Cache-Control", "public, max-age=3600")
-                self.end_headers()
-                self.wfile.write(content)
-                return
-            except ValueError:
-                self.send_error(403, "Access denied")
-                return
+        candidates = [
+            (DOWNLOADED_THEMES_DIR / decoded_path).resolve(),
+            (BASE_DIR / decoded_path).resolve(),
+            (Path(tempfile.gettempdir()) / "extract_theme_output" / "downloaded-themes" / decoded_path).resolve(),
+            (Path(tempfile.gettempdir()) / "extract_theme_output" / decoded_path).resolve(),
+        ]
 
-        # 2. Check if file exists in temp directory (serverless fallback)
-        temp_target = (Path(tempfile.gettempdir()) / "extract_theme_output" / decoded_path).resolve()
-        if temp_target.exists() and temp_target.is_file():
-            content = temp_target.read_bytes()
-            content_type = get_mime_type(temp_target.name)
-            self.send_response(200)
-            self.send_header("Content-Type", content_type)
-            self.send_header("Content-Length", str(len(content)))
-            self.send_header("Cache-Control", "public, max-age=3600")
-            self.end_headers()
-            self.wfile.write(content)
-            return
+        # Check candidate file paths
+        for target in candidates:
+            if target.exists() and target.is_file():
+                try:
+                    content = target.read_bytes()
+                    content_type = get_mime_type(target.name)
+                    self.send_response(200)
+                    self.send_header("Content-Type", content_type)
+                    self.send_header("Content-Length", str(len(content)))
+                    self.send_header("Cache-Control", "public, max-age=3600")
+                    self.end_headers()
+                    self.wfile.write(content)
+                    return
+                except Exception:
+                    pass
 
-        # 3. If not found locally, check S3 / Cloudflare R2 storage
+        # Check S3 / Cloudflare R2 storage
         if storage.is_configured():
-            remote_file = storage.get_file(decoded_path)
+            remote_file = storage.get_file(f"downloaded-themes/{decoded_path}") or storage.get_file(decoded_path)
             if remote_file:
                 content, content_type = remote_file
                 self.send_response(200)
@@ -206,6 +210,81 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                 return
 
         self.send_error(404, "File not found")
+
+    def _handle_download_project(self, parsed):
+        query_params = parse_qs(parsed.query)
+        domain = query_params.get("domain", [""])[0].strip()
+        if not domain:
+            self.send_error(400, "Missing domain parameter")
+            return
+
+        clean_domain = re.sub(r"[^\w.-]", "_", domain)
+        zip_buffer = io.BytesIO()
+
+        # Check in downloaded-themes, root BASE_DIR, or temp dir
+        candidates = [
+            (DOWNLOADED_THEMES_DIR / clean_domain).resolve(),
+            (BASE_DIR / clean_domain).resolve(),
+            (Path(tempfile.gettempdir()) / "extract_theme_output" / "downloaded-themes" / clean_domain).resolve(),
+            (Path(tempfile.gettempdir()) / "extract_theme_output" / clean_domain).resolve(),
+        ]
+
+        source_dir = None
+        for cand in candidates:
+            if cand.exists() and cand.is_dir():
+                source_dir = cand
+                break
+
+        # If source found in root BASE_DIR, also ensure copy exists in downloaded-themes
+        if source_dir and source_dir == (BASE_DIR / clean_domain).resolve():
+            try:
+                dt_target = DOWNLOADED_THEMES_DIR / clean_domain
+                if not dt_target.exists():
+                    dt_target.mkdir(parents=True, exist_ok=True)
+                    for src_f in source_dir.rglob("*"):
+                        if src_f.is_file():
+                            rel_p = src_f.relative_to(source_dir)
+                            dest_f = dt_target / rel_p
+                            dest_f.parent.mkdir(parents=True, exist_ok=True)
+                            dest_f.write_bytes(src_f.read_bytes())
+            except Exception as copy_err:
+                print(f"Notice: Could not copy theme to downloaded-themes directory: {copy_err}")
+
+        file_count = 0
+        root_zip_prefix = f"downloaded-themes/{clean_domain}"
+
+        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zf:
+            if source_dir and source_dir.exists():
+                for file_path in source_dir.rglob("*"):
+                    if file_path.is_file():
+                        rel_path = file_path.relative_to(source_dir).as_posix()
+                        arcname = f"{root_zip_prefix}/{rel_path}"
+                        zf.write(file_path, arcname=arcname)
+                        file_count += 1
+            elif storage.is_configured():
+                common_files = [
+                    "style-guide.html", "design-tokens.json", "theme.css",
+                    "components.css", "tailwind.theme.css", "tailwind.config.js",
+                    "DESIGN.md"
+                ]
+                for fname in common_files:
+                    res = storage.get_file(f"downloaded-themes/{clean_domain}/{fname}") or storage.get_file(f"{clean_domain}/{fname}")
+                    if res:
+                        zf.writestr(f"{root_zip_prefix}/{fname}", res[0])
+                        file_count += 1
+
+        if file_count == 0:
+            self.send_error(404, f"No assets found to download for {clean_domain}")
+            return
+
+        zip_data = zip_buffer.getvalue()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/zip")
+        self.send_header("Content-Disposition", f'attachment; filename="downloaded-themes-{clean_domain}.zip"')
+        self.send_header("Content-Length", str(len(zip_data)))
+        self.send_header("Cache-Control", "no-cache")
+        self.end_headers()
+        self.wfile.write(zip_data)
 
     def _send_chunk(self, text: str):
         chunk = text.encode("utf-8", errors="replace")
@@ -262,7 +341,6 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
 
         raw_output_dir = payload.get("output_dir", "").strip()
         if raw_output_dir:
-            # Strictly sanitize output_dir to prevent path traversal
             sanitized_dir = re.sub(r"[^\w.-]", "_", raw_output_dir).strip("._")
             output_dir = sanitized_dir if sanitized_dir else ""
         else:
@@ -272,15 +350,15 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
         domain = re.sub(r"^www\.", "", domain, flags=re.I)
         domain = re.sub(r"[^\w.-]", "_", domain)
 
-        # Check if BASE_DIR is writable or read-only (serverless)
-        target_dir = BASE_DIR / domain
+        # Output target in downloaded-themes directory
+        target_dir = DOWNLOADED_THEMES_DIR / domain
         try:
             target_dir.mkdir(parents=True, exist_ok=True)
             test_file = target_dir / ".write_test"
             test_file.touch()
             test_file.unlink()
         except (OSError, PermissionError):
-            target_dir = Path(tempfile.gettempdir()) / "extract_theme_output" / domain
+            target_dir = Path(tempfile.gettempdir()) / "extract_theme_output" / "downloaded-themes" / domain
             target_dir.mkdir(parents=True, exist_ok=True)
 
         cmd.extend(["-o", str(target_dir)])
@@ -348,14 +426,19 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                 pass
 
 
+class ReusableHTTPServer(HTTPServer):
+    allow_reuse_address = True
+
+
 def main():
     port = int(os.environ.get("PORT", 8000))
     server_address = ("0.0.0.0", port)
 
-    # Create public directory if not exists
+    # Create directories if not exist
     PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
+    DOWNLOADED_THEMES_DIR.mkdir(parents=True, exist_ok=True)
 
-    httpd = HTTPServer(server_address, ExtractThemeHandler)
+    httpd = ReusableHTTPServer(server_address, ExtractThemeHandler)
     print(f"\n=======================================================")
     print(f"  ExtractTheme Studio running on port {port} (0.0.0.0)")
     print(f"=======================================================\n")

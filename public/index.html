@@ -15,7 +15,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="app.css?v=10">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    });
+  </script>
 </head>
 <body>
 
@@ -23,42 +31,47 @@
   <header class="app-header">
     <div class="header-content">
       <div class="brand">
-        <div class="brand-icon">🎨</div>
+        <div class="brand-icon"><i data-lucide="palette" class="icon-md"></i></div>
         <div>
           <h1>ExtractTheme <span>Studio</span></h1>
-          <p class="brand-sub">CSS Extraction & Style Guide Generator</p>
+          <p class="brand-sub">Design System & Style Guide Extractor</p>
         </div>
       </div>
       <div class="header-actions">
         <span class="status-badge"><span class="pulse"></span> Host Active: http://localhost:8000</span>
-        <button id="refresh-projects" class="btn btn-secondary btn-sm">🔄 Refresh Workspace</button>
+        <button id="refresh-projects" class="btn btn-secondary btn-sm" title="Reload extracted projects">
+          <i data-lucide="rotate-cw" class="icon-sm"></i> <span>Refresh</span>
+        </button>
       </div>
     </div>
   </header>
 
-  <main class="app-main">
+  <main class="app-main workbench-layout">
 
-    <!-- Hero Extraction Form Section -->
-    <section class="hero-section">
-      <div class="hero-card">
-        <div class="hero-badge">✨ Automated Design Token Extraction</div>
-        <h2>Pull a Production Design System from Any Website</h2>
-        <p class="hero-desc">Extract CSS variables, Tailwind configs, typography, WCAG contrast matrices, font files, logos, and interactive HTML style guides in seconds.</p>
+    <!-- Left Column (1/3 width): Compact Extraction Control & Live Console -->
+    <aside class="workbench-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-header">
+          <span class="sidebar-badge"><i data-lucide="sparkles" class="icon-xs"></i> Token Extractor</span>
+          <h2 class="sidebar-title">Extract Design System</h2>
+          <p class="sidebar-desc">Extract colors, typography, assets & tokens from any live website.</p>
+        </div>
 
         <!-- Main Form -->
         <form id="extract-form" class="extract-form">
           <div class="url-input-group">
-            <span class="input-icon">🌐</span>
-            <input type="text" id="target-url" placeholder="Enter site URL (e.g. https://stripe.com or interiorio.com)" aria-label="Target website URL to extract" required autocomplete="off">
-            <button type="submit" id="submit-btn" class="btn btn-primary" aria-label="Extract Design System">
-              <span class="btn-text">⚡ Extract Design System</span>
+            <i data-lucide="globe" class="input-icon"></i>
+            <input type="text" id="target-url" placeholder="e.g. stripe.com or https://..." aria-label="Target website URL to extract" required autocomplete="off">
+            <button type="submit" id="submit-btn" class="btn btn-primary btn-extract" aria-label="Extract Design System">
+              <i data-lucide="zap" class="icon-sm"></i>
+              <span class="btn-text">Extract</span>
               <span class="spinner hidden"></span>
             </button>
           </div>
 
-          <!-- Common Variations / Quick Presets -->
+          <!-- Quick Presets -->
           <div class="preset-section">
-            <span class="preset-label">Quick Presets:</span>
+            <span class="preset-label"><i data-lucide="bookmark" class="icon-xs"></i> Presets:</span>
             <div class="preset-pills">
               <button type="button" class="preset-pill" data-url="https://stripe.com">Stripe</button>
               <button type="button" class="preset-pill" data-url="https://linear.app">Linear</button>
@@ -72,8 +85,11 @@
           <!-- Flags Customization Drawer -->
           <div class="flags-accordion">
             <button type="button" id="toggle-flags" class="flags-toggle-btn">
-              <span>⚙️ Customize CLI Flags & Extraction Parameters</span>
-              <span id="flags-arrow">▼</span>
+              <div class="flags-toggle-left">
+                <i data-lucide="sliders-horizontal" class="icon-sm"></i>
+                <span>Parameters & CLI Flags</span>
+              </div>
+              <i data-lucide="chevron-down" id="flags-arrow" class="chevron-icon"></i>
             </button>
 
             <div id="flags-panel" class="flags-panel hidden">
@@ -81,67 +97,61 @@
 
                 <!-- Crawl Depth -->
                 <div class="field-group">
-                  <label for="flag-crawl">Crawl Depth <span>(--crawl)</span></label>
+                  <label for="flag-crawl"><i data-lucide="layers" class="icon-xs"></i> Crawl Depth</label>
                   <select id="flag-crawl">
-                    <option value="1">1 page (Single entry URL)</option>
-                    <option value="5" selected>5 pages (Recommended)</option>
+                    <option value="1">1 page (Single)</option>
+                    <option value="5" selected>5 pages (Standard)</option>
                     <option value="10">10 pages (Thorough)</option>
                     <option value="20">20 pages (Deep audit)</option>
                   </select>
-                  <span class="field-help">Crawls same-site subpages to collect comprehensive CSS.</span>
                 </div>
 
                 <!-- Max Colors -->
                 <div class="field-group">
                   <div class="label-with-value">
-                    <label for="flag-max-colors">Max Palette Colors <span>(--max-colors)</span></label>
+                    <label for="flag-max-colors"><i data-lucide="palette" class="icon-xs"></i> Max Colors</label>
                     <span id="max-colors-val" class="value-badge">40</span>
                   </div>
                   <input type="range" id="flag-max-colors" min="12" max="64" value="40" step="2">
-                  <span class="field-help">Upper bound on distinct brand palette entries.</span>
                 </div>
 
                 <!-- Min Frequency Count -->
                 <div class="field-group">
                   <div class="label-with-value">
-                    <label for="flag-min-count">Min Frequency Count <span>(--min-count)</span></label>
+                    <label for="flag-min-count"><i data-lucide="filter" class="icon-xs"></i> Min Count</label>
                     <span id="min-count-val" class="value-badge">2</span>
                   </div>
                   <input type="range" id="flag-min-count" min="1" max="10" value="2" step="1">
-                  <span class="field-help">Ignore rare un-reusable colors used fewer times.</span>
                 </div>
 
                 <!-- Color Distance Tolerance -->
                 <div class="field-group">
                   <div class="label-with-value">
-                    <label for="flag-color-tolerance">Color Merging Distance <span>(--color-tolerance)</span></label>
+                    <label for="flag-color-tolerance"><i data-lucide="circle-dot" class="icon-xs"></i> Tolerance</label>
                     <span id="color-tolerance-val" class="value-badge">0.03</span>
                   </div>
                   <input type="range" id="flag-color-tolerance" min="0.0" max="0.1" value="0.03" step="0.005">
-                  <span class="field-help">Merge near-identical shades in OKLab space.</span>
                 </div>
 
                 <!-- Root Font Size -->
                 <div class="field-group">
-                  <label for="flag-root-font-size">Root Font Size <span>(--root-font-size)</span></label>
+                  <label for="flag-root-font-size"><i data-lucide="type" class="icon-xs"></i> Root Size (px)</label>
                   <input type="number" id="flag-root-font-size" value="16" min="10" max="24">
-                  <span class="field-help">Base rem pixel ratio for spacing & typography calculations.</span>
                 </div>
 
                 <!-- Custom Output Dir -->
                 <div class="field-group">
-                  <label for="flag-output-dir">Custom Output Folder <span>(-o / --output-dir)</span></label>
-                  <input type="text" id="flag-output-dir" placeholder="Auto-detect (e.g. domain.com)">
-                  <span class="field-help">Leave empty to automatically use domain name.</span>
+                  <label for="flag-output-dir"><i data-lucide="folder" class="icon-xs"></i> Output Dir</label>
+                  <input type="text" id="flag-output-dir" placeholder="Auto domain folder">
                 </div>
 
                 <!-- SSL Verification Checkbox -->
-                <div class="field-group checkbox-group">
+                <div class="field-group checkbox-group" style="grid-column: 1 / -1;">
                   <label class="checkbox-label">
                     <input type="checkbox" id="flag-no-verify">
-                    <span>Disable SSL Verification <span>(--no-verify)</span></span>
+                    <i data-lucide="shield-alert" class="icon-xs"></i>
+                    <span>Disable SSL Verification</span>
                   </label>
-                  <span class="field-help">Useful for self-signed certificates or intranet targets.</span>
                 </div>
 
               </div>
@@ -149,39 +159,108 @@
           </div>
         </form>
       </div>
-    </section>
 
-    <!-- Terminal & Progress Section -->
-    <section id="terminal-section" class="terminal-section hidden">
-      <div class="terminal-card">
-        <div class="terminal-header">
-          <div class="terminal-dots">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
+      <!-- Docked Live Terminal Section -->
+      <section id="terminal-section" class="terminal-section hidden">
+        <div class="terminal-card">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <span class="terminal-title"><i data-lucide="terminal" class="icon-xs"></i> Live Output</span>
+            <button type="button" id="clear-log-btn" class="btn-text-sm" title="Clear console log">
+              <i data-lucide="trash-2" class="icon-xs"></i>
+            </button>
           </div>
-          <span class="terminal-title">Console Output — extract_theme.py</span>
-          <button type="button" id="clear-log-btn" class="btn-text-sm">Clear</button>
+          <pre id="terminal-log" class="terminal-body"></pre>
         </div>
-        <pre id="terminal-log" class="terminal-body"></pre>
-      </div>
-    </section>
+      </section>
+    </aside>
 
-    <!-- Out Folder List & Projects Explorer Section -->
-    <section class="projects-section">
+    <!-- Right Area (2/3 width): Design Systems Studio -->
+    <section class="workbench-main projects-section">
       <div class="section-header">
-        <div>
-          <h2>Output Folder Explorer 📁</h2>
-          <p class="section-sub">Extracted design systems ready for developers & designers</p>
+        <div class="section-title-wrap">
+          <div class="title-with-count">
+            <h2><i data-lucide="folder-git-2" class="icon-md" style="color:var(--primary);vertical-align:middle;"></i> Design Systems Studio</h2>
+            <span id="projects-count" class="badge-counter">0</span>
+          </div>
+          <p class="section-sub">Inspect, preview tokens, and download design system bundles</p>
         </div>
-        <div class="filter-controls">
-          <input type="text" id="search-projects" placeholder="Filter projects by domain..." aria-label="Filter projects by domain name" class="search-input">
+
+        <div class="studio-controls">
+          <!-- View Switcher (Cards vs Table) -->
+          <div class="view-switch-tabs">
+            <button type="button" id="view-card-btn" class="switch-tab active" title="Card Grid View">
+              <i data-lucide="layout-grid" class="icon-sm"></i> <span>Cards</span>
+            </button>
+            <button type="button" id="view-table-btn" class="switch-tab" title="Detailed Table View">
+              <i data-lucide="table" class="icon-sm"></i> <span>Table</span>
+            </button>
+          </div>
+
+          <div class="filter-controls search-wrap">
+            <i data-lucide="search" class="search-icon icon-sm"></i>
+            <input type="text" id="search-projects" placeholder="Filter domains..." aria-label="Filter projects by domain name" class="search-input">
+          </div>
         </div>
       </div>
 
-      <div id="projects-grid" class="projects-grid">
-        <!-- Project cards rendered dynamically via app.js -->
-        <div class="skeleton-card">Loading extracted folders...</div>
+      <!-- Projects Container -->
+      <div id="projects-container">
+        <!-- Card View -->
+        <div id="projects-grid" class="projects-grid">
+          <div class="skeleton-card">Loading extracted folders...</div>
+        </div>
+
+        <!-- Table View -->
+        <div id="projects-table-wrapper" class="projects-table-wrapper hidden">
+          <table class="projects-table">
+            <thead>
+              <tr>
+                <th>Site / Domain</th>
+                <th>Color Palette</th>
+                <th>Specs & Frameworks</th>
+                <th>Quick Inspect</th>
+                <th style="text-align: right;">Download & Launch</th>
+              </tr>
+            </thead>
+            <tbody id="projects-table-body">
+              <!-- Table rows rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div id="pagination-wrapper" class="pagination-wrapper hidden">
+        <div class="pagination-info">
+          <span id="pagination-summary">Showing 1–6 of 6</span>
+        </div>
+
+        <div class="pagination-controls">
+          <button type="button" id="prev-page-btn" class="pagination-btn" title="Previous Page">
+            <i data-lucide="chevron-left" class="icon-xs"></i> <span>Prev</span>
+          </button>
+          <div id="pagination-pages" class="pagination-pages">
+            <!-- Page number buttons rendered dynamically -->
+          </div>
+          <button type="button" id="next-page-btn" class="pagination-btn" title="Next Page">
+            <span>Next</span> <i data-lucide="chevron-right" class="icon-xs"></i>
+          </button>
+        </div>
+
+        <div class="pagination-size">
+          <label for="page-size-select" class="page-size-label">Per page:</label>
+          <select id="page-size-select" class="page-size-select" aria-label="Items per page">
+            <option value="6" selected>6</option>
+            <option value="12">12</option>
+            <option value="24">24</option>
+            <option value="all">All</option>
+          </select>
+        </div>
       </div>
     </section>
 
@@ -192,13 +271,16 @@
     <div class="modal-backdrop"></div>
     <div class="modal-content">
       <div class="modal-header">
-        <h3 id="modal-title">File Preview</h3>
-        <button id="modal-close" class="modal-close-btn">&times;</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <i data-lucide="file-code" class="icon-sm" style="color:var(--primary);"></i>
+          <h3 id="modal-title">File Preview</h3>
+        </div>
+        <button id="modal-close" class="modal-close-btn" title="Close"><i data-lucide="x" class="icon-md"></i></button>
       </div>
       <div class="modal-body">
         <div class="modal-toolbar">
           <span id="modal-file-path" class="file-path-badge"></span>
-          <button id="modal-copy-btn" class="btn btn-secondary btn-sm">📋 Copy to Clipboard</button>
+          <button id="modal-copy-btn" class="btn btn-secondary btn-sm"><i data-lucide="copy" class="icon-xs"></i> <span>Copy to Clipboard</span></button>
         </div>
         <pre id="modal-code" class="code-block"></pre>
       </div>
@@ -209,6 +291,7 @@
     <p>ExtractTheme Studio · Automated Design System Extraction Pipeline · Powered by <code>tinycss2</code> & Python</p>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>
+
