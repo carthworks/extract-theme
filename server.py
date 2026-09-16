@@ -27,7 +27,8 @@ DOWNLOADED_THEMES_DIR = BASE_DIR / "downloaded-themes"
 
 class ExtractThemeHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=str(PUBLIC_DIR), **kwargs)
+        target_dir = str(PUBLIC_DIR) if PUBLIC_DIR.exists() else str(BASE_DIR)
+        super().__init__(*args, directory=target_dir, **kwargs)
 
     def end_headers(self):
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -44,29 +45,34 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urlparse(self.path)
+        path = parsed.path.rstrip("/") or "/"
 
-        if parsed.path in ("/api/health", "/healthz", "/health"):
+        if path in ("/api/health", "/healthz", "/health", "/api"):
             return self._send_json({
                 "status": "ok",
                 "storage_configured": storage.is_configured(),
                 "service": "extract-theme"
             })
 
-        if parsed.path == "/api/download":
+        if path == "/api/download":
             return self._handle_download_project(parsed)
 
-        if parsed.path == "/api/projects":
+        if path == "/api/projects":
             return self._handle_get_projects()
 
-        if parsed.path.startswith("/output/"):
-            return self._handle_serve_output(parsed.path[8:])
+        if path.startswith("/output/"):
+            return self._handle_serve_output(path[8:])
 
-        return super().do_GET()
+        if PUBLIC_DIR.exists():
+            return super().do_GET()
+
+        self.send_error(404, "Not found")
 
     def do_POST(self):
         parsed = urlparse(self.path)
+        path = parsed.path.rstrip("/")
 
-        if parsed.path == "/api/extract":
+        if path == "/api/extract":
             return self._handle_post_extract()
 
         self.send_error(404, "Endpoint not found")
@@ -99,7 +105,40 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                             try:
                                 tokens = json.loads(tokens_file.read_text(encoding="utf-8"))
                                 colors_dict = tokens.get("colors", {}) if isinstance(tokens.get("colors"), dict) else {}
-                                top_colors = list(colors_dict.values())[:10]
+                                top_colors = list(colors_dict.values())[:12]
+
+                                # Resolve semantic roles to concrete hex codes from colors_dict
+                                raw_roles = tokens.get("roles", {}) if isinstance(tokens.get("roles"), dict) else {}
+                                resolved_roles = {}
+                                for r_name, r_ref in raw_roles.items():
+                                    if isinstance(r_ref, str):
+                                        resolved_roles[r_name] = colors_dict.get(r_ref, r_ref)
+
+                                def is_chromatic(hex_or_rgb: str) -> bool:
+                                    if not hex_or_rgb or not isinstance(hex_or_rgb, str):
+                                        return False
+                                    val = hex_or_rgb.strip().lower()
+                                    if val in {"#ffffff", "#000000", "#fff", "#000"} or " 0)" in val or " 0.0)" in val:
+                                        return False
+                                    if val.startswith("#") and len(val) >= 7:
+                                        try:
+                                            r, g, b = int(val[1:3], 16), int(val[3:5], 16), int(val[5:7], 16)
+                                            return (max(r, g, b) - min(r, g, b)) > 18
+                                        except Exception:
+                                            return True
+                                    return True
+
+                                brand_colors = []
+                                for role_key in ("primary", "accent", "success", "info", "warning", "destructive"):
+                                    c_val = resolved_roles.get(role_key)
+                                    if c_val and is_chromatic(c_val) and c_val not in brand_colors:
+                                        brand_colors.append(c_val)
+                                for c_val in top_colors:
+                                    if is_chromatic(c_val) and c_val not in brand_colors:
+                                        brand_colors.append(c_val)
+                                if not brand_colors:
+                                    brand_colors = [c for c in top_colors if c and " 0)" not in c and " 0.0)" not in c]
+
                                 fonts_val = tokens.get("fonts", {})
                                 fonts_count = len([k for k in fonts_val if isinstance(k, str) and not k.startswith("_")]) if isinstance(fonts_val, (dict, list)) else 0
                                 brand_name = tokens.get("brand_name") or (tokens.get("brand") or {}).get("brand_name")
@@ -113,6 +152,14 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
 
                                 legal_notice = tokens.get("legal_notice") or (tokens.get("brand") or {}).get("legal_notice") or f"All trademarks, logos, and design tokens belong to {brand_name}."
 
+                                fw_raw = tokens.get("frameworks", {})
+                                if isinstance(fw_raw, dict):
+                                    fw_list = list(fw_raw.keys())
+                                elif isinstance(fw_raw, list):
+                                    fw_list = fw_raw
+                                else:
+                                    fw_list = []
+
                                 meta = {
                                     "source": tokens.get("source") or "",
                                     "generated": tokens.get("generated") or "",
@@ -121,7 +168,8 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                                     "legal_notice": legal_notice,
                                     "colors_count": len(colors_dict),
                                     "top_colors": top_colors,
-                                    "roles": tokens.get("roles", {}) if isinstance(tokens.get("roles"), dict) else {},
+                                    "brand_colors": brand_colors,
+                                    "roles": resolved_roles,
                                     "fonts_count": fonts_count,
                                     "font_files_count": len(tokens.get("font_files", [])) if isinstance(tokens.get("font_files"), list) else 0,
                                     "gradients_count": len(tokens.get("gradients", [])) if isinstance(tokens.get("gradients"), list) else 0,
@@ -147,10 +195,13 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                 except Exception as exc:  # noqa: BLE001
                     print(f"Error reading project item {item}: {exc}")
 
-        # 1. Scan downloaded-themes directory first, then root BASE_DIR
+        # 1. Scan downloaded-themes directory first, root BASE_DIR, and temporary output dirs
         try:
             _scan_dir(DOWNLOADED_THEMES_DIR)
             _scan_dir(BASE_DIR)
+            tmp_output = Path(tempfile.gettempdir()) / "extract_theme_output"
+            _scan_dir(tmp_output / "downloaded-themes")
+            _scan_dir(tmp_output)
         except Exception as exc:  # noqa: BLE001
             print(f"Error scanning local projects: {exc}")
 
@@ -328,7 +379,8 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
         if not (url.startswith("http://") or url.startswith("https://") or url.endswith(".html")):
             url = "https://" + url
 
-        cmd = [sys.executable, "-u", "extract_theme.py", url]
+        extract_script = (BASE_DIR / "extract_theme.py").resolve()
+        cmd = [sys.executable, "-u", str(extract_script), url]
 
         # Flags mapping
         crawl = payload.get("crawl")
@@ -376,7 +428,7 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
         cmd.extend(["-o", str(target_dir)])
 
         if payload.get("no_verify"):
-            cmd.append("--no-verify")
+            cmd.append("--insecure")
 
         # Send HTTP 200 with Transfer-Encoding: chunked
         self.send_response(200)
@@ -388,31 +440,72 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
         self._send_chunk(f"🚀 Initializing extraction pipeline for: {url}\n")
         self._send_chunk(f"▸ Command: {' '.join(cmd)}\n\n")
 
+        proc_returncode = 1
         try:
-            proc = subprocess.Popen(
-                cmd,
-                cwd=str(BASE_DIR),
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
-                bufsize=1,
-            )
+            try:
+                env = os.environ.copy()
+                env["PYTHONIOENCODING"] = "utf-8"
+                env["PYTHONUTF8"] = "1"
+                env["PYTHONPATH"] = f"{BASE_DIR}{os.pathsep}{env.get('PYTHONPATH', '')}"
+                proc = subprocess.Popen(
+                    cmd,
+                    cwd=str(BASE_DIR),
+                    env=env,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    text=True,
+                    encoding="utf-8",
+                    errors="replace",
+                    bufsize=1,
+                )
 
-            if proc.stdout:
-                for line in iter(proc.stdout.readline, ""):
-                    if not line:
-                        break
-                    self._send_chunk(line)
+                if proc.stdout:
+                    for line in iter(proc.stdout.readline, ""):
+                        if not line:
+                            break
+                        self._send_chunk(line)
 
-            proc.wait()
+                proc.wait()
+                proc_returncode = proc.returncode
+
+            except (OSError, PermissionError) as os_err:
+                # Fallback to in-process execution if subprocess execution is restricted on serverless
+                self._send_chunk(f"\n⚠️ Subprocess unavailable ({os_err}). Executing in-process...\n")
+                try:
+                    import extract_theme
+
+                    class StreamToChunk:
+                        def __init__(self, sender):
+                            self.sender = sender
+                        def write(self, s):
+                            if s:
+                                self.sender(s)
+                        def flush(self):
+                            pass
+
+                    old_stdout = sys.stdout
+                    old_stderr = sys.stderr
+                    sys.stdout = StreamToChunk(self._send_chunk)
+                    sys.stderr = sys.stdout
+                    try:
+                        # Pass the arguments to extract_theme
+                        run_argv = cmd[3:]
+                        proc_returncode = extract_theme.main(run_argv)
+                    finally:
+                        sys.stdout = old_stdout
+                        sys.stderr = old_stderr
+                except Exception as inproc_exc:
+                    self._send_chunk(f"\n❌ In-process execution error: {inproc_exc}\n")
+                    proc_returncode = 1
+            except Exception as exc:
+                self._send_chunk(f"\n❌ EXCEPTION: {exc}\n")
+                proc_returncode = 1
 
             host_header = self.headers.get("Host") or "localhost:8000"
             proto = "https" if self.headers.get("X-Forwarded-Proto") == "https" or "onrender.com" in host_header or "vercel.app" in host_header else "http"
             base_url = f"{proto}://{host_header}"
 
-            if proc.returncode == 0:
+            if proc_returncode == 0:
                 # Sync extracted theme directory to S3/R2 storage if enabled
                 if storage.is_configured():
                     self._send_chunk(f"\n☁️ Syncing extracted theme to persistent S3/R2 storage ({storage.bucket})...\n")
@@ -426,10 +519,7 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                 self._send_chunk(f"🔗 DESIGN.md:   {base_url}/output/{domain}/DESIGN.md\n")
                 self._send_chunk(f"🔗 Tokens JSON: {base_url}/output/{domain}/design-tokens.json\n")
             else:
-                self._send_chunk(f"\n❌ ERROR: Process exited with code {proc.returncode}\n")
-
-        except Exception as exc:
-            self._send_chunk(f"\n❌ EXCEPTION: {exc}\n")
+                self._send_chunk(f"\n❌ ERROR: Process exited with code {proc_returncode}\n")
         finally:
             self.wfile.write(b"0\r\n\r\n")
             try:

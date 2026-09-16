@@ -4,16 +4,16 @@ api/index.py — Vercel Serverless Function entrypoint for ExtractTheme Studio.
 
 from __future__ import annotations
 
-import json
 import os
 import sys
 from pathlib import Path
-from urllib.parse import parse_qs, unquote, urlparse
 
-# Ensure project root is in sys.path
+# Ensure project root is in sys.path and PYTHONPATH for serverless executions
 BASE_DIR = Path(__file__).parent.parent.resolve()
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
+
+os.environ["PYTHONPATH"] = f"{BASE_DIR}{os.pathsep}{os.environ.get('PYTHONPATH', '')}"
 
 from server import ExtractThemeHandler
 

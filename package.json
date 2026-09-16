@@ -1,5 +1,8 @@
 {
-  "dependencies": {
-    "lucide-react": "^1.46.0"
+  "name": "extract-theme-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Static assets ready'"
   }
 }

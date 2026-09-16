@@ -45,6 +45,31 @@ from pathlib import Path
 from typing import Iterable, Sequence
 from urllib.parse import urljoin, urlparse, urldefrag
 
+# Reconfigure stdout/stderr to UTF-8 on Windows to prevent UnicodeEncodeError in pipes
+if sys.platform == "win32" or (hasattr(sys.stdout, "encoding") and sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8"):
+    import io
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+    elif hasattr(sys.stdout, "buffer"):
+        try:
+            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+
+    if hasattr(sys.stderr, "reconfigure"):
+        try:
+            sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+    elif hasattr(sys.stderr, "buffer"):
+        try:
+            sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+
 try:
     import requests
 except ImportError:  # pragma: no cover
@@ -474,8 +499,16 @@ class Fetcher:
         self.session.headers.update(
             {
                 "User-Agent": ua,
-                "Accept": "text/html,text/css,*/*;q=0.8",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
                 "Accept-Language": "en-US,en;q=0.9",
+                "Sec-Ch-Ua": '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
+                "Sec-Ch-Ua-Mobile": "?0",
+                "Sec-Ch-Ua-Platform": '"Windows"',
+                "Sec-Fetch-Dest": "document",
+                "Sec-Fetch-Mode": "navigate",
+                "Sec-Fetch-Site": "none",
+                "Sec-Fetch-User": "?1",
+                "Upgrade-Insecure-Requests": "1",
             }
         )
         self._cache: dict[str, tuple[str, str]] = {}
@@ -503,6 +536,24 @@ class Fetcher:
                         r.encoding = r.apparent_encoding or "utf-8"
                     result = (r.url, r.text)
                     break
+                except requests.exceptions.SSLError:
+                    if self.verify:
+                        warn(f"SSL verification failed for {url}. Retrying with TLS verification disabled...")
+                        try:
+                            r = self.session.get(
+                                url, timeout=self.timeout, verify=False,
+                                allow_redirects=True,
+                            )
+                            r.raise_for_status()
+                            if not r.encoding or r.encoding.lower() == "iso-8859-1":
+                                r.encoding = r.apparent_encoding or "utf-8"
+                            result = (r.url, r.text)
+                            break
+                        except Exception:
+                            pass
+                    if attempt == 2:
+                        raise
+                    time.sleep(0.6 * (attempt + 1))
                 except requests.RequestException:
                     if attempt == 2:
                         raise
@@ -2021,7 +2072,7 @@ Generated on: {_clean_str(tokens.get("generated", "N/A"))}
 
 ## ⚖️ Brand Ownership & Copyright Attribution
 - **Brand / Entity**: {_clean_str(tokens.get("brand_name", domain))}
-- **Copyright Notice**: {_clean_str(tokens.get("copyright", f"© {time.strftime('%Y')} {domain}. All rights reserved."))}
+- **Copyright Notice**: {_clean_str(tokens.get("copyright", f"© {time.strftime('%Y')} {domain}. All rights reserved. "))}
 - **Attribution Policy**: {_clean_str(tokens.get("legal_notice", "All brand assets, trademarks, and design tokens belong to their respective owners."))}
 
 ---
@@ -2779,7 +2830,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--timeout", type=int, default=25)
     p.add_argument("--workers", type=int, default=8)
     p.add_argument("--user-agent", default=DEFAULT_UA)
-    p.add_argument("--insecure", action="store_true", help="skip TLS verification")
+    p.add_argument("--insecure", "--no-verify", dest="insecure", action="store_true", help="skip TLS verification")
     p.add_argument("-q", "--quiet", action="store_true")
     p.add_argument("-v", "--verbose", action="store_true")
     p.add_argument("--version", action="version", version=f"extract-theme {__version__}")
@@ -2790,6 +2841,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     global _VERBOSITY
     args = build_parser().parse_args(argv)
     _VERBOSITY = 0 if args.quiet else (2 if args.verbose else 1)
+    if args.insecure:
+        try:
+            import urllib3
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        except Exception:
+            pass
     if args.out is None:
         first = args.urls[0]
         parsed = urlparse(first if "://" in first else f"https://{first}")
@@ -2800,6 +2857,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return run(args)
     except KeyboardInterrupt:
         return 130
+    except Exception as exc:
+        log(f"\n❌ Unhandled error during extraction: {exc}")
+        import traceback
+        log(traceback.format_exc(), level=1)
+        return 1
 
 
 if __name__ == "__main__":

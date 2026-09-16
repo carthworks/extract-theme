@@ -172,7 +172,9 @@ class S3Storage:
             return None
 
         clean_path = rel_path.strip("/")
-        s3_key = f"{self.prefix}/{clean_path}"
+        if self.prefix and clean_path.startswith(f"{self.prefix}/"):
+            clean_path = clean_path[len(self.prefix) + 1:]
+        s3_key = f"{self.prefix}/{clean_path}" if self.prefix else clean_path
 
         try:
             response = self._client.get_object(Bucket=self.bucket, Key=s3_key)
@@ -252,6 +254,14 @@ class S3Storage:
                                 copyright_info = f"© 2026 {brand_name}. All rights reserved."
 
                             legal_notice = tokens.get("legal_notice") or (tokens.get("brand") or {}).get("legal_notice") or f"All trademarks, logos, and design tokens belong to {brand_name}."
+
+                            fw_raw = tokens.get("frameworks", {})
+                            if isinstance(fw_raw, dict):
+                                fw_list = list(fw_raw.keys())
+                            elif isinstance(fw_raw, list):
+                                fw_list = fw_raw
+                            else:
+                                fw_list = []
 
                             proj["meta"] = {
                                 "source": tokens.get("source") or "",

@@ -1,8 +1,26 @@
 {
   "version": 2,
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 60,
+      "memory": 1024
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/api",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/healthz",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/health",
       "destination": "/api/index.py"
     },
     {
@@ -10,8 +28,8 @@
       "destination": "/api/index.py"
     },
     {
-      "source": "/(.*)",
-      "destination": "/public/$1"
+      "source": "/output",
+      "destination": "/api/index.py"
     }
   ]
 }

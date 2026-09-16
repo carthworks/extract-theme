@@ -1,0 +1,18 @@
+/* ---------------------------------------------------------------
+   Design tokens extracted from https://example.com/
+   extract-theme v2.0.0
+   --------------------------------------------------------------- */
+
+:root {
+  /* palette */
+  --color-neutral-100: #eeeeee;
+  --color-indigo-900: #334488;
+
+  /* semantic roles */
+  --background: var(--color-neutral-100);
+  --foreground: var(--color-indigo-900);
+
+  /* typography */
+  --font-sans: system-ui,sans-serif;
+  --text-2xl: 1.5em;
+}

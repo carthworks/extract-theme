@@ -1,0 +1,18 @@
+/* Tailwind v4 theme extracted from https://example.com/ */
+@import "tailwindcss";
+
+@theme {
+  --color-neutral-100: #eeeeee;
+  --color-indigo-900: #334488;
+
+  --color-background: var(--color-neutral-100);
+  --color-foreground: var(--color-indigo-900);
+
+  --font-sans: system-ui,sans-serif;
+
+  --text-2xl: 1.5em;
+
+
+
+
+}

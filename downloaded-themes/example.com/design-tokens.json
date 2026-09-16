@@ -1,0 +1,63 @@
+{
+  "source": "https://example.com/",
+  "generated": "2026-09-16T15:04:48",
+  "generator": "extract-theme 2.0.0",
+  "brand": {
+    "brand_name": "Example",
+    "copyright": "© 2026 Example. All rights reserved.",
+    "legal_notice": "All trademarks, logos, brand names, and design tokens belong to Example. Extracted for design system analysis and interoperability."
+  },
+  "brand_name": "Example",
+  "copyright": "© 2026 Example. All rights reserved.",
+  "legal_notice": "All trademarks, logos, brand names, and design tokens belong to Example. Extracted for design system analysis and interoperability.",
+  "colors": {
+    "neutral-100": "#eeeeee",
+    "indigo-900": "#334488"
+  },
+  "color_rgb_channels": {
+    "neutral-100": "238 238 238",
+    "indigo-900": "51 68 136"
+  },
+  "roles": {
+    "background": "neutral-100",
+    "foreground": "indigo-900"
+  },
+  "fonts": {
+    "sans": "system-ui,sans-serif"
+  },
+  "font_sizes": {
+    "2xl": "1.5em"
+  },
+  "font_weights": {},
+  "line_heights": {},
+  "letter_spacing": {},
+  "spacing": {},
+  "radius": {},
+  "shadows": {},
+  "gradients": [],
+  "animations": {
+    "keyframes": [],
+    "durations": [],
+    "easings": [],
+    "transitions": []
+  },
+  "frameworks": {},
+  "font_files": [],
+  "logo": {},
+  "breakpoints": {},
+  "dark_vars": {},
+  "source_variables": {},
+  "contrast": [
+    {
+      "background": "neutral-100",
+      "background_hex": "#eeeeee",
+      "foreground": "indigo-900",
+      "foreground_hex": "#334488",
+      "ratio": 7.79,
+      "aa_normal": true,
+      "aa_large": true,
+      "aaa_normal": true,
+      "aaa_large": true
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+/* ---------------------------------------------------------------
+   Design tokens extracted from https://stripe.com/in
+   extract-theme v2.0.0
+   --------------------------------------------------------------- */
+
+:root {
+  /* palette */
+  --color-white: #ffffff;
+  --color-indigo-700: #533afd;
+  --color-indigo-950: #122054;
+  --color-indigo-950-2: #0d1738;
+  --color-indigo-600: #5d64fe;
+  --color-neutral-100: #e5edf5;
+  --color-blue-950: #0a2540;
+  --color-indigo-500: #7389ff;
+  --color-indigo-950-3: #182659;
+  --color-slate-950: #061b31;
+  --color-blue-600: #6480b2;
+  --color-neutral-50: #f2f7fe;
+  --color-white-a0: rgb(255 255 255 / 0.0);
+  --color-blue-700: #45639d;
+  --color-blue-400: #839bc8;
+  --color-slate-200: #d4dee9;
+  --color-indigo-900: #2e2b8c;
+  --color-red-400: #ff6118;
+  --color-teal-300: #0de4e4;
+  --color-rose-500: #ea2261;
+  --color-indigo-800: #4032c8;
+  --color-indigo-300: #a8bfff;
+  --color-slate-300: #a3b5d6;
+  --color-indigo-900-2: #362baa;
+  --color-indigo-900-3: #23356e;
+  --color-slate-600: #64748d;
+  --color-slate-900: #273951;
+  --color-blue-950-2: #0c2e4e;
+  --color-indigo-500-2: #7f7dfc;
+  --color-slate-100: #e8e9ff;
+  --color-violet-300: #b9b9f9;
+  --color-pink-400: #f44bcc;
+  --color-slate-700: #50617a;
+  --color-slate-200-2: #d6d9fc;
+  --color-indigo-300-2: #92adff;
+  --color-slate-300-a30: rgb(66 71 112 / 0.3);
+  --color-teal-200: #1df5e9;
+  --color-slate-300-2: #adbdcc;
+  --color-violet-500: #9966ff;
+  --color-stone-100: #ffe6f5;
+
+  /* semantic roles */
+  --background: var(--color-indigo-950-2);
+  --foreground: var(--color-white);
+  --muted-foreground: var(--color-neutral-100);
+  --primary: var(--color-indigo-700);
+  --accent: var(--color-indigo-500);
+  --border: var(--color-blue-950);
+  --destructive: var(--color-red-400);
+
+  /* typography */
+  --font-sans: "sohne-var","SF Pro Display",sans-serif;
+  --font-mono: "SourceCodePro","SFMono-Regular",monospace;
+  --font-sans-2: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Ubuntu,sans-serif;
+  --text-xs: 10px;
+  --text-sm: 14px;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 24px;
+  --text-3xl: 1.75rem;
+  --text-4xl: 2.125rem;
+  --text-5xl: 3rem;
+  --text-6xl: 62px;
+  --text-8xl: 110px;
+  --weight-light: 300;
+  --weight-normal: 400;
+  --weight-semibold: 600;
+  --weight-medium: 500;
+  --weight-extralight: 200;
+  --weight-bold: 700;
+  --leading-none: 1;
+  --leading-tight: 1.2;
+  --leading-snug: 1.4;
+  --leading-normal: 1.5;
+  --leading-relaxed: 28px;
+  --tracking-tight: -.0308em;
+  --tracking-normal: -.01em;
+
+  /* spacing */
+  --space-0: 0px;
+  --space-1px: 1px;
+  --space-2px: 2px;
+  --space-3px: 3px;
+  --space-1: 4px;
+  --space-5px: 5px;
+  --space-6px: 6px;
+  --space-7px: 7px;
+  --space-2: 8px;
+  --space-10px: 10px;
+  --space-3: 12px;
+  --space-13px: 13px;
+  --space-14px: 14px;
+  --space-15px: 15px;
+  --space-4: 16px;
+  --space-18px: 18px;
+  --space-5: 20px;
+  --space-22px: 22px;
+  --space-6: 24px;
+  --space-26px: 26px;
+  --space-30px: 30px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* radius */
+  --radius-none: 1px;
+  --radius-sm: 3px;
+  --radius: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 32px;
+  --radius-full: 50%;
+
+  /* elevation */
+  --shadow-xs: #e5edf5;
+  --shadow-sm: 0 -1px 0 0 #e5edf5;
+  --shadow: 0 -1px 0 0 #182659;
+  --shadow-md: inset 0 0 0 2px #fff;
+  --shadow-lg: 0 0 0 3px rgba(99,91,255,.1);
+  --shadow-xl: 0 0 0 2px #4d90fe,inset 0 0 0 2px hsla(0,0%,100%,0.9);
+  --shadow-2xl: 4.5px 0 0 0 #3f4b66,9px 0 0 0 #3f4b66;
+
+  /* gradients */
+  --gradient-1: linear-gradient(90deg,rgba(66,71,112,0.3),rgba(66,71,112,0.3) 50%,transparent 0,transparent);
+  --gradient-2: linear-gradient(270deg,#ffd601 -380%,#ee30fb -60%,#635bff 110%);
+  --gradient-3: linear-gradient(270deg,#ffd601 -265%,#ee30fb 60%,#635bff 240%);
+  --gradient-4: linear-gradient(270deg,#ffd601 -20%,#ee30fb 190%,#635bff 365%);
+  --gradient-5: radial-gradient(66.35% 66.35% at 50% 50%,hsla(0,0%,100%,.9) 0,hsla(0,0%,100%,0) 100%);
+  --gradient-6: linear-gradient(transparent,rgba(236,239,241,.8));
+  --gradient-7: linear-gradient(270deg,#ffd601 -15%,#ee30fb 315%,#635bff 490%);
+  --gradient-8: conic-gradient(from 0deg,#7232f1 0,#fb76fa 33%,#ffcf5e 66%,#7232f1 100%);
+  --gradient-9: linear-gradient(90deg,#7232f1 3.13%,#fb76fa 50%,#ffcf5e);
+  --gradient-10: linear-gradient(90deg,#fff,hsla(0,0%,100%,0));
+  --gradient-11: linear-gradient(90deg,hsla(0,0%,100%,0),#fff);
+  --gradient-12: radial-gradient(circle,#ffad00,#ff7600 33%,#e5edf5 66%);
+  --gradient-13: linear-gradient(90deg,#e18638,#e17a38);
+  --gradient-14: radial-gradient(#20d261 40%,rgba(214,121,255,0) 60%);
+  --gradient-15: linear-gradient(270deg,#0073e6 4.91%,#16cbe1 21.6%,#48a4ed 40.82%,#635bff 60.04%,#96f 80.27%,#d187ff 96.97%);
+  --gradient-16: linear-gradient(90deg,#533afd 0,#533afd 20%,#da56ed 40%,#ea2261 60%,#ea2261 100%);
+}
+
+/* Breakpoints (custom media — needs postcss-custom-media) */
+@custom-media --sm (min-width: 350px);
+@custom-media --sm-400 (min-width: 400px);
+@custom-media --sm-480 (min-width: 480px);
+@custom-media --sm-600 (min-width: 600px);
+@custom-media --sm-640 (min-width: 640px);
+@custom-media --md (min-width: 840px);
+@custom-media --lg (min-width: 899px);
+@custom-media --lg-900 (min-width: 900px);
+@custom-media --lg-901 (min-width: 901px);
+@custom-media --lg-940 (min-width: 940px);
+@custom-media --lg-970 (min-width: 970px);
+@custom-media --lg-1000 (min-width: 1000px);
+@custom-media --lg-1020 (min-width: 1020px);
+@custom-media --lg-1051 (min-width: 1051px);
+@custom-media --lg-1112 (min-width: 1112px);
+@custom-media --lg-1115 (min-width: 1115px);
+@custom-media --xl (min-width: 1264px);
+@custom-media --xl-1300 (min-width: 1300px);

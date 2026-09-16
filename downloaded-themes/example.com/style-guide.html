@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-t="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Design system — example.com</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#f7f8fa;--panel:#fff;--line:#e5e7eb;--tx:#0f172a;--tx2:#64748b;--acc:#4f46e5;
+}
+html[data-t="dark"]{--bg:#0b0f17;--panel:#131a26;--line:#242e3f;--tx:#e8edf5;--tx2:#8b98ad;--acc:#8b7cf8}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1140px;margin:0 auto;padding:48px 24px 96px}
+header{display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap;margin-bottom:8px}
+h1{font-size:34px;letter-spacing:-.025em;margin:0 0 4px}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--tx2);margin:56px 0 14px;font-weight:600}
+.sub{color:var(--tx2);font-size:14px;margin:0}
+.sub a{color:var(--acc)}
+.toggle{margin-left:auto;background:var(--panel);border:1px solid var(--line);color:var(--tx);
+  border-radius:8px;padding:8px 14px;font:inherit;font-size:13px;cursor:pointer}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13px}
+.stat b{display:block;font-size:20px;letter-spacing:-.02em}
+.stat span{color:var(--tx2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px}
+.sw{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;text-align:left;padding:0;font:inherit;color:inherit;width:100%}
+.sw .chip{height:78px;background-image:linear-gradient(45deg,#0001 25%,transparent 25%,transparent 75%,#0001 75%),linear-gradient(45deg,#0001 25%,transparent 25%,transparent 75%,#0001 75%);background-size:14px 14px;background-position:0 0,7px 7px}
+.sw .chip i{display:block;height:100%}
+.sw .meta{padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.sw code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+.sw .n{font-weight:600;font-size:13px}
+.sw .u{color:var(--tx2);font-size:12px}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13.5px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+th{background:color-mix(in oklab,var(--tx) 4%,transparent);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx2)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+td code{font-size:12.5px}
+.pill{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11px;font-weight:600}
+.ok{background:#16a34a22;color:#16a34a}.no{background:#dc262622;color:#ef4444}
+.spec{display:flex;align-items:baseline;gap:16px;padding:10px 14px;border-bottom:1px solid var(--line)}
+.spec:last-child{border-bottom:0}
+.spec .k{width:110px;flex:none;color:var(--tx2);font-size:12px;font-family:ui-monospace,monospace}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.bar{background:var(--acc);height:14px;border-radius:3px}
+.shadow-demo{height:64px;width:110px;border-radius:10px;background:var(--panel);border:1px solid var(--line)}
+.rad-demo{height:56px;width:56px;background:var(--acc);opacity:.85}
+.copy{position:fixed;left:50%;bottom:28px;transform:translate(-50%,80px);background:var(--tx);color:var(--bg);
+  padding:9px 18px;border-radius:99px;font-size:13px;transition:transform .18s ease;pointer-events:none}
+.copy.on{transform:translate(-50%,0)}
+.note{color:var(--tx2);font-size:12.5px;margin:8px 0 0}
+.grad-chip{height:72px;border-radius:10px;border:1px solid var(--line);margin-bottom:6px}
+.ease-tag{display:inline-block;padding:3px 11px;border-radius:99px;font-size:12px;font-family:ui-monospace,monospace;background:color-mix(in oklab,var(--acc) 10%,transparent);color:var(--acc);margin:2px 2px 2px 0}
+.kf-tag{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-family:ui-monospace,monospace;background:var(--panel);border:1px solid var(--line);color:var(--tx2);margin:2px 2px 2px 0}
+.dur-tag{display:inline-block;padding:3px 11px;border-radius:99px;font-size:12px;background:color-mix(in oklab,var(--tx) 8%,transparent);margin:2px 2px 2px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header style="display:flex;align-items:center;justify-content:space-between">
+  <div style="display:flex;align-items:center">
+    
+    <div>
+      <h1>Design system</h1>
+      <p class="sub">Extracted from <a href="https://example.com/">https://example.com/</a> ·
+         16 Sep 2026 · extract-theme v2.0.0</p>
+    </div>
+  </div>
+  <button class="toggle" id="theme">Toggle theme</button>
+</header>
+
+<div class="stats"><div class="stat"><b>1</b><span>pages</span></div><div class="stat"><b>1</b><span>stylesheets</span></div><div class="stat"><b>7</b><span>declarations</span></div><div class="stat"><b>2</b><span>colours</span></div><div class="stat"><b>1</b><span>type sizes</span></div><div class="stat"><b>0</b><span>spacing steps</span></div><div class="stat"><b>0</b><span>breakpoints</span></div><div class="stat"><b>0</b><span>gradients</span></div><div class="stat"><b>0</b><span>keyframes</span></div><div class="stat"><b>0</b><span>font files</span></div><div class="stat"><b>0</b><span>frameworks</span></div><div class="stat"><b>0</b><span>logo</span></div></div>
+<div style="margin-top:16px;margin-bottom:8px;padding:12px 16px;background:var(--panel);border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;gap:12px"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--tx2);font-weight:700">Stack Detected</span><div><span class="note">No major framework signatures detected (custom / HTML / static)</span></div></div>
+
+
+
+<h2>Frameworks &amp; Tech Stack</h2><div class="panel" style="padding:16px 24px"><p style="margin:0 0 12px;font-size:13px;color:var(--tx2)">Detected frontend frameworks, UI libraries, and utility tools from stylesheet declarations and script signatures:</p><div><span class="note">No major framework signatures detected (custom / HTML / static)</span></div></div>
+
+<h2>Palette <span style="text-transform:none;letter-spacing:0;font-weight:400">— click to copy</span></h2>
+<div class="grid"><button class="sw" data-copy="#eeeeee"><div class="chip"><i style="background:#eeeeee"></i></div><div class="meta"><span class="n">neutral-100</span><code>#eeeeee</code><span class="u">1 uses</span></div></button><button class="sw" data-copy="#334488"><div class="chip"><i style="background:#334488"></i></div><div class="meta"><span class="n">indigo-900</span><code>#334488</code><span class="u">1 uses</span></div></button></div>
+
+<h2>Semantic roles</h2>
+<table><thead><tr><th>Role</th><th>Token</th><th></th></tr></thead>
+<tbody><tr><td><code>--background</code></td><td><code>neutral-100</code></td><td><span style="display:inline-block;width:34px;height:18px;border-radius:5px;border:1px solid var(--line);background:#eeeeee"></span></td></tr><tr><td><code>--foreground</code></td><td><code>indigo-900</code></td><td><span style="display:inline-block;width:34px;height:18px;border-radius:5px;border:1px solid var(--line);background:#334488"></span></td></tr></tbody></table>
+<p class="note">Inferred from usage frequency and hue. Verify before shipping.</p>
+
+<h2>Contrast (WCAG 2.1)</h2>
+<table><thead><tr><th>Pair</th><th>Ratio</th><th>AA</th><th>AA Large</th><th>AAA</th><th>Preview</th></tr></thead>
+<tbody><tr><td><code>indigo-900</code> on <code>neutral-100</code></td><td><b>7.79</b>:1</td><td><span class='pill ok'>✓</span></td><td><span class='pill ok'>✓</span></td><td><span class='pill ok'>✓</span></td><td style="background:#eeeeee;color:#334488;padding:4px 10px;border-radius:6px">The quick brown fox</td></tr></tbody></table>
+<p class="note">AA ≥ 4.5:1 normal text · AA Large ≥ 3:1 (18pt+ or bold 14pt+) · AAA ≥ 7:1</p>
+
+<h2>Font families</h2>
+<div class="panel"><div class="spec"><span class="k">sans</span><span style="font-family:system-ui,sans-serif;font-size:19px">Design systems, extracted.</span></div><div class="spec"><span class="k"></span><code style="font-size:12px;color:var(--tx2)">system-ui,sans-serif</code></div></div>
+
+<h2>Font files</h2><table><thead><tr><th>Family</th><th>Weight</th><th>Style</th><th>Format</th><th>Size</th><th>Download</th></tr></thead><tbody><tr><td colspan="6" class="note">none — @font-face declarations may use Google Fonts CDN</td></tr></tbody></table>
+
+<h2>Type scale</h2>
+<table><thead><tr><th>Token</th><th>Value</th><th>Sample</th></tr></thead>
+<tbody><tr><td><code>2xl</code></td><td><code>1.5em</code></td><td style="font-size:1.5em;line-height:1.2">Ag</td></tr></tbody></table>
+
+<h2>Font weights</h2>
+<table><thead><tr><th>Token</th><th>Value</th><th>Sample</th></tr></thead>
+<tbody><tr><td colspan="3" class="note">none found</td></tr></tbody></table>
+
+<h2>Leading and tracking</h2>
+<table><thead><tr><th>Token</th><th>Value</th><th>Sample</th></tr></thead>
+<tbody><tr><td colspan="3" class="note">none found</td></tr></tbody></table>
+
+<h2>Spacing scale</h2>
+<table><thead><tr><th>Token</th><th>Value</th><th>Scale</th></tr></thead>
+<tbody><tr><td colspan="3" class="note">none found</td></tr></tbody></table>
+
+<h2>Radius</h2>
+<table><thead><tr><th>Token</th><th>Value</th><th>Preview</th></tr></thead>
+<tbody><tr><td colspan="3" class="note">none found</td></tr></tbody></table>
+
+<h2>Elevation</h2>
+<table><thead><tr><th>Token</th><th>Value</th><th>Preview</th></tr></thead>
+<tbody><tr><td colspan="3" class="note">none found</td></tr></tbody></table>
+
+<h2>Breakpoints</h2>
+<table><thead><tr><th>Token</th><th>Min width</th></tr></thead>
+<tbody><tr><td colspan="3" class="note">none found</td></tr></tbody></table>
+
+<h2>Gradients</h2><p class="note">none found</p>
+
+<h2>Animations &amp; Easing</h2><div class="panel"><div class="spec"><span class="k">@keyframes</span><div><span class="note">none found</span></div></div><div class="spec"><span class="k">Durations</span><div><span class="note">none found</span></div></div><div class="spec"><span class="k">Easings</span><div><span class="note">none found</span></div></div></div><h2 style="margin-top:32px">Transitions</h2><table><thead><tr><th>Value</th></tr></thead><tbody><tr><td class="note">none found</td></tr></tbody></table>
+
+
+<h2>Brand Ownership &amp; Legal Notice</h2>
+<div class="panel" style="padding:18px 24px;border-left:4px solid var(--acc)">
+  <div style="font-weight:700;font-size:14px;color:var(--tx)">© 2026 Example. All rights reserved.</div>
+  <div style="margin-top:6px;font-size:12.5px;color:var(--tx2);line-height:1.5">All trademarks, logos, brand names, and design tokens belong to Example. Extracted for design system analysis and interoperability.</div>
+  <div style="margin-top:8px;font-size:11px;color:var(--tx2);opacity:.8">Source: <a href="https://example.com/" target="_blank" style="color:var(--acc)">https://example.com/</a> &bull; Extracted for design analysis &amp; interoperability by extract-theme</div>
+</div>
+
+
+<footer style="margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--tx2)">
+  <div>© 2026 Example. All rights reserved.</div>
+  <div style="font-size:11px;opacity:0.8">Generated by ExtractTheme Studio &bull; 2026</div>
+</footer>
+
+</div>
+<div class="copy" id="toast"></div>
+<script>
+document.querySelectorAll('[data-copy]').forEach(function(el){
+  el.addEventListener('click', function(){
+    navigator.clipboard.writeText(el.dataset.copy);
+    var t=document.getElementById('toast');
+    t.textContent='Copied '+el.dataset.copy; t.classList.add('on');
+    clearTimeout(window.__t); window.__t=setTimeout(function(){t.classList.remove('on')},1400);
+  });
+});
+document.getElementById('theme').addEventListener('click', function(){
+  var h=document.documentElement;
+  h.dataset.t = h.dataset.t==='dark' ? 'light' : 'dark';
+});
+</script>
+</body>
+</html>

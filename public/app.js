@@ -362,8 +362,35 @@ document.addEventListener('DOMContentLoaded', () => {
       const brandTitle = meta.brand_name || proj.domain;
       const copyrightText = meta.copyright || `© 2026 ${brandTitle}. All rights reserved.`;
 
+      // Extract major colors from token for card background mini tiles
+      const rawMajorColors = (meta.brand_colors && meta.brand_colors.length > 0)
+        ? meta.brand_colors
+        : ((meta.top_colors && meta.top_colors.length > 0) ? meta.top_colors : Object.values(meta.roles || {}));
+      const majorColors = rawMajorColors.filter(c => typeof c === 'string' && c && !c.includes('/ 0)') && !c.includes('/ 0.0)'));
+      const cardColors = majorColors.length > 0 ? majorColors : ['#6366f1', '#3b82f6', '#10b981', '#f59e0b'];
+      const primaryColor = cardColors[0] || '#6366f1';
+      const secondaryColor = cardColors[1] || primaryColor;
+
+      // Generate 28 mini tiles from major colors (4 rows x 7 columns)
+      const tileCount = 28;
+      const miniTilesHtml = Array.from({ length: tileCount }).map((_, i) => {
+        const c = cardColors[i % cardColors.length];
+        return `<div class="card-mini-tile" style="--tile-c:${escapeHtml(c)};background-color:${escapeHtml(c)};"></div>`;
+      }).join('');
+
+      const cardBgTiles = `
+        <div class="card-bg-tiles-wrapper" aria-hidden="true">
+          <div class="card-tiles-ambient-glow" style="background: radial-gradient(circle at 85% 15%, ${escapeHtml(primaryColor)}48 0%, ${escapeHtml(secondaryColor)}28 45%, transparent 70%);"></div>
+          <div class="card-tiles-scrim"></div>
+          <div class="card-mini-tiles-mosaic">
+            ${miniTilesHtml}
+          </div>
+        </div>
+      `;
+
       return `
-        <div class="project-card">
+        <div class="project-card" style="--card-accent:${escapeHtml(primaryColor)};">
+          ${cardBgTiles}
           <div>
             <div class="project-card-header">
               <div class="project-title-area">
