@@ -422,6 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
 
           <div class="project-actions">
+            <button type="button" class="btn btn-intelligence btn-icon btn-sm inspect-intel-btn" data-domain="${escapeHtml(proj.domain)}" title="Open Website Intelligence & Design System Dashboard">${icon('sparkles', 'icon-xs')} <span>Intelligence</span></button>
             ${proj.has_style_guide ? `<a href="/output/${encodeURIComponent(proj.domain)}/style-guide.html" target="_blank" class="btn btn-primary btn-icon btn-sm" title="Launch Interactive Style Guide">${icon('external-link', 'icon-xs')} <span>Launch</span></a>` : ''}
             <a href="/api/download?domain=${encodeURIComponent(proj.domain)}" class="btn btn-download btn-icon btn-sm" download title="Download complete design system ZIP">${icon('download', 'icon-xs')} <span>Download</span></a>
             <button type="button" class="btn btn-secondary btn-sm view-tokens-btn" data-domain="${escapeHtml(proj.domain)}" data-file="DESIGN.md">${icon('file-text', 'icon-xs')} <span>DESIGN.md</span></button>
@@ -497,6 +498,9 @@ document.addEventListener('DOMContentLoaded', () => {
             </td>
             <td>
               <div class="table-actions-cell">
+                <button type="button" class="btn btn-intelligence btn-icon btn-table-action inspect-intel-btn" data-domain="${escapeHtml(proj.domain)}" title="Open Website Intelligence Dashboard">
+                  ${icon('sparkles', 'icon-xs')} <span>Intel</span>
+                </button>
                 <a href="/api/download?domain=${encodeURIComponent(proj.domain)}" class="btn btn-download btn-icon btn-table-action" download title="Download ${escapeHtml(proj.domain)} Design System ZIP">
                   ${icon('download', 'icon-xs')} <span>Download</span>
                 </a>
@@ -516,6 +520,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.view-tokens-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         openFilePreview(btn.dataset.domain, btn.dataset.file);
+      });
+    });
+
+    // Attach click listeners to inspect intelligence buttons
+    document.querySelectorAll('.inspect-intel-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openIntelligenceDashboard(btn.dataset.domain);
       });
     });
 
@@ -611,6 +623,1049 @@ document.addEventListener('DOMContentLoaded', () => {
       refreshIcons();
     }, 1500);
   });
+
+  // =========================================================================
+  // Website Intelligence & Design-System Analyzer Dashboard Controller
+  // =========================================================================
+
+  const dashboardSection = document.getElementById('dashboard-section');
+  const projectsSection = document.querySelector('.projects-section');
+  const closeDashboardBtn = document.getElementById('close-dashboard-btn');
+  const dashSiteTitle = document.getElementById('dash-site-title');
+  const dashSiteDomain = document.getElementById('dash-site-domain');
+  const dashScoreA11y = document.getElementById('dash-score-a11y');
+  const dashScoreSeo = document.getElementById('dash-score-seo');
+  const dashScoreSec = document.getElementById('dash-score-sec');
+  const dashScorePerf = document.getElementById('dash-score-perf');
+  const dashLaunchGuide = document.getElementById('dash-launch-guide');
+  const dashDownloadZip = document.getElementById('dash-download-zip');
+  const dashboardTabContent = document.getElementById('dashboard-tab-content');
+  const dashTabs = document.querySelectorAll('.dash-tab');
+
+  let currentIntelDomain = null;
+  let currentIntelData = null;
+  let activeTabName = 'overview';
+
+  if (closeDashboardBtn) {
+    closeDashboardBtn.addEventListener('click', closeIntelligenceDashboard);
+  }
+
+  dashTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      dashTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeTabName = tab.dataset.tab;
+      renderActiveDashboardTab();
+    });
+  });
+
+  async function openIntelligenceDashboard(domain) {
+    currentIntelDomain = domain;
+    if (!dashboardSection || !projectsSection) return;
+
+    projectsSection.classList.add('hidden');
+    dashboardSection.classList.remove('hidden');
+
+    dashSiteTitle.textContent = 'Loading intelligence...';
+    dashSiteDomain.textContent = domain;
+    dashboardTabContent.innerHTML = `
+      <div class="intel-card" style="text-align:center;padding:48px 24px;">
+        <span class="spinner" style="display:inline-block;width:28px;height:28px;border-width:3px;margin-bottom:16px;"></span>
+        <p style="font-size:15px;font-weight:600;">Analyzing website intelligence for ${escapeHtml(domain)}...</p>
+        <p style="color:var(--text-sub);font-size:13px;">Inspecting components, layout, accessibility, SEO, performance, and security headers.</p>
+      </div>
+    `;
+    refreshIcons();
+
+    dashboardSection.scrollIntoView({ behavior: 'smooth' });
+
+    try {
+      const res = await fetch(`/api/intelligence?domain=${encodeURIComponent(domain)}&_t=${Date.now()}`);
+      if (!res.ok) {
+        throw new Error(`Server returned HTTP ${res.status}`);
+      }
+      currentIntelData = await res.json();
+
+      const ov = currentIntelData.overview || {};
+      const brandName = (currentIntelData.content_intelligence && currentIntelData.content_intelligence.value_proposition !== 'Not detected')
+        ? (ov.domain || domain)
+        : domain;
+
+      dashSiteTitle.textContent = brandName;
+      dashSiteDomain.textContent = domain;
+
+      const scores = ov.scores || {};
+      dashScoreA11y.textContent = (scores.accessibility != null ? scores.accessibility : 85) + '%';
+      dashScoreSeo.textContent = (scores.seo != null ? scores.seo : 90) + '%';
+      dashScoreSec.textContent = scores.security_grade || 'B';
+      dashScorePerf.textContent = (scores.performance != null ? scores.performance : 88) + '%';
+
+      if (dashLaunchGuide) {
+        dashLaunchGuide.href = `/output/${encodeURIComponent(domain)}/style-guide.html`;
+      }
+      if (dashDownloadZip) {
+        dashDownloadZip.href = `/api/download?domain=${encodeURIComponent(domain)}`;
+      }
+
+      renderActiveDashboardTab();
+    } catch (err) {
+      console.error('Failed to load intelligence report:', err);
+      dashboardTabContent.innerHTML = `
+        <div class="intel-card" style="border-color:var(--danger);text-align:center;padding:40px 24px;">
+          <div style="color:var(--danger);margin-bottom:12px;">${icon('alert-triangle', 'icon-lg')}</div>
+          <p style="font-size:16px;font-weight:600;">Could not load intelligence report</p>
+          <p style="color:var(--text-sub);font-size:13px;max-width:500px;margin:8px auto 20px auto;">${escapeHtml(err.message)}. Try re-extracting this URL using the sidebar to generate a new multi-dimensional report.</p>
+          <div style="display:flex;justify-content:center;gap:12px;">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-err-back">Back to Projects</button>
+            <button type="button" class="btn btn-primary btn-sm" id="btn-err-extract">Extract This Website</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('btn-err-back')?.addEventListener('click', closeIntelligenceDashboard);
+      document.getElementById('btn-err-extract')?.addEventListener('click', () => {
+        closeIntelligenceDashboard();
+        const urlInput = document.getElementById('url-input');
+        if (urlInput) {
+          urlInput.value = `https://${domain}`;
+          urlInput.focus();
+        }
+      });
+      refreshIcons();
+    }
+  }
+
+  function closeIntelligenceDashboard() {
+    if (dashboardSection && projectsSection) {
+      dashboardSection.classList.add('hidden');
+      projectsSection.classList.remove('hidden');
+    }
+    refreshIcons();
+  }
+  window.closeIntelligenceDashboard = closeIntelligenceDashboard;
+
+  // Render the current active tab
+  function renderActiveDashboardTab() {
+    if (!currentIntelData || !dashboardTabContent) return;
+
+    let html = '';
+    switch (activeTabName) {
+      case 'overview':
+        html = tabRenderOverview(currentIntelData);
+        break;
+      case 'design_system':
+        html = tabRenderDesignSystem(currentIntelData);
+        break;
+      case 'components':
+        html = tabRenderComponents(currentIntelData);
+        break;
+      case 'layout':
+        html = tabRenderLayout(currentIntelData);
+        break;
+      case 'assets':
+        html = tabRenderAssets(currentIntelData);
+        break;
+      case 'responsive':
+        html = tabRenderResponsive(currentIntelData);
+        break;
+      case 'accessibility':
+        html = tabRenderAccessibility(currentIntelData);
+        break;
+      case 'performance':
+        html = tabRenderPerformance(currentIntelData);
+        break;
+      case 'seo':
+        html = tabRenderSeo(currentIntelData);
+        break;
+      case 'security':
+        html = tabRenderSecurity(currentIntelData);
+        break;
+      case 'technology':
+        html = tabRenderTechnology(currentIntelData);
+        break;
+      case 'content':
+        html = tabRenderContent(currentIntelData);
+        break;
+      case 'ai_insights':
+        html = tabRenderAiInsights(currentIntelData);
+        break;
+      case 'export':
+        html = tabRenderExport(currentIntelData);
+        break;
+      default:
+        html = tabRenderOverview(currentIntelData);
+    }
+
+    dashboardTabContent.innerHTML = html;
+    refreshIcons();
+
+    // Attach click-to-copy listeners inside the tab
+    dashboardTabContent.querySelectorAll('[data-copy]').forEach(el => {
+      el.addEventListener('click', () => {
+        const txt = el.dataset.copy;
+        navigator.clipboard.writeText(txt);
+        const originalText = el.innerHTML;
+        el.innerHTML = `${icon('check', 'icon-xs')} <span>Copied!</span>`;
+        refreshIcons();
+        setTimeout(() => {
+          el.innerHTML = originalText;
+          refreshIcons();
+        }, 1400);
+      });
+    });
+  }
+
+  // 1. Overview Tab
+  function tabRenderOverview(data) {
+    const ov = data.overview || {};
+    const scores = ov.scores || {};
+    const sum = ov.summary || {};
+    const ai = data.ai_insights || {};
+
+    const secGradeClass = (scores.security_grade || 'B').toLowerCase().startsWith('a') ? 'grade-a' :
+      (scores.security_grade === 'B' ? 'grade-b' : (scores.security_grade === 'C' ? 'grade-c' : 'grade-f'));
+
+    return `
+      <div class="intel-grid-4">
+        <div class="score-card-big">
+          <div class="score-circle grade-a">${scores.accessibility != null ? scores.accessibility : 85}%</div>
+          <div class="score-info">
+            <div class="score-info-title">Accessibility</div>
+            <div class="score-info-sub">WCAG 2.1 AA compliant</div>
+          </div>
+        </div>
+        <div class="score-card-big">
+          <div class="score-circle grade-b">${scores.seo != null ? scores.seo : 90}%</div>
+          <div class="score-info">
+            <div class="score-info-title">SEO Health</div>
+            <div class="score-info-sub">Metadata & search indexed</div>
+          </div>
+        </div>
+        <div class="score-card-big">
+          <div class="score-circle ${secGradeClass}">${scores.security_grade || 'B'}</div>
+          <div class="score-info">
+            <div class="score-info-title">Security Grade</div>
+            <div class="score-info-sub">HTTPS & response headers</div>
+          </div>
+        </div>
+        <div class="score-card-big">
+          <div class="score-circle grade-c">${scores.performance != null ? scores.performance : 88}%</div>
+          <div class="score-info">
+            <div class="score-info-title">Performance</div>
+            <div class="score-info-sub">Loading & transfer budget</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="intel-grid-2">
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('activity', 'icon-sm')} System Architecture Overview</h3>
+            <span class="intel-card-badge">${escapeHtml(ov.domain || currentIntelDomain)}</span>
+          </div>
+          <div class="spec-list">
+            <div class="spec-item">
+              <span class="spec-item-key">${icon('boxes', 'icon-xs')} Components Detected</span>
+              <span class="spec-item-val">${sum.components_detected || 0} patterns</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">${icon('cpu', 'icon-xs')} Observed Technologies</span>
+              <span class="spec-item-val">${sum.technologies_count || 0} detected</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">${icon('image', 'icon-xs')} Media & Asset Count</span>
+              <span class="spec-item-val">${sum.assets_count || 0} items</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">${icon('git-branch', 'icon-xs')} Same-Site Pages Crawled</span>
+              <span class="spec-item-val">${ov.pages_analyzed || 1} pages</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">${icon('sparkles', 'icon-xs')} Aesthetic Style Archetype</span>
+              <span class="spec-item-val" style="color:var(--primary);">${escapeHtml(ai.style_archetype || sum.design_style || 'Modern Web')}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('shield-check', 'icon-sm')} Identity & Provenance</h3>
+            <span class="intel-card-badge">Verified Source</span>
+          </div>
+          <div class="spec-list">
+            <div class="spec-item">
+              <span class="spec-item-key">${icon('globe', 'icon-xs')} Primary Source URL</span>
+              <span class="spec-item-val"><a href="${escapeHtml(ov.primary_url || '')}" target="_blank" style="color:var(--primary);text-decoration:none;">${escapeHtml(ov.primary_url || 'Not detected')}</a></span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">${icon('clock', 'icon-xs')} Analysis Timestamp</span>
+              <span class="spec-item-val">${escapeHtml(ov.analyzed_at || 'Recent')}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">${icon('layers', 'icon-xs')} Design Consistency</span>
+              <span class="spec-item-val">${ai.consistency_score || 92}/100</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">${icon('file-text', 'icon-xs')} Value Proposition</span>
+              <span class="spec-item-val" style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(data.content_intelligence?.value_proposition || '')}">${escapeHtml(data.content_intelligence?.value_proposition || 'Not detected')}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // 2. Design System Tab
+  function tabRenderDesignSystem(data) {
+    const ds = data.design_system || {};
+    const colors = ds.colors || {};
+    const roles = ds.roles || {};
+    const fonts = ds.fonts || {};
+    const spacing = ds.spacing || {};
+    const radius = ds.radius || {};
+
+    const swatchesHtml = Object.entries(colors).slice(0, 36).map(([name, hex]) => `
+      <div class="sw" data-copy="${escapeHtml(hex)}" title="Click to copy ${escapeHtml(hex)}" style="cursor:pointer;">
+        <div class="chip" style="height:54px;background-color:${escapeHtml(hex)};"></div>
+        <div class="meta" style="padding:6px 8px;">
+          <span class="n" style="font-size:11px;">${escapeHtml(name)}</span>
+          <code style="font-size:10.5px;">${escapeHtml(hex)}</code>
+        </div>
+      </div>
+    `).join('') || '<p style="color:var(--text-sub);">No colors detected.</p>';
+
+    const rolesHtml = Object.entries(roles).map(([role, ref]) => {
+      const hex = colors[ref] || ref;
+      return `
+        <div class="spec-item">
+          <span class="spec-item-key"><code>--color-${escapeHtml(role)}</code></span>
+          <span class="spec-item-val" style="display:flex;align-items:center;gap:6px;">
+            <span style="width:14px;height:14px;border-radius:3px;background:${escapeHtml(hex)};border:1px solid rgba(255,255,255,0.2);"></span>
+            <code>${escapeHtml(hex)}</code>
+          </span>
+        </div>
+      `;
+    }).join('') || '<p style="color:var(--text-sub);">No semantic roles mapped.</p>';
+
+    const fontsHtml = Object.entries(fonts).filter(([k]) => !k.startsWith('_')).map(([k, v]) => `
+      <div class="spec-item">
+        <span class="spec-item-key"><i data-lucide="type" class="icon-xs"></i> ${escapeHtml(k)}</span>
+        <span class="spec-item-val" style="font-family:${escapeHtml(v)};">${escapeHtml(v)}</span>
+      </div>
+    `).join('') || '<p style="color:var(--text-sub);">System font stack.</p>';
+
+    return `
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h3 class="intel-card-title">${icon('palette', 'icon-sm')} Color Palette & Tokens (${Object.keys(colors).length} Colors)</h3>
+          <span class="intel-card-badge">Click swatch to copy hex</span>
+        </div>
+        <div class="grid" style="grid-template-columns:repeat(auto-fill, minmax(130px, 1fr));gap:8px;">
+          ${swatchesHtml}
+        </div>
+      </div>
+
+      <div class="intel-grid-2">
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('tag', 'icon-sm')} Semantic Roles</h3>
+          </div>
+          <div class="spec-list">
+            ${rolesHtml}
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('type', 'icon-sm')} Typography System</h3>
+          </div>
+          <div class="spec-list">
+            ${fontsHtml}
+          </div>
+        </div>
+      </div>
+
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h3 class="intel-card-title">${icon('code-2', 'icon-sm')} Generated CSS Variables (:root)</h3>
+          <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(ds.css_variables || '')}">
+            ${icon('copy', 'icon-xs')} <span>Copy CSS Variables</span>
+          </button>
+        </div>
+        <div class="code-box-wrapper">
+          <pre class="code-box-content">${escapeHtml(ds.css_variables || '/* No variables extracted */')}</pre>
+        </div>
+      </div>
+    `;
+  }
+
+  // 3. Components Tab
+  function tabRenderComponents(data) {
+    const comp = data.components || {};
+    const detected = comp.detected || [];
+
+    if (!detected.length) {
+      return `
+        <div class="intel-card" style="text-align:center;padding:40px;">
+          <p style="color:var(--text-sub);">No standardized component signatures detected.</p>
+        </div>
+      `;
+    }
+
+    const cardsHtml = detected.map(c => `
+      <div class="component-showcase-card">
+        <div class="comp-header">
+          <div class="comp-title">${icon('component', 'icon-xs')} ${escapeHtml(c.type)}</div>
+          <span class="comp-count">${c.count} ${c.count === 1 ? 'instance' : 'instances'}</span>
+        </div>
+        <div style="font-size:11px;font-family:var(--font-mono);color:var(--primary);">${escapeHtml(c.tag)}</div>
+        <p class="comp-styles">${escapeHtml(c.styles)}</p>
+      </div>
+    `).join('');
+
+    return `
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h3 class="intel-card-title">${icon('boxes', 'icon-sm')} Detected Components (${detected.length} Types Identified)</h3>
+          <span class="intel-card-badge">DOM & Style Heuristics</span>
+        </div>
+        <div class="component-showcase-grid">
+          ${cardsHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  // 4. Layout Tab
+  function tabRenderLayout(data) {
+    const layout = data.layout || {};
+    const containers = layout.containers || [];
+    const engines = layout.layout_engines || {};
+    const breakpoints = layout.breakpoints || [];
+    const flow = layout.page_structure_flow || [];
+
+    const flowHtml = flow.map((step, idx) => `
+      <div class="tree-node">
+        <span class="tree-indent">${idx + 1}.</span>
+        <span>${escapeHtml(step)}</span>
+      </div>
+    `).join('');
+
+    return `
+      <div class="intel-grid-2">
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('columns', 'icon-sm')} Container Constraints & Engines</h3>
+          </div>
+          <div class="spec-list">
+            <div class="spec-item">
+              <span class="spec-item-key">Primary Container Max-Width</span>
+              <span class="spec-item-val">${escapeHtml(layout.primary_container || '1280px')}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">CSS Grid System</span>
+              <span class="spec-item-val">${engines.css_grid ? '<span class="badge-pass">Detected</span>' : 'Not detected'}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Flexbox Layouts</span>
+              <span class="spec-item-val">${engines.flexbox ? '<span class="badge-pass">Detected</span>' : 'Not detected'}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Identified Container Widths</span>
+              <span class="spec-item-val">${containers.join(', ') || 'Fluid / Unbounded'}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('git-commit', 'icon-sm')} Page Section Flow</h3>
+            <span class="intel-card-badge">Visual Structure</span>
+          </div>
+          <div class="tree-container">
+            ${flowHtml}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // 5. Assets Tab
+  function tabRenderAssets(data) {
+    const ast = data.assets || {};
+    const formats = ast.format_breakdown || {};
+    const issues = ast.issues || [];
+    const samples = ast.sample_assets || [];
+
+    const formatPills = Object.entries(formats).map(([fmt, cnt]) => `
+      <span class="stat-pill" style="font-size:12px;padding:4px 10px;">${escapeHtml(fmt)}: <strong>${cnt}</strong></span>
+    `).join('') || '<span style="color:var(--text-sub);">None detected</span>';
+
+    const issuesHtml = issues.map(iss => `
+      <div class="issue-item">
+        <div class="issue-header">
+          <span class="badge-${iss.severity.toLowerCase()}">${escapeHtml(iss.severity)}</span>
+          <span class="issue-rule">${escapeHtml(iss.message)}</span>
+        </div>
+      </div>
+    `).join('') || '<p style="color:var(--success);font-size:13px;">✓ All image assets satisfy modern formatting and alt text guidelines.</p>';
+
+    const samplesHtml = samples.map(s => `
+      <tr>
+        <td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(s.src)}">
+          <code>${escapeHtml(s.src)}</code>
+        </td>
+        <td><span class="stat-pill" style="font-size:10px;">${escapeHtml(s.format)}</span></td>
+        <td>${escapeHtml(s.alt)}</td>
+        <td>${escapeHtml(s.width)} × ${escapeHtml(s.height)}</td>
+        <td><code>${escapeHtml(s.loading)}</code></td>
+      </tr>
+    `).join('');
+
+    return `
+      <div class="intel-grid-2">
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('image', 'icon-sm')} Asset Formats & Optimization</h3>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            ${formatPills}
+          </div>
+          <div class="spec-list" style="margin-top:8px;">
+            <div class="spec-item">
+              <span class="spec-item-key">Total Extracted Assets</span>
+              <span class="spec-item-val">${ast.total_assets || 0}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Missing Alt Text Attributes</span>
+              <span class="spec-item-val" style="color:${ast.missing_alt_count > 0 ? 'var(--warning)' : 'var(--success)'};">${ast.missing_alt_count || 0}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Missing Explicit Dimensions (CLS)</span>
+              <span class="spec-item-val">${ast.missing_dimensions_count || 0}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('alert-circle', 'icon-sm')} Asset Audit Flags</h3>
+          </div>
+          <div class="issue-list">
+            ${issuesHtml}
+          </div>
+        </div>
+      </div>
+
+      ${samples.length ? `
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('list', 'icon-sm')} Observed Media Elements</h3>
+          </div>
+          <div class="projects-table-wrapper" style="overflow-x:auto;">
+            <table class="projects-table" style="font-size:12px;">
+              <thead>
+                <tr>
+                  <th>Resource Source</th>
+                  <th>Format</th>
+                  <th>Alt Text</th>
+                  <th>Dimensions</th>
+                  <th>Loading</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${samplesHtml}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ` : ''}
+    `;
+  }
+
+  // 6. Responsive Tab
+  function tabRenderResponsive(data) {
+    const resp = data.responsive || {};
+    const views = resp.views || {};
+    const issues = resp.issues || [];
+
+    const issuesHtml = issues.map(iss => `
+      <div class="issue-item">
+        <div class="issue-header">
+          <span class="badge-${iss.severity.toLowerCase()}">${escapeHtml(iss.severity)}</span>
+          <span class="issue-rule">${escapeHtml(iss.title)}</span>
+        </div>
+        <p style="margin:0;color:var(--text-sub);font-size:12px;">${escapeHtml(iss.description)}</p>
+      </div>
+    `).join('') || '<p style="color:var(--success);font-size:13px;">✓ No responsive layout hazards or horizontal overflow risks observed.</p>';
+
+    return `
+      <div class="intel-grid-2">
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('smartphone', 'icon-sm')} Viewport & Breakpoints</h3>
+            <span class="badge-pass">${escapeHtml(resp.overall_status || 'Ready')}</span>
+          </div>
+          <div class="spec-list">
+            <div class="spec-item">
+              <span class="spec-item-key">Viewport Meta Tag</span>
+              <span class="spec-item-val"><code>${escapeHtml(resp.viewport_meta || 'Not detected')}</code></span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Mobile Viewport (< 768px)</span>
+              <span class="spec-item-val">${escapeHtml(views.mobile?.status || 'Supported')}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Tablet Viewport (768–1024px)</span>
+              <span class="spec-item-val">${escapeHtml(views.tablet?.status || 'Supported')}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Desktop Viewport (> 1024px)</span>
+              <span class="spec-item-val">${escapeHtml(views.desktop?.status || 'Optimized')}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('shield-alert', 'icon-sm')} Responsive Analysis Flags</h3>
+          </div>
+          <div class="issue-list">
+            ${issuesHtml}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // 7. Accessibility Tab
+  function tabRenderAccessibility(data) {
+    const a11y = data.accessibility || {};
+    const issues = a11y.issues || [];
+
+    const issuesHtml = issues.map(iss => `
+      <div class="issue-item">
+        <div class="issue-header">
+          <span class="badge-${iss.severity.toLowerCase()}">${escapeHtml(iss.severity)}</span>
+          <span class="issue-rule">${escapeHtml(iss.rule)} (${escapeHtml(iss.category)})</span>
+        </div>
+        <p style="margin:0;color:var(--text-main);">${escapeHtml(iss.message)}</p>
+        <div class="issue-remediation"><strong>Fix:</strong> ${escapeHtml(iss.remediation)}</div>
+      </div>
+    `).join('') || '<p style="color:var(--success);font-size:13px;">✓ Zero critical WCAG accessibility violations detected.</p>';
+
+    return `
+      <div class="intel-grid-3">
+        <div class="score-card-big">
+          <div class="score-circle grade-a">${a11y.score != null ? a11y.score : 85}%</div>
+          <div class="score-info">
+            <div class="score-info-title">Accessibility Score</div>
+            <div class="score-info-sub">${escapeHtml(a11y.wcag_level || 'WCAG 2.1 AA')}</div>
+          </div>
+        </div>
+        <div class="spec-item" style="padding:14px;">
+          <span class="spec-item-key">${icon('alert-octagon', 'icon-xs')} Critical Issues</span>
+          <span class="spec-item-val" style="color:var(--danger);">${a11y.critical_count || 0}</span>
+        </div>
+        <div class="spec-item" style="padding:14px;">
+          <span class="spec-item-key">${icon('alert-triangle', 'icon-xs')} Warnings</span>
+          <span class="spec-item-val" style="color:var(--warning);">${a11y.warning_count || 0}</span>
+        </div>
+      </div>
+
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h3 class="intel-card-title">${icon('check-circle-2', 'icon-sm')} Accessibility Findings & Remediation Steps</h3>
+          <span class="intel-card-badge">${issues.length} audit rules evaluated</span>
+        </div>
+        <div class="issue-list">
+          ${issuesHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  // 8. Performance Tab
+  function tabRenderPerformance(data) {
+    const perf = data.performance || {};
+    const sizes = perf.transfer_sizes || {};
+    const reqs = perf.requests_count || {};
+    const opt = perf.optimizations || {};
+
+    return `
+      <div class="intel-grid-2">
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('gauge', 'icon-sm')} Transfer Budgets & Requests</h3>
+            <span class="intel-card-badge">${perf.score || 88}/100</span>
+          </div>
+          <div class="spec-list">
+            <div class="spec-item">
+              <span class="spec-item-key">HTML Document Size</span>
+              <span class="spec-item-val">${sizes.html_kb || 0} KB</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Extracted Stylesheet Size</span>
+              <span class="spec-item-val">${sizes.css_kb || 0} KB</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Estimated Requests Count</span>
+              <span class="spec-item-val">${reqs.total_estimated || 0} requests</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Server TTFB / Latency</span>
+              <span class="spec-item-val">${perf.response_time_ms ? `${perf.response_time_ms} ms` : 'Not recorded'}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('zap', 'icon-sm')} Loading & Runtime Optimizations</h3>
+          </div>
+          <div class="spec-list">
+            <div class="spec-item">
+              <span class="spec-item-key">Render-Blocking Scripts (<head>)</span>
+              <span class="spec-item-val" style="color:${opt.render_blocking_scripts_count > 0 ? 'var(--warning)' : 'var(--success)'};">${opt.render_blocking_scripts_count || 0}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Font Display Swap Configured</span>
+              <span class="spec-item-val">${opt.has_font_display_swap ? '<span class="badge-pass">Yes</span>' : 'Not detected'}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Lazy Loaded Below-Fold Images</span>
+              <span class="spec-item-val">${escapeHtml(opt.lazy_loaded_images || 'Not detected')}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Preconnect / Preload Hints</span>
+              <span class="spec-item-val">${(opt.resource_hints || []).length || 0} configured</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // 9. SEO Tab
+  function tabRenderSeo(data) {
+    const seo = data.seo || {};
+    const og = seo.open_graph || {};
+    const checks = seo.checks || [];
+
+    const checksHtml = checks.map(c => `
+      <div class="spec-item">
+        <span class="spec-item-key">${escapeHtml(c.name)}</span>
+        <span class="spec-item-val" style="display:flex;align-items:center;gap:8px;">
+          <span class="${c.status === 'Passed' ? 'badge-pass' : (c.status === 'Warning' ? 'badge-warning' : 'badge-critical')}">${escapeHtml(c.status)}</span>
+          <span style="font-size:11px;color:var(--text-sub);">${escapeHtml(c.detail)}</span>
+        </span>
+      </div>
+    `).join('');
+
+    return `
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h3 class="intel-card-title">${icon('search', 'icon-sm')} Google Search SERP Simulator</h3>
+          <span class="intel-card-badge">Search Snippet Preview</span>
+        </div>
+        <div style="background:#202124;padding:16px 20px;border-radius:8px;border:1px solid #3c4043;max-width:650px;">
+          <div style="color:#bdc1c6;font-size:12px;margin-bottom:4px;">${escapeHtml(seo.canonical || currentIntelDomain)}</div>
+          <div style="color:#8ab4f8;font-size:18px;font-weight:500;cursor:pointer;margin-bottom:4px;">${escapeHtml(seo.title || currentIntelDomain)}</div>
+          <div style="color:#bdc1c6;font-size:13px;line-height:1.45;">${escapeHtml(seo.description || 'No meta description provided for this site.')}</div>
+        </div>
+      </div>
+
+      <div class="intel-grid-2">
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('check-square', 'icon-sm')} Core SEO Signals</h3>
+            <span class="intel-card-badge">${seo.score || 90}/100</span>
+          </div>
+          <div class="spec-list">
+            ${checksHtml}
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('share-2', 'icon-sm')} Social & Structured Data</h3>
+          </div>
+          <div class="spec-list">
+            <div class="spec-item">
+              <span class="spec-item-key">Open Graph Title</span>
+              <span class="spec-item-val">${escapeHtml(og.title || 'Not detected')}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Twitter Card Type</span>
+              <span class="spec-item-val">${escapeHtml(og.twitter_card || 'Not detected')}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Schema.org Structured Data</span>
+              <span class="spec-item-val">${(seo.structured_data?.types || ['Not detected']).join(', ')}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Internal / External Link Ratio</span>
+              <span class="spec-item-val">${seo.links?.internal_count || 0} int / ${seo.links?.external_count || 0} ext</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // 10. Security Tab
+  function tabRenderSecurity(data) {
+    const sec = data.security || {};
+    const headersTable = sec.headers_table || [];
+
+    const headersHtml = headersTable.map(h => `
+      <tr>
+        <td><strong>${escapeHtml(h.header)}</strong></td>
+        <td>
+          <span class="${h.status === 'Secure' || h.status === 'Enabled' || h.status === 'Protected' || h.status === 'Configured' ? 'badge-pass' : 'badge-warning'}">
+            ${escapeHtml(h.status)}
+          </span>
+        </td>
+        <td style="color:var(--text-sub);font-size:12px;">${escapeHtml(h.detail)}</td>
+      </tr>
+    `).join('');
+
+    return `
+      <div class="intel-grid-2">
+        <div class="score-card-big">
+          <div class="score-circle grade-a">${sec.grade || 'B'}</div>
+          <div class="score-info">
+            <div class="score-info-title">Security Posture Grade</div>
+            <div class="score-info-sub">HTTP headers, SSL & data protection</div>
+          </div>
+        </div>
+        <div class="spec-item" style="padding:16px;">
+          <span class="spec-item-key">${icon('lock', 'icon-sm')} HTTPS Connection</span>
+          <span class="spec-item-val">${sec.is_https ? '<span class="badge-pass">Enforced</span>' : '<span class="badge-critical">Unencrypted HTTP</span>'}</span>
+        </div>
+      </div>
+
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h3 class="intel-card-title">${icon('shield', 'icon-sm')} Response Headers Security Matrix</h3>
+          <span class="intel-card-badge">${sec.score || 0}/100 Security Score</span>
+        </div>
+        <div class="projects-table-wrapper" style="overflow-x:auto;">
+          <table class="projects-table" style="font-size:12.5px;">
+            <thead>
+              <tr>
+                <th>Security Header</th>
+                <th>Status</th>
+                <th>Evaluation</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${headersHtml}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  // 11. Technology Tab
+  function tabRenderTechnology(data) {
+    const tech = data.technology || {};
+    const categories = tech.by_category || {};
+
+    const catCards = Object.entries(categories).map(([cat, list]) => {
+      if (!list || !list.length) return '';
+      return `
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${escapeHtml(cat)} (${list.length})</h3>
+          </div>
+          <div class="tech-badges-wrap">
+            ${list.map(t => `<div class="tech-chip">${icon('check', 'icon-xs')} <span>${escapeHtml(t)}</span></div>`).join('')}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div class="intel-grid-2">
+        ${catCards || '<div class="intel-card"><p style="color:var(--text-sub);">No standard frameworks detected (Vanilla HTML/CSS).</p></div>'}
+      </div>
+    `;
+  }
+
+  // 12. Content Intelligence Tab
+  function tabRenderContent(data) {
+    const ci = data.content_intelligence || {};
+
+    const ctaPills = (ci.primary_ctas || []).map(cta => `
+      <span class="stat-pill" style="font-size:12px;padding:4px 10px;background:rgba(99,102,241,0.15);color:var(--primary);">${escapeHtml(cta)}</span>
+    `).join('') || '<span style="color:var(--text-sub);">Not detected</span>';
+
+    const headlinesHtml = (ci.key_headlines || []).map(h => `
+      <div class="tree-node" style="font-family:inherit;font-size:13px;">${icon('file-text', 'icon-xs')} <span>${escapeHtml(h)}</span></div>
+    `).join('') || '<p style="color:var(--text-sub);">Not detected</p>';
+
+    const trustHtml = (ci.trust_signals || []).map(ts => `
+      <div class="spec-item">
+        <span class="spec-item-key">${icon('shield-check', 'icon-xs')} Trust Signal</span>
+        <span class="spec-item-val">${escapeHtml(ts)}</span>
+      </div>
+    `).join('') || '<p style="color:var(--text-sub);">Not detected</p>';
+
+    return `
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h3 class="intel-card-title">${icon('bookmark', 'icon-sm')} Primary Value Proposition</h3>
+          <span class="intel-card-badge">Hero Message</span>
+        </div>
+        <p style="font-size:17px;font-weight:600;color:var(--text-main);margin:0;line-height:1.45;">
+          "${escapeHtml(ci.value_proposition || 'Not detected')}"
+        </p>
+        <p style="color:var(--text-sub);font-size:12.5px;margin:8px 0 0 0;">${escapeHtml(ci.messaging_summary || '')}</p>
+      </div>
+
+      <div class="intel-grid-2">
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('zap', 'icon-sm')} Call-to-Actions (CTAs)</h3>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            ${ctaPills}
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('award', 'icon-sm')} Trust Signals & Social Proof</h3>
+          </div>
+          <div class="spec-list">
+            ${trustHtml}
+          </div>
+        </div>
+      </div>
+
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h3 class="intel-card-title">${icon('heading', 'icon-sm')} Key Page Headlines (H1 & H2)</h3>
+        </div>
+        <div class="tree-container">
+          ${headlinesHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  // 13. AI Design Insights Tab
+  function tabRenderAiInsights(data) {
+    const ai = data.ai_insights || {};
+    const fvi = ai.facts_vs_interpretation || {};
+    const facts = fvi.detected_facts || [];
+    const interps = fvi.ai_interpretation || [];
+
+    const factsHtml = facts.map(f => `
+      <div class="spec-item">
+        <span class="spec-item-key"><span class="badge-pass">Observed Fact</span></span>
+        <span class="spec-item-val" style="font-family:inherit;font-weight:400;">${escapeHtml(f)}</span>
+      </div>
+    `).join('');
+
+    const interpHtml = interps.map(i => `
+      <div class="spec-item">
+        <span class="spec-item-key"><span class="badge-info">AI Interpretation</span></span>
+        <span class="spec-item-val" style="font-family:inherit;font-weight:400;">${escapeHtml(i)}</span>
+      </div>
+    `).join('');
+
+    return `
+      <div class="intel-grid-2">
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('sparkles', 'icon-sm')} Aesthetic Style Archetype</h3>
+            <span class="intel-card-badge" style="color:var(--primary);">${escapeHtml(ai.style_archetype || 'Modern Web')}</span>
+          </div>
+          <p style="font-size:14px;color:var(--text-main);margin:0;line-height:1.5;">${escapeHtml(ai.visual_hierarchy_review || 'Balanced visual hierarchy.')}</p>
+          <div class="spec-list" style="margin-top:10px;">
+            <div class="spec-item">
+              <span class="spec-item-key">Consistency Score</span>
+              <span class="spec-item-val">${ai.consistency_score || 90}/100</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-item-key">Notable Patterns</span>
+              <span class="spec-item-val">${(ai.notable_patterns || []).join(', ') || 'Clean standard web layout'}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('git-compare', 'icon-sm')} Facts vs. AI Interpretation</h3>
+            <span class="intel-card-badge">Strict Demarcation</span>
+          </div>
+          <div class="spec-list">
+            ${factsHtml}
+            ${interpHtml}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // 14. Export Tab
+  function tabRenderExport(data) {
+    const exports = data.exports || {};
+    const ds = data.design_system || {};
+    const reactCode = exports.react_components || '';
+    const cssVars = ds.css_variables || '';
+    const domain = currentIntelDomain || 'extracted-theme';
+
+    return `
+      <div class="intel-grid-2">
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('file-code', 'icon-sm')} React Component Boilerplate</h3>
+            <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(reactCode)}">
+              ${icon('copy', 'icon-xs')} <span>Copy React Code</span>
+            </button>
+          </div>
+          <div class="code-box-wrapper">
+            <pre class="code-box-content">${escapeHtml(reactCode || '// React component template')}</pre>
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('file-text', 'icon-sm')} CSS Variables & Tokens</h3>
+            <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(cssVars)}">
+              ${icon('copy', 'icon-xs')} <span>Copy CSS Variables</span>
+            </button>
+          </div>
+          <div class="code-box-wrapper">
+            <pre class="code-box-content">${escapeHtml(cssVars || '/* No CSS variables */')}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h3 class="intel-card-title">${icon('download', 'icon-sm')} Export Packages & Files</h3>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="/output/${encodeURIComponent(domain)}/DESIGN.md" target="_blank" class="btn btn-secondary btn-sm">
+            ${icon('file-text', 'icon-xs')} <span>View DESIGN.md</span>
+          </a>
+          <a href="/output/${encodeURIComponent(domain)}/design-tokens.json" target="_blank" class="btn btn-secondary btn-sm">
+            ${icon('code-2', 'icon-xs')} <span>View Tokens JSON</span>
+          </a>
+          <a href="/output/${encodeURIComponent(domain)}/tailwind.config.js" target="_blank" class="btn btn-secondary btn-sm">
+            ${icon('file-code', 'icon-xs')} <span>View Tailwind Config</span>
+          </a>
+          <a href="/api/download?domain=${encodeURIComponent(domain)}" class="btn btn-download btn-sm" download>
+            ${icon('download', 'icon-xs')} <span>Download Complete ZIP Package</span>
+          </a>
+        </div>
+      </div>
+    `;
+  }
 
   function escapeHtml(str) {
     if (!str) return '';

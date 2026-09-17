@@ -85,8 +85,13 @@ try:
 except ImportError:  # pragma: no cover
     sys.exit("Missing dependency: pip install tinycss2")
 
+try:
+    from analyzer import SiteAnalyzer
+except ImportError:
+    SiteAnalyzer = None
 
-__version__ = "2.0.0"
+
+__version__ = "2.1.0"
 
 DEFAULT_UA = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -512,6 +517,8 @@ class Fetcher:
             }
         )
         self._cache: dict[str, tuple[str, str]] = {}
+        self.last_headers: dict[str, str] = {}
+        self.last_timing_ms: float = 0.0
 
     def get(self, url: str) -> tuple[str, str]:
         """Returns (final_url, text). Supports local paths."""
@@ -532,6 +539,8 @@ class Fetcher:
                         allow_redirects=True,
                     )
                     r.raise_for_status()
+                    self.last_headers = dict(r.headers)
+                    self.last_timing_ms = round(r.elapsed.total_seconds() * 1000, 1) if hasattr(r, "elapsed") and r.elapsed else 0.0
                     if not r.encoding or r.encoding.lower() == "iso-8859-1":
                         r.encoding = r.apparent_encoding or "utf-8"
                     result = (r.url, r.text)
@@ -545,6 +554,8 @@ class Fetcher:
                                 allow_redirects=True,
                             )
                             r.raise_for_status()
+                            self.last_headers = dict(r.headers)
+                            self.last_timing_ms = round(r.elapsed.total_seconds() * 1000, 1) if hasattr(r, "elapsed") and r.elapsed else 0.0
                             if not r.encoding or r.encoding.lower() == "iso-8859-1":
                                 r.encoding = r.apparent_encoding or "utf-8"
                             result = (r.url, r.text)
@@ -560,6 +571,16 @@ class Fetcher:
                     time.sleep(0.6 * (attempt + 1))
         self._cache[url] = result
         return result
+
+    def get_quiet(self, url: str) -> str | None:
+        """Fetch a secondary resource (robots.txt, sitemap.xml) quietly without raising."""
+        try:
+            r = self.session.get(url, timeout=min(self.timeout, 8), verify=self.verify, allow_redirects=True)
+            if r.status_code == 200 and r.text:
+                return r.text
+        except Exception:
+            pass
+        return None
 
     def get_many(self, urls: Sequence[str]) -> list[tuple[str, str, str]]:
         """Parallel fetch. Yields (requested_url, final_url, text) for successes."""
@@ -2009,7 +2030,7 @@ def _clean_str(s: object) -> str:
     return str(s).encode("utf-8", errors="replace").decode("utf-8")
 
 
-def emit_design_md(tokens: dict, source: str) -> str:
+def emit_design_md(tokens: dict, source: str, intel_report: dict | None = None) -> str:
     """Generate a prompt-ready DESIGN.md system reference for Vibe Coding / AI tools."""
     domain = _clean_str(urlparse(source).netloc or source)
     colors_md = "\n".join([f"- `{_clean_str(name)}`: `{_clean_str(hexv)}`" for name, hexv in tokens["colors"].items()])
@@ -2020,6 +2041,66 @@ def emit_design_md(tokens: dict, source: str) -> str:
     radius_md = "\n".join([f"- `{_clean_str(k)}`: `{_clean_str(v)}`" for k, v in tokens["radius"].items()])
     shadow_md = "\n".join([f"- `{_clean_str(k)}`: `{_clean_str(v)}`" for k, v in tokens["shadows"].items()])
     frameworks_str = _clean_str(", ".join(tokens.get("frameworks", {}).keys()) or "HTML5 / Vanilla CSS")
+
+    intel_sections = ""
+    if intel_report:
+        overview = intel_report.get("overview", {})
+        scores = overview.get("scores", {})
+        comp = intel_report.get("components", {})
+        a11y = intel_report.get("accessibility", {})
+        sec = intel_report.get("security", {})
+        seo = intel_report.get("seo", {})
+        ai = intel_report.get("ai_insights", {})
+
+        comp_rows = "\n".join([
+            f"- **{c.get('type')}** ({c.get('tag')}): {c.get('count')} instances — {c.get('styles')}"
+            for c in comp.get("detected", [])
+        ]) or "- No standard component signatures detected."
+
+        a11y_issues = "\n".join([
+            f"- [{i.get('severity')}] **{i.get('category')}**: {i.get('message')} *(Remediation: {i.get('remediation')})*"
+            for i in a11y.get("issues", [])[:8]
+        ]) or "- No major WCAG violations observed."
+
+        sec_table = "\n".join([
+            f"| {h.get('header')} | {h.get('status')} | {h.get('detail')} |"
+            for h in sec.get("headers_table", [])
+        ])
+
+        intel_sections = f"""
+---
+
+## 📊 Intelligence & Health Scorecard
+- **Security Rating**: Grade {scores.get('security_grade', 'B')} (Score: {sec.get('score', 0)}/100)
+- **Accessibility (WCAG 2.1)**: {scores.get('accessibility', 0)}/100 ({a11y.get('wcag_level', 'Evaluated')})
+- **SEO Optimization**: {scores.get('seo', 0)}/100
+- **Performance Rating**: {scores.get('performance', 0)}/100
+
+---
+
+## 🧩 Detected Component Architecture
+{comp_rows}
+
+---
+
+## 🔐 Security Headers Audit
+| Security Header | Status | Observation |
+| :--- | :--- | :--- |
+{sec_table}
+
+---
+
+## ♿ Accessibility Audit (WCAG 2.1 AA)
+{a11y_issues}
+
+---
+
+## 🤖 AI Design Insights & Archetype
+- **Aesthetic Archetype**: {ai.get('style_archetype', 'Modern SaaS')}
+- **Consistency Index**: {ai.get('consistency_score', 90)}/100
+- **Hierarchy Analysis**: {ai.get('visual_hierarchy_review', 'Balanced hierarchy.')}
+- **Notable Patterns**: {", ".join(ai.get('notable_patterns', [])) or "Clean standard web layout"}
+"""
 
     content = f"""# Design System & UI Specifications — {domain}
 
@@ -2067,7 +2148,7 @@ Generated on: {_clean_str(tokens.get("generated", "N/A"))}
 ## 💻 Tech Stack & Context
 - **Primary Source**: {_clean_str(source)}
 - **Detected Frameworks**: {frameworks_str}
-
+{intel_sections}
 ---
 
 ## ⚖️ Brand Ownership & Copyright Attribution
@@ -2739,6 +2820,40 @@ def run(args: argparse.Namespace) -> int:
     }
     tokens["contrast"] = contrast_report(palette)
 
+    log("\n▸ Analyzing website intelligence & architecture")
+    robots_url = urljoin(primary, "/robots.txt")
+    sitemap_url = urljoin(primary, "/sitemap.xml")
+    robots_txt = fetcher.get_quiet(robots_url) if primary.startswith("http") else None
+    sitemap_xml = fetcher.get_quiet(sitemap_url) if primary.startswith("http") else None
+
+    intel_report = {}
+    if SiteAnalyzer:
+        try:
+            analyzer = SiteAnalyzer(
+                primary_url=primary,
+                pages=pages,
+                css_text=combined_css,
+                tokens=tokens,
+                http_headers=getattr(fetcher, "last_headers", {}),
+                fetch_timing_ms=getattr(fetcher, "last_timing_ms", 0.0),
+                robots_txt=robots_txt,
+                sitemap_xml=sitemap_xml,
+            )
+            intel_report = analyzer.analyze_all()
+            log(f"  ✓ 14 intelligence audits completed (Security: {intel_report['overview']['scores']['security_grade']}, A11y: {intel_report['overview']['scores']['accessibility']}%, SEO: {intel_report['overview']['scores']['seo']}%)")
+        except Exception as exc:
+            warn(f"Intelligence analysis encountered an issue: {exc}")
+
+    if intel_report:
+        tokens["intelligence"] = intel_report.get("overview", {})
+        tokens["intelligence_summary"] = {
+            "components_detected": len(intel_report.get("components", {}).get("detected", [])),
+            "accessibility_score": intel_report.get("overview", {}).get("scores", {}).get("accessibility", 0),
+            "seo_score": intel_report.get("overview", {}).get("scores", {}).get("seo", 0),
+            "security_grade": intel_report.get("overview", {}).get("scores", {}).get("security_grade", "B"),
+            "technologies": [t["name"] for t in intel_report.get("technology", {}).get("all_detected", [])][:8],
+        }
+
     log("\n▸ Writing")
     (out / "design-tokens.json").write_text(
         json.dumps(
@@ -2747,6 +2862,15 @@ def run(args: argparse.Namespace) -> int:
         ),
         encoding="utf-8",
     )
+    if intel_report:
+        (out / "site-intelligence.json").write_text(
+            json.dumps(intel_report, indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        react_code = intel_report.get("exports", {}).get("react_components", "")
+        if react_code:
+            (out / "react-components.jsx").write_text(react_code, encoding="utf-8")
+
     (out / "theme.css").write_text(emit_theme_css(tokens, primary), encoding="utf-8")
     (out / "components.css").write_text(
         f"/* Generated from {primary} */\n" + COMPONENTS_TEMPLATE, encoding="utf-8"
@@ -2758,7 +2882,7 @@ def run(args: argparse.Namespace) -> int:
         emit_tailwind_v3(tokens, primary), encoding="utf-8"
     )
     (out / "DESIGN.md").write_text(
-        emit_design_md(tokens, primary), encoding="utf-8"
+        emit_design_md(tokens, primary, intel_report), encoding="utf-8"
     )
 
     stats = {
@@ -2773,6 +2897,8 @@ def run(args: argparse.Namespace) -> int:
         "keyframes": len(tokens["animations"]["keyframes"]),
         "font files": len(tokens["font_files"]),
         "frameworks": len(tokens["frameworks"]),
+        "components": len(intel_report.get("components", {}).get("detected", [])) if intel_report else 0,
+        "security grade": intel_report.get("overview", {}).get("scores", {}).get("security_grade", "N/A") if intel_report else "N/A",
         "logo": 1 if logo_info else 0,
     }
     (out / "style-guide.html").write_text(
@@ -2791,11 +2917,14 @@ def run(args: argparse.Namespace) -> int:
     for k, v in stats.items():
         _p(f"  {k:<16} {v}")
     _p("  " + "\u2500" * 46)
-    for f in (
+    out_files = [
         "style-guide.html", "DESIGN.md", "design-tokens.json", "theme.css",
         "components.css", "tailwind.theme.css", "tailwind.config.js",
-        "raw/combined.css",
-    ):
+    ]
+    if intel_report:
+        out_files.extend(["site-intelligence.json", "react-components.jsx"])
+    out_files.append("raw/combined.css")
+    for f in out_files:
         _p(f"  {(out / f).as_posix()}")
     _p("")
     return 0

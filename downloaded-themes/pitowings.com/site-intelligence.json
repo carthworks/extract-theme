@@ -1,0 +1,463 @@
+{
+  "overview": {
+    "domain": "pitowings.com",
+    "primary_url": "https://www.pitowings.com",
+    "analyzed_at": "2026-09-17T13:47:45Z",
+    "pages_analyzed": 1,
+    "scores": {
+      "accessibility": 85,
+      "seo": 49,
+      "performance": 95,
+      "security_grade": "F"
+    },
+    "summary": {
+      "components_detected": 0,
+      "assets_count": 0,
+      "technologies_count": 2,
+      "internal_links_count": 1,
+      "design_style": "Developer Tooling / Technical"
+    }
+  },
+  "design_system": {
+    "colors_count": 48,
+    "colors": {
+      "white": "#ffffff",
+      "white-a0": "rgb(255 255 255 / 0.0)",
+      "stone-100-a14": "rgb(225 29 63 / 0.139)",
+      "stone-100": "#ffe0e4",
+      "stone-50": "#fff1f3",
+      "stone-50-a8": "rgb(225 29 63 / 0.076)",
+      "white-a0-2": "rgb(0 0 0 / 0.0)",
+      "rose-200": "#ffc6cf",
+      "rose-600": "#e11d3f",
+      "stone-200-a20": "rgb(225 29 63 / 0.197)",
+      "rose-300": "#ff9aab",
+      "rose-800": "#a50d26",
+      "neutral-100": "#f3e9ea",
+      "rose-400": "#f65a76",
+      "rose-700": "#c8102e",
+      "neutral-950": "#1b1418",
+      "zinc-400": "#a999aa",
+      "red-500": "#fb2c36",
+      "rose-900": "#7a0c1f",
+      "rose-400-2": "#ff6467",
+      "red-600": "#e7000b",
+      "rose-950": "#5c0a17",
+      "stone-950": "#3a2f35",
+      "stone-700": "#6b5b62",
+      "white-a35": "rgb(255 255 255 / 0.35)",
+      "white-a0-3": "rgb(225 29 63 / 0.0)",
+      "white-a70": "rgb(255 255 255 / 0.702)",
+      "neutral-50-a6": "rgb(200 16 46 / 0.059)",
+      "white-a80": "rgb(255 255 255 / 0.8)",
+      "stone-100-2": "#ffe6da",
+      "stone-100-a80": "rgb(255 224 228 / 0.8)",
+      "neutral-50-a50": "rgb(255 241 243 / 0.502)",
+      "neutral-50-a4": "rgb(246 90 118 / 0.043)",
+      "white-a40": "rgb(255 255 255 / 0.4)",
+      "stone-50-a30": "rgb(255 198 207 / 0.302)",
+      "white-a10": "rgb(255 255 255 / 0.102)",
+      "white-a95": "rgb(255 255 255 / 0.949)",
+      "white-a85": "rgb(255 255 255 / 0.851)",
+      "stone-100-a70": "rgb(255 224 228 / 0.702)",
+      "stone-100-a50": "rgb(255 198 207 / 0.502)",
+      "neutral-50-a40": "rgb(255 241 243 / 0.4)",
+      "neutral-50-a60": "rgb(255 241 243 / 0.6)",
+      "neutral-50-a80": "rgb(255 241 243 / 0.8)",
+      "neutral-50-a40-2": "rgb(255 224 228 / 0.4)",
+      "stone-50-a45": "rgb(255 224 228 / 0.451)",
+      "stone-50-a50": "rgb(255 224 228 / 0.502)",
+      "stone-50-a60": "rgb(255 224 228 / 0.6)",
+      "stone-100-a40": "rgb(255 198 207 / 0.4)"
+    },
+    "roles": {
+      "background": "white",
+      "foreground": "neutral-950",
+      "muted-foreground": "stone-950",
+      "primary": "rose-600",
+      "accent": "rose-300",
+      "border": "stone-100",
+      "destructive": "rose-600"
+    },
+    "fonts": {
+      "sans": "\"Poppins\",ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif",
+      "mono": "ui-monospace,SFMono-Regular,\"SF Mono\",Menlo,Consolas,\"Liberation Mono\",\"Courier New\",monospace",
+      "_webfonts": "Poppins"
+    },
+    "font_sizes": {
+      "xs": ".75rem",
+      "sm": ".875rem",
+      "base": "1rem",
+      "lg": "1.125rem",
+      "xl": "1.25rem",
+      "2xl": "1.5rem",
+      "3xl": "1.875rem",
+      "4xl": "2.25rem",
+      "5xl": "3rem",
+      "6xl": "3.75rem",
+      "7xl": "4.5rem"
+    },
+    "font_weights": {
+      "medium": "500",
+      "semibold": "600",
+      "bold": "700",
+      "extrabold": "800",
+      "black": "900"
+    },
+    "spacing": {
+      "0": "0px",
+      "1px": "1px",
+      "2_56px": "2.56px",
+      "3px": "3px",
+      "1": "4px",
+      "4_48px": "4.48px",
+      "4_8px": "4.8px",
+      "8_8px": "8.8px",
+      "9_6px": "9.6px",
+      "14_4px": "14.4px",
+      "17_6px": "17.6px",
+      "5": "20px",
+      "23_2px": "23.2px",
+      "27px": "27px",
+      "7": "28px",
+      "50_4px": "50.4px",
+      "13": "52px",
+      "62_4px": "62.4px",
+      "70_4px": "70.4px"
+    },
+    "radius": {
+      "none": "0",
+      "DEFAULT": ".25rem",
+      "lg": ".5rem",
+      "xl": ".75rem",
+      "2xl": "1rem",
+      "3xl": "1.5rem"
+    },
+    "shadows": {
+      "xs": "0 0 #0000,0 0 #0000,0 0 #0000,initial 0 0 0 calc(4px + 0px) oklch(93.6% .032 17.717),0 8px 24px -16px initial",
+      "sm": "0 20px 50px -28px #1b141859",
+      "DEFAULT": "0 22px 60px -22px #c8102e73"
+    },
+    "gradients": [
+      "linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%)",
+      "linear-gradient(140deg, rgba(225,29,63,0.139), rgba(255,255,255,0))",
+      "linear-gradient(140deg, rgba(225,29,63,0.076), rgba(255,255,255,0))",
+      "linear-gradient(140deg, rgba(225,29,63,0.103), rgba(255,255,255,0))",
+      "linear-gradient(140deg, rgba(225,29,63,0.181), rgba(255,255,255,0))",
+      "linear-gradient(140deg, rgba(225,29,63,0.117), rgba(255,255,255,0))",
+      "radial-gradient(circle at 50% 50%, #ffe3e8, transparent 68%)",
+      "radial-gradient(circle at 50% 50%, #f3e9ea, transparent 68%)",
+      "radial-gradient(circle at 50% 50%, #ffd8de, transparent 68%)",
+      "radial-gradient(circle at 50% 50%, #eee5e2, transparent 68%)",
+      "radial-gradient(circle at 50% 50%, #ffe9ec, transparent 68%)",
+      "radial-gradient(circle, rgba(225,29,63,0.085) 0%, rgba(246,90,118,0.0425) 38%, rgba(225,29,63,0) 70%)",
+      "radial-gradient(circle, rgba(225,29,63,0.16) 0%, rgba(225,29,63,0.07) 45%, rgba(225,29,63,0) 72%)",
+      "linear-gradient(140deg, rgba(225,29,63,0.197), rgba(255,255,255,0))",
+      "linear-gradient(140deg, rgba(225,29,63,0.059), rgba(255,255,255,0))",
+      "linear-gradient(140deg, rgba(225,29,63,0.110), rgba(255,255,255,0))"
+    ],
+    "css_variables": ":root {\n  --color-background: #ffffff;\n  --color-foreground: #1b1418;\n  --color-muted-foreground: #3a2f35;\n  --color-primary: #e11d3f;\n  --color-accent: #ff9aab;\n  --color-border: #ffe0e4;\n  --color-destructive: #e11d3f;\n  --white: #ffffff;\n  --white-a0: rgb(255 255 255 / 0.0);\n  --stone-100-a14: rgb(225 29 63 / 0.139);\n  --stone-100: #ffe0e4;\n  --stone-50: #fff1f3;\n  --stone-50-a8: rgb(225 29 63 / 0.076);\n  --white-a0-2: rgb(0 0 0 / 0.0);\n  --rose-200: #ffc6cf;\n  --rose-600: #e11d3f;\n  --stone-200-a20: rgb(225 29 63 / 0.197);\n  --rose-300: #ff9aab;\n  --rose-800: #a50d26;\n  --neutral-100: #f3e9ea;\n  --rose-400: #f65a76;\n  --rose-700: #c8102e;\n  --neutral-950: #1b1418;\n  --zinc-400: #a999aa;\n  --red-500: #fb2c36;\n  --rose-900: #7a0c1f;\n  --rose-400-2: #ff6467;\n  --font-sans: \"Poppins\",ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif;\n  --font-mono: ui-monospace,SFMono-Regular,\"SF Mono\",Menlo,Consolas,\"Liberation Mono\",\"Courier New\",monospace;\n  --radius-none: 0;\n  --radius-DEFAULT: .25rem;\n  --radius-lg: .5rem;\n  --radius-xl: .75rem;\n  --radius-2xl: 1rem;\n  --radius-3xl: 1.5rem;\n  --space-0: 0px;\n  --space-1px: 1px;\n  --space-2_56px: 2.56px;\n  --space-3px: 3px;\n  --space-1: 4px;\n  --space-4_48px: 4.48px;\n  --space-4_8px: 4.8px;\n  --space-8_8px: 8.8px;\n  --space-9_6px: 9.6px;\n  --space-14_4px: 14.4px;\n  --space-17_6px: 17.6px;\n  --space-5: 20px;\n}"
+  },
+  "components": {
+    "detected": [],
+    "total_types": 0
+  },
+  "layout": {
+    "containers": [
+      "1280px (Standard)",
+      "1024px (Compact)"
+    ],
+    "primary_container": "1280px",
+    "layout_engines": {
+      "css_grid": false,
+      "flexbox": false
+    },
+    "breakpoints": [
+      "sm: 640px",
+      "md: 768px",
+      "lg: 1024px",
+      "xl: 1280px",
+      "2xl: 1536px"
+    ],
+    "spacing_conventions": {
+      "section_padding_y": "48px – 96px (Standard)",
+      "column_gap": "16px – 32px",
+      "container_padding_x": "16px – 24px"
+    },
+    "page_structure_flow": [
+      "<header>",
+      "<main>",
+      "<section>",
+      "<footer>"
+    ]
+  },
+  "assets": {
+    "total_assets": 0,
+    "images_count": 0,
+    "svgs_count": 0,
+    "picture_sources_count": 0,
+    "format_breakdown": {},
+    "missing_alt_count": 0,
+    "missing_dimensions_count": 0,
+    "sample_assets": [],
+    "issues": []
+  },
+  "responsive": {
+    "viewport_meta": "Not detected",
+    "has_viewport_tag": false,
+    "breakpoints": {
+      "sm": "640px",
+      "md": "768px",
+      "lg": "1024px",
+      "xl": "1280px",
+      "2xl": "1536px"
+    },
+    "views": {
+      "mobile": {
+        "width": "< 768px",
+        "status": "Supported"
+      },
+      "tablet": {
+        "width": "768px – 1024px",
+        "status": "Supported"
+      },
+      "desktop": {
+        "width": "> 1024px",
+        "status": "Optimized"
+      }
+    },
+    "issues": [
+      {
+        "severity": "Critical",
+        "title": "Missing Viewport Meta Tag",
+        "description": "No <meta name='viewport'> tag detected. Mobile browsers will render at desktop scale (980px)."
+      }
+    ],
+    "overall_status": "Action Required"
+  },
+  "accessibility": {
+    "score": 85,
+    "grade": "B",
+    "wcag_level": "AA Compliant",
+    "issues_count": 2,
+    "critical_count": 0,
+    "warning_count": 2,
+    "info_count": 0,
+    "issues": [
+      {
+        "severity": "Warning",
+        "category": "Document Structure",
+        "rule": "WCAG 1.3.1 Info and Relationships",
+        "message": "Page has no <h1> heading tag.",
+        "remediation": "Include a single <h1> heading describing the page purpose."
+      },
+      {
+        "severity": "Warning",
+        "category": "Language",
+        "rule": "WCAG 3.1.1 Language of Page",
+        "message": "<html lang='...'> attribute is missing.",
+        "remediation": "Add lang='en' (or respective language code) to the root <html> tag."
+      }
+    ]
+  },
+  "performance": {
+    "score": 95,
+    "response_time_ms": 0.0,
+    "transfer_sizes": {
+      "html_kb": 0.0,
+      "css_kb": 0.0,
+      "total_text_kb": 0.0
+    },
+    "requests_count": {
+      "html_documents": 1,
+      "stylesheets": 0,
+      "scripts": 0,
+      "images": 0,
+      "fonts": 6,
+      "total_estimated": 7
+    },
+    "optimizations": {
+      "render_blocking_scripts_count": 0,
+      "render_blocking_scripts": [],
+      "resource_hints": [],
+      "has_font_display_swap": false,
+      "lazy_loaded_images": "0 of 0"
+    }
+  },
+  "seo": {
+    "score": 49,
+    "title": "Not detected",
+    "description": "Not detected",
+    "canonical": "Not detected",
+    "open_graph": {
+      "title": "Not detected",
+      "description": "Not detected",
+      "image": "Not detected",
+      "twitter_card": "Not detected"
+    },
+    "structured_data": {
+      "detected": false,
+      "types": [
+        "Not detected"
+      ]
+    },
+    "links": {
+      "internal_count": 0,
+      "external_count": 0,
+      "total": 0
+    },
+    "headings_outline": [],
+    "checks": [
+      {
+        "name": "Page Title Tag",
+        "status": "Failed",
+        "detail": "Missing <title> tag"
+      },
+      {
+        "name": "Meta Description",
+        "status": "Failed",
+        "detail": "Missing meta description"
+      },
+      {
+        "name": "Canonical Link",
+        "status": "Warning",
+        "detail": "Not specified"
+      },
+      {
+        "name": "Open Graph (Social Sharing)",
+        "status": "Warning",
+        "detail": "Incomplete OG tags"
+      },
+      {
+        "name": "robots.txt",
+        "status": "Not detected",
+        "detail": "No robots.txt found"
+      },
+      {
+        "name": "sitemap.xml",
+        "status": "Not detected",
+        "detail": "No sitemap.xml detected"
+      }
+    ]
+  },
+  "security": {
+    "score": 25,
+    "grade": "F",
+    "is_https": true,
+    "headers_table": [
+      {
+        "header": "HTTPS Protocol",
+        "status": "Secure",
+        "detail": "Connection is encrypted using TLS"
+      },
+      {
+        "header": "Strict-Transport-Security (HSTS)",
+        "status": "Not detected",
+        "detail": "Vulnerable to SSL stripping attacks"
+      },
+      {
+        "header": "Content-Security-Policy (CSP)",
+        "status": "Not detected",
+        "detail": "Missing restriction against XSS and injection"
+      },
+      {
+        "header": "X-Frame-Options",
+        "status": "Not detected",
+        "detail": "May be vulnerable to clickjacking if not controlled by CSP"
+      },
+      {
+        "header": "X-Content-Type-Options",
+        "status": "Not detected",
+        "detail": "MIME sniffing prevention not explicitly enabled"
+      },
+      {
+        "header": "Referrer-Policy",
+        "status": "Not detected",
+        "detail": "Browser default referrer rules apply"
+      }
+    ]
+  },
+  "technology": {
+    "all_detected": [
+      {
+        "name": "Next.Js",
+        "category": "Framework"
+      },
+      {
+        "name": "Tailwind Css",
+        "category": "Framework"
+      }
+    ],
+    "count": 2,
+    "by_category": {
+      "Frameworks": [
+        "Next.Js",
+        "Tailwind Css"
+      ],
+      "CSS & UI": [],
+      "CMS & Builders": [],
+      "Analytics": [],
+      "Hosting & CDN": [],
+      "Font Providers": []
+    }
+  },
+  "site_structure": {
+    "crawled_count": 1,
+    "internal_pages": [
+      {
+        "url": "https://www.pitowings.com",
+        "path": "/",
+        "status": 200
+      }
+    ],
+    "tree_structure": [
+      {
+        "path": "/",
+        "name": "Homepage (Root)",
+        "depth": 0
+      }
+    ],
+    "external_domains_count": 0,
+    "sample_external_domains": []
+  },
+  "content_intelligence": {
+    "value_proposition": "Not detected",
+    "key_headlines": [],
+    "primary_ctas": [
+      "Not detected"
+    ],
+    "trust_signals": [
+      "Not detected"
+    ],
+    "pricing_signals": [
+      "Not detected"
+    ],
+    "messaging_summary": "Standard web application presentation."
+  },
+  "ai_insights": {
+    "style_archetype": "Developer Tooling / Technical",
+    "consistency_score": 82,
+    "visual_hierarchy_review": "Strong contrast between primary actions and body surfaces; typography scale creates a clear reading hierarchy.",
+    "notable_patterns": [
+      "CSS Grid multi-column bento layouts",
+      "Soft layered elevation shadows",
+      "Chromatic ambient gradients"
+    ],
+    "facts_vs_interpretation": {
+      "detected_facts": [
+        "48 distinct color values extracted from stylesheets",
+        "3 font families detected (sans, mono, _webfonts)",
+        "0 UI component patterns identified",
+        "HTTP security rating graded at F"
+      ],
+      "ai_interpretation": [
+        "Aesthetic categorised as 'Developer Tooling / Technical' based on font selection and corner radius hierarchy.",
+        "Design system emphasizes high-velocity conversion with focused call-to-action color weighting.",
+        "Layout structure indicates a mobile-responsive viewport strategy with standard desktop containers."
+      ]
+    }
+  },
+  "exports": {
+    "react_components": "// Generated React Components for pitowings.com\n// Built with tokens extracted by ExtractTheme Studio\n\nimport React from 'react';\n\nexport function Button({ children, variant = 'primary', className = '', ...props }) {\n  const baseStyle = {\n    padding: '10px 20px',\n    borderRadius: '8px',\n    fontWeight: 600,\n    fontSize: '14px',\n    cursor: 'pointer',\n    border: 'none',\n    transition: 'all 0.15s ease-in-out',\n    display: 'inline-flex',\n    alignItems: 'center',\n    justifyContent: 'center',\n    gap: '8px',\n  };\n\n  const variants = {\n    primary: {\n      backgroundColor: 'var(--color-primary, #ffffff)',\n      color: '#ffffff',\n    },\n    secondary: {\n      backgroundColor: 'transparent',\n      border: '1px solid rgba(128, 128, 128, 0.3)',\n      color: 'inherit',\n    },\n  };\n\n  return (\n    <button style={{ ...baseStyle, ...variants[variant] }} className={className} {...props}>\n      {children}\n    </button>\n  );\n}\n\nexport function Card({ title, subtitle, children, className = '' }) {\n  return (\n    <div\n      style={{\n        padding: '24px',\n        borderRadius: '12px',\n        border: '1px solid rgba(128, 128, 128, 0.2)',\n        backgroundColor: 'var(--color-surface, rgba(255, 255, 255, 0.03))',\n        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',\n      }}\n      className={className}\n    >\n      {title && <h3 style={{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: 600 }}>{title}</h3>}\n      {subtitle && <p style={{ margin: '0 0 16px 0', opacity: 0.7, fontSize: '14px' }}>{subtitle}</p>}\n      {children}\n    </div>\n  );\n}\n\nexport function Hero({ headline, description, ctaText = 'Get Started', onCtaClick }) {\n  return (\n    <section style={{ padding: '64px 24px', textAlign: 'center', maxWidth: '960px', margin: '0 auto' }}>\n      <h1 style={{ fontSize: '42px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px' }}>\n        {headline}\n      </h1>\n      <p style={{ fontSize: '18px', opacity: 0.8, maxWidth: '640px', margin: '0 auto 28px' }}>\n        {description}\n      </p>\n      <Button variant=\"primary\" onClick={onCtaClick}>{ctaText}</Button>\n    </section>\n  );\n}\n"
+  }
+}

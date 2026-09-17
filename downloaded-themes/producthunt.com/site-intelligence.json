@@ -1,0 +1,573 @@
+{
+  "overview": {
+    "domain": "producthunt.com",
+    "primary_url": "https://producthunt.com",
+    "analyzed_at": "2026-09-17T13:57:29Z",
+    "pages_analyzed": 1,
+    "scores": {
+      "accessibility": 100,
+      "seo": 96,
+      "performance": 82,
+      "security_grade": "B"
+    },
+    "summary": {
+      "components_detected": 6,
+      "assets_count": 351,
+      "technologies_count": 5,
+      "internal_links_count": 1,
+      "design_style": "Modern SaaS / Product"
+    }
+  },
+  "design_system": {
+    "colors_count": 0,
+    "colors": {},
+    "roles": {},
+    "fonts": {},
+    "font_sizes": {},
+    "font_weights": {},
+    "spacing": {},
+    "radius": {},
+    "shadows": {},
+    "gradients": [],
+    "css_variables": ":root {\n}"
+  },
+  "components": {
+    "detected": [
+      {
+        "type": "Navbar / Header",
+        "tag": "nav/header",
+        "count": 2,
+        "items_count": 16,
+        "has_logo": true,
+        "sticky": false,
+        "styles": "Horizontal flex/grid navigation bar with logo and menu links"
+      },
+      {
+        "type": "Hero Section",
+        "tag": "section/div.hero",
+        "count": 1,
+        "headline": "Not detected",
+        "has_cta": false,
+        "styles": "High-impact visual banner with primary title and primary call to action"
+      },
+      {
+        "type": "Buttons",
+        "tag": "button / a.btn",
+        "count": 126,
+        "sample_labels": [
+          "Sign in",
+          "111",
+          "357",
+          "69",
+          "184"
+        ],
+        "styles": "Rounded interactive click targets with hover states and micro-interactions"
+      },
+      {
+        "type": "Cards / Tiles",
+        "tag": "div.card / article",
+        "count": 9,
+        "styles": "Content surfaces with border-radius, elevation shadows, and structured padding"
+      },
+      {
+        "type": "Forms & Inputs",
+        "tag": "form / input",
+        "count": 0,
+        "inputs_count": 1,
+        "has_search": true,
+        "styles": "Input fields with custom borders, active focus ring, and placeholder text"
+      },
+      {
+        "type": "Footer",
+        "tag": "footer",
+        "count": 1,
+        "links_count": 76,
+        "styles": "Multi-column link lists with copyright attribution and legal policies"
+      }
+    ],
+    "total_types": 6
+  },
+  "layout": {
+    "containers": [
+      "1280px (Standard)",
+      "1024px (Compact)"
+    ],
+    "primary_container": "1280px",
+    "layout_engines": {
+      "css_grid": false,
+      "flexbox": false
+    },
+    "breakpoints": [
+      "640px",
+      "768px",
+      "1024px",
+      "1280px"
+    ],
+    "spacing_conventions": {
+      "section_padding_y": "48px – 96px (Standard)",
+      "column_gap": "16px – 32px",
+      "container_padding_x": "16px – 24px"
+    },
+    "page_structure_flow": [
+      "<header> .fixed",
+      "<nav>",
+      "<main> .flex-1",
+      "<section> .group",
+      "<article>",
+      "<aside> .w-full",
+      "<footer> .bg-gray-900"
+    ]
+  },
+  "assets": {
+    "total_assets": 351,
+    "images_count": 108,
+    "svgs_count": 243,
+    "picture_sources_count": 0,
+    "format_breakdown": {
+      "PNG": 42,
+      "PNG/JPG": 52,
+      "SVG": 2,
+      "GIF": 5,
+      "JPEG": 7
+    },
+    "missing_alt_count": 0,
+    "missing_dimensions_count": 53,
+    "sample_assets": [
+      {
+        "src": "https://ph-files.imgix.net/7a587f47-8a8d-4737-a953-0a2fd60ecfe5.png?auto=compress,format&codec=mozjpeg&cs=strip&fit=crop",
+        "alt": "CREEM 2.0",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "PNG",
+        "loading": "lazy"
+      },
+      {
+        "src": "/i/c2f9a65c386e65e30040805122f337709fbc475ec0310ef5804ec70a8720d453",
+        "alt": "Promoted",
+        "width": "1",
+        "height": "1",
+        "format": "PNG/JPG",
+        "loading": "eager"
+      },
+      {
+        "src": "https://ph-files.imgix.net/49381b04-9230-4a52-895b-60b5ba169bdd.svg?auto=compress,format&codec=mozjpeg&cs=strip&fit=crop",
+        "alt": "Bitrise Remote Dev Environments",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "lazy"
+      },
+      {
+        "src": "/i/c2f9a65c386e65e30040805122f337709fbc475ec0310ef5804ec70a8720d453",
+        "alt": "Promoted",
+        "width": "1",
+        "height": "1",
+        "format": "PNG/JPG",
+        "loading": "eager"
+      },
+      {
+        "src": "https://ph-files.imgix.net/ff43a69d-54f3-4d2a-82b6-3a07bcd4880e.png?auto=compress,format&codec=mozjpeg&cs=strip&fit=crop",
+        "alt": "Text Agent Store",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "PNG",
+        "loading": "lazy"
+      },
+      {
+        "src": "/i/c2f9a65c386e65e30040805122f337709fbc475ec0310ef5804ec70a8720d453",
+        "alt": "Promoted",
+        "width": "1",
+        "height": "1",
+        "format": "PNG/JPG",
+        "loading": "eager"
+      },
+      {
+        "src": "https://ph-files.imgix.net/e3a68492-00e8-4d49-9630-226a2cf71e3e.gif?auto=compress&codec=mozjpeg&cs=strip&dpr=2&fit=max&f",
+        "alt": "NovaSynth by Noveum",
+        "width": "48",
+        "height": "48",
+        "format": "GIF",
+        "loading": "eager"
+      },
+      {
+        "src": "/i/c2f9a65c386e65e30040805122f337709fbc475ec0310ef5804ec70a8720d453",
+        "alt": "Promoted",
+        "width": "1",
+        "height": "1",
+        "format": "PNG/JPG",
+        "loading": "eager"
+      },
+      {
+        "src": "https://ph-files.imgix.net/61eb35fa-d15e-408a-b771-c8e5d15fd2b9.png?auto=compress,format&codec=mozjpeg&cs=strip&fit=max&",
+        "alt": "Tines ",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "PNG",
+        "loading": "eager"
+      },
+      {
+        "src": "https://ph-files.imgix.net/369c8705-67c7-49ce-bd5f-fd5e25885775.gif?auto=compress&codec=mozjpeg&cs=strip&dpr=2&fit=max&f",
+        "alt": "Modaal for Android",
+        "width": "48",
+        "height": "48",
+        "format": "GIF",
+        "loading": "eager"
+      },
+      {
+        "src": "/i/c2f9a65c386e65e30040805122f337709fbc475ec0310ef5804ec70a8720d453",
+        "alt": "Promoted",
+        "width": "1",
+        "height": "1",
+        "format": "PNG/JPG",
+        "loading": "eager"
+      },
+      {
+        "src": "https://ph-files.imgix.net/27db3231-1016-408c-9092-6b9fa68d8492.vnd.microsoft.icon?auto=compress,format&codec=mozjpeg&cs",
+        "alt": "Higgsfield API",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "PNG/JPG",
+        "loading": "lazy"
+      }
+    ],
+    "issues": [
+      {
+        "severity": "Info",
+        "message": "53 image(s) missing explicit width/height attributes (may cause Cumulative Layout Shift)."
+      },
+      {
+        "severity": "Info",
+        "message": "Multiple legacy PNG/JPEG assets detected. Modern WebP or AVIF could reduce bandwidth by 30-50%."
+      }
+    ]
+  },
+  "responsive": {
+    "viewport_meta": "width=device-width, initial-scale=1, minimum-scale=1",
+    "has_viewport_tag": true,
+    "breakpoints": [
+      "640px",
+      "768px",
+      "1024px",
+      "1280px"
+    ],
+    "views": {
+      "mobile": {
+        "width": "< 768px",
+        "status": "Supported"
+      },
+      "tablet": {
+        "width": "768px – 1024px",
+        "status": "Supported"
+      },
+      "desktop": {
+        "width": "> 1024px",
+        "status": "Optimized"
+      }
+    },
+    "issues": [],
+    "overall_status": "Responsive Ready"
+  },
+  "accessibility": {
+    "score": 100,
+    "grade": "A",
+    "wcag_level": "AA Compliant",
+    "issues_count": 0,
+    "critical_count": 0,
+    "warning_count": 0,
+    "info_count": 0,
+    "issues": []
+  },
+  "performance": {
+    "score": 82,
+    "response_time_ms": 416.4,
+    "transfer_sizes": {
+      "html_kb": 1387.9,
+      "css_kb": 0.0,
+      "total_text_kb": 1387.9
+    },
+    "requests_count": {
+      "html_documents": 1,
+      "stylesheets": 6,
+      "scripts": 59,
+      "images": 108,
+      "fonts": 0,
+      "total_estimated": 174
+    },
+    "optimizations": {
+      "render_blocking_scripts_count": 45,
+      "render_blocking_scripts": [
+        "/_next/static/chunks/1s_jhcbz2831p.js",
+        "/_next/static/chunks/1zzagxg_fwjx_.js",
+        "/_next/static/chunks/0m9fp5-uv_0dr.js",
+        "/_next/static/chunks/0kighaes01azo.js",
+        "/_next/static/chunks/3ttu4movc8ja6.js"
+      ],
+      "resource_hints": [
+        "preload: /i/c2f9a65c386e65e30040805122f337709fbc475ec0310ef5804ec70a8",
+        "preload: https://ph-files.imgix.net/e3a68492-00e8-4d49-9630-226a2cf71",
+        "preload: ",
+        "preload: https://ph-files.imgix.net/369c8705-67c7-49ce-bd5f-fd5e25885",
+        "preload: /i/390b18a09251a8fc276d6845ed8c07a43724854fa869c9bb91d66e4f4",
+        "preload: https://ph-files.imgix.net/d8f4eeb7-b351-4cd4-8a98-0e68afe73"
+      ],
+      "has_font_display_swap": false,
+      "lazy_loaded_images": "51 of 108"
+    }
+  },
+  "seo": {
+    "score": 96,
+    "title": "Product Hunt – The best new products in tech.",
+    "description": "Product Hunt is a curation of the best new products, every day. Discover the latest mobile apps, websites, and technology products that everyone's talking about.",
+    "canonical": "https://www.producthunt.com",
+    "open_graph": {
+      "title": "Product Hunt – The best new products in tech.",
+      "description": "Product Hunt is a curation of the best new products, every day. Discover the latest mobile apps, websites, and technology products that everyone's talking about.",
+      "image": "https://ph-static.imgix.net/ph-logo-1.png?auto=format",
+      "twitter_card": "summary_large_image"
+    },
+    "structured_data": {
+      "detected": true,
+      "types": [
+        "WebPage",
+        "WebSite",
+        "Organization",
+        "SearchAction"
+      ]
+    },
+    "links": {
+      "internal_count": 297,
+      "external_count": 3,
+      "total": 300
+    },
+    "headings_outline": [
+      {
+        "level": "H1",
+        "text": "Top Products Launching Today"
+      },
+      {
+        "level": "H2",
+        "text": "Yesterday's Top Products"
+      },
+      {
+        "level": "H2",
+        "text": "Last Week's Top Products"
+      },
+      {
+        "level": "H2",
+        "text": "Last Month's Top Products"
+      },
+      {
+        "level": "H3",
+        "text": "Engineering & Development"
+      },
+      {
+        "level": "H3",
+        "text": "LLMs"
+      },
+      {
+        "level": "H3",
+        "text": "Productivity"
+      },
+      {
+        "level": "H3",
+        "text": "Marketing & Sales"
+      },
+      {
+        "level": "H3",
+        "text": "Design & Creative"
+      },
+      {
+        "level": "H3",
+        "text": "Social & Community"
+      },
+      {
+        "level": "H3",
+        "text": "Finance"
+      },
+      {
+        "level": "H3",
+        "text": "AI Agents"
+      }
+    ],
+    "checks": [
+      {
+        "name": "Page Title Tag",
+        "status": "Passed",
+        "detail": "45 chars"
+      },
+      {
+        "name": "Meta Description",
+        "status": "Passed",
+        "detail": "161 chars"
+      },
+      {
+        "name": "Canonical Link",
+        "status": "Passed",
+        "detail": "https://www.producthunt.com"
+      },
+      {
+        "name": "Open Graph (Social Sharing)",
+        "status": "Passed",
+        "detail": "Title and image configured"
+      },
+      {
+        "name": "robots.txt",
+        "status": "Not detected",
+        "detail": "No robots.txt found"
+      },
+      {
+        "name": "sitemap.xml",
+        "status": "Not detected",
+        "detail": "No sitemap.xml detected"
+      }
+    ]
+  },
+  "security": {
+    "score": 70,
+    "grade": "B",
+    "is_https": true,
+    "headers_table": [
+      {
+        "header": "HTTPS Protocol",
+        "status": "Secure",
+        "detail": "Connection is encrypted using TLS"
+      },
+      {
+        "header": "Strict-Transport-Security (HSTS)",
+        "status": "Enabled",
+        "detail": "max-age=2592000; includeSubDomains; preload"
+      },
+      {
+        "header": "Content-Security-Policy (CSP)",
+        "status": "Not detected",
+        "detail": "Missing restriction against XSS and injection"
+      },
+      {
+        "header": "X-Frame-Options",
+        "status": "Protected",
+        "detail": "SAMEORIGIN"
+      },
+      {
+        "header": "X-Content-Type-Options",
+        "status": "Protected",
+        "detail": "nosniff"
+      },
+      {
+        "header": "Referrer-Policy",
+        "status": "Not detected",
+        "detail": "Browser default referrer rules apply"
+      }
+    ]
+  },
+  "technology": {
+    "all_detected": [
+      {
+        "name": "React",
+        "category": "Framework"
+      },
+      {
+        "name": "Next.js",
+        "category": "Framework"
+      },
+      {
+        "name": "Framer",
+        "category": "CMS / Builder"
+      },
+      {
+        "name": "Google Analytics 4 (GA4)",
+        "category": "Analytics"
+      },
+      {
+        "name": "Cloudflare",
+        "category": "CDN / Security"
+      }
+    ],
+    "count": 5,
+    "by_category": {
+      "Frameworks": [
+        "React",
+        "Next.js"
+      ],
+      "CSS & UI": [],
+      "CMS & Builders": [
+        "Framer"
+      ],
+      "Analytics": [
+        "Google Analytics 4 (GA4)"
+      ],
+      "Hosting & CDN": [
+        "Cloudflare"
+      ],
+      "Font Providers": []
+    }
+  },
+  "site_structure": {
+    "crawled_count": 1,
+    "internal_pages": [
+      {
+        "url": "https://producthunt.com",
+        "path": "/",
+        "status": 200
+      }
+    ],
+    "tree_structure": [
+      {
+        "path": "/",
+        "name": "Homepage (Root)",
+        "depth": 0
+      }
+    ],
+    "external_domains_count": 4,
+    "sample_external_domains": [
+      "x.com",
+      "lu.ma",
+      "help.producthunt.com",
+      "linkedin.com"
+    ]
+  },
+  "content_intelligence": {
+    "value_proposition": "Top Products Launching Today",
+    "key_headlines": [
+      "Top Products Launching Today",
+      "Yesterday's Top Products",
+      "Last Week's Top Products",
+      "Last Month's Top Products"
+    ],
+    "primary_ctas": [
+      "Not detected"
+    ],
+    "trust_signals": [
+      "12k in Vercel Startup Perks a",
+      "2B lists by chatting to your",
+      "2B brand going viral"
+    ],
+    "pricing_signals": [
+      "$12"
+    ],
+    "messaging_summary": "Targeted online platform for producthunt.com, emphasizing 'Top Products Launching Today'."
+  },
+  "ai_insights": {
+    "style_archetype": "Modern SaaS / Product",
+    "consistency_score": 92,
+    "visual_hierarchy_review": "Strong contrast between primary actions and body surfaces; typography scale creates a clear reading hierarchy.",
+    "notable_patterns": [
+      "CSS Grid multi-column bento layouts"
+    ],
+    "facts_vs_interpretation": {
+      "detected_facts": [
+        "0 distinct color values extracted from stylesheets",
+        "0 font families detected ()",
+        "6 UI component patterns identified",
+        "HTTP security rating graded at B"
+      ],
+      "ai_interpretation": [
+        "Aesthetic categorised as 'Modern SaaS / Product' based on font selection and corner radius hierarchy.",
+        "Design system emphasizes high-velocity conversion with focused call-to-action color weighting.",
+        "Layout structure indicates a mobile-responsive viewport strategy with standard desktop containers."
+      ]
+    }
+  },
+  "exports": {
+    "react_components": "// Generated React Components for producthunt.com\n// Built with tokens extracted by ExtractTheme Studio\n\nimport React from 'react';\n\nexport function Button({ children, variant = 'primary', className = '', ...props }) {\n  const baseStyle = {\n    padding: '10px 20px',\n    borderRadius: '8px',\n    fontWeight: 600,\n    fontSize: '14px',\n    cursor: 'pointer',\n    border: 'none',\n    transition: 'all 0.15s ease-in-out',\n    display: 'inline-flex',\n    alignItems: 'center',\n    justifyContent: 'center',\n    gap: '8px',\n  };\n\n  const variants = {\n    primary: {\n      backgroundColor: 'var(--color-primary, #4f46e5)',\n      color: '#ffffff',\n    },\n    secondary: {\n      backgroundColor: 'transparent',\n      border: '1px solid rgba(128, 128, 128, 0.3)',\n      color: 'inherit',\n    },\n  };\n\n  return (\n    <button style={{ ...baseStyle, ...variants[variant] }} className={className} {...props}>\n      {children}\n    </button>\n  );\n}\n\nexport function Card({ title, subtitle, children, className = '' }) {\n  return (\n    <div\n      style={{\n        padding: '24px',\n        borderRadius: '12px',\n        border: '1px solid rgba(128, 128, 128, 0.2)',\n        backgroundColor: 'var(--color-surface, rgba(255, 255, 255, 0.03))',\n        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',\n      }}\n      className={className}\n    >\n      {title && <h3 style={{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: 600 }}>{title}</h3>}\n      {subtitle && <p style={{ margin: '0 0 16px 0', opacity: 0.7, fontSize: '14px' }}>{subtitle}</p>}\n      {children}\n    </div>\n  );\n}\n\nexport function Hero({ headline, description, ctaText = 'Get Started', onCtaClick }) {\n  return (\n    <section style={{ padding: '64px 24px', textAlign: 'center', maxWidth: '960px', margin: '0 auto' }}>\n      <h1 style={{ fontSize: '42px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px' }}>\n        {headline}\n      </h1>\n      <p style={{ fontSize: '18px', opacity: 0.8, maxWidth: '640px', margin: '0 auto 28px' }}>\n        {description}\n      </p>\n      <Button variant=\"primary\" onClick={onCtaClick}>{ctaText}</Button>\n    </section>\n  );\n}\n"
+  }
+}

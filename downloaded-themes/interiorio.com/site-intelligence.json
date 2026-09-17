@@ -1,0 +1,450 @@
+{
+  "overview": {
+    "domain": "interiorio.com",
+    "primary_url": "https://interiorio.com/",
+    "analyzed_at": "2026-09-17T13:47:45Z",
+    "pages_analyzed": 1,
+    "scores": {
+      "accessibility": 85,
+      "seo": 49,
+      "performance": 95,
+      "security_grade": "F"
+    },
+    "summary": {
+      "components_detected": 0,
+      "assets_count": 0,
+      "technologies_count": 0,
+      "internal_links_count": 1,
+      "design_style": "Playful / Consumer Friendly"
+    }
+  },
+  "design_system": {
+    "colors_count": 42,
+    "colors": {
+      "white": "#ffffff",
+      "red-600": "#dc2626",
+      "slate-600": "#64748b",
+      "slate-950": "#0f172a",
+      "neutral-100": "#e5e7eb",
+      "stone-50-a8": "rgb(220 38 38 / 0.08)",
+      "slate-900": "#334155",
+      "neutral-50": "#f1f5f9",
+      "emerald-400": "#10b981",
+      "red-700": "#b91c1c",
+      "slate-400": "#94a3b8",
+      "amber-300": "#f59e0b",
+      "neutral-50-a8": "rgb(16 185 129 / 0.08)",
+      "stone-50-a8-2": "rgb(245 158 11 / 0.08)",
+      "white-a95": "rgb(255 255 255 / 0.95)",
+      "slate-50-a8": "rgb(139 92 246 / 0.08)",
+      "red-500": "#ef4444",
+      "stone-50-a8-3": "rgb(239 68 68 / 0.08)",
+      "violet-600": "#8b5cf6",
+      "rose-200": "#fecaca",
+      "white-a85": "rgb(255 255 255 / 0.85)",
+      "stone-100-a15": "rgb(220 38 38 / 0.15)",
+      "neutral-50-a5": "rgb(0 0 0 / 0.05)",
+      "neutral-200": "#d1d5db",
+      "emerald-700": "#047857",
+      "neutral-50-a8-2": "rgb(59 130 246 / 0.08)",
+      "blue-500": "#3b82f6",
+      "white-a0": "rgb(255 255 255 / 0.0)",
+      "green-500": "#16a34a",
+      "neutral-50-2": "#fff8f0",
+      "orange-600": "#b45309",
+      "blue-600": "#2563eb",
+      "violet-600-2": "#7c3aed",
+      "emerald-600": "#059669",
+      "orange-500": "#d97706",
+      "stone-200-a20": "rgb(220 38 38 / 0.2)",
+      "blue-300": "#93c5fd",
+      "blue-700": "#1d4ed8",
+      "red-900": "#7f1d1d",
+      "white-a12": "rgb(255 255 255 / 0.12)",
+      "white-a20": "rgb(255 255 255 / 0.2)",
+      "white-a75": "rgb(255 255 255 / 0.75)"
+    },
+    "roles": {
+      "background": "white",
+      "foreground": "slate-950",
+      "muted-foreground": "slate-600",
+      "primary": "red-600",
+      "accent": "emerald-400",
+      "border": "neutral-100",
+      "destructive": "red-600",
+      "warning": "amber-300",
+      "success": "emerald-400",
+      "info": "blue-300"
+    },
+    "fonts": {
+      "sans": "\"Inter\",sans-serif",
+      "sans-2": "\"Inter\", sans-serif",
+      "sans-3": "\"Phosphor\"",
+      "sans-4": "\"Phosphor-Bold\"",
+      "_webfonts": "Inter, Phosphor, Phosphor-Bold, Phosphor-Fill"
+    },
+    "font_sizes": {
+      "xs": "13px",
+      "sm": "14px",
+      "base": "16px",
+      "lg": "18px",
+      "xl": "22px",
+      "2xl": "24px",
+      "3xl": "28px",
+      "4xl": "36px",
+      "5xl": "48px",
+      "6xl": "56px"
+    },
+    "font_weights": {
+      "semibold": "600",
+      "bold": "700",
+      "extrabold": "800",
+      "medium": "500",
+      "normal": "normal"
+    },
+    "spacing": {
+      "0": "0px",
+      "2px": "2px",
+      "1": "4px",
+      "6px": "6px",
+      "2": "8px",
+      "10px": "10px",
+      "3": "12px",
+      "14px": "14px",
+      "4": "16px",
+      "18px": "18px",
+      "5": "20px",
+      "22px": "22px",
+      "6": "24px",
+      "7": "28px",
+      "8": "32px",
+      "9": "36px",
+      "10": "40px",
+      "12": "48px",
+      "14": "56px",
+      "15": "60px",
+      "16": "64px",
+      "20": "80px",
+      "25": "100px",
+      "30": "120px"
+    },
+    "radius": {
+      "none": "0",
+      "sm": "2px",
+      "md": "6px",
+      "lg": "8px",
+      "xl": "12px",
+      "2xl": "16px",
+      "3xl": "100px",
+      "full": "50%"
+    },
+    "shadows": {
+      "xs": "0 0 0 0 rgba(245,158,11,0.6)",
+      "sm": "0 0 0 0 rgba(220,38,38,0.30)",
+      "DEFAULT": "0 0 0 0 rgba(220,38,38,0.25)",
+      "md": "0 0 0 3px rgba(220,38,38,0.08)",
+      "lg": "0 0 0 4px rgba(220,38,38,0.10)",
+      "xl": "0 0 0 5px rgba(220,38,38,0.10)",
+      "2xl": "0 1px 3px rgba(15,23,42,0.04),0 1px 2px rgba(15,23,42,0.02)"
+    },
+    "gradients": [
+      "linear-gradient(180deg,rgba(220,38,38,0.08) 0%,#FFFFFF 100%)",
+      "linear-gradient(180deg, rgba(220,38,38,0.08) 0%, #FFFFFF 100%)",
+      "linear-gradient(135deg, #0F172A 0%, #B91C1C 100%)",
+      "linear-gradient(180deg,#FFFFFF 0%,#FFFFFF 100%)",
+      "linear-gradient(90deg,#DC2626 0%,#B91C1C 100%)",
+      "linear-gradient(180deg,rgba(220,38,38,0.08) 0%,#FFFFFF 60%)",
+      "linear-gradient(180deg,rgba(220,38,38,0.08) 0%,#E5E7EB 50%,rgba(220,38,38,0.08) 100%)",
+      "linear-gradient(180deg,#FFFBFB 0%,#FFF 50%,#F8FAFC 100%)",
+      "linear-gradient(180deg,#DC2626 0%,#B91C1C 100%)",
+      "linear-gradient(135deg,#0F172A 0%,#B91C1C 100%)",
+      "linear-gradient(90deg,transparent 0%,#DC2626 30%,#B91C1C 50%,#DC2626 70%,transparent 100%)",
+      "linear-gradient(90deg, rgba(255,255,255,0.95) 30%, rgba(255,255,255,0))",
+      "linear-gradient(-90deg, rgba(255,255,255,0.95) 30%, rgba(255,255,255,0))"
+    ],
+    "css_variables": ":root {\n  --color-background: #ffffff;\n  --color-foreground: #0f172a;\n  --color-muted-foreground: #64748b;\n  --color-primary: #dc2626;\n  --color-accent: #10b981;\n  --color-border: #e5e7eb;\n  --color-destructive: #dc2626;\n  --color-warning: #f59e0b;\n  --color-success: #10b981;\n  --color-info: #93c5fd;\n  --white: #ffffff;\n  --red-600: #dc2626;\n  --slate-600: #64748b;\n  --slate-950: #0f172a;\n  --neutral-100: #e5e7eb;\n  --stone-50-a8: rgb(220 38 38 / 0.08);\n  --slate-900: #334155;\n  --neutral-50: #f1f5f9;\n  --emerald-400: #10b981;\n  --red-700: #b91c1c;\n  --slate-400: #94a3b8;\n  --amber-300: #f59e0b;\n  --neutral-50-a8: rgb(16 185 129 / 0.08);\n  --stone-50-a8-2: rgb(245 158 11 / 0.08);\n  --white-a95: rgb(255 255 255 / 0.95);\n  --slate-50-a8: rgb(139 92 246 / 0.08);\n  --red-500: #ef4444;\n  --stone-50-a8-3: rgb(239 68 68 / 0.08);\n  --violet-600: #8b5cf6;\n  --rose-200: #fecaca;\n  --font-sans: \"Inter\",sans-serif;\n  --font-sans-2: \"Inter\", sans-serif;\n  --font-sans-3: \"Phosphor\";\n  --font-sans-4: \"Phosphor-Bold\";\n  --radius-none: 0;\n  --radius-sm: 2px;\n  --radius-md: 6px;\n  --radius-lg: 8px;\n  --radius-xl: 12px;\n  --radius-2xl: 16px;\n  --radius-3xl: 100px;\n  --radius-full: 50%;\n  --space-0: 0px;\n  --space-2px: 2px;\n  --space-1: 4px;\n  --space-6px: 6px;\n  --space-2: 8px;\n  --space-10px: 10px;\n  --space-3: 12px;\n  --space-14px: 14px;\n  --space-4: 16px;\n  --space-18px: 18px;\n  --space-5: 20px;\n  --space-22px: 22px;\n}"
+  },
+  "components": {
+    "detected": [],
+    "total_types": 0
+  },
+  "layout": {
+    "containers": [
+      "1280px (Standard)",
+      "1024px (Compact)"
+    ],
+    "primary_container": "1280px",
+    "layout_engines": {
+      "css_grid": false,
+      "flexbox": false
+    },
+    "breakpoints": [
+      "640px",
+      "768px",
+      "1024px",
+      "1280px"
+    ],
+    "spacing_conventions": {
+      "section_padding_y": "48px – 96px (Standard)",
+      "column_gap": "16px – 32px",
+      "container_padding_x": "16px – 24px"
+    },
+    "page_structure_flow": [
+      "<header>",
+      "<main>",
+      "<section>",
+      "<footer>"
+    ]
+  },
+  "assets": {
+    "total_assets": 0,
+    "images_count": 0,
+    "svgs_count": 0,
+    "picture_sources_count": 0,
+    "format_breakdown": {},
+    "missing_alt_count": 0,
+    "missing_dimensions_count": 0,
+    "sample_assets": [],
+    "issues": []
+  },
+  "responsive": {
+    "viewport_meta": "Not detected",
+    "has_viewport_tag": false,
+    "breakpoints": {},
+    "views": {
+      "mobile": {
+        "width": "< 768px",
+        "status": "Standard"
+      },
+      "tablet": {
+        "width": "768px – 1024px",
+        "status": "Supported"
+      },
+      "desktop": {
+        "width": "> 1024px",
+        "status": "Optimized"
+      }
+    },
+    "issues": [
+      {
+        "severity": "Critical",
+        "title": "Missing Viewport Meta Tag",
+        "description": "No <meta name='viewport'> tag detected. Mobile browsers will render at desktop scale (980px)."
+      }
+    ],
+    "overall_status": "Action Required"
+  },
+  "accessibility": {
+    "score": 85,
+    "grade": "B",
+    "wcag_level": "AA Compliant",
+    "issues_count": 2,
+    "critical_count": 0,
+    "warning_count": 2,
+    "info_count": 0,
+    "issues": [
+      {
+        "severity": "Warning",
+        "category": "Document Structure",
+        "rule": "WCAG 1.3.1 Info and Relationships",
+        "message": "Page has no <h1> heading tag.",
+        "remediation": "Include a single <h1> heading describing the page purpose."
+      },
+      {
+        "severity": "Warning",
+        "category": "Language",
+        "rule": "WCAG 3.1.1 Language of Page",
+        "message": "<html lang='...'> attribute is missing.",
+        "remediation": "Add lang='en' (or respective language code) to the root <html> tag."
+      }
+    ]
+  },
+  "performance": {
+    "score": 95,
+    "response_time_ms": 0.0,
+    "transfer_sizes": {
+      "html_kb": 0.0,
+      "css_kb": 0.0,
+      "total_text_kb": 0.0
+    },
+    "requests_count": {
+      "html_documents": 1,
+      "stylesheets": 0,
+      "scripts": 0,
+      "images": 0,
+      "fonts": 10,
+      "total_estimated": 11
+    },
+    "optimizations": {
+      "render_blocking_scripts_count": 0,
+      "render_blocking_scripts": [],
+      "resource_hints": [],
+      "has_font_display_swap": false,
+      "lazy_loaded_images": "0 of 0"
+    }
+  },
+  "seo": {
+    "score": 49,
+    "title": "Not detected",
+    "description": "Not detected",
+    "canonical": "Not detected",
+    "open_graph": {
+      "title": "Not detected",
+      "description": "Not detected",
+      "image": "Not detected",
+      "twitter_card": "Not detected"
+    },
+    "structured_data": {
+      "detected": false,
+      "types": [
+        "Not detected"
+      ]
+    },
+    "links": {
+      "internal_count": 0,
+      "external_count": 0,
+      "total": 0
+    },
+    "headings_outline": [],
+    "checks": [
+      {
+        "name": "Page Title Tag",
+        "status": "Failed",
+        "detail": "Missing <title> tag"
+      },
+      {
+        "name": "Meta Description",
+        "status": "Failed",
+        "detail": "Missing meta description"
+      },
+      {
+        "name": "Canonical Link",
+        "status": "Warning",
+        "detail": "Not specified"
+      },
+      {
+        "name": "Open Graph (Social Sharing)",
+        "status": "Warning",
+        "detail": "Incomplete OG tags"
+      },
+      {
+        "name": "robots.txt",
+        "status": "Not detected",
+        "detail": "No robots.txt found"
+      },
+      {
+        "name": "sitemap.xml",
+        "status": "Not detected",
+        "detail": "No sitemap.xml detected"
+      }
+    ]
+  },
+  "security": {
+    "score": 25,
+    "grade": "F",
+    "is_https": true,
+    "headers_table": [
+      {
+        "header": "HTTPS Protocol",
+        "status": "Secure",
+        "detail": "Connection is encrypted using TLS"
+      },
+      {
+        "header": "Strict-Transport-Security (HSTS)",
+        "status": "Not detected",
+        "detail": "Vulnerable to SSL stripping attacks"
+      },
+      {
+        "header": "Content-Security-Policy (CSP)",
+        "status": "Not detected",
+        "detail": "Missing restriction against XSS and injection"
+      },
+      {
+        "header": "X-Frame-Options",
+        "status": "Not detected",
+        "detail": "May be vulnerable to clickjacking if not controlled by CSP"
+      },
+      {
+        "header": "X-Content-Type-Options",
+        "status": "Not detected",
+        "detail": "MIME sniffing prevention not explicitly enabled"
+      },
+      {
+        "header": "Referrer-Policy",
+        "status": "Not detected",
+        "detail": "Browser default referrer rules apply"
+      }
+    ]
+  },
+  "technology": {
+    "all_detected": [],
+    "count": 0,
+    "by_category": {
+      "Frameworks": [],
+      "CSS & UI": [],
+      "CMS & Builders": [],
+      "Analytics": [],
+      "Hosting & CDN": [],
+      "Font Providers": []
+    }
+  },
+  "site_structure": {
+    "crawled_count": 1,
+    "internal_pages": [
+      {
+        "url": "https://interiorio.com/",
+        "path": "/",
+        "status": 200
+      }
+    ],
+    "tree_structure": [
+      {
+        "path": "/",
+        "name": "Homepage (Root)",
+        "depth": 0
+      }
+    ],
+    "external_domains_count": 0,
+    "sample_external_domains": []
+  },
+  "content_intelligence": {
+    "value_proposition": "Not detected",
+    "key_headlines": [],
+    "primary_ctas": [
+      "Not detected"
+    ],
+    "trust_signals": [
+      "Not detected"
+    ],
+    "pricing_signals": [
+      "Not detected"
+    ],
+    "messaging_summary": "Standard web application presentation."
+  },
+  "ai_insights": {
+    "style_archetype": "Playful / Consumer Friendly",
+    "consistency_score": 74,
+    "visual_hierarchy_review": "Strong contrast between primary actions and body surfaces; typography scale creates a clear reading hierarchy.",
+    "notable_patterns": [
+      "CSS Grid multi-column bento layouts",
+      "Soft layered elevation shadows",
+      "Chromatic ambient gradients"
+    ],
+    "facts_vs_interpretation": {
+      "detected_facts": [
+        "42 distinct color values extracted from stylesheets",
+        "5 font families detected (sans, sans-2, sans-3)",
+        "0 UI component patterns identified",
+        "HTTP security rating graded at F"
+      ],
+      "ai_interpretation": [
+        "Aesthetic categorised as 'Playful / Consumer Friendly' based on font selection and corner radius hierarchy.",
+        "Design system emphasizes high-velocity conversion with focused call-to-action color weighting.",
+        "Layout structure indicates a mobile-responsive viewport strategy with standard desktop containers."
+      ]
+    }
+  },
+  "exports": {
+    "react_components": "// Generated React Components for interiorio.com\n// Built with tokens extracted by ExtractTheme Studio\n\nimport React from 'react';\n\nexport function Button({ children, variant = 'primary', className = '', ...props }) {\n  const baseStyle = {\n    padding: '10px 20px',\n    borderRadius: '8px',\n    fontWeight: 600,\n    fontSize: '14px',\n    cursor: 'pointer',\n    border: 'none',\n    transition: 'all 0.15s ease-in-out',\n    display: 'inline-flex',\n    alignItems: 'center',\n    justifyContent: 'center',\n    gap: '8px',\n  };\n\n  const variants = {\n    primary: {\n      backgroundColor: 'var(--color-primary, #ffffff)',\n      color: '#ffffff',\n    },\n    secondary: {\n      backgroundColor: 'transparent',\n      border: '1px solid rgba(128, 128, 128, 0.3)',\n      color: 'inherit',\n    },\n  };\n\n  return (\n    <button style={{ ...baseStyle, ...variants[variant] }} className={className} {...props}>\n      {children}\n    </button>\n  );\n}\n\nexport function Card({ title, subtitle, children, className = '' }) {\n  return (\n    <div\n      style={{\n        padding: '24px',\n        borderRadius: '12px',\n        border: '1px solid rgba(128, 128, 128, 0.2)',\n        backgroundColor: 'var(--color-surface, rgba(255, 255, 255, 0.03))',\n        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',\n      }}\n      className={className}\n    >\n      {title && <h3 style={{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: 600 }}>{title}</h3>}\n      {subtitle && <p style={{ margin: '0 0 16px 0', opacity: 0.7, fontSize: '14px' }}>{subtitle}</p>}\n      {children}\n    </div>\n  );\n}\n\nexport function Hero({ headline, description, ctaText = 'Get Started', onCtaClick }) {\n  return (\n    <section style={{ padding: '64px 24px', textAlign: 'center', maxWidth: '960px', margin: '0 auto' }}>\n      <h1 style={{ fontSize: '42px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px' }}>\n        {headline}\n      </h1>\n      <p style={{ fontSize: '18px', opacity: 0.8, maxWidth: '640px', margin: '0 auto 28px' }}>\n        {description}\n      </p>\n      <Button variant=\"primary\" onClick={onCtaClick}>{ctaText}</Button>\n    </section>\n  );\n}\n"
+  }
+}

@@ -270,6 +270,77 @@
       </div>
     </section>
 
+    <!-- Right Area: Website Intelligence + Design-System Dashboard -->
+    <section id="dashboard-section" class="workbench-main dashboard-section hidden">
+      <div class="dashboard-header-bar">
+        <div class="dashboard-nav-actions">
+          <button type="button" id="close-dashboard-btn" class="btn btn-secondary btn-sm" title="Back to Projects Studio">
+            <i data-lucide="arrow-left" class="icon-sm"></i> <span>All Projects</span>
+          </button>
+          <div class="dashboard-site-meta">
+            <h2 id="dash-site-title" class="dash-site-title">Site Intelligence</h2>
+            <span id="dash-site-domain" class="dash-domain-badge">domain.com</span>
+          </div>
+        </div>
+
+        <div class="dashboard-quick-stats">
+          <div class="dash-score-chip score-a11y" title="WCAG Accessibility Score">
+            <i data-lucide="accessibility" class="icon-xs"></i>
+            <span class="dash-score-label">A11y:</span>
+            <strong id="dash-score-a11y">--</strong>
+          </div>
+          <div class="dash-score-chip score-seo" title="SEO Audit Score">
+            <i data-lucide="search" class="icon-xs"></i>
+            <span class="dash-score-label">SEO:</span>
+            <strong id="dash-score-seo">--</strong>
+          </div>
+          <div class="dash-score-chip score-sec" title="Security Headers Rating">
+            <i data-lucide="shield-check" class="icon-xs"></i>
+            <span class="dash-score-label">Security:</span>
+            <strong id="dash-score-sec">--</strong>
+          </div>
+          <div class="dash-score-chip score-perf" title="Performance Optimization Rating">
+            <i data-lucide="zap" class="icon-xs"></i>
+            <span class="dash-score-label">Perf:</span>
+            <strong id="dash-score-perf">--</strong>
+          </div>
+          <div class="dash-action-buttons">
+            <a id="dash-launch-guide" href="#" target="_blank" class="btn btn-primary btn-sm" title="Launch Interactive Style Guide">
+              <i data-lucide="external-link" class="icon-xs"></i> <span>Style Guide</span>
+            </a>
+            <a id="dash-download-zip" href="#" class="btn btn-download btn-sm" download title="Download Complete ZIP">
+              <i data-lucide="download" class="icon-xs"></i> <span>ZIP</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14 Ordered Navigation Tabs -->
+      <div class="dashboard-tabs-container">
+        <nav class="dashboard-tabs" id="dashboard-tabs-nav" aria-label="Website Intelligence Navigation">
+          <button type="button" class="dash-tab active" data-tab="overview"><i data-lucide="layout-dashboard" class="icon-xs"></i><span>Overview</span></button>
+          <button type="button" class="dash-tab" data-tab="design_system"><i data-lucide="palette" class="icon-xs"></i><span>Design System</span></button>
+          <button type="button" class="dash-tab" data-tab="components"><i data-lucide="boxes" class="icon-xs"></i><span>Components</span></button>
+          <button type="button" class="dash-tab" data-tab="layout"><i data-lucide="columns" class="icon-xs"></i><span>Layout</span></button>
+          <button type="button" class="dash-tab" data-tab="assets"><i data-lucide="image" class="icon-xs"></i><span>Assets</span></button>
+          <button type="button" class="dash-tab" data-tab="responsive"><i data-lucide="smartphone" class="icon-xs"></i><span>Responsive</span></button>
+          <button type="button" class="dash-tab" data-tab="accessibility"><i data-lucide="accessibility" class="icon-xs"></i><span>Accessibility</span></button>
+          <button type="button" class="dash-tab" data-tab="performance"><i data-lucide="gauge" class="icon-xs"></i><span>Performance</span></button>
+          <button type="button" class="dash-tab" data-tab="seo"><i data-lucide="search-check" class="icon-xs"></i><span>SEO</span></button>
+          <button type="button" class="dash-tab" data-tab="security"><i data-lucide="shield" class="icon-xs"></i><span>Security</span></button>
+          <button type="button" class="dash-tab" data-tab="technology"><i data-lucide="cpu" class="icon-xs"></i><span>Technology</span></button>
+          <button type="button" class="dash-tab" data-tab="content"><i data-lucide="file-text" class="icon-xs"></i><span>Content</span></button>
+          <button type="button" class="dash-tab" data-tab="ai_insights"><i data-lucide="sparkles" class="icon-xs"></i><span>AI Insights</span></button>
+          <button type="button" class="dash-tab" data-tab="export"><i data-lucide="share-2" class="icon-xs"></i><span>Export</span></button>
+        </nav>
+      </div>
+
+      <!-- Tab Content Area -->
+      <div id="dashboard-tab-content" class="dashboard-tab-content">
+        <!-- Injected dynamically by app.js based on active tab -->
+      </div>
+    </section>
+
   </main>
 
   <!-- Modal for Code & File Preview -->

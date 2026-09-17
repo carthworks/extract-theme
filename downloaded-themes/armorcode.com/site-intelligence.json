@@ -1,0 +1,814 @@
+{
+  "overview": {
+    "domain": "armorcode.com",
+    "primary_url": "https://www.armorcode.com/",
+    "analyzed_at": "2026-09-17T13:23:42Z",
+    "pages_analyzed": 6,
+    "scores": {
+      "accessibility": 84,
+      "seo": 100,
+      "performance": 85,
+      "security_grade": "F"
+    },
+    "summary": {
+      "components_detected": 8,
+      "assets_count": 277,
+      "technologies_count": 7,
+      "internal_links_count": 6,
+      "design_style": "Playful / Consumer Friendly"
+    }
+  },
+  "design_system": {
+    "colors_count": 40,
+    "colors": {
+      "slate-50": "#f3f3ff",
+      "white": "#ffffff",
+      "indigo-700": "#5f36f1",
+      "orange-400": "#ff6900",
+      "amber-300": "#f99c07",
+      "violet-400": "#a183fa",
+      "black": "#000000",
+      "slate-200": "#cbd5e1",
+      "stone-50": "#fbf5df",
+      "sky-500": "#0693e3",
+      "emerald-400": "#00d084",
+      "red-600": "#cf2e2e",
+      "yellow-300": "#fcb900",
+      "purple-600": "#9b51e0",
+      "slate-300": "#abb8c3",
+      "emerald-300": "#7bdcb5",
+      "slate-900": "#334155",
+      "red-500": "#d66b5d",
+      "slate-950": "#0f172a",
+      "rose-600": "#df2a4a",
+      "violet-200": "#d6d5ff",
+      "slate-600": "#64748b",
+      "violet-600": "#7259f9",
+      "slate-800": "#475569",
+      "neutral-100": "#e2e8f0",
+      "indigo-800": "#5025dc",
+      "indigo-900": "#35198e",
+      "slate-100": "#c2e9ff",
+      "yellow-50": "#fff0b8",
+      "red-200": "#ffccc5",
+      "slate-400": "#94a3b8",
+      "zinc-50": "#defae8",
+      "stone-100": "#ffe5e1",
+      "green-300": "#6cdc92",
+      "green-600": "#1e9b49",
+      "pink-400": "#f084b8",
+      "pink-600": "#d32f71",
+      "violet-600-2": "#8b5cf6",
+      "sky-600": "#0082cd",
+      "violet-700": "#7a00df"
+    },
+    "roles": {
+      "background": "white",
+      "foreground": "slate-900",
+      "muted-foreground": "slate-600",
+      "primary": "indigo-700",
+      "accent": "orange-400",
+      "border": "slate-50",
+      "destructive": "orange-400",
+      "warning": "amber-300",
+      "success": "emerald-400",
+      "info": "sky-500"
+    },
+    "fonts": {
+      "sans": "MatterSQ,sans-serif",
+      "mono": "ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace",
+      "_webfonts": "MatterSQ, Matter"
+    },
+    "font_sizes": {
+      "xs": "13px",
+      "sm": ".875rem",
+      "base": "1rem",
+      "lg": "1.125rem",
+      "xl": "1.25rem",
+      "2xl": "1.5rem",
+      "3xl": "2rem",
+      "4xl": "42px",
+      "5xl": "3rem",
+      "6xl": "3.5rem",
+      "8xl": "6rem",
+      "9xl": "8.4em"
+    },
+    "font_weights": {
+      "semibold": "600",
+      "normal": "400",
+      "medium": "500",
+      "thin": "100",
+      "light": "300"
+    },
+    "spacing": {
+      "0": "0px",
+      "0_8px": "0.8px",
+      "1_6px": "1.6px",
+      "2px": "2px",
+      "1": "4px",
+      "5px": "5px",
+      "2": "8px",
+      "10px": "10px",
+      "10_67px": "10.67px",
+      "3": "12px",
+      "14px": "14px",
+      "15px": "15px",
+      "4": "16px",
+      "5": "20px",
+      "21_33px": "21.33px",
+      "23px": "23px",
+      "6": "24px",
+      "8": "32px",
+      "38px": "38px",
+      "10": "40px",
+      "12": "48px",
+      "14": "56px",
+      "16": "64px",
+      "20": "80px"
+    },
+    "radius": {
+      "none": "0",
+      "DEFAULT": "4px",
+      "md": ".375rem",
+      "lg": ".5rem",
+      "xl": ".75rem",
+      "2xl": "1rem",
+      "3xl": "1.5rem",
+      "full": "9999px"
+    },
+    "shadows": {
+      "xs": "0 0 0 5px #19f",
+      "sm": "inset 0 0 0 2px #fff,inset 0 0 0 calc(2px + 2px) rgb(95 54 241 / 1),0 1px 3px -1px rgb(15 23 42 / .1), 0 0 1px rgb(15 23 42 / .1)",
+      "DEFAULT": "0 17.579px 41.018px -17.579px rgba(68, 68, 68, 0.16)"
+    },
+    "gradients": [
+      "linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%)",
+      "linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%)",
+      "linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%)",
+      "linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%)",
+      "linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%)",
+      "linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%)",
+      "linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%)",
+      "linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%)",
+      "linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%)",
+      "linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%)",
+      "linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%)",
+      "linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%)",
+      "linear-gradient(to right,rgb(251 245 223 / .25) var(--tw-gradient-from-position), transparent var(--tw-gradient-to-position))",
+      "linear-gradient(135deg,#00d084,#0693e3)",
+      "linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)",
+      "linear-gradient(135deg,#faaca8,#dad0ec)"
+    ],
+    "css_variables": ":root {\n  --color-background: #ffffff;\n  --color-foreground: #334155;\n  --color-muted-foreground: #64748b;\n  --color-primary: #5f36f1;\n  --color-accent: #ff6900;\n  --color-border: #f3f3ff;\n  --color-destructive: #ff6900;\n  --color-warning: #f99c07;\n  --color-success: #00d084;\n  --color-info: #0693e3;\n  --slate-50: #f3f3ff;\n  --white: #ffffff;\n  --indigo-700: #5f36f1;\n  --orange-400: #ff6900;\n  --amber-300: #f99c07;\n  --violet-400: #a183fa;\n  --black: #000000;\n  --slate-200: #cbd5e1;\n  --stone-50: #fbf5df;\n  --sky-500: #0693e3;\n  --emerald-400: #00d084;\n  --red-600: #cf2e2e;\n  --yellow-300: #fcb900;\n  --purple-600: #9b51e0;\n  --slate-300: #abb8c3;\n  --emerald-300: #7bdcb5;\n  --slate-900: #334155;\n  --red-500: #d66b5d;\n  --slate-950: #0f172a;\n  --rose-600: #df2a4a;\n  --font-sans: MatterSQ,sans-serif;\n  --font-mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;\n  --radius-none: 0;\n  --radius-DEFAULT: 4px;\n  --radius-md: .375rem;\n  --radius-lg: .5rem;\n  --radius-xl: .75rem;\n  --radius-2xl: 1rem;\n  --radius-3xl: 1.5rem;\n  --radius-full: 9999px;\n  --space-0: 0px;\n  --space-0_8px: 0.8px;\n  --space-1_6px: 1.6px;\n  --space-2px: 2px;\n  --space-1: 4px;\n  --space-5px: 5px;\n  --space-2: 8px;\n  --space-10px: 10px;\n  --space-10_67px: 10.67px;\n  --space-3: 12px;\n  --space-14px: 14px;\n  --space-15px: 15px;\n}"
+  },
+  "components": {
+    "detected": [
+      {
+        "type": "Navbar / Header",
+        "tag": "nav/header",
+        "count": 2,
+        "items_count": 116,
+        "has_logo": true,
+        "sticky": false,
+        "styles": "Horizontal flex/grid navigation bar with logo and menu links"
+      },
+      {
+        "type": "Hero Section",
+        "tag": "section/div.hero",
+        "count": 1,
+        "headline": "Not detected",
+        "has_cta": false,
+        "styles": "High-impact visual banner with primary title and primary call to action"
+      },
+      {
+        "type": "Buttons",
+        "tag": "button / a.btn",
+        "count": 24,
+        "sample_labels": [
+          "Platform",
+          "Solutions",
+          "Partners",
+          "Resources",
+          "Company"
+        ],
+        "styles": "Rounded interactive click targets with hover states and micro-interactions"
+      },
+      {
+        "type": "Forms & Inputs",
+        "tag": "form / input",
+        "count": 0,
+        "inputs_count": 1,
+        "has_search": false,
+        "styles": "Input fields with custom borders, active focus ring, and placeholder text"
+      },
+      {
+        "type": "Call-to-Action (CTA)",
+        "tag": "section.cta",
+        "count": 2,
+        "styles": "Prominent conversion sections with contrast background and headline"
+      },
+      {
+        "type": "Footer",
+        "tag": "footer",
+        "count": 1,
+        "links_count": 12,
+        "styles": "Multi-column link lists with copyright attribution and legal policies"
+      },
+      {
+        "type": "Badges / Pills",
+        "tag": "span.badge",
+        "count": 16,
+        "styles": "Compact rounded indicators for status, categories, or featured highlights"
+      },
+      {
+        "type": "Testimonials",
+        "tag": "blockquote / .testimonial",
+        "count": 7,
+        "styles": "Customer endorsement cards with quote text, avatar image, and author credentials"
+      }
+    ],
+    "total_types": 8
+  },
+  "layout": {
+    "containers": [
+      "1440px",
+      "800px",
+      "790px",
+      "786px",
+      "781px",
+      "770px"
+    ],
+    "primary_container": "1440px",
+    "layout_engines": {
+      "css_grid": true,
+      "flexbox": true
+    },
+    "breakpoints": [
+      "sm: 640px",
+      "md: 768px",
+      "md-782: 782px",
+      "lg: 960px",
+      "lg-992: 992px",
+      "lg-1024: 1024px",
+      "xl: 1200px",
+      "xl-1280: 1280px"
+    ],
+    "spacing_conventions": {
+      "section_padding_y": "48px – 96px (Standard)",
+      "column_gap": "16px – 32px",
+      "container_padding_x": "16px – 24px"
+    },
+    "page_structure_flow": [
+      "<header> .wp-block-template-part",
+      "<nav> .max-lg:hidden",
+      "<main> #wp--skip-link--target",
+      "<footer> .wp-block-template-part"
+    ]
+  },
+  "assets": {
+    "total_assets": 277,
+    "images_count": 87,
+    "svgs_count": 190,
+    "picture_sources_count": 0,
+    "format_breakdown": {
+      "SVG": 36,
+      "WEBP": 49
+    },
+    "missing_alt_count": 23,
+    "missing_dimensions_count": 1,
+    "sample_assets": [
+      {
+        "src": "https://www.armorcode.com/wp-content/themes/armorcode/public/build/assets/logo-CE4qqvH-.svg",
+        "alt": "ArmorCode",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "eager"
+      },
+      {
+        "src": "https://www.armorcode.com/wp-content/uploads/2025/01/default-thumbnail-1-900x473-png.webp",
+        "alt": "",
+        "width": "900",
+        "height": "473",
+        "format": "WEBP",
+        "loading": "eager"
+      },
+      {
+        "src": "https://www.armorcode.com/wp-content/uploads/2026/09/ArmorCode_Webinar_ Getting-Ready-for-CRA-Enforcement_web-thumb_upda",
+        "alt": "ArmorCode Webinar - From Vulnerabilities to Compliance:  Getting Ready for CRA Enforcement",
+        "width": "900",
+        "height": "471",
+        "format": "WEBP",
+        "loading": "eager"
+      },
+      {
+        "src": "https://www.armorcode.com/wp-content/uploads/2026/09/PBC_Agentic-AI-Security-Conference-2026_web-thumb_R1_updated-9-3-26",
+        "alt": "Register for The Purple Book Community's Agentic AI Security Conference 2026 - AgentSecCon",
+        "width": "900",
+        "height": "506",
+        "format": "WEBP",
+        "loading": "eager"
+      },
+      {
+        "src": "https://www.armorcode.com/wp-content/uploads/2025/01/thumbnail-purple-book-900x556-png.webp",
+        "alt": "",
+        "width": "900",
+        "height": "556",
+        "format": "WEBP",
+        "loading": "lazy"
+      },
+      {
+        "src": "https://www.armorcode.com/wp-content/uploads/2025/01/thumbnail-give-900x556-png.webp",
+        "alt": "",
+        "width": "900",
+        "height": "556",
+        "format": "WEBP",
+        "loading": "lazy"
+      },
+      {
+        "src": "https://www.armorcode.com/wp-content/uploads/2026/09/PBC_Agentic-AI-Security-Conference-2026_web-thumb_R1_updated-9-3-26",
+        "alt": "Register for The Purple Book Community's Agentic AI Security Conference 2026 - AgentSecCon",
+        "width": "1200",
+        "height": "675",
+        "format": "WEBP",
+        "loading": "lazy"
+      },
+      {
+        "src": "https://www.armorcode.com/wp-content/uploads/2025/02/the-motley-fool-logo-1.svg",
+        "alt": "",
+        "width": "2646",
+        "height": "725",
+        "format": "SVG",
+        "loading": "lazy"
+      },
+      {
+        "src": "https://www.armorcode.com/wp-content/uploads/2026/06/visa-logo-small-png.webp",
+        "alt": "Visa logo",
+        "width": "250",
+        "height": "81",
+        "format": "WEBP",
+        "loading": "lazy"
+      },
+      {
+        "src": "https://www.armorcode.com/wp-content/uploads/2026/06/paypal-logo-small-png.webp",
+        "alt": "Paypal",
+        "width": "250",
+        "height": "66",
+        "format": "WEBP",
+        "loading": "lazy"
+      },
+      {
+        "src": "https://www.armorcode.com/wp-content/uploads/2026/09/cs-wholesale-grocers-logo-small-png.webp",
+        "alt": "C&S Wholesale Grocers logo",
+        "width": "250",
+        "height": "100",
+        "format": "WEBP",
+        "loading": "lazy"
+      },
+      {
+        "src": "https://www.armorcode.com/wp-content/uploads/2026/06/jlr-logo-small-png.webp",
+        "alt": "Jaguar Land Rover logo",
+        "width": "250",
+        "height": "61",
+        "format": "WEBP",
+        "loading": "lazy"
+      }
+    ],
+    "issues": [
+      {
+        "severity": "Warning",
+        "message": "23 image(s) missing alt text (accessibility and SEO hazard)."
+      },
+      {
+        "severity": "Info",
+        "message": "1 image(s) missing explicit width/height attributes (may cause Cumulative Layout Shift)."
+      }
+    ]
+  },
+  "responsive": {
+    "viewport_meta": "width=device-width, initial-scale=1",
+    "has_viewport_tag": true,
+    "breakpoints": {
+      "sm": "640px",
+      "md": "768px",
+      "md-782": "782px",
+      "lg": "960px",
+      "lg-992": "992px",
+      "lg-1024": "1024px",
+      "xl": "1200px",
+      "xl-1280": "1280px",
+      "xl-1360": "1360px"
+    },
+    "views": {
+      "mobile": {
+        "width": "< 768px",
+        "status": "Supported"
+      },
+      "tablet": {
+        "width": "768px – 1024px",
+        "status": "Supported"
+      },
+      "desktop": {
+        "width": "> 1024px",
+        "status": "Optimized"
+      }
+    },
+    "issues": [
+      {
+        "severity": "Warning",
+        "title": "Hardcoded Pixel Widths Detected",
+        "description": "Observed fixed width rules up to 1440px. Verify max-width: 100% is used to avoid horizontal overflow on mobile."
+      }
+    ],
+    "overall_status": "Responsive Ready"
+  },
+  "accessibility": {
+    "score": 84,
+    "grade": "B",
+    "wcag_level": "Needs Remediation",
+    "issues_count": 3,
+    "critical_count": 0,
+    "warning_count": 2,
+    "info_count": 1,
+    "issues": [
+      {
+        "severity": "Warning",
+        "category": "Images & Multimedia",
+        "rule": "WCAG 1.1.1 Non-text Content",
+        "message": "2 of 87 image(s) lack an `alt` attribute.",
+        "remediation": "Add descriptive `alt='...'` or `alt=''` for decorative elements."
+      },
+      {
+        "severity": "Info",
+        "category": "Document Structure",
+        "rule": "WCAG 2.4.6 Headings and Labels",
+        "message": "Multiple <h1> tags detected (2 found). Single H1 is recommended.",
+        "remediation": "Maintain a single primary H1 and use H2/H3 for subsequent sections."
+      },
+      {
+        "severity": "Warning",
+        "category": "Document Structure",
+        "rule": "WCAG 2.4.6 Headings and Labels",
+        "message": "Heading hierarchy skips levels (e.g. H1 followed directly by H3).",
+        "remediation": "Do not skip heading levels. Ensure nested structure follows H1 → H2 → H3."
+      }
+    ]
+  },
+  "performance": {
+    "score": 85,
+    "response_time_ms": 634.7,
+    "transfer_sizes": {
+      "html_kb": 6212.3,
+      "css_kb": 489.6,
+      "total_text_kb": 6701.9
+    },
+    "requests_count": {
+      "html_documents": 6,
+      "stylesheets": 2,
+      "scripts": 12,
+      "images": 87,
+      "fonts": 24,
+      "total_estimated": 126
+    },
+    "optimizations": {
+      "render_blocking_scripts_count": 1,
+      "render_blocking_scripts": [
+        "https://www.armorcode.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"
+      ],
+      "resource_hints": [
+        "dns-prefetch: //js-na2.hs-scripts.com"
+      ],
+      "has_font_display_swap": true,
+      "lazy_loaded_images": "83 of 87"
+    }
+  },
+  "seo": {
+    "score": 100,
+    "title": "ArmorCode: Agentic AI Platform for Unified Exposure Management",
+    "description": "ArmorCode is the independent control plane where AI agents help find, prioritize, and fix vulnerabilities across apps, cloud, infra, and AI.",
+    "canonical": "https://www.armorcode.com/",
+    "open_graph": {
+      "title": "Home | ArmorCode",
+      "description": "Agentic AI for Unified Exposure Management",
+      "image": "https://www.armorcode.com/wp-content/uploads/2025/11/ArmorCode_default-thumb_R2_updated-11-11-25.png",
+      "twitter_card": "summary_large_image"
+    },
+    "structured_data": {
+      "detected": true,
+      "types": [
+        "ImageObject",
+        "WebSite",
+        "Organization",
+        "WebPage",
+        "ListItem",
+        "SpeakableSpecification",
+        "BreadcrumbList",
+        "ReadAction",
+        "QuantitativeValue"
+      ]
+    },
+    "links": {
+      "internal_count": 124,
+      "external_count": 18,
+      "total": 142
+    },
+    "headings_outline": [
+      {
+        "level": "H3",
+        "text": "Platform"
+      },
+      {
+        "level": "H3",
+        "text": "By Solution"
+      },
+      {
+        "level": "H3",
+        "text": "By Use Case"
+      },
+      {
+        "level": "H3",
+        "text": "By Role"
+      },
+      {
+        "level": "H3",
+        "text": "By Industry"
+      },
+      {
+        "level": "H3",
+        "text": "Partners"
+      },
+      {
+        "level": "H3",
+        "text": "Resources"
+      },
+      {
+        "level": "H3",
+        "text": "Featured Resources"
+      },
+      {
+        "level": "H3",
+        "text": "From Vulnerabilities to Compliance: Getting Ready for CRA Enforcement"
+      },
+      {
+        "level": "H3",
+        "text": "PBC Agentic AI Security Conference – AgentSecCon"
+      },
+      {
+        "level": "H3",
+        "text": "Company"
+      },
+      {
+        "level": "H3",
+        "text": "By Solution"
+      }
+    ],
+    "checks": [
+      {
+        "name": "Page Title Tag",
+        "status": "Passed",
+        "detail": "62 chars"
+      },
+      {
+        "name": "Meta Description",
+        "status": "Passed",
+        "detail": "140 chars"
+      },
+      {
+        "name": "Canonical Link",
+        "status": "Passed",
+        "detail": "https://www.armorcode.com/"
+      },
+      {
+        "name": "Open Graph (Social Sharing)",
+        "status": "Passed",
+        "detail": "Title and image configured"
+      },
+      {
+        "name": "robots.txt",
+        "status": "Passed",
+        "detail": "https://www.armorcode.com/robots.txt"
+      },
+      {
+        "name": "sitemap.xml",
+        "status": "Passed",
+        "detail": "https://www.armorcode.com/sitemap.xml"
+      }
+    ]
+  },
+  "security": {
+    "score": 25,
+    "grade": "F",
+    "is_https": true,
+    "headers_table": [
+      {
+        "header": "HTTPS Protocol",
+        "status": "Secure",
+        "detail": "Connection is encrypted using TLS"
+      },
+      {
+        "header": "Strict-Transport-Security (HSTS)",
+        "status": "Not detected",
+        "detail": "Vulnerable to SSL stripping attacks"
+      },
+      {
+        "header": "Content-Security-Policy (CSP)",
+        "status": "Not detected",
+        "detail": "Missing restriction against XSS and injection"
+      },
+      {
+        "header": "X-Frame-Options",
+        "status": "Not detected",
+        "detail": "May be vulnerable to clickjacking if not controlled by CSP"
+      },
+      {
+        "header": "X-Content-Type-Options",
+        "status": "Not detected",
+        "detail": "MIME sniffing prevention not explicitly enabled"
+      },
+      {
+        "header": "Referrer-Policy",
+        "status": "Not detected",
+        "detail": "Browser default referrer rules apply"
+      }
+    ]
+  },
+  "technology": {
+    "all_detected": [
+      {
+        "name": "jQuery",
+        "category": "Library"
+      },
+      {
+        "name": "Tailwind CSS",
+        "category": "CSS Framework"
+      },
+      {
+        "name": "WordPress",
+        "category": "CMS"
+      },
+      {
+        "name": "Google Tag Manager",
+        "category": "Analytics"
+      },
+      {
+        "name": "Cloudflare",
+        "category": "CDN / Security"
+      },
+      {
+        "name": "Tailwind Css",
+        "category": "Framework"
+      },
+      {
+        "name": "Jquery",
+        "category": "Framework"
+      }
+    ],
+    "count": 7,
+    "by_category": {
+      "Frameworks": [
+        "Tailwind Css",
+        "Jquery"
+      ],
+      "CSS & UI": [
+        "Tailwind CSS"
+      ],
+      "CMS & Builders": [
+        "WordPress"
+      ],
+      "Analytics": [
+        "Google Tag Manager"
+      ],
+      "Hosting & CDN": [
+        "Cloudflare"
+      ],
+      "Font Providers": []
+    }
+  },
+  "site_structure": {
+    "crawled_count": 6,
+    "internal_pages": [
+      {
+        "url": "https://www.armorcode.com/",
+        "path": "/",
+        "status": 200
+      },
+      {
+        "url": "https://www.armorcode.com/platform",
+        "path": "/platform",
+        "status": 200
+      },
+      {
+        "url": "https://www.armorcode.com/agentic-workflows-with-anya-agents",
+        "path": "/agentic-workflows-with-anya-agents",
+        "status": 200
+      },
+      {
+        "url": "https://www.armorcode.com/context-risk-graph",
+        "path": "/context-risk-graph",
+        "status": 200
+      },
+      {
+        "url": "https://www.armorcode.com/integrations",
+        "path": "/integrations",
+        "status": 200
+      },
+      {
+        "url": "https://www.armorcode.com/tours",
+        "path": "/tours",
+        "status": 200
+      }
+    ],
+    "tree_structure": [
+      {
+        "path": "/",
+        "name": "Homepage (Root)",
+        "depth": 0
+      },
+      {
+        "path": "/agentic-workflows-with-anya-agents",
+        "name": "Agentic workflows with anya agents",
+        "depth": 1
+      },
+      {
+        "path": "/context-risk-graph",
+        "name": "Context risk graph",
+        "depth": 1
+      },
+      {
+        "path": "/integrations",
+        "name": "Integrations",
+        "depth": 1
+      },
+      {
+        "path": "/platform",
+        "name": "Platform",
+        "depth": 1
+      },
+      {
+        "path": "/tours",
+        "name": "Tours",
+        "depth": 1
+      }
+    ],
+    "external_domains_count": 11,
+    "sample_external_domains": [
+      "thepurplebook.club",
+      "armorcode.channeltivity.com",
+      "channelpronetwork.com",
+      "demo.armorcode.com",
+      "app.armorcode.com",
+      "databreachtoday.com",
+      "youtube.com",
+      "linkedin.com"
+    ]
+  },
+  "content_intelligence": {
+    "value_proposition": "From Find to Fix.Put AI agents to work.",
+    "key_headlines": [
+      "From Find to Fix.Put AI agents to work.",
+      "Save your seat:PBC Agentic AI Security Conference",
+      "The Problem",
+      "Security programs are not keeping up with AI-scale changes",
+      "Security Today",
+      "With ArmorCode"
+    ],
+    "primary_ctas": [
+      "Not detected"
+    ],
+    "trust_signals": [
+      "250M Software Enterprise",
+      "96% Noise eliminated",
+      "400k findings down to"
+    ],
+    "pricing_signals": [
+      "$250"
+    ],
+    "messaging_summary": "Targeted online platform for armorcode.com, emphasizing 'From Find to Fix.Put AI agents to work.'."
+  },
+  "ai_insights": {
+    "style_archetype": "Playful / Consumer Friendly",
+    "consistency_score": 92,
+    "visual_hierarchy_review": "Strong contrast between primary actions and body surfaces; typography scale creates a clear reading hierarchy.",
+    "notable_patterns": [
+      "CSS Grid multi-column bento layouts",
+      "Soft layered elevation shadows",
+      "Chromatic ambient gradients"
+    ],
+    "facts_vs_interpretation": {
+      "detected_facts": [
+        "40 distinct color values extracted from stylesheets",
+        "3 font families detected (sans, mono, _webfonts)",
+        "8 UI component patterns identified",
+        "HTTP security rating graded at F"
+      ],
+      "ai_interpretation": [
+        "Aesthetic categorised as 'Playful / Consumer Friendly' based on font selection and corner radius hierarchy.",
+        "Design system emphasizes high-velocity conversion with focused call-to-action color weighting.",
+        "Layout structure indicates a mobile-responsive viewport strategy with standard desktop containers."
+      ]
+    }
+  },
+  "exports": {
+    "react_components": "// Generated React Components for armorcode.com\n// Built with tokens extracted by ExtractTheme Studio\n\nimport React from 'react';\n\nexport function Button({ children, variant = 'primary', className = '', ...props }) {\n  const baseStyle = {\n    padding: '10px 20px',\n    borderRadius: '8px',\n    fontWeight: 600,\n    fontSize: '14px',\n    cursor: 'pointer',\n    border: 'none',\n    transition: 'all 0.15s ease-in-out',\n    display: 'inline-flex',\n    alignItems: 'center',\n    justifyContent: 'center',\n    gap: '8px',\n  };\n\n  const variants = {\n    primary: {\n      backgroundColor: 'var(--color-primary, #f3f3ff)',\n      color: '#ffffff',\n    },\n    secondary: {\n      backgroundColor: 'transparent',\n      border: '1px solid rgba(128, 128, 128, 0.3)',\n      color: 'inherit',\n    },\n  };\n\n  return (\n    <button style={{ ...baseStyle, ...variants[variant] }} className={className} {...props}>\n      {children}\n    </button>\n  );\n}\n\nexport function Card({ title, subtitle, children, className = '' }) {\n  return (\n    <div\n      style={{\n        padding: '24px',\n        borderRadius: '12px',\n        border: '1px solid rgba(128, 128, 128, 0.2)',\n        backgroundColor: 'var(--color-surface, rgba(255, 255, 255, 0.03))',\n        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',\n      }}\n      className={className}\n    >\n      {title && <h3 style={{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: 600 }}>{title}</h3>}\n      {subtitle && <p style={{ margin: '0 0 16px 0', opacity: 0.7, fontSize: '14px' }}>{subtitle}</p>}\n      {children}\n    </div>\n  );\n}\n\nexport function Hero({ headline, description, ctaText = 'Get Started', onCtaClick }) {\n  return (\n    <section style={{ padding: '64px 24px', textAlign: 'center', maxWidth: '960px', margin: '0 auto' }}>\n      <h1 style={{ fontSize: '42px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px' }}>\n        {headline}\n      </h1>\n      <p style={{ fontSize: '18px', opacity: 0.8, maxWidth: '640px', margin: '0 auto 28px' }}>\n        {description}\n      </p>\n      <Button variant=\"primary\" onClick={onCtaClick}>{ctaText}</Button>\n    </section>\n  );\n}\n"
+  }
+}

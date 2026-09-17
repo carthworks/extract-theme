@@ -13,7 +13,7 @@ import subprocess
 import sys
 import tempfile
 import zipfile
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import HTTPServer, SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
@@ -26,6 +26,8 @@ DOWNLOADED_THEMES_DIR = BASE_DIR / "downloaded-themes"
 
 
 class ExtractThemeHandler(SimpleHTTPRequestHandler):
+    protocol_version = "HTTP/1.1"
+
     def __init__(self, *args, **kwargs):
         target_dir = str(PUBLIC_DIR) if PUBLIC_DIR.exists() else str(BASE_DIR)
         super().__init__(*args, directory=target_dir, **kwargs)
@@ -57,6 +59,9 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
         if path == "/api/download":
             return self._handle_download_project(parsed)
 
+        if path == "/api/intelligence":
+            return self._handle_get_intelligence(parsed)
+
         if path == "/api/projects":
             return self._handle_get_projects()
 
@@ -86,6 +91,129 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def _handle_get_intelligence(self, parsed):
+        qs = parse_qs(parsed.query)
+        domain = qs.get("domain", [""])[0].strip()
+        if not domain:
+            return self._send_json({"error": "domain parameter required"}, status=400)
+
+        domain = re.sub(r"[^\w.-]", "_", domain)
+        clean_host = domain.replace("_", ".")
+        candidates = [
+            DOWNLOADED_THEMES_DIR / domain / "site-intelligence.json",
+            BASE_DIR / domain / "site-intelligence.json",
+            Path(tempfile.gettempdir()) / "extract_theme_output" / "downloaded-themes" / domain / "site-intelligence.json",
+            Path(tempfile.gettempdir()) / "extract_theme_output" / domain / "site-intelligence.json",
+        ]
+
+        for target in candidates:
+            if target.exists() and target.is_file():
+                try:
+                    data = json.loads(target.read_text(encoding="utf-8"))
+                    return self._send_json(data)
+                except Exception as exc:
+                    return self._send_json({"error": f"Failed to read intelligence: {exc}"}, status=500)
+
+        # Check S3 / R2 storage for site-intelligence.json
+        if storage.is_configured():
+            remote_key = f"downloaded-themes/{domain}/site-intelligence.json"
+            res = storage.get_file(remote_key) or storage.get_file(f"{domain}/site-intelligence.json")
+            if res:
+                try:
+                    data = json.loads(res[0].decode("utf-8"))
+                    return self._send_json(data)
+                except Exception:
+                    pass
+
+        # If site-intelligence.json doesn't exist yet, check design-tokens.json
+        token_candidates = [
+            DOWNLOADED_THEMES_DIR / domain / "design-tokens.json",
+            BASE_DIR / domain / "design-tokens.json",
+            Path(tempfile.gettempdir()) / "extract_theme_output" / "downloaded-themes" / domain / "design-tokens.json",
+            Path(tempfile.gettempdir()) / "extract_theme_output" / domain / "design-tokens.json",
+        ]
+        tokens_data = None
+        target_token_path = None
+        for t_target in token_candidates:
+            if t_target.exists() and t_target.is_file():
+                try:
+                    tokens_data = json.loads(t_target.read_text(encoding="utf-8"))
+                    target_token_path = t_target
+                    break
+                except Exception:
+                    pass
+
+        if not tokens_data and storage.is_configured():
+            res = storage.get_file(f"downloaded-themes/{domain}/design-tokens.json") or storage.get_file(f"{domain}/design-tokens.json")
+            if res:
+                try:
+                    tokens_data = json.loads(res[0].decode("utf-8"))
+                except Exception:
+                    pass
+
+        html_content = ""
+        css_content = ""
+        if target_token_path:
+            p_dir = target_token_path.parent
+            guide_f = p_dir / "style-guide.html"
+            if guide_f.exists():
+                try:
+                    html_content = guide_f.read_text(encoding="utf-8")
+                except Exception:
+                    pass
+            comb_css = p_dir / "raw" / "combined.css"
+            if comb_css.exists():
+                try:
+                    css_content = comb_css.read_text(encoding="utf-8", errors="replace")[:200000]
+                except Exception:
+                    pass
+
+        if tokens_data:
+            try:
+                from analyzer import SiteAnalyzer
+                primary_url = tokens_data.get("source") or f"https://{clean_host}"
+                analyzer = SiteAnalyzer(
+                    primary_url=primary_url,
+                    pages=[(primary_url, html_content or f"<html><head><title>{clean_host}</title></head><body><h1>{clean_host}</h1></body></html>")],
+                    css_text=css_content,
+                    tokens=tokens_data,
+                )
+                report = analyzer.analyze_all()
+                if target_token_path:
+                    try:
+                        target_token_path.parent.joinpath("site-intelligence.json").write_text(
+                            json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8"
+                        )
+                    except Exception:
+                        pass
+                return self._send_json(report)
+            except Exception as exc:
+                print(f"Notice: On-the-fly intelligence generation error: {exc}")
+
+        # Fallback: Live baseline intelligence scan so this never returns 404
+        try:
+            from analyzer import SiteAnalyzer
+            primary_url = f"https://{clean_host}"
+            try:
+                import requests
+                resp = requests.get(primary_url, timeout=4, headers={"User-Agent": "ExtractTheme/2.0"}, verify=False)
+                if resp.status_code == 200:
+                    html_content = resp.text
+            except Exception:
+                html_content = f"<html><head><title>{clean_host}</title></head><body><h1>{clean_host}</h1></body></html>"
+
+            analyzer = SiteAnalyzer(
+                primary_url=primary_url,
+                pages=[(primary_url, html_content or "<html><body></body></html>")],
+                css_text=css_content,
+                tokens={"brand_name": clean_host.split(".")[0].capitalize(), "source": primary_url},
+            )
+            report = analyzer.analyze_all()
+            return self._send_json(report)
+        except Exception as dyn_err:
+            print(f"Notice: Dynamic intelligence fallback failed: {dyn_err}")
+            return self._send_json({"error": f"Intelligence report could not be generated for {domain}"}, status=404)
+
     def _handle_get_projects(self):
         projects_by_domain: dict[str, dict] = {}
 
@@ -98,8 +226,9 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                         continue
                     tokens_file = item / "design-tokens.json"
                     guide_file = item / "style-guide.html"
+                    intel_file = item / "site-intelligence.json"
 
-                    if tokens_file.exists() or guide_file.exists():
+                    if tokens_file.exists() or guide_file.exists() or intel_file.exists():
                         meta = {}
                         if tokens_file.exists():
                             try:
@@ -179,6 +308,23 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                             except Exception as exc:  # noqa: BLE001
                                 print(f"Error parsing tokens for {item.name}: {exc}")
 
+                        intel_file = item / "site-intelligence.json"
+                        if intel_file.exists():
+                            try:
+                                intel_data = json.loads(intel_file.read_text(encoding="utf-8"))
+                                meta["intelligence_scores"] = intel_data.get("overview", {}).get("scores", {})
+                                meta["components_count"] = len(intel_data.get("components", {}).get("detected", []))
+                                meta["style_archetype"] = intel_data.get("ai_insights", {}).get("style_archetype", "Modern Web")
+                            except Exception:
+                                pass
+                        elif "intelligence_summary" in tokens:
+                            meta["intelligence_scores"] = {
+                                "accessibility": tokens["intelligence_summary"].get("accessibility_score", 0),
+                                "seo": tokens["intelligence_summary"].get("seo_score", 0),
+                                "security_grade": tokens["intelligence_summary"].get("security_grade", "B"),
+                            }
+                            meta["components_count"] = tokens["intelligence_summary"].get("components_detected", 0)
+
                         files = [f.name for f in item.iterdir() if f.is_file()] if item.exists() else []
                         if (item / "fonts").exists():
                             files.append("fonts/")
@@ -189,6 +335,7 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                             "files": files,
                             "has_style_guide": guide_file.exists(),
                             "has_tokens": tokens_file.exists(),
+                            "has_intelligence": intel_file.exists() or ("intelligence_summary" in tokens),
                             "meta": meta,
                             "source_type": "local",
                         }
@@ -328,7 +475,7 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                 common_files = [
                     "style-guide.html", "design-tokens.json", "theme.css",
                     "components.css", "tailwind.theme.css", "tailwind.config.js",
-                    "DESIGN.md"
+                    "DESIGN.md", "site-intelligence.json", "react-components.jsx"
                 ]
                 for fname in common_files:
                     res = storage.get_file(f"downloaded-themes/{clean_domain}/{fname}") or storage.get_file(f"{clean_domain}/{fname}")
@@ -528,21 +675,31 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
                 pass
 
 
-class ReusableHTTPServer(HTTPServer):
+class ReusableHTTPServer(ThreadingHTTPServer):
     allow_reuse_address = True
+    daemon_threads = True
 
 
 def main():
-    port = int(os.environ.get("PORT", 8000))
-    server_address = ("0.0.0.0", port)
+    import argparse
+    parser = argparse.ArgumentParser(description="ExtractTheme Studio Server")
+    parser.add_argument("-p", "--port", type=int, default=int(os.environ.get("PORT", 8000)), help="Port to listen on (default: 8000)")
+    parser.add_argument("--host", type=str, default="0.0.0.0", help="Host interface (default: 0.0.0.0)")
+    args = parser.parse_args()
+
+    port = args.port
+    host = args.host
+    server_address = (host, port)
 
     # Create directories if not exist
     PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
     DOWNLOADED_THEMES_DIR.mkdir(parents=True, exist_ok=True)
 
     httpd = ReusableHTTPServer(server_address, ExtractThemeHandler)
+    display_host = "localhost" if host == "0.0.0.0" else host
     print(f"\n=======================================================")
-    print(f"  ExtractTheme Studio running on port {port} (0.0.0.0)")
+    print(f"  ExtractTheme Studio running at http://{display_host}:{port}/")
+    print(f"  Listening on {host}:{port}")
     print(f"=======================================================\n")
     try:
         httpd.serve_forever()
