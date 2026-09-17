@@ -716,7 +716,13 @@ def main():
         httpd.serve_forever()
     except KeyboardInterrupt:
         print("\nShutting down server.")
-        httpd.server_close()
+    except Exception as exc:
+        print(f"\nServer error: {exc}")
+    finally:
+        try:
+            httpd.server_close()
+        except Exception:
+            pass
 
 
 if __name__ == "__main__":

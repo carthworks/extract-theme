@@ -21,7 +21,7 @@
 - 📊 **WCAG 2.1 Contrast Matrix**: Evaluates color pair combinations against WCAG 2.1 AA, AA Large, and AAA accessibility standards.
 - ✨ **Gradients & Keyframe Animations**: Scans and indexes linear/radial gradients, `@keyframes` animation names, duration scales, and custom `cubic-bezier` easing curves.
 - 🤖 **AI-Ready `DESIGN.md` Prompt**: Emits a structured `DESIGN.md` system prompt reference containing explicit guidelines for AI tools (Antigravity, Cursor, Vibe Coding, Claude, ChatGPT).
-- 🚀 **ExtractTheme Studio Web UI**: Hostable web dashboard (`server.py` + `http://localhost:8000`) with interactive flag sliders, URL presets, live chunked terminal output, and a theme folder explorer with live color swatches.
+- 🚀 **ExtractDesign Studio Web UI**: Hostable web dashboard (`server.py` + `http://localhost:8000`) with interactive flag sliders, URL presets, live chunked terminal output, and a theme folder explorer with live color swatches.
 
 ---
 
@@ -90,20 +90,26 @@ python extract_theme.py https://vercel.com -o ./my-vercel-theme
 
 ### 3. Launching the Web UI Studio
 
-To launch the hostable web application dashboard:
+**Windows (One-Click Launch):**
+Double-click `app-run.bat` or run:
+```cmd
+app-run.bat
+```
+This automatically verifies dependencies, releases port 8000, starts the server, and opens your default browser to `http://localhost:8000`.
 
+**Cross-Platform / CLI:**
 ```bash
 python server.py
 ```
 
-Open **`http://localhost:8000`** in your browser to access the **ExtractTheme Studio Workbench**:
-- Interactive flag sliders & URL preset pills
-- Real-time chunked terminal streaming log
-- Output directory explorer with visual theme swatches
-- One-click launch for `style-guide.html` and modal code viewer for `DESIGN.md` & `theme.css`.
+Open **`http://localhost:8000`** in your browser to access the **ExtractDesign Studio Workbench**:
+- Interactive extraction controls & live terminal streaming
+- Multi-dimensional website intelligence dashboard with 14 in-depth audit tabs
+- Output directory explorer with visual theme swatches and token inspection
+- One-click launch for `style-guide.html`, Next.js component generator, and modal code viewer for `DESIGN.md`, tokens, and CSS variables.
 
 ---
 
 ## 🤝 License
 
-MIT License. Built for designers, frontend developers, and AI-driven UI workflows.
+Apache-2.0 License. Developed by Karthikeyan T (@carthworks). Built for designers, frontend developers, and AI-driven UI workflows.
