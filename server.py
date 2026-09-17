@@ -12,6 +12,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import time
 import zipfile
 from http.server import HTTPServer, SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -76,6 +77,28 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
         if path.startswith("/output/"):
             return self._handle_serve_output(path[8:])
 
+        if path in ("/", "/landing", "/landing.html"):
+            landing_file = PUBLIC_DIR / "landing.html"
+            if landing_file.exists():
+                content = landing_file.read_bytes()
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(content)))
+                self.end_headers()
+                self.wfile.write(content)
+                return
+
+        if path in ("/studio", "/app", "/workbench"):
+            index_file = PUBLIC_DIR / "index.html"
+            if index_file.exists():
+                content = index_file.read_bytes()
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(content)))
+                self.end_headers()
+                self.wfile.write(content)
+                return
+
         if PUBLIC_DIR.exists():
             return super().do_GET()
 
@@ -88,7 +111,33 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
         if path == "/api/extract":
             return self._handle_post_extract()
 
+        if path in ("/api/auth/magic-link", "/api/magic-link"):
+            return self._handle_magic_link()
+
         self.send_error(404, "Endpoint not found")
+
+    def _handle_magic_link(self):
+        content_length = int(self.headers.get("Content-Length", 0))
+        post_data = self.rfile.read(content_length)
+        try:
+            payload = json.loads(post_data.decode("utf-8"))
+        except Exception:
+            return self._send_json({"error": "Invalid JSON body"}, status=400)
+
+        email = payload.get("email", "").strip().lower()
+        if not email or "@" not in email or "." not in email:
+            return self._send_json({"error": "A valid email address is required"}, status=400)
+
+        import hashlib
+        import time
+        token = hashlib.sha256(f"{email}:{time.time()}".encode()).hexdigest()[:32]
+        return self._send_json({
+            "status": "ok",
+            "message": "Magic access link generated successfully.",
+            "email": email,
+            "token": token,
+            "access_url": f"/studio?auth={token}&user={email}"
+        })
 
     def _send_json(self, data: dict | list, status: int = 200):
         body = json.dumps(data, indent=2, ensure_ascii=False).encode("utf-8")

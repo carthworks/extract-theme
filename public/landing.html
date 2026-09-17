@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ExtractDesign Studio — Engineering-Grade Website Intelligence, Simplified</title>
+  <meta name="description" content="Reverse-engineer design systems, UI components & website intelligence from any live URL. Extract tokens, components, assets, accessibility, SEO and performance audits.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+  <meta name="author" content="Karthikeyan T (@carthworks)">
+  <meta name="theme-color" content="#07090e">
+  <link rel="canonical" href="http://localhost:8000/">
+
+  <!-- Open Graph & Social Cards -->
+  <meta property="og:title" content="ExtractDesign Studio — Engineering-Grade Website Intelligence">
+  <meta property="og:description" content="Point it at any public URL. ExtractDesign Studio reveals the design system behind it alongside accessibility, SEO, security and performance analysis.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ExtractDesign Studio — Reverse-Engineer Design Systems">
+  <meta name="twitter:description" content="Get the essentials free. Unlock complete intelligence reports for ₹149.">
+
+  <!-- Typography & Resource Hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="landing.css?v=1">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Ambient Glowing Mesh Background -->
+  <div class="ambient-background" aria-hidden="true">
+    <div class="ambient-orb orb-top-left"></div>
+    <div class="ambient-orb orb-mid-right"></div>
+    <div class="ambient-orb orb-bottom-center"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- Navigation Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="brand-link">
+        <div class="brand-icon">
+          <i data-lucide="palette" style="width:20px;height:20px;"></i>
+        </div>
+        <div class="brand-title">ExtractDesign <span>Studio</span></div>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#what-you-get" class="nav-link">What You Get</a></li>
+          <li><a href="#beyond-design" class="nav-link">Beyond Design</a></li>
+          <li><a href="#ai-insights" class="nav-link">AI Insights</a></li>
+          <li><a href="#pricing" class="nav-link">Pricing</a></li>
+          <li><a href="#personas" class="nav-link">Use Cases</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div id="user-session-badge"></div>
+        <button type="button" class="btn btn-secondary btn-sm btn-open-login" title="Access your workspace">
+          <i data-lucide="key-round" style="width:14px;height:14px;"></i>
+          <span>Workspace Login</span>
+        </button>
+        <a href="/studio" class="btn btn-primary btn-sm btn-glow">
+          <i data-lucide="layout-dashboard" style="width:14px;height:14px;"></i>
+          <span>Studio Workbench</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- 01 · Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-pill">
+          <span class="pulse-dot"></span>
+          <span>Reverse-engineer live design systems & intelligence</span>
+        </div>
+
+        <h1 class="hero-title">
+          Engineering-grade<br>
+          <span class="gradient-text">website intelligence, simplified.</span>
+        </h1>
+
+        <p class="hero-desc">
+          Point it at any public URL. ExtractDesign Studio reveals the design system behind it — colors, typography, components, layout and assets — alongside accessibility, SEO, security and performance analysis.
+        </p>
+
+        <div class="hero-pricing-note">
+          Get the essentials free. Unlock the complete report for ₹149.
+        </div>
+
+        <!-- Interactive Hero URL Input -->
+        <div class="hero-input-container">
+          <form id="hero-analyze-form" class="hero-form">
+            <div class="hero-input-icon">
+              <i data-lucide="globe" style="width:18px;height:18px;"></i>
+            </div>
+            <input 
+              type="text" 
+              id="hero-target-url" 
+              class="hero-input" 
+              placeholder="https://stripe.com or domain.com" 
+              value="https://stripe.com" 
+              required
+              aria-label="Website URL to analyze"
+            >
+            <button type="submit" class="btn btn-primary btn-glow">
+              <i data-lucide="scan" style="width:16px;height:16px;"></i>
+              <span>Analyze a Website</span>
+            </button>
+          </form>
+
+          <!-- Preset pills -->
+          <div class="preset-row">
+            <span>Try sample:</span>
+            <button type="button" class="preset-tag" data-url="https://stripe.com">stripe.com</button>
+            <button type="button" class="preset-tag" data-url="https://linear.app">linear.app</button>
+            <button type="button" class="preset-tag" data-url="https://vercel.com">vercel.com</button>
+            <button type="button" class="preset-tag" data-url="https://airbnb.com">airbnb.com</button>
+          </div>
+        </div>
+
+        <div class="hero-actions-row">
+          <button type="button" class="btn btn-secondary btn-lg btn-open-demo">
+            <i data-lucide="play" style="width:16px;height:16px;fill:currentColor;"></i>
+            <span>Open Live Demo</span>
+          </button>
+        </div>
+
+        <div class="hero-trust-badge">
+          <i data-lucide="shield-check" style="width:15px;height:15px;"></i>
+          <span>No signup required to start.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 · What you get -->
+    <section id="what-you-get" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">02 · What you get</span>
+          <h2 class="section-title">One URL. One complete analysis.</h2>
+          <p class="section-desc">Paste any public website URL and get a structured view of how it is built, designed and presented.</p>
+        </div>
+
+        <div class="features-grid">
+          <!-- Card 1: Design System -->
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <i data-lucide="palette" style="width:24px;height:24px;"></i>
+            </div>
+            <h3 class="feature-card-title">Design System</h3>
+            <p class="feature-card-desc">Colors, typography, spacing, gradients, shadows, radius and reusable design tokens.</p>
+          </div>
+
+          <!-- Card 2: Components -->
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <i data-lucide="boxes" style="width:24px;height:24px;"></i>
+            </div>
+            <h3 class="feature-card-title">Components</h3>
+            <p class="feature-card-desc">Identify recurring UI patterns including navigation, buttons, cards, forms, CTAs and more.</p>
+          </div>
+
+          <!-- Card 3: Layout & Responsive -->
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <i data-lucide="layout-grid" style="width:24px;height:24px;"></i>
+            </div>
+            <h3 class="feature-card-title">Layout & Responsive</h3>
+            <p class="feature-card-desc">Understand page structure, containers, grids, spacing and responsive behavior.</p>
+          </div>
+
+          <!-- Card 4: Assets -->
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <i data-lucide="image" style="width:24px;height:24px;"></i>
+            </div>
+            <h3 class="feature-card-title">Assets</h3>
+            <p class="feature-card-desc">Discover images, SVGs, icons, fonts and other publicly accessible assets.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 · Beyond design -->
+    <section id="beyond-design" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">03 · Beyond design</span>
+          <h2 class="section-title">See what the website is really doing.</h2>
+          <p class="section-desc">ExtractDesign Studio goes beyond visual styles to analyze the technical and content layer.</p>
+        </div>
+
+        <div class="audit-table-card">
+          <table class="audit-table">
+            <thead>
+              <tr>
+                <th style="width:35%;">Audit</th>
+                <th style="width:65%;">What you get</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="audit-category">
+                  <span class="audit-category-icon">♿</span>
+                  <span>Accessibility</span>
+                </td>
+                <td class="audit-details">Contrast, headings, labels, ARIA and accessibility issues</td>
+              </tr>
+              <tr>
+                <td class="audit-category">
+                  <span class="audit-category-icon">⚡</span>
+                  <span>Performance</span>
+                </td>
+                <td class="audit-details">Page weight, resources, images, scripts and loading signals</td>
+              </tr>
+              <tr>
+                <td class="audit-category">
+                  <span class="audit-category-icon">🔍</span>
+                  <span>SEO</span>
+                </td>
+                <td class="audit-details">Metadata, headings, canonical, links, sitemap and structured data</td>
+              </tr>
+              <tr>
+                <td class="audit-category">
+                  <span class="audit-category-icon">🔐</span>
+                  <span>Security</span>
+                </td>
+                <td class="audit-details">HTTPS and publicly observable security headers</td>
+              </tr>
+              <tr>
+                <td class="audit-category">
+                  <span class="audit-category-icon">🛠</span>
+                  <span>Technology</span>
+                </td>
+                <td class="audit-details">Frameworks, libraries, CMS, analytics and infrastructure signals</td>
+              </tr>
+              <tr>
+                <td class="audit-category">
+                  <span class="audit-category-icon">📝</span>
+                  <span>Content</span>
+                </td>
+                <td class="audit-details">Headlines, CTAs, value proposition and content structure</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 · AI Insights -->
+    <section id="ai-insights" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">04 · AI Insights</span>
+          <h2 class="section-title">Facts first. Intelligence second.</h2>
+          <p class="section-desc">The report clearly separates what was actually detected from AI-generated interpretation.</p>
+        </div>
+
+        <div class="insights-card-wrapper">
+          <div class="insights-card">
+            <div class="insights-grid">
+              <!-- Left: Facts -->
+              <div class="insight-box">
+                <div class="insight-tag tag-fact">
+                  <i data-lucide="check-circle-2" style="width:12px;height:12px;"></i>
+                  <span>Observed facts</span>
+                </div>
+                <p class="insight-text">
+                  40 distinct color values extracted from stylesheets.
+                </p>
+              </div>
+
+              <!-- Right: Interpretation -->
+              <div class="insight-box">
+                <div class="insight-tag tag-ai">
+                  <i data-lucide="sparkles" style="width:12px;height:12px;"></i>
+                  <span>AI interpretation</span>
+                </div>
+                <p class="insight-text">
+                  The visual system uses strong contrast and focused accent colors to establish a clear action hierarchy.
+                </p>
+              </div>
+            </div>
+
+            <div class="insights-guarantee">
+              No guessing disguised as data.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 · Your design system, ready to use -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">05 · Your design system, ready to use</span>
+          <h2 class="section-title">Don't just analyze it. Take it with you.</h2>
+          <p class="section-desc">Turn extracted website intelligence into development-ready assets.</p>
+        </div>
+
+        <div class="exports-wrapper">
+          <div class="export-badges-grid">
+            <div class="export-badge">
+              <i data-lucide="code-2" style="width:16px;height:16px;"></i>
+              <span>JSON design tokens</span>
+            </div>
+            <div class="export-badge">
+              <i data-lucide="hash" style="width:16px;height:16px;"></i>
+              <span>CSS variables</span>
+            </div>
+            <div class="export-badge">
+              <i data-lucide="layers" style="width:16px;height:16px;"></i>
+              <span>Tailwind configuration</span>
+            </div>
+            <div class="export-badge">
+              <i data-lucide="boxes" style="width:16px;height:16px;"></i>
+              <span>Component references</span>
+            </div>
+            <div class="export-badge">
+              <i data-lucide="file-text" style="width:16px;height:16px;"></i>
+              <span>DESIGN.md</span>
+            </div>
+            <div class="export-badge">
+              <i data-lucide="archive" style="width:16px;height:16px;"></i>
+              <span>Complete ZIP bundle</span>
+            </div>
+          </div>
+
+          <div>
+            <a href="/studio?url=https://stripe.com" class="btn btn-secondary btn-lg">
+              <i data-lucide="external-link" style="width:16px;height:16px;"></i>
+              <span>Explore a Live Report</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 · Pricing -->
+    <section id="pricing" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">06 · Pricing</span>
+          <h2 class="section-title">Start free. Pay only when you need the full report.</h2>
+          <p class="section-desc">Flexible access for designers, indie builders, and engineering teams.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- Free Tier -->
+          <div class="pricing-card">
+            <div class="pricing-tier-name">FREE</div>
+            <div class="pricing-price">₹0</div>
+            <div class="pricing-frequency">Forever free</div>
+            <p class="pricing-desc">For exploring the product.</p>
+
+            <ul class="pricing-features-list">
+              <li class="pricing-feature-item">
+                <i data-lucide="check" style="width:16px;height:16px;"></i>
+                <span>3 analyses / month</span>
+              </li>
+              <li class="pricing-feature-item">
+                <i data-lucide="check" style="width:16px;height:16px;"></i>
+                <span>Basic overview</span>
+              </li>
+              <li class="pricing-feature-item">
+                <i data-lucide="check" style="width:16px;height:16px;"></i>
+                <span>Colors</span>
+              </li>
+              <li class="pricing-feature-item">
+                <i data-lucide="check" style="width:16px;height:16px;"></i>
+                <span>Fonts</span>
+              </li>
+              <li class="pricing-feature-item">
+                <i data-lucide="check" style="width:16px;height:16px;"></i>
+                <span>Technology detection</span>
+              </li>
+              <li class="pricing-feature-item">
+                <i data-lucide="check" style="width:16px;height:16px;"></i>
+                <span>Basic component detection</span>
+              </li>
+              <li class="pricing-feature-item">
+                <i data-lucide="check" style="width:16px;height:16px;"></i>
+                <span>Basic SEO & accessibility scores</span>
+              </li>
+            </ul>
+
+            <a href="/studio" class="btn btn-secondary btn-lg" style="width:100%;">
+              <span>Start Free</span>
+            </a>
+          </div>
+
+          <!-- Full Report Tier -->
+          <div class="pricing-card featured">
+            <div class="pricing-tier-name">FULL REPORT</div>
+            <div class="pricing-price">₹149</div>
+            <div class="pricing-frequency">One-time payment</div>
+            <p class="pricing-desc">For a complete website intelligence report.</p>
+
+            <ul class="pricing-features-list">
+              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>Full Design System</span></li>
+              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>Components & Layout</span></li>
+              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>Assets & Responsive analysis</span></li>
+              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>Accessibility (WCAG 2.1)</span></li>
+              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>Performance & Core Web Vitals</span></li>
+              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>SEO & Security Headers</span></li>
+              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>Technology & Content analysis</span></li>
+              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>AI Insights & Style Guide HTML</span></li>
+              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>CSS export & JSON Tokens</span></li>
+              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>DESIGN.md & ZIP export</span></li>
+            </ul>
+
+            <button type="button" class="btn btn-primary btn-lg btn-glow btn-unlock-report" style="width:100%;">
+              <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
+              <span>Unlock Full Report — ₹149</span>
+            </button>
+
+            <div class="pricing-footnote">One payment. No subscription.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 · Built for people who build -->
+    <section id="personas" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">07 · Built for people who build</span>
+          <h2 class="section-title">Designers. Developers. Agencies. Product teams.</h2>
+          <p class="section-desc">Use ExtractDesign Studio when you need to understand an existing website before you build, redesign or benchmark it.</p>
+        </div>
+
+        <div class="personas-grid">
+          <!-- Persona 1 -->
+          <div class="persona-card">
+            <div class="persona-role">DESIGNERS</div>
+            <p class="persona-desc">Reverse-engineer visual systems and establish design references.</p>
+          </div>
+
+          <!-- Persona 2 -->
+          <div class="persona-card">
+            <div class="persona-role">DEVELOPERS</div>
+            <p class="persona-desc">Extract tokens, components and technical patterns before rebuilding.</p>
+          </div>
+
+          <!-- Persona 3 -->
+          <div class="persona-card">
+            <div class="persona-role">AGENCIES</div>
+            <p class="persona-desc">Analyze client and competitor websites before starting a project.</p>
+          </div>
+
+          <!-- Persona 4 -->
+          <div class="persona-card">
+            <div class="persona-role">PRODUCT TEAMS</div>
+            <p class="persona-desc">Turn public websites into structured competitive intelligence.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 · Access your workspace -->
+    <section id="workspace" class="section">
+      <div class="container">
+        <div class="workspace-card">
+          <span class="section-label">08 · Access your workspace</span>
+          <h2 class="workspace-title">Already unlocked a report?</h2>
+          <p class="workspace-desc">
+            Enter the email address you used during checkout and we'll send you a secure magic link to access your reports and downloads.
+          </p>
+
+          <form id="inline-magic-form" class="magic-link-form">
+            <input 
+              type="email" 
+              id="inline-magic-email" 
+              class="magic-input" 
+              placeholder="you@studio.com" 
+              required
+              aria-label="Email address for workspace access"
+            >
+            <button type="submit" id="inline-magic-submit" class="btn btn-primary btn-lg btn-glow">
+              <span class="spinner hidden"></span>
+              <span class="btn-text">Send Access Link</span>
+            </button>
+          </form>
+
+          <div id="inline-magic-feedback" class="magic-feedback"></div>
+
+          <div class="workspace-footnote">No password. No account to remember.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta-section">
+      <div class="container">
+        <div class="final-cta-card">
+          <h2 class="final-cta-title">
+            Point at a website.<br>
+            Understand how it's designed.
+          </h2>
+          <p class="final-cta-desc">
+            Extract the system. Analyze the experience. Export what you need.
+          </p>
+          <div>
+            <a href="/studio" class="btn btn-primary btn-lg btn-glow">
+              <i data-lucide="scan" style="width:16px;height:16px;"></i>
+              <span>Analyze a Website — Free</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Login & Magic Link Modal -->
+  <div id="login-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <button type="button" id="close-login-modal" class="modal-close-btn" aria-label="Close modal">
+        <i data-lucide="x" style="width:18px;height:18px;"></i>
+      </button>
+      
+      <div class="modal-header-icon">
+        <i data-lucide="mail-check" style="width:22px;height:22px;"></i>
+      </div>
+
+      <h3 id="modal-title" class="modal-title">Access Your Workspace</h3>
+      <p id="modal-sub" class="modal-sub">Enter your email address to receive an instant access link and retrieve all previously unlocked reports.</p>
+
+      <form id="modal-magic-form" class="magic-link-form" style="max-width:100%;">
+        <input 
+          type="email" 
+          id="modal-magic-email" 
+          class="magic-input" 
+          placeholder="you@studio.com" 
+          required
+          aria-label="Email address"
+        >
+        <button type="submit" id="modal-magic-submit" class="btn btn-primary btn-lg btn-glow" style="width:100%;">
+          <span class="spinner hidden"></span>
+          <span class="btn-text">Send Access Link</span>
+        </button>
+      </form>
+
+      <div id="modal-magic-feedback" class="magic-feedback"></div>
+
+      <div class="workspace-footnote" style="margin-top:16px;text-align:center;">
+        No password. No account to remember.
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="brand-link">
+          <div class="brand-icon" style="width:30px;height:30px;">
+            <i data-lucide="palette" style="width:16px;height:16px;"></i>
+          </div>
+          <span style="font-weight:700;color:#fff;">ExtractDesign Studio</span>
+        </div>
+        <ul class="footer-links">
+          <li><a href="/studio">Studio Workbench</a></li>
+          <li><a href="#what-you-get">What You Get</a></li>
+          <li><a href="#beyond-design">Audits</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#workspace">Workspace Login</a></li>
+          <li><a href="https://github.com/carthworks/extract-theme" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          ExtractDesign Studio &bull; Developed by Karthikeyan T (@carthworks) &bull; Released under Apache-2.0
+        </div>
+        <div class="footer-legal-notice">
+          All extracted trademarks, brand logos, color tokens, and design assets remain the intellectual property of their respective website and brand owners.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="landing.js?v=1"></script>
+</body>
+</html>

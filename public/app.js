@@ -240,7 +240,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Initial Load ---
-  fetchProjects();
+  fetchProjects().then(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const qUrl = searchParams.get('url');
+    if (qUrl) {
+      targetUrlInput.value = qUrl;
+      const cleanHost = qUrl.replace(/^https?:\/\//i, '').replace(/^www\./i, '').split('/')[0].replace(/[^\w.-]/g, '_');
+      const existing = (allProjects || []).find(p => p.domain === cleanHost || p.domain.replace(/_/g, '.') === cleanHost);
+      if (existing) {
+        openIntelligenceDashboard(existing.domain);
+      }
+    }
+  });
 
   // --- Event Listeners ---
 
