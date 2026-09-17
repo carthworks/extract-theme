@@ -1,12 +1,14 @@
-# 🎨 ExtractTheme — Automated Design System & Style Guide Generator
+# 🎨 ExtractDesign Studio — Reverse-Engineer Design Systems & Website Intelligence
 
-**ExtractTheme** is a powerful Python CLI tool and Web UI Workbench that crawls any website, parses its CSS stylesheet architecture using `tinycss2`, normalizes visual tokens, and outputs a complete, production-ready design system.
+> **Reverse-engineer design systems, UI components & website intelligence from any live URL.**
 
-![ExtractTheme Studio](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+**ExtractDesign Studio** is a comprehensive Python CLI tool and Web UI Workbench that crawls any website, parses its CSS stylesheet architecture using `tinycss2`, normalizes visual tokens, performs multi-dimensional audits (Accessibility, Performance, SEO, Security), and outputs complete, production-ready design systems with interactive style guides.
+
+![ExtractDesign Studio](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_v3_%26_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
-![ExtractTheme Studio Web Workbench](homepage.png)
+![ExtractDesign Studio Web Workbench](homepage.png)
 
 ---
 
