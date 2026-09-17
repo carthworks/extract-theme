@@ -1,4 +1,100 @@
-// app.js - ExtractTheme Studio Workbench Client Application
+// app.js - ExtractDesign Studio Workbench Client Application
+
+// =========================================================================
+// 🚀 Developer Console Signature & Interactive DevTools Helper
+// =========================================================================
+(function initConsoleSignature() {
+  if (typeof window === 'undefined' || window.__EXTRACT_DESIGN_SIGNATURE__) return;
+  window.__EXTRACT_DESIGN_SIGNATURE__ = true;
+
+  const headerStyle = 'font-size: 14px; font-weight: 700; background: linear-gradient(135deg, #6366f1, #06b6d4); color: #ffffff; padding: 6px 14px; border-radius: 6px; text-shadow: 0 1px 2px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15);';
+  const labelStyle = 'font-weight: 600; color: #06b6d4;';
+  const textStyle = 'color: #94a3b8;';
+  const linkStyle = 'color: #818cf8; font-weight: 500; text-decoration: underline;';
+  const quoteStyle = 'font-style: italic; color: #10b981;';
+  const tipStyle = 'font-family: monospace; color: #38bdf8; background: rgba(56,189,248,0.1); padding: 2px 6px; border-radius: 4px;';
+
+  console.log('%c🎨 ExtractDesign Studio v2.0.0 — Reverse-Engineering Engine', headerStyle);
+  console.log(
+    '%c👨‍💻 Developer:%c Karthikeyan T (@carthworks)\n' +
+    '%c✉️  Email:     %ctkarthikeyan@gmail.com\n' +
+    '%c💼 LinkedIn:  %chttps://www.linkedin.com/in/carthworks\n' +
+    '%c🐙 GitHub:    %chttps://github.com/carthworks\n' +
+    '%c🌐 Portfolio: %chttps://carthworks.github.io\n' +
+    '%c📦 Project:   %chttps://github.com/carthworks/extract-theme\n' +
+    '%c📜 License:   %cApache-2.0\n' +
+    '%c✨ Mission:   %c"Reverse-engineer design systems, UI components & website intelligence from any live URL."',
+    labelStyle, textStyle,
+    labelStyle, textStyle,
+    labelStyle, linkStyle,
+    labelStyle, linkStyle,
+    labelStyle, linkStyle,
+    labelStyle, linkStyle,
+    labelStyle, textStyle,
+    labelStyle, quoteStyle
+  );
+
+  console.log(
+    '%c💡 DevTools Tip:%c Run %cExtractDesign.help()%c to inspect projects and interactive tools!',
+    'font-weight:bold; color:#f59e0b;',
+    'color:#94a3b8;',
+    tipStyle,
+    'color:#94a3b8;'
+  );
+
+  // Global Interactive DevTools API
+  window.ExtractDesign = {
+    version: '2.0.0',
+    developer: {
+      name: 'Karthikeyan T',
+      handle: '@carthworks',
+      email: 'tkarthikeyan@gmail.com',
+      linkedIn: 'https://www.linkedin.com/in/carthworks',
+      github: 'https://github.com/carthworks',
+      portfolio: 'https://carthworks.github.io'
+    },
+    project: {
+      name: 'ExtractDesign Studio',
+      repo: 'https://github.com/carthworks/extract-theme',
+      license: 'Apache-2.0'
+    },
+    security: {
+      contact: 'tkarthikeyan@gmail.com',
+      policy: 'Report vulnerabilities responsibly via GitHub issues or direct email.'
+    },
+    help: () => {
+      console.table({
+        'ExtractDesign.inspect(domain)': 'Open intelligence dashboard for any domain (e.g. ExtractDesign.inspect("stripe.com"))',
+        'ExtractDesign.listProjects()': 'List all currently extracted design systems and metadata in console table',
+        'ExtractDesign.developer': 'Developer profile and social contact links',
+        'ExtractDesign.project': 'Repository, version, and licensing details',
+        'ExtractDesign.security': 'Security disclosure and vulnerability contact'
+      });
+      return '🚀 ExtractDesign DevTools helper ready!';
+    },
+    inspect: (domain) => {
+      if (typeof window.openIntelligenceDashboard === 'function') {
+        window.openIntelligenceDashboard(domain);
+        return `Opening dashboard for ${domain}...`;
+      }
+      return 'Dashboard controller initializing...';
+    },
+    listProjects: () => {
+      if (window.__EXTRACT_DESIGN_PROJECTS__) {
+        console.table(window.__EXTRACT_DESIGN_PROJECTS__.map(p => ({
+          domain: p.domain,
+          archetype: p.meta?.style_archetype || 'Modern Web',
+          components: p.meta?.components_count || 0,
+          colors: p.meta?.colors_count || 0,
+          a11yScore: p.meta?.intelligence_scores?.accessibility ?? 'N/A',
+          seoScore: p.meta?.intelligence_scores?.seo ?? 'N/A'
+        })));
+        return `${window.__EXTRACT_DESIGN_PROJECTS__.length} projects loaded.`;
+      }
+      return 'No projects loaded yet.';
+    }
+  };
+})();
 
 document.addEventListener('DOMContentLoaded', () => {
   // Elements
@@ -285,6 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       const data = await res.json();
       allProjects = data.projects || [];
+      window.__EXTRACT_DESIGN_PROJECTS__ = allProjects;
       if (statusBadge) {
         if (data.storage_configured) {
           statusBadge.innerHTML = `<span class="pulse" style="background:#10b981;box-shadow:0 0 8px rgba(16,185,129,0.5)"></span> Cloud Storage: Connected`;
@@ -660,6 +757,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   async function openIntelligenceDashboard(domain) {
+    window.openIntelligenceDashboard = openIntelligenceDashboard;
     currentIntelDomain = domain;
     if (!dashboardSection || !projectsSection) return;
 
@@ -1324,7 +1422,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <div class="spec-list">
             <div class="spec-item">
-              <span class="spec-item-key">Render-Blocking Scripts (<head>)</span>
+              <span class="spec-item-key">Render-Blocking Scripts (&lt;head&gt;)</span>
               <span class="spec-item-val" style="color:${opt.render_blocking_scripts_count > 0 ? 'var(--warning)' : 'var(--success)'};">${opt.render_blocking_scripts_count || 0}</span>
             </div>
             <div class="spec-item">
@@ -1336,12 +1434,42 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="spec-item-val">${escapeHtml(opt.lazy_loaded_images || 'Not detected')}</span>
             </div>
             <div class="spec-item">
+              <span class="spec-item-key">Images Missing Dimensions (CLS Risk)</span>
+              <span class="spec-item-val" style="color:${(opt.images_without_dimensions_count || 0) > 0 ? 'var(--warning)' : 'var(--success)'};">${opt.images_without_dimensions_count || 0}</span>
+            </div>
+            <div class="spec-item">
               <span class="spec-item-key">Preconnect / Preload Hints</span>
               <span class="spec-item-val">${(opt.resource_hints || []).length || 0} configured</span>
             </div>
           </div>
         </div>
       </div>
+
+      ${(() => {
+        const nextPerf = perf.nextjs_performance || {};
+        const recs = nextPerf.recommendations || [];
+        if (!recs.length) return '';
+        const recsHtml = recs.map(r => `
+          <div class="issue-card warning">
+            <div class="issue-header">
+              <span class="issue-badge badge-warning">${icon('zap', 'icon-xs')} Next.js Performance Optimization</span>
+              <span class="issue-rule">Core Web Vitals</span>
+            </div>
+            <div class="issue-message" style="font-size:13px;color:var(--text-main);">${escapeHtml(r)}</div>
+          </div>
+        `).join('');
+        return `
+          <div class="intel-card" style="margin-top:16px;">
+            <div class="intel-card-header">
+              <h3 class="intel-card-title">${icon('trending-up', 'icon-sm')} Next.js Performance & Core Web Vitals Audit</h3>
+              <span class="intel-card-badge">Target: LCP &lt; 2.5s &bull; CLS &lt; 0.1</span>
+            </div>
+            <div class="issue-list">
+              ${recsHtml}
+            </div>
+          </div>
+        `;
+      })()}
     `;
   }
 
@@ -1615,6 +1743,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const exports = data.exports || {};
     const ds = data.design_system || {};
     const reactCode = exports.react_components || '';
+    const layoutCode = exports.nextjs_layout || '';
     const cssVars = ds.css_variables || '';
     const domain = currentIntelDomain || 'extracted-theme';
 
@@ -1622,26 +1751,38 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="intel-grid-2">
         <div class="intel-card">
           <div class="intel-card-header">
-            <h3 class="intel-card-title">${icon('file-code', 'icon-sm')} React Component Boilerplate</h3>
+            <h3 class="intel-card-title">${icon('file-code', 'icon-sm')} Next.js App Router Components</h3>
             <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(reactCode)}">
-              ${icon('copy', 'icon-xs')} <span>Copy React Code</span>
+              ${icon('copy', 'icon-xs')} <span>Copy Components</span>
             </button>
           </div>
           <div class="code-box-wrapper">
-            <pre class="code-box-content">${escapeHtml(reactCode || '// React component template')}</pre>
+            <pre class="code-box-content">${escapeHtml(reactCode || '// Next.js App Router component template')}</pre>
           </div>
         </div>
 
         <div class="intel-card">
           <div class="intel-card-header">
-            <h3 class="intel-card-title">${icon('file-text', 'icon-sm')} CSS Variables & Tokens</h3>
-            <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(cssVars)}">
-              ${icon('copy', 'icon-xs')} <span>Copy CSS Variables</span>
+            <h3 class="intel-card-title">${icon('layout', 'icon-sm')} Next.js Root Layout (Zero-CLS)</h3>
+            <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(layoutCode)}">
+              ${icon('copy', 'icon-xs')} <span>Copy Layout</span>
             </button>
           </div>
           <div class="code-box-wrapper">
-            <pre class="code-box-content">${escapeHtml(cssVars || '/* No CSS variables */')}</pre>
+            <pre class="code-box-content">${escapeHtml(layoutCode || '// app/layout.tsx')}</pre>
           </div>
+        </div>
+      </div>
+
+      <div class="intel-card" style="margin-top:16px;">
+        <div class="intel-card-header">
+          <h3 class="intel-card-title">${icon('file-text', 'icon-sm')} CSS Variables & Tokens</h3>
+          <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(cssVars)}">
+            ${icon('copy', 'icon-xs')} <span>Copy CSS Variables</span>
+          </button>
+        </div>
+        <div class="code-box-wrapper">
+          <pre class="code-box-content">${escapeHtml(cssVars || '/* No CSS variables */')}</pre>
         </div>
       </div>
 

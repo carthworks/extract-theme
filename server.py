@@ -39,6 +39,14 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "SAMEORIGIN")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()")
+        self.send_header(
+            "Content-Security-Policy",
+            "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; "
+            "img-src 'self' https: data: blob:; font-src 'self' https: data:; "
+            "style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; "
+            "frame-ancestors 'self';"
+        )
         super().end_headers()
 
     def do_OPTIONS(self):
@@ -106,11 +114,13 @@ class ExtractThemeHandler(SimpleHTTPRequestHandler):
             Path(tempfile.gettempdir()) / "extract_theme_output" / domain / "site-intelligence.json",
         ]
 
+        refresh = qs.get("refresh", [""])[0] in ("true", "1")
         for target in candidates:
-            if target.exists() and target.is_file():
+            if not refresh and target.exists() and target.is_file():
                 try:
                     data = json.loads(target.read_text(encoding="utf-8"))
-                    return self._send_json(data)
+                    if data.get("performance", {}).get("nextjs_performance"):
+                        return self._send_json(data)
                 except Exception as exc:
                     return self._send_json({"error": f"Failed to read intelligence: {exc}"}, status=500)
 
