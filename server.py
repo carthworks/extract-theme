@@ -94,6 +94,17 @@ def serve_studio():
     return jsonify({"error": "index.html not found"}), 404
 
 
+@app.route("/vibe-coders")
+@app.route("/how-to-vibe-coders")
+@app.route("/vibe-coding")
+@app.route("/vibe-coders.html")
+def serve_vibe_coders():
+    vibe_file = PUBLIC_DIR / "vibe-coders.html"
+    if vibe_file.is_file():
+        return send_from_directory(PUBLIC_DIR, "vibe-coders.html")
+    return jsonify({"error": "vibe-coders.html not found"}), 404
+
+
 
 
 # =============================================================================
@@ -1042,11 +1053,19 @@ def api_extract():
 def serve_static(filename: str):
     if filename.startswith("api/") or filename == "api":
         return jsonify({"error": f"API endpoint '/{filename}' not found"}), 404
+
+    # 1. Exact file match
     target = (PUBLIC_DIR / filename).resolve()
-    # Prevent path traversal outside PUBLIC_DIR
     if target.is_file() and str(target).startswith(str(PUBLIC_DIR.resolve())):
         return send_from_directory(PUBLIC_DIR, filename)
+
+    # 2. Clean URL fallback (e.g. /vibe-coders -> /vibe-coders.html)
+    html_target = (PUBLIC_DIR / f"{filename}.html").resolve()
+    if html_target.is_file() and str(html_target).startswith(str(PUBLIC_DIR.resolve())):
+        return send_from_directory(PUBLIC_DIR, f"{filename}.html")
+
     return jsonify({"error": "File not found"}), 404
+
 
 
 # =============================================================================

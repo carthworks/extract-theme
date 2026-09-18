@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Vibe Coder's Playbook — Turn Any Website Into Your AI's Design System</title>
+  <meta name="description" content="Stop building generic AI slop. Learn how vibe coders use ExtractDesign Studio to reverse-engineer design systems into DESIGN.md and Tailwind configs for Cursor, Claude, Antigravity, and v0.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+  <meta name="author" content="Karthikeyan T (@carthworks)">
+  <meta name="theme-color" content="#07090e">
+  <link rel="canonical" href="http://localhost:8000/vibe-coders">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="The Vibe Coder's Playbook — ExtractDesign Studio">
+  <meta property="og:description" content="Turn any website's aesthetic into your AI's design system. Zero design slop.">
+  <meta property="og:type" content="website">
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="landing.css?v=2">
+  <link rel="stylesheet" href="vibe-coders.css?v=1">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Ambient Glowing Background -->
+  <div class="ambient-background" aria-hidden="true">
+    <div class="ambient-orb orb-top-left"></div>
+    <div class="ambient-orb orb-mid-right"></div>
+    <div class="ambient-orb orb-bottom-center"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- Navigation Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="brand-link">
+        <div class="brand-icon">
+          <i data-lucide="sparkles" style="width:20px;height:20px;"></i>
+        </div>
+        <div class="brand-title">ExtractDesign <span>Studio</span></div>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="/" class="nav-link">Overview</a></li>
+          <li><a href="/studio" class="nav-link">Studio Workbench</a></li>
+          <li><a href="/vibe-coders" class="nav-link active" style="color:#818cf8;font-weight:600;"><i data-lucide="zap" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"></i> Vibe Coders</a></li>
+          <li><a href="/#pricing" class="nav-link">Pricing</a></li>
+          <li><a href="/studio#settings" class="nav-link"><i data-lucide="settings" style="width:13px;height:13px;vertical-align:middle;"></i> Settings</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="/studio" class="btn btn-primary btn-sm">
+          <i data-lucide="play" style="width:14px;height:14px;"></i> Launch Studio
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="position:relative; z-index:1; padding-top:40px; padding-bottom:80px;">
+    
+    <!-- Hero Section -->
+    <section style="text-align:center; max-width:860px; margin:0 auto 60px;">
+      <div class="vibe-badge">
+        <i data-lucide="bot" style="width:14px;height:14px;"></i> The Vibe Coder's Playbook · 2026 Edition
+      </div>
+      
+      <h1 class="hero-title hero-gradient-text" style="font-size:clamp(2.2rem, 5vw, 3.4rem); line-height:1.15; margin-bottom:20px; font-weight:800;">
+        Turn Any Website's Aesthetic Into Your AI's Design System.
+      </h1>
+      
+      <p style="font-size:1.15rem; color:var(--text-muted); line-height:1.6; margin-bottom:32px;">
+        Stop settling for generic <strong>AI slop</strong>. Extract real-world color tokens, typography scales, 8pt spacing grids, and component archetypes into clean <code>DESIGN.md</code> and Tailwind configs for <strong>Cursor, Claude, Antigravity, and v0</strong>.
+      </p>
+
+      <div style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+        <a href="/studio" class="btn btn-primary" style="padding:12px 24px;">
+          <i data-lucide="sparkles" style="width:16px;height:16px;"></i> Scan a Website in Studio
+        </a>
+        <a href="#prompt-generator" class="btn btn-secondary" style="padding:12px 24px;">
+          <i data-lucide="terminal" style="width:16px;height:16px;"></i> Open Prompt Generator
+        </a>
+      </div>
+    </section>
+
+    <!-- Side-by-Side: AI Slop vs Grounded Design -->
+    <section style="margin-bottom:70px;">
+      <div style="text-align:center; margin-bottom:24px;">
+        <h2 style="font-size:1.75rem; font-weight:700; color:#f8fafc; margin-bottom:8px;">The Vibe Coding Gap</h2>
+        <p style="color:var(--text-muted); font-size:0.95rem;">Why most AI-generated UI looks like a student project—and how to fix it.</p>
+      </div>
+
+      <div class="comparison-grid">
+        
+        <!-- Left: Generic AI Slop -->
+        <div class="comparison-card card-slop">
+          <div class="card-header-status">
+            <span class="status-pill bad"><i data-lucide="x-circle" style="width:13px;height:13px;"></i> The AI Slop Trap</span>
+            <span style="font-size:0.75rem; color:var(--danger); font-family:var(--font-mono);">No Context Provided</span>
+          </div>
+          
+          <div class="prompt-box">
+            <strong>Prompt:</strong> "Build me a sleek modern SaaS analytics card with metrics and a primary button."
+          </div>
+
+          <div style="font-size:0.85rem; color:#fca5a5; margin-bottom:12px; font-weight:600;">
+            ⚠️ What the LLM outputs:
+          </div>
+          <ul style="font-size:0.82rem; color:var(--text-muted); line-height:1.6; margin-left:18px; margin-bottom:18px;">
+            <li>Generic <code>#3b82f6</code> blue buttons that look like every other template</li>
+            <li>Random 13px / 17px un-gridded padding causing visual tension</li>
+            <li>Default system fonts with flat, lifeless contrast ratios</li>
+            <li>Flat gray cards with zero surface depth or glowing borders</li>
+          </ul>
+
+          <div class="mockup-preview" style="background:#0f172a; border-radius:8px; padding:16px; border:1px solid #334155;">
+            <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:4px;">Total Revenue</div>
+            <div style="font-size:1.3rem; font-weight:700; color:#ffffff; margin-bottom:10px;">$48,200.00</div>
+            <button style="background:#3b82f6; color:#ffffff; border:none; padding:6px 14px; border-radius:4px; font-size:0.78rem; font-weight:600; cursor:pointer;">
+              View Details
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Grounded with ExtractDesign -->
+        <div class="comparison-card card-grounded">
+          <div class="card-header-status">
+            <span class="status-pill good"><i data-lucide="check-circle-2" style="width:13px;height:13px;"></i> The Grounded Vibe</span>
+            <span style="font-size:0.75rem; color:var(--success); font-family:var(--font-mono);">Grounded via DESIGN.md</span>
+          </div>
+
+          <div class="prompt-box">
+            <strong>Prompt:</strong> "Using <code>@DESIGN.md</code>, build an analytics card with <code>--surface-elevated</code>, subtle 1px translucent border, and OKLab accent glow."
+          </div>
+
+          <div style="font-size:0.85rem; color:#6ee7b7; margin-bottom:12px; font-weight:600;">
+            ✨ What the LLM outputs:
+          </div>
+          <ul style="font-size:0.82rem; color:var(--text-muted); line-height:1.6; margin-left:18px; margin-bottom:18px;">
+            <li>OLED deep-space surface (<code>#0c0d12</code>) with multi-layered depth</li>
+            <li>Subtle 1px translucent border (<code>rgba(255,255,255,0.08)</code>) with radial hover glow</li>
+            <li>Mathematically snapped 8pt padding hierarchy (16px / 24px)</li>
+            <li>Curated OKLab brand accent and tactile micro-motion on hover</li>
+          </ul>
+
+          <div class="mockup-preview" style="background:#0c0d14; border-radius:12px; padding:18px; border:1px solid rgba(255,255,255,0.1); box-shadow:0 10px 30px -10px rgba(0,0,0,0.8), 0 0 20px -5px rgba(99,102,241,0.25);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:0.75rem; font-weight:600; color:#818cf8; text-transform:uppercase; letter-spacing:0.04em;">Performance ARR</span>
+              <span style="background:rgba(16,185,129,0.15); color:#34d399; font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:9999px; border:1px solid rgba(16,185,129,0.3);">+38.4%</span>
+            </div>
+            <div style="font-size:1.45rem; font-weight:800; color:#f8fafc; letter-spacing:-0.03em; margin-bottom:12px;">$128,450.00</div>
+            <button style="background:linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color:#ffffff; border:1px solid rgba(255,255,255,0.2); padding:8px 16px; border-radius:8px; font-size:0.8rem; font-weight:600; box-shadow:0 0 15px rgba(99,102,241,0.35); cursor:pointer;">
+              Explore Breakdown →
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- The 4-Step Playbook -->
+    <section style="margin-bottom:70px;">
+      <div style="text-align:center; max-width:600px; margin:0 auto 30px;">
+        <h2 style="font-size:1.75rem; font-weight:700; color:#f8fafc; margin-bottom:8px;">The 4-Step Vibe Coder Workflow</h2>
+        <p style="color:var(--text-muted); font-size:0.95rem;">From web inspiration to production code in 60 seconds.</p>
+      </div>
+
+      <div class="vibe-pipeline">
+        
+        <div class="step-card">
+          <span class="step-num">STEP 01</span>
+          <h3>1. Steal the Vibe</h3>
+          <p>Find any site whose design you admire (Linear, Stripe, Raycast, Vercel). Paste the URL into ExtractDesign Studio.</p>
+          <div class="step-code-preview">
+            &gt; python extract_theme.py https://linear.app
+          </div>
+        </div>
+
+        <div class="step-card">
+          <span class="step-num">STEP 02</span>
+          <h3>2. Anchor with DESIGN.md</h3>
+          <p>Copy the generated <code>DESIGN.md</code> into your project root. Reference it in your <code>.cursorrules</code> or Claude chat.</p>
+          <div class="step-code-preview">
+            @DESIGN.md "Follow tokens strictly"
+          </div>
+        </div>
+
+        <div class="step-card">
+          <span class="step-num">STEP 03</span>
+          <h3>3. Drop Framework Configs</h3>
+          <p>Copy <code>tailwind.theme.css</code> (v4) or <code>tailwind.config.js</code> (v3) and the extracted <code>fonts/</code> into your project.</p>
+          <div class="step-code-preview">
+            npm i · cp tailwind.theme.css ./styles/
+          </div>
+        </div>
+
+        <div class="step-card">
+          <span class="step-num">STEP 04</span>
+          <h3>4. Prompt with Tokens</h3>
+          <p>Prompt your AI with real semantic tokens instead of vague adjectives. Watch it emit elite, production-grade UI.</p>
+          <div class="step-code-preview">
+            "Use --surface-card and --accent-glow"
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Tool Integration Tabs & Ready Prompts -->
+    <section style="margin-bottom:70px;">
+      <div style="text-align:center; margin-bottom:24px;">
+        <h2 style="font-size:1.75rem; font-weight:700; color:#f8fafc; margin-bottom:8px;">Tool-Specific Integration Prompts</h2>
+        <p style="color:var(--text-muted); font-size:0.95rem;">1-Click prompts tailored for your favorite AI coding environment.</p>
+      </div>
+
+      <div class="tool-tabs-container">
+        <div class="tool-tab-buttons">
+          <button class="tab-btn active" onclick="switchToolTab('cursor')">
+            <i data-lucide="mouse-pointer-2" style="width:15px;height:15px;"></i> Cursor &amp; Windsurf (.cursorrules)
+          </button>
+          <button class="tab-btn" onclick="switchToolTab('claude')">
+            <i data-lucide="message-square" style="width:15px;height:15px;"></i> Claude 3.7 / 3.5 Sonnet
+          </button>
+          <button class="tab-btn" onclick="switchToolTab('antigravity')">
+            <i data-lucide="cpu" style="width:15px;height:15px;"></i> Google Antigravity IDE
+          </button>
+          <button class="tab-btn" onclick="switchToolTab('v0')">
+            <i data-lucide="zap" style="width:15px;height:15px;"></i> v0 / Bolt.new / Lovable
+          </button>
+        </div>
+
+        <!-- Cursor Tab -->
+        <div id="tab-cursor" class="tab-pane active">
+          <div class="code-snippet-box">
+            <div class="code-snippet-header">
+              <span>.cursorrules · Drop in workspace root</span>
+              <button class="copy-btn" onclick="copySnippet('snippet-cursor')"><i data-lucide="copy" style="width:13px;height:13px;"></i> Copy Rules</button>
+            </div>
+            <pre class="code-snippet-body" id="snippet-cursor"><code># .cursorrules — ExtractDesign Studio Design System Binding
+
+Always reference the tokens defined in @DESIGN.md and @tailwind.config.js before generating or styling any component:
+
+1. Colors: Never use arbitrary hex codes or default Tailwind blues (e.g. bg-blue-600). Strictly use semantic CSS variables: `var(--bg-primary)`, `var(--surface-elevated)`, and `var(--color-accent)`.
+2. Spacing: Enforce the detected 8pt grid rhythm (p-2, p-4, p-6, p-8). Never introduce ad-hoc margins like mt-[13px] or px-[19px].
+3. Borders: Use 1px translucent borders (`border-white/[0.08]`) with subtle radial gradients instead of heavy opaque borders.
+4. Typography: Bind headings to `--font-display` and body to `--font-sans`. Never revert to default browser sans.
+5. Micro-interactions: Apply `transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]` on all interactive triggers.</code></pre>
+          </div>
+        </div>
+
+        <!-- Claude Tab -->
+        <div id="tab-claude" class="tab-pane">
+          <div class="code-snippet-box">
+            <div class="code-snippet-header">
+              <span>Claude 3.7 / 3.5 Sonnet System Prompt Directive</span>
+              <button class="copy-btn" onclick="copySnippet('snippet-claude')"><i data-lucide="copy" style="width:13px;height:13px;"></i> Copy Prompt</button>
+            </div>
+            <pre class="code-snippet-body" id="snippet-claude"><code>You are an elite Staff Design Engineer specializing in high-fidelity, agency-grade web applications.
+I have reverse-engineered a design system using ExtractDesign Studio and provided its tokens in @DESIGN.md.
+
+When writing UI components in React / Tailwind:
+- Anchor all backgrounds to the surface hierarchy: `--bg-canvas` -> `--bg-surface` -> `--bg-elevated`.
+- Implement subtle glassmorphism (`backdrop-blur-md` with `border-white/10`) for overlays and modals.
+- Match typography weights, tracking, and letter-spacing from the typography scale in @DESIGN.md.
+- Ensure all color pairings meet WCAG 2.1 AA contrast ratios based on the extracted scorecard.
+- Generate clean, modular components with Lucide icons and accessible ARIA attributes.</code></pre>
+          </div>
+        </div>
+
+        <!-- Antigravity Tab -->
+        <div id="tab-antigravity" class="tab-pane">
+          <div class="code-snippet-box">
+            <div class="code-snippet-header">
+              <span>Google Antigravity IDE Task Instruction</span>
+              <button class="copy-btn" onclick="copySnippet('snippet-antigravity')"><i data-lucide="copy" style="width:13px;height:13px;"></i> Copy Instruction</button>
+            </div>
+            <pre class="code-snippet-body" id="snippet-antigravity"><code>Please construct the new dashboard view adhering strictly to the extracted design tokens in ./DESIGN.md:
+1. Import and utilize the design token CSS custom properties from ./theme.css.
+2. Structure the layout with CSS Grid using the 12-column responsive layout specified in DESIGN.md.
+3. Apply the detected cubic-bezier easing curve to all button hover states and card transitions.
+4. Verify that no raw arbitrary hex colors are introduced in the template markup.</code></pre>
+          </div>
+        </div>
+
+        <!-- v0 / Bolt Tab -->
+        <div id="tab-v0" class="tab-pane">
+          <div class="code-snippet-box">
+            <div class="code-snippet-header">
+              <span>v0 / Bolt.new / Lovable Rapid Component Prompt</span>
+              <button class="copy-btn" onclick="copySnippet('snippet-v0')"><i data-lucide="copy" style="width:13px;height:13px;"></i> Copy Prompt</button>
+            </div>
+            <pre class="code-snippet-body" id="snippet-v0"><code>Build a high-density, modern SaaS feature section with the following extracted design system:
+- Background: #08090d with a subtle radial gradient mesh (#6366f1 at 15% opacity).
+- Cards: rgba(255, 255, 255, 0.03) with 1px border rgba(255, 255, 255, 0.08) and 14px border radius.
+- Accent: #6366f1 with electric cyan #06b6d4 secondary gradient highlights.
+- Typography: Bold display font with tight letter spacing (-0.02em) and muted #94a3b8 descriptions.
+- Components: 3 responsive cards with Lucide icons, live metric tags, and hover glow effects.</code></pre>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Interactive Prompt Generator -->
+    <section id="prompt-generator" class="prompt-generator">
+      <div style="text-align:center; max-width:650px; margin:0 auto 24px;">
+        <span class="vibe-badge" style="background:rgba(6,182,212,0.12); border-color:rgba(6,182,212,0.35); color:#67e8f9;">
+          <i data-lucide="sliders" style="width:13px;height:13px;"></i> Interactive Playground
+        </span>
+        <h2 style="font-size:1.8rem; font-weight:700; color:#f8fafc; margin-bottom:8px;">Vibe Prompt Generator</h2>
+        <p style="color:var(--text-muted); font-size:0.95rem;">Select your component, inspiration vibe, and stack to generate the exact prompt for your AI assistant.</p>
+      </div>
+
+      <div class="generator-controls">
+        <div class="generator-field">
+          <label for="gen-component">Component to Build</label>
+          <select id="gen-component" class="generator-select" onchange="updateGeneratedPrompt()">
+            <option value="pricing">SaaS 3-Tier Pricing Table</option>
+            <option value="hero">Hero Section with Radial Glow</option>
+            <option value="stats">Analytics Metrics Dashboard Cards</option>
+            <option value="navbar">Glassmorphic Sticky Navbar</option>
+            <option value="command">Command Bar (Cmd+K) Palette</option>
+          </select>
+        </div>
+
+        <div class="generator-field">
+          <label for="gen-vibe">Inspiration Vibe</label>
+          <select id="gen-vibe" class="generator-select" onchange="updateGeneratedPrompt()">
+            <option value="linear">Linear (OLED Dark, Indigo Glow, Crisp 1px Borders)</option>
+            <option value="stripe">Stripe (Hyper-Clean White/Slate, Vibrant Mesh Gradients)</option>
+            <option value="raycast">Raycast (High-Density Dark, Neon Accents, Micro-Actions)</option>
+            <option value="vercel">Vercel (Strict Monochromatic Black/White, High Contrast)</option>
+          </select>
+        </div>
+
+        <div class="generator-field">
+          <label for="gen-stack">Target Tech Stack</label>
+          <select id="gen-stack" class="generator-select" onchange="updateGeneratedPrompt()">
+            <option value="next-tailwind">Next.js (App Router) + Tailwind CSS</option>
+            <option value="react-tailwind">React + Tailwind CSS v4</option>
+            <option value="vue-tailwind">Vue 3 + Tailwind CSS</option>
+            <option value="html-css">HTML5 + CSS Variables (Vanilla)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Generated Prompt Box -->
+      <div class="code-snippet-box">
+        <div class="code-snippet-header">
+          <span>Generated AI Prompt — Ready to paste into Cursor / Claude</span>
+          <button class="copy-btn" onclick="copySnippet('live-generated-prompt')">
+            <i data-lucide="copy" style="width:13px;height:13px;"></i> Copy Generated Prompt
+          </button>
+        </div>
+        <pre class="code-snippet-body" id="live-generated-prompt" style="color:#38bdf8; min-height:120px;"><code>Loading prompt...</code></pre>
+      </div>
+    </section>
+
+    <!-- The 5 Golden Rules of Vibe Coding High-End UI -->
+    <section style="margin-bottom:70px;">
+      <div style="text-align:center; max-width:650px; margin:0 auto 28px;">
+        <h2 style="font-size:1.75rem; font-weight:700; color:#f8fafc; margin-bottom:8px;">5 Golden Rules for High-End Vibe Coding</h2>
+        <p style="color:var(--text-muted); font-size:0.95rem;">Follow these rules to ensure your AI never produces amateur UI again.</p>
+      </div>
+
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-title">
+            <i data-lucide="shield-alert" style="color:#ef4444; width:18px;height:18px;"></i>
+            1. Ban Arbitrary Hex Codes
+          </div>
+          <p>Never allow the LLM to invent hex codes in component markup. Mandate that all colors map to <code>var(--color-*)</code> or Tailwind theme classes extracted by ExtractDesign.</p>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-title">
+            <i data-lucide="grid" style="color:#6366f1; width:18px;height:18px;"></i>
+            2. Enforce the 8pt Rhythm
+          </div>
+          <p>Tell your AI: <em>"Strictly snap all paddings, gaps, and heights to multiples of 8px (8, 16, 24, 32, 48)."</em> This single constraint eliminates 80% of amateur UI asymmetry.</p>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-title">
+            <i data-lucide="layers" style="color:#06b6d4; width:18px;height:18px;"></i>
+            3. Translucent > Opaque Borders
+          </div>
+          <p>Modern luxury UI avoids solid gray borders. Demand <code>border: 1px solid rgba(255,255,255,0.08)</code>. It subtly adapts across varying dark card backgrounds.</p>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-title">
+            <i data-lucide="type" style="color:#10b981; width:18px;height:18px;"></i>
+            4. Use Real Font Binaries
+          </div>
+          <p>Don't settle for default system font stacks. ExtractDesign downloads the actual <code>.woff2</code> font binaries. Bind them in your CSS for authentic typographic hierarchy.</p>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-title">
+            <i data-lucide="move" style="color:#f59e0b; width:18px;height:18px;"></i>
+            5. Custom Motion Easing
+          </div>
+          <p>Standard CSS <code>ease-in-out</code> feels sluggish. Enforce <code>cubic-bezier(0.16, 1, 0.3, 1)</code> for swift, springy micro-interactions that feel native to macOS/iOS.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA Banner -->
+    <section style="background:linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(6,182,212,0.1) 100%); border:1px solid rgba(99,102,241,0.4); border-radius:var(--radius-lg); padding:40px; text-align:center; box-shadow:0 0 50px -15px rgba(99,102,241,0.3);">
+      <h2 style="font-size:2rem; font-weight:800; color:#ffffff; margin-bottom:12px;">Ready to Elevate Your Vibe Coding?</h2>
+      <p style="color:var(--text-muted); font-size:1.05rem; max-width:600px; margin:0 auto 28px;">
+        Pick any world-class site you love, extract its entire design system in 30 seconds, and watch your AI build breathtaking interfaces.
+      </p>
+      <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+        <a href="/studio" class="btn btn-primary" style="padding:12px 28px; font-size:1rem;">
+          <i data-lucide="play" style="width:16px;height:16px;"></i> Launch ExtractDesign Studio
+        </a>
+        <a href="/" class="btn btn-secondary" style="padding:12px 24px;">
+          <i data-lucide="compass" style="width:16px;height:16px;"></i> View Platform Features
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" style="border-top:1px solid var(--border-subtle); padding:40px 0; color:var(--text-dim); font-size:0.85rem; text-align:center;">
+    <div class="container">
+      <p style="margin-bottom:8px;">ExtractDesign Studio v2.2.0 · Designed &amp; Maintained by <strong>Karthikeyan T (@carthworks)</strong></p>
+      <p>Licensed under Apache-2.0 · Built for AI-first engineers, vibe coders, and frontend leads.</p>
+    </div>
+  </footer>
+
+  <!-- Interactive Tab & Prompt Generator Script -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Tab Switcher
+    function switchToolTab(toolId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+      event.currentTarget.classList.add('active');
+      const targetPane = document.getElementById('tab-' + toolId);
+      if (targetPane) targetPane.classList.add('active');
+    }
+
+    // 1-Click Clipboard Copy with Feedback
+    function copySnippet(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.currentTarget;
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i data-lucide="check" style="width:13px;height:13px;"></i> Copied!';
+        btn.style.background = '#10b981';
+        btn.style.borderColor = '#10b981';
+        btn.style.color = '#ffffff';
+        lucide.createIcons();
+        setTimeout(() => {
+          btn.innerHTML = originalHtml;
+          btn.style.background = '';
+          btn.style.borderColor = '';
+          btn.style.color = '';
+          lucide.createIcons();
+        }, 2000);
+      });
+    }
+
+    // Dynamic Prompt Generator Logic
+    const promptTemplates = {
+      pricing: {
+        title: "3-Tier SaaS Pricing Table",
+        desc: "Build a responsive 3-tier pricing table (Starter, Pro, Enterprise) with monthly/annual toggle."
+      },
+      hero: {
+        title: "High-Impact Hero Section",
+        desc: "Build an agency-grade hero section with ambient radial gradient lighting, badge announcement pill, headline, and dual CTA buttons."
+      },
+      stats: {
+        title: "Metrics & Analytics Grid",
+        desc: "Build a 4-card analytics stats grid displaying ARR, Conversion Rate, Active Users, and Server Latency with micro-sparkline charts."
+      },
+      navbar: {
+        title: "Glassmorphic Floating Navbar",
+        desc: "Build a modern floating sticky navbar with logo, navigation links with active state indicator, command shortcut trigger (Cmd+K), and sign-in button."
+      },
+      command: {
+        title: "Command Bar Palette (Cmd+K)",
+        desc: "Build an interactive modal command bar with keyboard shortcut navigation, search filter input, and categorized actions."
+      }
+    };
+
+    const vibeTemplates = {
+      linear: {
+        tokens: "Deep OLED surface background (#08090d), elevated card surface (rgba(255,255,255,0.03)), 1px subtle translucent border (rgba(255,255,255,0.08)), electric indigo accent (#5e6ad2) with subtle glow, and tight 8pt padding hierarchy.",
+        motion: "cubic-bezier(0.16, 1, 0.3, 1) duration-200"
+      },
+      stripe: {
+        tokens: "Clean high-contrast background (#ffffff / #0a2540), vibrant cyan-indigo gradient accents (#6366f1 to #00d4ff), soft multi-layered shadow (0 15px 35px -5px rgba(0,0,0,0.1)), and generous 16px/24px spacing rhythm.",
+        motion: "cubic-bezier(0.25, 0.1, 0.25, 1) duration-250"
+      },
+      raycast: {
+        tokens: "High-density dark background (#111318), compact item padding (8px/12px), sharp radius (6px), neon red/orange accent highlights (#ff6363), and keyboard-first accessibility indicators.",
+        motion: "cubic-bezier(0, 0, 0.2, 1) duration-150"
+      },
+      vercel: {
+        tokens: "Strict monochromatic high-contrast black/white aesthetic (#000000 / #ffffff), 1px solid #333 borders, zero heavy blurs, geometric typography with negative letter-spacing.",
+        motion: "ease-out duration-150"
+      }
+    };
+
+    function updateGeneratedPrompt() {
+      const compKey = document.getElementById('gen-component').value;
+      const vibeKey = document.getElementById('gen-vibe').value;
+      const stack = document.getElementById('gen-stack').value;
+
+      const comp = promptTemplates[compKey];
+      const vibe = vibeTemplates[vibeKey];
+
+      const promptText = `Act as an expert Senior Design Engineer.
+I need you to build a ${comp.title} using ${stack}.
+
+Context & Design System Constraints (from ExtractDesign Studio):
+- Component Goal: ${comp.desc}
+- Visual Vibe: ${vibe.tokens}
+- Micro-interactions: Use ${vibe.motion} for all hover and focus transitions.
+- Golden Rules:
+  1. No arbitrary hex codes — bind all surfaces and text to the specified token hierarchy.
+  2. Maintain strict 8pt grid spacing (never use odd margins).
+  3. Ensure WCAG 2.1 AA text contrast compliance on all labels.
+  4. Include Lucide icons and responsive mobile breakpoints.
+
+Output the complete, production-ready code with clean TypeScript types and semantic markup.`;
+
+      document.getElementById('live-generated-prompt').innerHTML = `<code>${promptText}</code>`;
+    }
+
+    // Run on load
+    updateGeneratedPrompt();
+  </script>
+</body>
+</html>

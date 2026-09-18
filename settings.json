@@ -2,7 +2,7 @@
   "brand": {
     "name": "ExtractDesign Studio",
     "tagline": "Reverse-engineer design systems & website intelligence",
-    "accent_color": "#6366f1",
+    "accent_color": "#10b981",
     "logo_url": "",
     "custom_domain": "design-intel.local"
   },
@@ -11,7 +11,7 @@
     "agency_url": "https://apexdigital.design",
     "footer_signature": "Design Intelligence Audit prepared by Apex Digital Studio",
     "hide_powered_by": false,
-    "default_print_auto": false
+    "default_print_auto": true
   },
   "plan": {
     "id": "pro",
