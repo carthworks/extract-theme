@@ -17,8 +17,9 @@
   <meta name="twitter:description" content="Reverse-engineer design systems, UI components & website intelligence from any live URL.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="app.css?v=16">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="landing.css?v=3">
+  <link rel="stylesheet" href="app.css?v=17">
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -30,16 +31,31 @@
 </head>
 <body>
 
+  <!-- Fixed Ambient Glowing Background -->
+  <div class="ambient-background" aria-hidden="true">
+    <div style="position:absolute;inset:0;background:#04060e;"></div>
+    <div class="ambient-grid"></div>
+    <div class="ambient-orb-top"></div>
+    <div class="ambient-orb-right"></div>
+    <div class="ambient-orb-left"></div>
+    <div class="ambient-noise"></div>
+  </div>
+
   <!-- Navigation Header -->
   <header class="app-header">
     <div class="header-content">
-      <div class="brand">
-        <div class="brand-icon"><i data-lucide="palette" class="icon-md"></i></div>
-        <div>
-          <h1>ExtractDesign <span>Studio</span></h1>
-          <p class="brand-sub">Reverse-engineer design systems & website intelligence</p>
+      <a href="/" class="brand" style="text-decoration:none;">
+        <div class="nav-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          </svg>
         </div>
-      </div>
+        <div>
+          <h1 class="nav-logo-text" style="font-size:18px;line-height:1.2;">ExtractDesign<span>Studio</span></h1>
+          <p class="brand-sub">Reverse-engineer design systems &amp; website intelligence</p>
+        </div>
+      </a>
       <div class="header-actions">
         <a href="/" class="btn btn-secondary btn-sm" title="Return to Landing Page">
           <i data-lucide="home" class="icon-sm"></i> <span>Home</span>
