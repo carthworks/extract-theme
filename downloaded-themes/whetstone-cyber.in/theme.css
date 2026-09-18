@@ -1,0 +1,174 @@
+/* ---------------------------------------------------------------
+   Design tokens extracted from https://whetstone-cyber.in/
+   extract-theme v2.1.0
+   --------------------------------------------------------------- */
+
+:root {
+  /* palette */
+  --color-white: #ffffff;
+  --color-slate-950: #1b2f45;
+  --color-neutral-50: #f1f1f1;
+  --color-white-a0: rgb(255 255 255 / 0.0);
+  --color-slate-900: #374951;
+  --color-black: #000000;
+  --color-neutral-950: #121010;
+  --color-neutral-950-2: #333333;
+  --color-blue-600: #2575fc;
+  --color-neutral-800: #555555;
+  --color-neutral-200: #dddddd;
+  --color-sky-400: #13aff0;
+  --color-orange-400: #ff6900;
+  --color-slate-600: #69727d;
+  --color-slate-300: #abb8c3;
+  --color-green-200: #29f48f;
+  --color-red-600: #cf2e2e;
+  --color-teal-600: #238c8c;
+  --color-yellow-300: #fcb900;
+  --color-green-300: #61ce70;
+  --color-neutral-50-a4: rgb(0 0 0 / 0.035);
+  --color-cyan-400-a54: rgb(2 113 130 / 0.54);
+  --color-sky-500: #0693e3;
+  --color-purple-600: #9b51e0;
+  --color-emerald-300: #4ce09d;
+  --color-emerald-300-2: #7bdcb5;
+  --color-emerald-400: #00d084;
+  --color-slate-400-a55: rgb(0 79 99 / 0.55);
+  --color-sky-600: #41788c;
+  --color-neutral-300: #cccccc;
+  --color-sky-700: #2d657a;
+  --color-red-500: #fe2d2d;
+  --color-neutral-100: #e7e7e7;
+  --color-pink-300: #f78da7;
+  --color-sky-300: #8ed1fc;
+  --color-red-300: #fe8f75;
+  --color-neutral-950-3: #222222;
+  --color-neutral-500: #929292;
+  --color-zinc-200: #b6e3d4;
+  --color-neutral-300-a30: rgb(0 0 0 / 0.3);
+
+  /* semantic roles */
+  --background: var(--color-white);
+  --foreground: var(--color-slate-900);
+  --muted-foreground: var(--color-neutral-800);
+  --primary: var(--color-blue-600);
+  --accent: var(--color-sky-400);
+  --border: var(--color-neutral-50);
+  --destructive: var(--color-orange-400);
+  --warning: var(--color-yellow-300);
+  --success: var(--color-green-300);
+  --info: var(--color-sky-400);
+
+  /* typography */
+  --font-sans: "Gabarito",Sans-serif;
+  --font-serif: "Playfair Display",serif;
+  --font-mono: "Courier New",Courier,monospace;
+  --font-sans-2: "Gabarito";
+  --font-sans-3: "Cairo",Sans-serif;
+  --font-sans-4: "Font Awesome 5 Free";
+  --font-mono-2: Arial,Baskerville,monospace;
+  --font-mono-3: monospace,monospace;
+  --text-xs: 13px;
+  --text-sm: 14px;
+  --text-base: 1em;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 1.5em;
+  --text-3xl: 1.8em;
+  --text-4xl: 42px;
+  --text-5xl: 3em;
+  --text-6xl: 4em;
+  --text-7xl: 69px;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 900;
+  --weight-light: 300;
+  --leading-none: 1;
+  --leading-tight: 1.2em;
+  --leading-snug: 1.4;
+  --leading-normal: normal;
+  --leading-relaxed: 1.6em;
+  --leading-loose: 40px;
+  --tracking-tighter: -6px;
+  --tracking-tight: -.4px;
+  --tracking-normal: 0;
+  --tracking-wide: .6px;
+  --tracking-wider: 1px;
+  --tracking-widest: .1em;
+
+  /* spacing */
+  --space-0: 0px;
+  --space-2px: 2px;
+  --space-3px: 3px;
+  --space-1: 4px;
+  --space-5px: 5px;
+  --space-6px: 6px;
+  --space-2: 8px;
+  --space-10px: 10px;
+  --space-3: 12px;
+  --space-14px: 14px;
+  --space-15px: 15px;
+  --space-4: 16px;
+  --space-18px: 18px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-25px: 25px;
+  --space-30px: 30px;
+  --space-31px: 31px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-50px: 50px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* radius */
+  --radius-none: 0;
+  --radius-sm: 3px;
+  --radius: 5px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 15px;
+  --radius-3xl: 30px;
+  --radius-full: 50%;
+
+  /* elevation */
+  --shadow-xs: 0 0 0 0 currentColor;
+  --shadow-sm: 0 0 0 0 rgb(12 90 219 / .2);
+  --shadow: 0 0 0 0 #fff0;
+  --shadow-md: inset 0 0 0 1px currentColor;
+  --shadow-lg: inset 0 0 0 1px rgb(0 0 0 / .1);
+  --shadow-xl: inset 0 0 0 1px rgba(0,0,0,.1);
+  --shadow-2xl: 0 0 0 2px rgb(51 51 51 / .1);
+
+  /* gradients */
+  --gradient-1: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);
+  --gradient-2: linear-gradient(135deg,rgba(6,147,227,1) 0%,#9b51e0 100%);
+  --gradient-3: linear-gradient(135deg,#7adcb4 0%,#00d082 100%);
+  --gradient-4: linear-gradient(135deg,rgba(255,105,0,1) 0%,#cf2e2e 100%);
+  --gradient-5: linear-gradient(135deg,#eee 0%,#a9b8c3 100%);
+  --gradient-6: linear-gradient(135deg,#4aeadc 0%,#9778d1 20%,#cf2aba 40%,#ee2c82 60%,#fb6962 80%,#fef84c 100%);
+  --gradient-7: linear-gradient(135deg,#ffceec 0%,#9896f0 100%);
+  --gradient-8: linear-gradient(135deg,#fecda5 0%,#fe2d2d 50%,#6b003e 100%);
+  --gradient-9: linear-gradient(135deg,#ffcb70 0%,#c751c0 50%,#4158d0 100%);
+  --gradient-10: linear-gradient(135deg,#fff5cb 0%,#b6e3d4 50%,#33a7b5 100%);
+  --gradient-11: linear-gradient(135deg,#caf880 0%,#71ce7e 100%);
+  --gradient-12: linear-gradient(135deg,#020381 0%,#2874fc 100%);
+  --gradient-13: linear-gradient(180deg,#00293a 0%,rgba(0,84,89,.81) 100%);
+  --gradient-14: linear-gradient(180deg,#00293a 0,rgba(0,84,89,.81) 100%);
+  --gradient-15: linear-gradient(-35deg,#f2709c 0,#fe8f75 100%);
+  --gradient-16: linear-gradient(to top,#fff0 0%,rgb(0 0 0 / .3) 75%,rgb(0 0 0 / .3) 100%);
+}
+
+/* Breakpoints (custom media — needs postcss-custom-media) */
+@custom-media --sm (min-width: 480px);
+@custom-media --sm-481 (min-width: 481px);
+@custom-media --sm-568 (min-width: 568px);
+@custom-media --md (min-width: 766px);
+@custom-media --md-767 (min-width: 767px);
+@custom-media --md-768 (min-width: 768px);
+@custom-media --lg (min-width: 959px);
+@custom-media --lg-992 (min-width: 992px);
+@custom-media --lg-1025 (min-width: 1025px);

@@ -1,59 +1,25 @@
-/* Tailwind v4 theme extracted from https://www.pitowings.com */
+/* Tailwind v4 theme extracted from https://www.pitowings.com/ */
 @import "tailwindcss";
 
 @theme {
   --color-white: #ffffff;
+  --color-stone-100: #ffe0e4;
   --color-white-a0: rgb(255 255 255 / 0.0);
   --color-stone-100-a14: rgb(225 29 63 / 0.139);
-  --color-stone-100: #ffe0e4;
-  --color-stone-50: #fff1f3;
-  --color-stone-50-a8: rgb(225 29 63 / 0.076);
   --color-white-a0-2: rgb(0 0 0 / 0.0);
-  --color-rose-200: #ffc6cf;
   --color-rose-600: #e11d3f;
-  --color-stone-200-a20: rgb(225 29 63 / 0.197);
+  --color-rose-200: #ffc6cf;
+  --color-rose-400: #f65a76;
   --color-rose-300: #ff9aab;
   --color-rose-800: #a50d26;
-  --color-neutral-100: #f3e9ea;
-  --color-rose-400: #f65a76;
+  --color-stone-50-a8: rgb(225 29 63 / 0.076);
   --color-rose-700: #c8102e;
   --color-neutral-950: #1b1418;
   --color-zinc-400: #a999aa;
-  --color-red-500: #fb2c36;
-  --color-rose-900: #7a0c1f;
-  --color-rose-400-2: #ff6467;
-  --color-red-600: #e7000b;
-  --color-rose-950: #5c0a17;
-  --color-stone-950: #3a2f35;
-  --color-stone-700: #6b5b62;
   --color-white-a35: rgb(255 255 255 / 0.35);
-  --color-white-a0-3: rgb(225 29 63 / 0.0);
-  --color-white-a70: rgb(255 255 255 / 0.702);
-  --color-neutral-50-a6: rgb(200 16 46 / 0.059);
-  --color-white-a80: rgb(255 255 255 / 0.8);
-  --color-stone-100-2: #ffe6da;
-  --color-stone-100-a80: rgb(255 224 228 / 0.8);
-  --color-neutral-50-a50: rgb(255 241 243 / 0.502);
-  --color-neutral-50-a4: rgb(246 90 118 / 0.043);
-  --color-white-a40: rgb(255 255 255 / 0.4);
-  --color-stone-50-a30: rgb(255 198 207 / 0.302);
-  --color-white-a10: rgb(255 255 255 / 0.102);
-  --color-white-a95: rgb(255 255 255 / 0.949);
-  --color-white-a85: rgb(255 255 255 / 0.851);
-  --color-stone-100-a70: rgb(255 224 228 / 0.702);
-  --color-stone-100-a50: rgb(255 198 207 / 0.502);
-  --color-neutral-50-a40: rgb(255 241 243 / 0.4);
-  --color-neutral-50-a60: rgb(255 241 243 / 0.6);
-  --color-neutral-50-a80: rgb(255 241 243 / 0.8);
-  --color-neutral-50-a40-2: rgb(255 224 228 / 0.4);
-  --color-stone-50-a45: rgb(255 224 228 / 0.451);
-  --color-stone-50-a50: rgb(255 224 228 / 0.502);
-  --color-stone-50-a60: rgb(255 224 228 / 0.6);
-  --color-stone-100-a40: rgb(255 198 207 / 0.4);
 
   --color-background: var(--color-white);
   --color-foreground: var(--color-neutral-950);
-  --color-muted-foreground: var(--color-stone-950);
   --color-primary: var(--color-rose-600);
   --color-accent: var(--color-rose-300);
   --color-border: var(--color-stone-100);

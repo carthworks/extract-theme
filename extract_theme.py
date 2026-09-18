@@ -2603,6 +2603,16 @@ def crawl(fetcher: Fetcher, seeds: Sequence[str], limit: int) -> list[tuple[str,
         seen.add(seed)
         try:
             final, html = fetcher.get(seed)
+        except requests.exceptions.HTTPError as http_err:
+            status = getattr(http_err.response, "status_code", None)
+            if status == 403:
+                warn(f"{seed} — HTTP 403 Forbidden: Target server blocked automated access (Bot/WAF mitigation active).")
+                warn("  Tip: Save the webpage as local HTML and extract from the file (e.g. extract-theme ./page.html).")
+            elif status == 404:
+                warn(f"{seed} — HTTP 404 Not Found: The target URL does not exist or returned 404.")
+            else:
+                warn(f"{seed} — HTTP {status} Error: {http_err}")
+            continue
         except Exception as exc:  # noqa: BLE001
             warn(f"{seed} — {type(exc).__name__}: {exc}")
             continue
@@ -2645,7 +2655,8 @@ def run(args: argparse.Namespace) -> int:
     log("\n▸ Fetching pages")
     pages = crawl(fetcher, args.urls, args.crawl)
     if not pages:
-        log("Nothing fetched. Check the URL.")
+        log("\n❌ No pages could be retrieved.")
+        log("  Please verify the URL is reachable, formatted correctly (e.g. https://domain.com), and not blocked by bot mitigation.")
         return 1
     primary = pages[0][0]
 
@@ -2867,9 +2878,19 @@ def run(args: argparse.Namespace) -> int:
             json.dumps(intel_report, indent=2, ensure_ascii=False),
             encoding="utf-8",
         )
-        react_code = intel_report.get("exports", {}).get("react_components", "")
+        exports_data = intel_report.get("exports", {})
+        react_code = exports_data.get("react_components", "")
         if react_code:
             (out / "react-components.jsx").write_text(react_code, encoding="utf-8")
+        ts_theme = exports_data.get("typescript_theme", "")
+        if ts_theme:
+            (out / "theme.ts").write_text(ts_theme, encoding="utf-8")
+        w3c_tokens = exports_data.get("json_tokens_w3c", "")
+        if w3c_tokens:
+            (out / "tokens.w3c.json").write_text(w3c_tokens, encoding="utf-8")
+        vue_comp = exports_data.get("vue_composable", "")
+        if vue_comp:
+            (out / "useTokens.ts").write_text(vue_comp, encoding="utf-8")
 
     (out / "theme.css").write_text(emit_theme_css(tokens, primary), encoding="utf-8")
     (out / "components.css").write_text(

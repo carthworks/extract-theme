@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="landing.css?v=1">
+  <link rel="stylesheet" href="landing.css?v=2">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -49,11 +49,10 @@
 
       <nav aria-label="Main Navigation">
         <ul class="nav-links">
-          <li><a href="#what-you-get" class="nav-link">What You Get</a></li>
-          <li><a href="#beyond-design" class="nav-link">Beyond Design</a></li>
-          <li><a href="#ai-insights" class="nav-link">AI Insights</a></li>
-          <li><a href="#pricing" class="nav-link">Pricing</a></li>
-          <li><a href="#personas" class="nav-link">Use Cases</a></li>
+          <li><a href="#hero" class="nav-link">Extraction</a></li>
+          <li><a href="#showcase" class="nav-link">Intelligence</a></li>
+          <li><a href="#use-cases" class="nav-link">Use Cases</a></li>
+          <li><a href="#pricing" class="nav-link">Pricing & Access</a></li>
         </ul>
       </nav>
 
@@ -73,447 +72,444 @@
 
   <main>
 
-    <!-- 01 · Hero Section -->
-    <section class="hero-section">
+    <!-- VIEWPORT 1 · HERO POWERHOUSE (Show most in hero) -->
+    <section id="hero" class="hero-section">
       <div class="container">
-        <div class="hero-pill">
-          <span class="pulse-dot"></span>
-          <span>Reverse-engineer live design systems & intelligence</span>
-        </div>
-
-        <h1 class="hero-title">
-          Engineering-grade<br>
-          <span class="gradient-text">website intelligence, simplified.</span>
-        </h1>
-
-        <p class="hero-desc">
-          Point it at any public URL. ExtractDesign Studio reveals the design system behind it — colors, typography, components, layout and assets — alongside accessibility, SEO, security and performance analysis.
-        </p>
-
-        <div class="hero-pricing-note">
-          Get the essentials free. Unlock the complete report for ₹149.
-        </div>
-
-        <!-- Interactive Hero URL Input -->
-        <div class="hero-input-container">
-          <form id="hero-analyze-form" class="hero-form">
-            <div class="hero-input-icon">
-              <i data-lucide="globe" style="width:18px;height:18px;"></i>
+        <div class="hero-grid">
+          
+          <!-- Left Column: Pitch, Input & Quick Start -->
+          <div class="hero-content">
+            <div class="hero-pill">
+              <span class="pulse-dot"></span>
+              <span>Engineering-Grade Website Intelligence</span>
             </div>
-            <input 
-              type="text" 
-              id="hero-target-url" 
-              class="hero-input" 
-              placeholder="https://stripe.com or domain.com" 
-              value="https://stripe.com" 
-              required
-              aria-label="Website URL to analyze"
-            >
-            <button type="submit" class="btn btn-primary btn-glow">
-              <i data-lucide="scan" style="width:16px;height:16px;"></i>
-              <span>Analyze a Website</span>
-            </button>
-          </form>
 
-          <!-- Preset pills -->
-          <div class="preset-row">
-            <span>Try sample:</span>
-            <button type="button" class="preset-tag" data-url="https://stripe.com">stripe.com</button>
-            <button type="button" class="preset-tag" data-url="https://linear.app">linear.app</button>
-            <button type="button" class="preset-tag" data-url="https://vercel.com">vercel.com</button>
-            <button type="button" class="preset-tag" data-url="https://airbnb.com">airbnb.com</button>
-          </div>
-        </div>
+            <h1 class="hero-title">
+              Point at any website.<br>
+              <span class="gradient-text">Extract the intelligence.</span>
+            </h1>
 
-        <div class="hero-actions-row">
-          <button type="button" class="btn btn-secondary btn-lg btn-open-demo">
-            <i data-lucide="play" style="width:16px;height:16px;fill:currentColor;"></i>
-            <span>Open Live Demo</span>
-          </button>
-        </div>
+            <p class="hero-desc">
+              Reverse-engineer design systems, tokens, UI components, and technical audits from any public URL in seconds.
+            </p>
 
-        <div class="hero-trust-badge">
-          <i data-lucide="shield-check" style="width:15px;height:15px;"></i>
-          <span>No signup required to start.</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 02 · What you get -->
-    <section id="what-you-get" class="section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-label">02 · What you get</span>
-          <h2 class="section-title">One URL. One complete analysis.</h2>
-          <p class="section-desc">Paste any public website URL and get a structured view of how it is built, designed and presented.</p>
-        </div>
-
-        <div class="features-grid">
-          <!-- Card 1: Design System -->
-          <div class="feature-card">
-            <div class="feature-icon-box">
-              <i data-lucide="palette" style="width:24px;height:24px;"></i>
-            </div>
-            <h3 class="feature-card-title">Design System</h3>
-            <p class="feature-card-desc">Colors, typography, spacing, gradients, shadows, radius and reusable design tokens.</p>
-          </div>
-
-          <!-- Card 2: Components -->
-          <div class="feature-card">
-            <div class="feature-icon-box">
-              <i data-lucide="boxes" style="width:24px;height:24px;"></i>
-            </div>
-            <h3 class="feature-card-title">Components</h3>
-            <p class="feature-card-desc">Identify recurring UI patterns including navigation, buttons, cards, forms, CTAs and more.</p>
-          </div>
-
-          <!-- Card 3: Layout & Responsive -->
-          <div class="feature-card">
-            <div class="feature-icon-box">
-              <i data-lucide="layout-grid" style="width:24px;height:24px;"></i>
-            </div>
-            <h3 class="feature-card-title">Layout & Responsive</h3>
-            <p class="feature-card-desc">Understand page structure, containers, grids, spacing and responsive behavior.</p>
-          </div>
-
-          <!-- Card 4: Assets -->
-          <div class="feature-card">
-            <div class="feature-icon-box">
-              <i data-lucide="image" style="width:24px;height:24px;"></i>
-            </div>
-            <h3 class="feature-card-title">Assets</h3>
-            <p class="feature-card-desc">Discover images, SVGs, icons, fonts and other publicly accessible assets.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 03 · Beyond design -->
-    <section id="beyond-design" class="section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-label">03 · Beyond design</span>
-          <h2 class="section-title">See what the website is really doing.</h2>
-          <p class="section-desc">ExtractDesign Studio goes beyond visual styles to analyze the technical and content layer.</p>
-        </div>
-
-        <div class="audit-table-card">
-          <table class="audit-table">
-            <thead>
-              <tr>
-                <th style="width:35%;">Audit</th>
-                <th style="width:65%;">What you get</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="audit-category">
-                  <span class="audit-category-icon">♿</span>
-                  <span>Accessibility</span>
-                </td>
-                <td class="audit-details">Contrast, headings, labels, ARIA and accessibility issues</td>
-              </tr>
-              <tr>
-                <td class="audit-category">
-                  <span class="audit-category-icon">⚡</span>
-                  <span>Performance</span>
-                </td>
-                <td class="audit-details">Page weight, resources, images, scripts and loading signals</td>
-              </tr>
-              <tr>
-                <td class="audit-category">
-                  <span class="audit-category-icon">🔍</span>
-                  <span>SEO</span>
-                </td>
-                <td class="audit-details">Metadata, headings, canonical, links, sitemap and structured data</td>
-              </tr>
-              <tr>
-                <td class="audit-category">
-                  <span class="audit-category-icon">🔐</span>
-                  <span>Security</span>
-                </td>
-                <td class="audit-details">HTTPS and publicly observable security headers</td>
-              </tr>
-              <tr>
-                <td class="audit-category">
-                  <span class="audit-category-icon">🛠</span>
-                  <span>Technology</span>
-                </td>
-                <td class="audit-details">Frameworks, libraries, CMS, analytics and infrastructure signals</td>
-              </tr>
-              <tr>
-                <td class="audit-category">
-                  <span class="audit-category-icon">📝</span>
-                  <span>Content</span>
-                </td>
-                <td class="audit-details">Headlines, CTAs, value proposition and content structure</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- 04 · AI Insights -->
-    <section id="ai-insights" class="section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-label">04 · AI Insights</span>
-          <h2 class="section-title">Facts first. Intelligence second.</h2>
-          <p class="section-desc">The report clearly separates what was actually detected from AI-generated interpretation.</p>
-        </div>
-
-        <div class="insights-card-wrapper">
-          <div class="insights-card">
-            <div class="insights-grid">
-              <!-- Left: Facts -->
-              <div class="insight-box">
-                <div class="insight-tag tag-fact">
-                  <i data-lucide="check-circle-2" style="width:12px;height:12px;"></i>
-                  <span>Observed facts</span>
+            <!-- Interactive Hero URL Input -->
+            <div class="hero-input-container">
+              <form id="hero-analyze-form" class="hero-form">
+                <div class="hero-input-icon">
+                  <i data-lucide="globe" style="width:18px;height:18px;"></i>
                 </div>
-                <p class="insight-text">
-                  40 distinct color values extracted from stylesheets.
-                </p>
-              </div>
+                <input 
+                  type="text" 
+                  id="hero-target-url" 
+                  class="hero-input" 
+                  placeholder="https://stripe.com or domain.com" 
+                  value="https://stripe.com" 
+                  required
+                  aria-label="Website URL to analyze"
+                >
+                <button type="submit" class="btn btn-primary btn-glow hero-submit-btn">
+                  <i data-lucide="scan" style="width:16px;height:16px;"></i>
+                  <span>Analyze</span>
+                </button>
+              </form>
 
-              <!-- Right: Interpretation -->
-              <div class="insight-box">
-                <div class="insight-tag tag-ai">
-                  <i data-lucide="sparkles" style="width:12px;height:12px;"></i>
-                  <span>AI interpretation</span>
-                </div>
-                <p class="insight-text">
-                  The visual system uses strong contrast and focused accent colors to establish a clear action hierarchy.
-                </p>
+              <!-- Preset Sample Pills -->
+              <div class="preset-row">
+                <span class="preset-label">Samples:</span>
+                <button type="button" class="preset-tag" data-url="https://stripe.com">stripe.com</button>
+                <button type="button" class="preset-tag" data-url="https://linear.app">linear.app</button>
+                <button type="button" class="preset-tag" data-url="https://vercel.com">vercel.com</button>
+                <button type="button" class="preset-tag" data-url="https://airbnb.com">airbnb.com</button>
               </div>
             </div>
 
-            <div class="insights-guarantee">
-              No guessing disguised as data.
+            <!-- Quick Action & Pricing Pill -->
+            <div class="hero-meta-row">
+              <button type="button" class="btn btn-secondary btn-sm btn-open-demo">
+                <i data-lucide="play" style="width:14px;height:14px;fill:currentColor;"></i>
+                <span>Open Live Demo</span>
+              </button>
+              <div class="hero-pricing-pill">
+                <span>Free essentials</span>
+                <span class="dot-sep">•</span>
+                <span class="highlight">Full Report ₹149</span>
+              </div>
+              <div class="hero-trust-tag">
+                <i data-lucide="shield-check" style="width:14px;height:14px;"></i>
+                <span>No signup needed</span>
+              </div>
             </div>
+          </div>
+
+          <!-- Right Column: Interactive Live Intelligence Showcase Console -->
+          <div id="showcase" class="hero-showcase">
+            <div class="console-window">
+              <!-- Console Window Header & Tabs -->
+              <div class="console-header">
+                <div class="window-controls">
+                  <span class="dot dot-red"></span>
+                  <span class="dot dot-yellow"></span>
+                  <span class="dot dot-green"></span>
+                </div>
+                <div class="console-target-badge">
+                  <i data-lucide="link-2" style="width:12px;height:12px;"></i>
+                  <span id="console-target-label">stripe.com</span>
+                </div>
+                <!-- Interactive Tabs -->
+                <div class="console-tabs" role="tablist">
+                  <button type="button" class="console-tab active" data-tab="tokens" role="tab" aria-selected="true">
+                    <i data-lucide="palette" style="width:13px;height:13px;"></i>
+                    <span>Tokens</span>
+                  </button>
+                  <button type="button" class="console-tab" data-tab="audits" role="tab" aria-selected="false">
+                    <i data-lucide="shield-alert" style="width:13px;height:13px;"></i>
+                    <span>6 Audits</span>
+                  </button>
+                  <button type="button" class="console-tab" data-tab="insights" role="tab" aria-selected="false">
+                    <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
+                    <span>AI Insights</span>
+                  </button>
+                  <button type="button" class="console-tab" data-tab="exports" role="tab" aria-selected="false">
+                    <i data-lucide="code-2" style="width:13px;height:13px;"></i>
+                    <span>Exports</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Panel 1: Tokens & UI Specs -->
+              <div id="tab-panel-tokens" class="console-panel active" role="tabpanel">
+                <div class="panel-section-title">
+                  <span>Color Palette & Tokens</span>
+                  <span class="token-count">40 values extracted</span>
+                </div>
+                <div class="swatch-grid">
+                  <div class="swatch-item">
+                    <div class="swatch-box" style="background:#6366f1;"></div>
+                    <span class="swatch-hex">#6366F1</span>
+                    <span class="swatch-name">Brand Primary</span>
+                  </div>
+                  <div class="swatch-item">
+                    <div class="swatch-box" style="background:#06b6d4;"></div>
+                    <span class="swatch-hex">#06B6D4</span>
+                    <span class="swatch-name">Cyan Accent</span>
+                  </div>
+                  <div class="swatch-item">
+                    <div class="swatch-box" style="background:#0f172a;"></div>
+                    <span class="swatch-hex">#0F172A</span>
+                    <span class="swatch-name">Surface Dark</span>
+                  </div>
+                  <div class="swatch-item">
+                    <div class="swatch-box" style="background:#10b981;"></div>
+                    <span class="swatch-hex">#10B981</span>
+                    <span class="swatch-name">Success</span>
+                  </div>
+                </div>
+
+                <div class="token-specs-row">
+                  <div class="spec-card">
+                    <div class="spec-label">TYPOGRAPHY</div>
+                    <div class="spec-val">Inter, JetBrains Mono</div>
+                    <div class="spec-sub">5 scale steps • 400/600/800</div>
+                  </div>
+                  <div class="spec-card">
+                    <div class="spec-label">LAYOUT & RADIUS</div>
+                    <div class="spec-val">8pt System • 16px Max-R</div>
+                    <div class="spec-sub">1180px Max-W • 12-col grid</div>
+                  </div>
+                </div>
+
+                <div class="token-specs-row">
+                  <div class="spec-card">
+                    <div class="spec-label">RECURRENT COMPONENTS</div>
+                    <div class="spec-badges">
+                      <span class="mini-badge">NavHeader</span>
+                      <span class="mini-badge">HeroForm</span>
+                      <span class="mini-badge">PricingCard</span>
+                      <span class="mini-badge">MetricBadge</span>
+                    </div>
+                  </div>
+                  <div class="spec-card">
+                    <div class="spec-label">PUBLIC ASSETS</div>
+                    <div class="spec-val">28 SVGs • 14 Icons • 3 Fonts</div>
+                    <div class="spec-sub">All media indexed & inspectable</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Panel 2: 6 Deep Engineering Audits -->
+              <div id="tab-panel-audits" class="console-panel" role="tabpanel">
+                <div class="panel-section-title">
+                  <span>Full Website Technical Health</span>
+                  <span class="token-count">6 Pillars Analyzed</span>
+                </div>
+                <div class="audits-compact-grid">
+                  <div class="audit-chip">
+                    <div class="audit-chip-icon icon-green">♿</div>
+                    <div class="audit-chip-body">
+                      <div class="audit-chip-title">Accessibility (WCAG 2.1)</div>
+                      <div class="audit-chip-desc">Contrast 4.5:1 pass • ARIA labels verified</div>
+                    </div>
+                    <span class="audit-score score-high">96/100</span>
+                  </div>
+
+                  <div class="audit-chip">
+                    <div class="audit-chip-icon icon-cyan">⚡</div>
+                    <div class="audit-chip-body">
+                      <div class="audit-chip-title">Performance & Vitals</div>
+                      <div class="audit-chip-desc">Page weight 1.2MB • Script tree optimized</div>
+                    </div>
+                    <span class="audit-score score-high">94/100</span>
+                  </div>
+
+                  <div class="audit-chip">
+                    <div class="audit-chip-icon icon-blue">🔍</div>
+                    <div class="audit-chip-body">
+                      <div class="audit-chip-title">SEO & Metadata</div>
+                      <div class="audit-chip-desc">Canonical, OpenGraph, JSON-LD Schema OK</div>
+                    </div>
+                    <span class="audit-score score-perfect">100/100</span>
+                  </div>
+
+                  <div class="audit-chip">
+                    <div class="audit-chip-icon icon-emerald">🔐</div>
+                    <div class="audit-chip-body">
+                      <div class="audit-chip-title">Security Headers</div>
+                      <div class="audit-chip-desc">HTTPS, HSTS, CSP, X-Frame headers</div>
+                    </div>
+                    <span class="audit-score score-grade">A+</span>
+                  </div>
+
+                  <div class="audit-chip">
+                    <div class="audit-chip-icon icon-purple">🛠</div>
+                    <div class="audit-chip-body">
+                      <div class="audit-chip-title">Technology Stack</div>
+                      <div class="audit-chip-desc">Next.js • React • Tailwind • Vercel CDN</div>
+                    </div>
+                    <span class="audit-badge-tag">Detected</span>
+                  </div>
+
+                  <div class="audit-chip">
+                    <div class="audit-chip-icon icon-amber">📝</div>
+                    <div class="audit-chip-body">
+                      <div class="audit-chip-title">Content & Hierarchy</div>
+                      <div class="audit-chip-desc">Value prop mapped • Clear H1-H3 flow</div>
+                    </div>
+                    <span class="audit-score score-high">92/100</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Panel 3: AI Insights (Facts vs AI Interpretation) -->
+              <div id="tab-panel-insights" class="console-panel" role="tabpanel">
+                <div class="panel-section-title">
+                  <span>Facts First. Intelligence Second.</span>
+                  <span class="token-count">Zero hallucination</span>
+                </div>
+                <div class="insights-preview-split">
+                  <div class="insight-preview-card">
+                    <div class="insight-label-row">
+                      <span class="insight-pill fact-pill">
+                        <i data-lucide="check-circle-2" style="width:11px;height:11px;"></i>
+                        <span>Observed Facts</span>
+                      </span>
+                    </div>
+                    <p class="insight-body">
+                      Extracted 40 distinct CSS color variables, 12 font size declarations, and 6 media query breakpoints from computed styles.
+                    </p>
+                  </div>
+                  <div class="insight-preview-card">
+                    <div class="insight-label-row">
+                      <span class="insight-pill ai-pill">
+                        <i data-lucide="sparkles" style="width:11px;height:11px;"></i>
+                        <span>AI Interpretation</span>
+                      </span>
+                    </div>
+                    <p class="insight-body">
+                      Design follows an enterprise SaaS structure with high-contrast primary CTAs and cohesive dark-mode glassmorphism layering.
+                    </p>
+                  </div>
+                </div>
+                <div class="console-footer-note">
+                  <i data-lucide="info" style="width:13px;height:13px;"></i>
+                  <span>Guaranteed separation: Never disguises predictions as raw DOM facts.</span>
+                </div>
+              </div>
+
+              <!-- Panel 4: Ready-to-Use Developer Exports -->
+              <div id="tab-panel-exports" class="console-panel" role="tabpanel">
+                <div class="panel-section-title">
+                  <span>Production-Ready Code Exports</span>
+                  <span class="token-count">Ready in 1-Click</span>
+                </div>
+                <div class="export-chips-grid">
+                  <div class="export-item-card">
+                    <i data-lucide="code-2" style="width:16px;height:16px;"></i>
+                    <div class="export-item-info">
+                      <div class="export-item-title">JSON Design Tokens</div>
+                      <div class="export-item-sub">W3C Design Token format</div>
+                    </div>
+                    <span class="export-status-badge">Ready</span>
+                  </div>
+                  <div class="export-item-card">
+                    <i data-lucide="hash" style="width:16px;height:16px;"></i>
+                    <div class="export-item-info">
+                      <div class="export-item-title">CSS Custom Properties</div>
+                      <div class="export-item-sub">:root variables ready to paste</div>
+                    </div>
+                    <span class="export-status-badge">Ready</span>
+                  </div>
+                  <div class="export-item-card">
+                    <i data-lucide="layers" style="width:16px;height:16px;"></i>
+                    <div class="export-item-info">
+                      <div class="export-item-title">Tailwind Config</div>
+                      <div class="export-item-sub">tailwind.config.js theme extension</div>
+                    </div>
+                    <span class="export-status-badge">Ready</span>
+                  </div>
+                  <div class="export-item-card">
+                    <i data-lucide="file-text" style="width:16px;height:16px;"></i>
+                    <div class="export-item-info">
+                      <div class="export-item-title">DESIGN.md & Style Guide</div>
+                      <div class="export-item-sub">Complete visual documentation</div>
+                    </div>
+                    <span class="export-status-badge">Ready</span>
+                  </div>
+                </div>
+                <div class="console-export-cta">
+                  <a href="/studio?url=https://stripe.com" class="btn btn-secondary btn-sm" style="width:100%;">
+                    <i data-lucide="arrow-up-right" style="width:14px;height:14px;"></i>
+                    <span>Inspect Full Bundle in Studio Workbench</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEWPORT 2 · USE CASES, PRICING & INSTANT ACCESS (1 scroll down) -->
+    
+    <!-- 02 · Built For Builders Strip -->
+    <section id="use-cases" class="use-cases-section">
+      <div class="container">
+        <div class="use-cases-header">
+          <span class="section-label">BUILT FOR BUILDERS</span>
+          <h2 class="use-cases-title">Understand any site before you build, redesign, or benchmark.</h2>
+        </div>
+        <div class="personas-strip">
+          <div class="persona-mini-card">
+            <div class="persona-icon-box"><i data-lucide="brush" style="width:18px;height:18px;"></i></div>
+            <div class="persona-role">Designers</div>
+            <div class="persona-desc">Reverse-engineer visual tokens & establish design benchmarks.</div>
+          </div>
+          <div class="persona-mini-card">
+            <div class="persona-icon-box"><i data-lucide="code" style="width:18px;height:18px;"></i></div>
+            <div class="persona-role">Developers</div>
+            <div class="persona-desc">Export clean CSS/Tailwind tokens & components before coding.</div>
+          </div>
+          <div class="persona-mini-card">
+            <div class="persona-icon-box"><i data-lucide="briefcase" style="width:18px;height:18px;"></i></div>
+            <div class="persona-role">Agencies</div>
+            <div class="persona-desc">Audit client and competitor sites with 6-pillar engineering audits.</div>
+          </div>
+          <div class="persona-mini-card">
+            <div class="persona-icon-box"><i data-lucide="target" style="width:18px;height:18px;"></i></div>
+            <div class="persona-role">Product Teams</div>
+            <div class="persona-desc">Turn public web surfaces into actionable product intelligence.</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 05 · Your design system, ready to use -->
-    <section class="section">
+    <!-- 03 · Unified Pricing & Workspace Access -->
+    <section id="pricing" class="pricing-unified-section">
       <div class="container">
-        <div class="section-header">
-          <span class="section-label">05 · Your design system, ready to use</span>
-          <h2 class="section-title">Don't just analyze it. Take it with you.</h2>
-          <p class="section-desc">Turn extracted website intelligence into development-ready assets.</p>
+        <div class="section-header-compact">
+          <span class="section-label">PRICING & INSTANT ACCESS</span>
+          <h2 class="section-title-compact">Start free. Unlock everything for ₹149.</h2>
+          <p class="section-desc-compact">Transparent pricing. No recurring subscriptions. Direct magic-link workspace access.</p>
         </div>
 
-        <div class="exports-wrapper">
-          <div class="export-badges-grid">
-            <div class="export-badge">
-              <i data-lucide="code-2" style="width:16px;height:16px;"></i>
-              <span>JSON design tokens</span>
+        <div class="pricing-unified-grid">
+          <!-- Card 1: Free Tier -->
+          <div class="pricing-box">
+            <div class="pricing-box-header">
+              <span class="tier-badge">FREE</span>
+              <div class="tier-price">₹0</div>
+              <div class="tier-frequency">Forever free</div>
             </div>
-            <div class="export-badge">
-              <i data-lucide="hash" style="width:16px;height:16px;"></i>
-              <span>CSS variables</span>
-            </div>
-            <div class="export-badge">
-              <i data-lucide="layers" style="width:16px;height:16px;"></i>
-              <span>Tailwind configuration</span>
-            </div>
-            <div class="export-badge">
-              <i data-lucide="boxes" style="width:16px;height:16px;"></i>
-              <span>Component references</span>
-            </div>
-            <div class="export-badge">
-              <i data-lucide="file-text" style="width:16px;height:16px;"></i>
-              <span>DESIGN.md</span>
-            </div>
-            <div class="export-badge">
-              <i data-lucide="archive" style="width:16px;height:16px;"></i>
-              <span>Complete ZIP bundle</span>
-            </div>
-          </div>
-
-          <div>
-            <a href="/studio?url=https://stripe.com" class="btn btn-secondary btn-lg">
-              <i data-lucide="external-link" style="width:16px;height:16px;"></i>
-              <span>Explore a Live Report</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 06 · Pricing -->
-    <section id="pricing" class="section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-label">06 · Pricing</span>
-          <h2 class="section-title">Start free. Pay only when you need the full report.</h2>
-          <p class="section-desc">Flexible access for designers, indie builders, and engineering teams.</p>
-        </div>
-
-        <div class="pricing-grid">
-          <!-- Free Tier -->
-          <div class="pricing-card">
-            <div class="pricing-tier-name">FREE</div>
-            <div class="pricing-price">₹0</div>
-            <div class="pricing-frequency">Forever free</div>
-            <p class="pricing-desc">For exploring the product.</p>
-
-            <ul class="pricing-features-list">
-              <li class="pricing-feature-item">
-                <i data-lucide="check" style="width:16px;height:16px;"></i>
-                <span>3 analyses / month</span>
-              </li>
-              <li class="pricing-feature-item">
-                <i data-lucide="check" style="width:16px;height:16px;"></i>
-                <span>Basic overview</span>
-              </li>
-              <li class="pricing-feature-item">
-                <i data-lucide="check" style="width:16px;height:16px;"></i>
-                <span>Colors</span>
-              </li>
-              <li class="pricing-feature-item">
-                <i data-lucide="check" style="width:16px;height:16px;"></i>
-                <span>Fonts</span>
-              </li>
-              <li class="pricing-feature-item">
-                <i data-lucide="check" style="width:16px;height:16px;"></i>
-                <span>Technology detection</span>
-              </li>
-              <li class="pricing-feature-item">
-                <i data-lucide="check" style="width:16px;height:16px;"></i>
-                <span>Basic component detection</span>
-              </li>
-              <li class="pricing-feature-item">
-                <i data-lucide="check" style="width:16px;height:16px;"></i>
-                <span>Basic SEO & accessibility scores</span>
-              </li>
+            <p class="tier-summary">Essential exploration for quick site checks.</p>
+            <ul class="tier-bullets">
+              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>3 analyses / month</span></li>
+              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Color palette & font tokens</span></li>
+              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Technology stack detection</span></li>
+              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Basic UI components list</span></li>
+              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Overview audit scores</span></li>
             </ul>
-
-            <a href="/studio" class="btn btn-secondary btn-lg" style="width:100%;">
-              <span>Start Free</span>
+            <a href="/studio" class="btn btn-secondary btn-md" style="width:100%;">
+              <span>Start Free in Studio</span>
             </a>
           </div>
 
-          <!-- Full Report Tier -->
-          <div class="pricing-card featured">
-            <div class="pricing-tier-name">FULL REPORT</div>
-            <div class="pricing-price">₹149</div>
-            <div class="pricing-frequency">One-time payment</div>
-            <p class="pricing-desc">For a complete website intelligence report.</p>
-
-            <ul class="pricing-features-list">
-              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>Full Design System</span></li>
-              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>Components & Layout</span></li>
-              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>Assets & Responsive analysis</span></li>
-              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>Accessibility (WCAG 2.1)</span></li>
-              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>Performance & Core Web Vitals</span></li>
-              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>SEO & Security Headers</span></li>
-              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>Technology & Content analysis</span></li>
-              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>AI Insights & Style Guide HTML</span></li>
-              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>CSS export & JSON Tokens</span></li>
-              <li class="pricing-feature-item"><i data-lucide="check" style="width:16px;height:16px;"></i><span>DESIGN.md & ZIP export</span></li>
+          <!-- Card 2: Featured Full Report -->
+          <div class="pricing-box featured">
+            <div class="featured-badge">COMPLETE INTELLIGENCE</div>
+            <div class="pricing-box-header">
+              <span class="tier-badge tier-badge-accent">FULL REPORT</span>
+              <div class="tier-price">₹149</div>
+              <div class="tier-frequency">One-time payment • Lifetime access</div>
+            </div>
+            <p class="tier-summary">The complete reverse-engineered system and deep audit.</p>
+            <ul class="tier-bullets">
+              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span><strong>Full design system & tokens</strong></span></li>
+              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span><strong>All 6 deep technical audits</strong></span></li>
+              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Accessibility (WCAG 2.1) & SEO</span></li>
+              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Security headers & Core Web Vitals</span></li>
+              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>AI Insights & Style Guide HTML</span></li>
+              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>JSON Tokens, CSS, Tailwind & ZIP</span></li>
             </ul>
-
-            <button type="button" class="btn btn-primary btn-lg btn-glow btn-unlock-report" style="width:100%;">
-              <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
+            <button type="button" class="btn btn-primary btn-md btn-glow btn-unlock-report" style="width:100%;">
+              <i data-lucide="sparkles" style="width:15px;height:15px;"></i>
               <span>Unlock Full Report — ₹149</span>
             </button>
-
-            <div class="pricing-footnote">One payment. No subscription.</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 07 · Built for people who build -->
-    <section id="personas" class="section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-label">07 · Built for people who build</span>
-          <h2 class="section-title">Designers. Developers. Agencies. Product teams.</h2>
-          <p class="section-desc">Use ExtractDesign Studio when you need to understand an existing website before you build, redesign or benchmark it.</p>
-        </div>
-
-        <div class="personas-grid">
-          <!-- Persona 1 -->
-          <div class="persona-card">
-            <div class="persona-role">DESIGNERS</div>
-            <p class="persona-desc">Reverse-engineer visual systems and establish design references.</p>
+            <div class="box-footnote">One-time payment. Zero subscriptions.</div>
           </div>
 
-          <!-- Persona 2 -->
-          <div class="persona-card">
-            <div class="persona-role">DEVELOPERS</div>
-            <p class="persona-desc">Extract tokens, components and technical patterns before rebuilding.</p>
+          <!-- Card 3: Instant Workspace Magic Link Access -->
+          <div class="pricing-box workspace-box">
+            <div class="pricing-box-header">
+              <span class="tier-badge tier-badge-subtle">WORKSPACE</span>
+              <div class="tier-title-custom">Already Unlocked?</div>
+              <div class="tier-frequency">Instant magic link access</div>
+            </div>
+            <p class="tier-summary">Enter your email to retrieve your unlocked intelligence reports and ZIP bundles.</p>
+            
+            <form id="inline-magic-form" class="workspace-inline-form">
+              <div class="input-with-icon">
+                <i data-lucide="mail" style="width:15px;height:15px;"></i>
+                <input 
+                  type="email" 
+                  id="inline-magic-email" 
+                  class="workspace-input" 
+                  placeholder="you@studio.com" 
+                  required
+                  aria-label="Email address for workspace access"
+                >
+              </div>
+              <button type="submit" id="inline-magic-submit" class="btn btn-secondary btn-md" style="width:100%;">
+                <span class="spinner hidden"></span>
+                <span class="btn-text">Send Access Link</span>
+              </button>
+            </form>
+
+            <div id="inline-magic-feedback" class="magic-feedback"></div>
+            <div class="box-footnote" style="margin-top:auto;">Passwordless. Fast. Secure.</div>
           </div>
 
-          <!-- Persona 3 -->
-          <div class="persona-card">
-            <div class="persona-role">AGENCIES</div>
-            <p class="persona-desc">Analyze client and competitor websites before starting a project.</p>
-          </div>
-
-          <!-- Persona 4 -->
-          <div class="persona-card">
-            <div class="persona-role">PRODUCT TEAMS</div>
-            <p class="persona-desc">Turn public websites into structured competitive intelligence.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 08 · Access your workspace -->
-    <section id="workspace" class="section">
-      <div class="container">
-        <div class="workspace-card">
-          <span class="section-label">08 · Access your workspace</span>
-          <h2 class="workspace-title">Already unlocked a report?</h2>
-          <p class="workspace-desc">
-            Enter the email address you used during checkout and we'll send you a secure magic link to access your reports and downloads.
-          </p>
-
-          <form id="inline-magic-form" class="magic-link-form">
-            <input 
-              type="email" 
-              id="inline-magic-email" 
-              class="magic-input" 
-              placeholder="you@studio.com" 
-              required
-              aria-label="Email address for workspace access"
-            >
-            <button type="submit" id="inline-magic-submit" class="btn btn-primary btn-lg btn-glow">
-              <span class="spinner hidden"></span>
-              <span class="btn-text">Send Access Link</span>
-            </button>
-          </form>
-
-          <div id="inline-magic-feedback" class="magic-feedback"></div>
-
-          <div class="workspace-footnote">No password. No account to remember.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Final CTA -->
-    <section class="final-cta-section">
-      <div class="container">
-        <div class="final-cta-card">
-          <h2 class="final-cta-title">
-            Point at a website.<br>
-            Understand how it's designed.
-          </h2>
-          <p class="final-cta-desc">
-            Extract the system. Analyze the experience. Export what you need.
-          </p>
-          <div>
-            <a href="/studio" class="btn btn-primary btn-lg btn-glow">
-              <i data-lucide="scan" style="width:16px;height:16px;"></i>
-              <span>Analyze a Website — Free</span>
-            </a>
-          </div>
         </div>
       </div>
     </section>
@@ -558,38 +554,36 @@
     </div>
   </div>
 
-  <!-- Site Footer -->
+  <!-- Streamlined Site Footer -->
   <footer class="site-footer">
     <div class="container">
-      <div class="footer-top">
+      <div class="footer-compact-row">
         <div class="brand-link">
-          <div class="brand-icon" style="width:30px;height:30px;">
-            <i data-lucide="palette" style="width:16px;height:16px;"></i>
+          <div class="brand-icon" style="width:28px;height:28px;">
+            <i data-lucide="palette" style="width:15px;height:15px;"></i>
           </div>
-          <span style="font-weight:700;color:#fff;">ExtractDesign Studio</span>
+          <span style="font-weight:700;font-size:14px;color:#fff;">ExtractDesign Studio</span>
         </div>
-        <ul class="footer-links">
+
+        <ul class="footer-compact-links">
           <li><a href="/studio">Studio Workbench</a></li>
-          <li><a href="#what-you-get">What You Get</a></li>
-          <li><a href="#beyond-design">Audits</a></li>
+          <li><a href="#hero">Extract</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#workspace">Workspace Login</a></li>
+          <li><a href="#pricing">Workspace Access</a></li>
           <li><a href="https://github.com/carthworks/extract-theme" target="_blank" rel="noopener noreferrer">GitHub</a></li>
         </ul>
-      </div>
 
-      <div class="footer-bottom">
-        <div>
-          ExtractDesign Studio &bull; Developed by Karthikeyan T (@carthworks) &bull; Released under Apache-2.0
+        <div class="footer-author-tag">
+          Created by Karthikeyan T (<a href="https://github.com/carthworks" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">@carthworks</a>) • Apache-2.0
         </div>
-        <div class="footer-legal-notice">
-          All extracted trademarks, brand logos, color tokens, and design assets remain the intellectual property of their respective website and brand owners.
-        </div>
+      </div>
+      <div class="footer-legal-notice">
+        All extracted brand logos, design tokens and trademarks remain the intellectual property of their respective owners.
       </div>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="landing.js?v=1"></script>
+  <script src="landing.js?v=2"></script>
 </body>
 </html>

@@ -2244,3 +2244,205 @@ body {
   display: inline-block;
   color: var(--text-muted);
 }
+
+/* Tier 1: Design Intelligence & Framework Export Styles */
+.dim-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.dim-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.dim-bar-track {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.dim-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.contrast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.contrast-card {
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contrast-preview {
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.grid-scale-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.grid-scale-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--bg-dark);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  min-width: 60px;
+  font-size: 11px;
+}
+
+.grid-scale-chip.chip-used {
+  border-color: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.grid-scale-chip .chip-step {
+  color: var(--text-sub);
+  font-size: 9.5px;
+}
+
+.grid-scale-chip .chip-val {
+  font-weight: 700;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+}
+
+.grid-scale-chip .chip-token {
+  font-size: 9px;
+  color: #818cf8;
+}
+
+.snap-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.snap-table th, .snap-table td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.snap-table th {
+  color: var(--text-sub);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* =========================================================================
+   Sort Controls & Scan Ordering Styles
+   ========================================================================= */
+.sort-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sort-wrap .search-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--text-sub);
+  pointer-events: none;
+}
+
+.sort-select {
+  background: var(--bg-surface-2, rgba(15, 23, 42, 0.7));
+  color: var(--text-main, #f8fafc);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  border-radius: var(--radius-md, 8px);
+  padding: 7px 12px 7px 30px;
+  font-size: 12.5px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  appearance: auto;
+  transition: border-color var(--transition-fast, 0.2s), box-shadow var(--transition-fast, 0.2s);
+}
+
+.sort-select:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.sort-select:focus {
+  border-color: var(--primary, #6366f1);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+.sort-select option {
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+/* Latest / Newest Scan Badge */
+.latest-scan-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #10b981 !important;
+  border: 1px solid rgba(16, 185, 129, 0.4) !important;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-left: 6px;
+  vertical-align: middle;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.2);
+}
+
+/* Newly Scanned Result Card Highlight Pulse */
+@keyframes newScanGlowPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.8), 0 8px 30px rgba(99, 102, 241, 0.3);
+    border-color: #818cf8;
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(99, 102, 241, 0), 0 12px 35px rgba(99, 102, 241, 0.45);
+    border-color: #6366f1;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0), 0 8px 30px rgba(99, 102, 241, 0.2);
+    border-color: #818cf8;
+  }
+}
+
+.new-scan-highlight {
+  animation: newScanGlowPulse 1.8s ease-in-out 3;
+  border-color: #818cf8 !important;
+  transform: translateY(-2px);
+}
+

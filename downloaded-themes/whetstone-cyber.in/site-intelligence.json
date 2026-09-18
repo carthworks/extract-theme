@@ -1,0 +1,1412 @@
+{
+  "overview": {
+    "domain": "whetstone-cyber.in",
+    "primary_url": "https://whetstone-cyber.in/",
+    "analyzed_at": "2026-09-18T12:07:20Z",
+    "pages_analyzed": 6,
+    "scores": {
+      "accessibility": 79,
+      "seo": 100,
+      "performance": 85,
+      "security_grade": "C"
+    },
+    "summary": {
+      "components_detected": 7,
+      "assets_count": 2,
+      "technologies_count": 5,
+      "internal_links_count": 6,
+      "design_style": "Editorial & Refined"
+    }
+  },
+  "design_system": {
+    "colors_count": 40,
+    "colors": {
+      "white": "#ffffff",
+      "slate-950": "#1b2f45",
+      "neutral-50": "#f1f1f1",
+      "white-a0": "rgb(255 255 255 / 0.0)",
+      "slate-900": "#374951",
+      "black": "#000000",
+      "neutral-950": "#121010",
+      "neutral-950-2": "#333333",
+      "blue-600": "#2575fc",
+      "neutral-800": "#555555",
+      "neutral-200": "#dddddd",
+      "sky-400": "#13aff0",
+      "orange-400": "#ff6900",
+      "slate-600": "#69727d",
+      "slate-300": "#abb8c3",
+      "green-200": "#29f48f",
+      "red-600": "#cf2e2e",
+      "teal-600": "#238c8c",
+      "yellow-300": "#fcb900",
+      "green-300": "#61ce70",
+      "neutral-50-a4": "rgb(0 0 0 / 0.035)",
+      "cyan-400-a54": "rgb(2 113 130 / 0.54)",
+      "sky-500": "#0693e3",
+      "purple-600": "#9b51e0",
+      "emerald-300": "#4ce09d",
+      "emerald-300-2": "#7bdcb5",
+      "emerald-400": "#00d084",
+      "slate-400-a55": "rgb(0 79 99 / 0.55)",
+      "sky-600": "#41788c",
+      "neutral-300": "#cccccc",
+      "sky-700": "#2d657a",
+      "red-500": "#fe2d2d",
+      "neutral-100": "#e7e7e7",
+      "pink-300": "#f78da7",
+      "sky-300": "#8ed1fc",
+      "red-300": "#fe8f75",
+      "neutral-950-3": "#222222",
+      "neutral-500": "#929292",
+      "zinc-200": "#b6e3d4",
+      "neutral-300-a30": "rgb(0 0 0 / 0.3)"
+    },
+    "roles": {
+      "background": "white",
+      "foreground": "slate-900",
+      "muted-foreground": "neutral-800",
+      "primary": "blue-600",
+      "accent": "sky-400",
+      "border": "neutral-50",
+      "destructive": "orange-400",
+      "warning": "yellow-300",
+      "success": "green-300",
+      "info": "sky-400"
+    },
+    "fonts": {
+      "sans": "\"Gabarito\",Sans-serif",
+      "serif": "\"Playfair Display\",serif",
+      "mono": "\"Courier New\",Courier,monospace",
+      "sans-2": "\"Gabarito\"",
+      "sans-3": "\"Cairo\",Sans-serif",
+      "sans-4": "\"Font Awesome 5 Free\"",
+      "mono-2": "Arial,Baskerville,monospace",
+      "mono-3": "monospace,monospace",
+      "_webfonts": "Font Awesome 6 Brands, Font Awesome 6 Free, Font Awesome 5 Brands, Font Awesome 5 Free, FontAwesome, simple-line-icons, eicons, Gabarito, Roboto Slab, Cairo, Inter Tight, elementskit"
+    },
+    "font_sizes": {
+      "xs": "13px",
+      "sm": "14px",
+      "base": "1em",
+      "lg": "18px",
+      "xl": "20px",
+      "2xl": "1.5em",
+      "3xl": "1.8em",
+      "4xl": "42px",
+      "5xl": "3em",
+      "6xl": "4em",
+      "7xl": "69px"
+    },
+    "font_weights": {
+      "normal": "400",
+      "medium": "500",
+      "semibold": "600",
+      "bold": "700",
+      "black": "900",
+      "light": "300"
+    },
+    "spacing": {
+      "0": "0px",
+      "2px": "2px",
+      "3px": "3px",
+      "1": "4px",
+      "5px": "5px",
+      "6px": "6px",
+      "2": "8px",
+      "10px": "10px",
+      "3": "12px",
+      "14px": "14px",
+      "15px": "15px",
+      "4": "16px",
+      "18px": "18px",
+      "5": "20px",
+      "6": "24px",
+      "25px": "25px",
+      "30px": "30px",
+      "31px": "31px",
+      "8": "32px",
+      "10": "40px",
+      "12": "48px",
+      "50px": "50px",
+      "16": "64px",
+      "20": "80px"
+    },
+    "radius": {
+      "none": "0",
+      "sm": "3px",
+      "DEFAULT": "5px",
+      "md": "6px",
+      "lg": "10px",
+      "xl": "14px",
+      "2xl": "15px",
+      "3xl": "30px",
+      "full": "50%"
+    },
+    "shadows": {
+      "xs": "0 0 0 0 currentColor",
+      "sm": "0 0 0 0 rgb(12 90 219 / .2)",
+      "DEFAULT": "0 0 0 0 #fff0",
+      "md": "inset 0 0 0 1px currentColor",
+      "lg": "inset 0 0 0 1px rgb(0 0 0 / .1)",
+      "xl": "inset 0 0 0 1px rgba(0,0,0,.1)",
+      "2xl": "0 0 0 2px rgb(51 51 51 / .1)"
+    },
+    "gradients": [
+      "linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%)",
+      "linear-gradient(135deg,rgba(6,147,227,1) 0%,#9b51e0 100%)",
+      "linear-gradient(135deg,#7adcb4 0%,#00d082 100%)",
+      "linear-gradient(135deg,rgba(255,105,0,1) 0%,#cf2e2e 100%)",
+      "linear-gradient(135deg,#eee 0%,#a9b8c3 100%)",
+      "linear-gradient(135deg,#4aeadc 0%,#9778d1 20%,#cf2aba 40%,#ee2c82 60%,#fb6962 80%,#fef84c 100%)",
+      "linear-gradient(135deg,#ffceec 0%,#9896f0 100%)",
+      "linear-gradient(135deg,#fecda5 0%,#fe2d2d 50%,#6b003e 100%)",
+      "linear-gradient(135deg,#ffcb70 0%,#c751c0 50%,#4158d0 100%)",
+      "linear-gradient(135deg,#fff5cb 0%,#b6e3d4 50%,#33a7b5 100%)",
+      "linear-gradient(135deg,#caf880 0%,#71ce7e 100%)",
+      "linear-gradient(135deg,#020381 0%,#2874fc 100%)",
+      "linear-gradient(180deg,#00293a 0%,rgba(0,84,89,.81) 100%)",
+      "linear-gradient(180deg,#00293a 0,rgba(0,84,89,.81) 100%)",
+      "linear-gradient(-35deg,#f2709c 0,#fe8f75 100%)",
+      "linear-gradient(to top,#fff0 0%,rgb(0 0 0 / .3) 75%,rgb(0 0 0 / .3) 100%)"
+    ],
+    "css_variables": ":root {\n  --color-background: #ffffff;\n  --color-foreground: #374951;\n  --color-muted-foreground: #555555;\n  --color-primary: #2575fc;\n  --color-accent: #13aff0;\n  --color-border: #f1f1f1;\n  --color-destructive: #ff6900;\n  --color-warning: #fcb900;\n  --color-success: #61ce70;\n  --color-info: #13aff0;\n  --white: #ffffff;\n  --slate-950: #1b2f45;\n  --neutral-50: #f1f1f1;\n  --white-a0: rgb(255 255 255 / 0.0);\n  --slate-900: #374951;\n  --black: #000000;\n  --neutral-950: #121010;\n  --neutral-950-2: #333333;\n  --blue-600: #2575fc;\n  --neutral-800: #555555;\n  --neutral-200: #dddddd;\n  --sky-400: #13aff0;\n  --orange-400: #ff6900;\n  --slate-600: #69727d;\n  --slate-300: #abb8c3;\n  --green-200: #29f48f;\n  --red-600: #cf2e2e;\n  --teal-600: #238c8c;\n  --yellow-300: #fcb900;\n  --green-300: #61ce70;\n  --font-sans: \"Gabarito\",Sans-serif;\n  --font-serif: \"Playfair Display\",serif;\n  --font-mono: \"Courier New\",Courier,monospace;\n  --font-sans-2: \"Gabarito\";\n  --font-sans-3: \"Cairo\",Sans-serif;\n  --font-sans-4: \"Font Awesome 5 Free\";\n  --font-mono-2: Arial,Baskerville,monospace;\n  --font-mono-3: monospace,monospace;\n  --radius-none: 0;\n  --radius-sm: 3px;\n  --radius-DEFAULT: 5px;\n  --radius-md: 6px;\n  --radius-lg: 10px;\n  --radius-xl: 14px;\n  --radius-2xl: 15px;\n  --radius-3xl: 30px;\n  --radius-full: 50%;\n  --space-0: 0px;\n  --space-2px: 2px;\n  --space-3px: 3px;\n  --space-1: 4px;\n  --space-5px: 5px;\n  --space-6px: 6px;\n  --space-2: 8px;\n  --space-10px: 10px;\n  --space-3: 12px;\n  --space-14px: 14px;\n  --space-15px: 15px;\n  --space-4: 16px;\n}"
+  },
+  "design_intelligence": {
+    "semantic_tokens": {
+      "named_tokens": [
+        {
+          "hex": "#000000",
+          "role": "surface-base",
+          "css_variable": "--color-surface-base",
+          "luminance": 0.0,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "surface"
+        },
+        {
+          "hex": "#121010",
+          "role": "surface-elevated",
+          "css_variable": "--color-surface-elevated",
+          "luminance": 0.005,
+          "saturation": 0.059,
+          "hue_family": "neutral",
+          "usage_class": "surface"
+        },
+        {
+          "hex": "#222222",
+          "role": "neutral",
+          "css_variable": "--color-neutral",
+          "luminance": 0.016,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#1b2f45",
+          "role": "blue",
+          "css_variable": "--color-blue",
+          "luminance": 0.027,
+          "saturation": 0.437,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#333333",
+          "role": "neutral-02",
+          "css_variable": "--color-neutral-02",
+          "luminance": 0.033,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#374951",
+          "role": "text-primary",
+          "css_variable": "--color-text-primary",
+          "luminance": 0.062,
+          "saturation": 0.191,
+          "hue_family": "blue",
+          "usage_class": "text"
+        },
+        {
+          "hex": "#555555",
+          "role": "text-muted",
+          "css_variable": "--color-text-muted",
+          "luminance": 0.091,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "text"
+        },
+        {
+          "hex": "#2d657a",
+          "role": "blue-02",
+          "css_variable": "--color-blue-02",
+          "luminance": 0.113,
+          "saturation": 0.461,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#cf2e2e",
+          "role": "feedback-danger",
+          "css_variable": "--color-feedback-danger",
+          "luminance": 0.154,
+          "saturation": 0.636,
+          "hue_family": "red",
+          "usage_class": "feedback"
+        },
+        {
+          "hex": "#41788c",
+          "role": "blue-03",
+          "css_variable": "--color-blue-03",
+          "luminance": 0.165,
+          "saturation": 0.366,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#69727d",
+          "role": "blue-04",
+          "css_variable": "--color-blue-04",
+          "luminance": 0.165,
+          "saturation": 0.087,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#9b51e0",
+          "role": "purple",
+          "css_variable": "--color-purple",
+          "luminance": 0.182,
+          "saturation": 0.698,
+          "hue_family": "purple",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#2575fc",
+          "role": "blue-05",
+          "css_variable": "--color-blue-05",
+          "luminance": 0.201,
+          "saturation": 0.973,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#238c8c",
+          "role": "feedback-info",
+          "css_variable": "--color-feedback-info",
+          "luminance": 0.21,
+          "saturation": 0.6,
+          "hue_family": "cyan",
+          "usage_class": "feedback"
+        },
+        {
+          "hex": "#fe2d2d",
+          "role": "brand-secondary",
+          "css_variable": "--color-brand-secondary",
+          "luminance": 0.231,
+          "saturation": 0.991,
+          "hue_family": "red",
+          "usage_class": "brand"
+        },
+        {
+          "hex": "#0693e3",
+          "role": "blue-06",
+          "css_variable": "--color-blue-06",
+          "luminance": 0.265,
+          "saturation": 0.948,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#929292",
+          "role": "neutral-03",
+          "css_variable": "--color-neutral-03",
+          "luminance": 0.287,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#ff6900",
+          "role": "feedback-warning",
+          "css_variable": "--color-feedback-warning",
+          "luminance": 0.314,
+          "saturation": 1.0,
+          "hue_family": "orange",
+          "usage_class": "feedback"
+        },
+        {
+          "hex": "#13aff0",
+          "role": "blue-07",
+          "css_variable": "--color-blue-07",
+          "luminance": 0.371,
+          "saturation": 0.88,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#f78da7",
+          "role": "red",
+          "css_variable": "--color-red",
+          "luminance": 0.416,
+          "saturation": 0.869,
+          "hue_family": "red",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#fe8f75",
+          "role": "red-02",
+          "css_variable": "--color-red-02",
+          "luminance": 0.42,
+          "saturation": 0.986,
+          "hue_family": "red",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#00d084",
+          "role": "feedback-success",
+          "css_variable": "--color-feedback-success",
+          "luminance": 0.468,
+          "saturation": 1.0,
+          "hue_family": "green",
+          "usage_class": "feedback"
+        },
+        {
+          "hex": "#abb8c3",
+          "role": "blue-08",
+          "css_variable": "--color-blue-08",
+          "luminance": 0.469,
+          "saturation": 0.167,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#61ce70",
+          "role": "green",
+          "css_variable": "--color-green",
+          "luminance": 0.479,
+          "saturation": 0.527,
+          "hue_family": "green",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#fcb900",
+          "role": "text-subtle",
+          "css_variable": "--color-text-subtle",
+          "luminance": 0.554,
+          "saturation": 1.0,
+          "hue_family": "orange",
+          "usage_class": "text"
+        },
+        {
+          "hex": "#4ce09d",
+          "role": "green-02",
+          "css_variable": "--color-green-02",
+          "luminance": 0.573,
+          "saturation": 0.705,
+          "hue_family": "green",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#8ed1fc",
+          "role": "blue-09",
+          "css_variable": "--color-blue-09",
+          "luminance": 0.584,
+          "saturation": 0.948,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#7bdcb5",
+          "role": "green-03",
+          "css_variable": "--color-green-03",
+          "luminance": 0.587,
+          "saturation": 0.581,
+          "hue_family": "green",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#cccccc",
+          "role": "neutral-04",
+          "css_variable": "--color-neutral-04",
+          "luminance": 0.604,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#29f48f",
+          "role": "green-04",
+          "css_variable": "--color-green-04",
+          "luminance": 0.672,
+          "saturation": 0.902,
+          "hue_family": "green",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#b6e3d4",
+          "role": "green-05",
+          "css_variable": "--color-green-05",
+          "luminance": 0.696,
+          "saturation": 0.446,
+          "hue_family": "green",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#dddddd",
+          "role": "neutral-05",
+          "css_variable": "--color-neutral-05",
+          "luminance": 0.723,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#e7e7e7",
+          "role": "neutral-06",
+          "css_variable": "--color-neutral-06",
+          "luminance": 0.799,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#f1f1f1",
+          "role": "text-on-dark",
+          "css_variable": "--color-text-on-dark",
+          "luminance": 0.88,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "text"
+        },
+        {
+          "hex": "#ffffff",
+          "role": "surface-overlay",
+          "css_variable": "--color-surface-overlay",
+          "luminance": 1.0,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "surface"
+        }
+      ],
+      "contrast_pairs": [
+        {
+          "background": "#000000",
+          "background_role": "surface-base",
+          "foreground": "#00d084",
+          "foreground_role": "feedback-success",
+          "contrast_ratio": 10.36,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#121010",
+          "background_role": "surface-elevated",
+          "foreground": "#00d084",
+          "foreground_role": "feedback-success",
+          "contrast_ratio": 9.42,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#000000",
+          "background_role": "surface-base",
+          "foreground": "#fe8f75",
+          "foreground_role": "red-02",
+          "contrast_ratio": 9.4,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#000000",
+          "background_role": "surface-base",
+          "foreground": "#f78da7",
+          "foreground_role": "red",
+          "contrast_ratio": 9.32,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#121010",
+          "background_role": "surface-elevated",
+          "foreground": "#fe8f75",
+          "foreground_role": "red-02",
+          "contrast_ratio": 8.55,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#121010",
+          "background_role": "surface-elevated",
+          "foreground": "#f78da7",
+          "foreground_role": "red",
+          "contrast_ratio": 8.47,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#222222",
+          "background_role": "neutral",
+          "foreground": "#00d084",
+          "foreground_role": "feedback-success",
+          "contrast_ratio": 7.85,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#222222",
+          "background_role": "neutral",
+          "foreground": "#fe8f75",
+          "foreground_role": "red-02",
+          "contrast_ratio": 7.12,
+          "wcag_level": "AAA"
+        }
+      ],
+      "css_block": ":root {\n  --color-surface-base: #000000;\n  --color-surface-elevated: #121010;\n  --color-neutral: #222222;\n  --color-blue: #1b2f45;\n  --color-neutral-02: #333333;\n  --color-text-primary: #374951;\n  --color-text-muted: #555555;\n  --color-blue-02: #2d657a;\n  --color-feedback-danger: #cf2e2e;\n  --color-blue-03: #41788c;\n  --color-blue-04: #69727d;\n  --color-purple: #9b51e0;\n  --color-blue-05: #2575fc;\n  --color-feedback-info: #238c8c;\n  --color-brand-secondary: #fe2d2d;\n  --color-blue-06: #0693e3;\n  --color-neutral-03: #929292;\n  --color-feedback-warning: #ff6900;\n  --color-blue-07: #13aff0;\n  --color-red: #f78da7;\n  --color-red-02: #fe8f75;\n  --color-feedback-success: #00d084;\n  --color-blue-08: #abb8c3;\n  --color-green: #61ce70;\n  --color-text-subtle: #fcb900;\n  --color-green-02: #4ce09d;\n  --color-blue-09: #8ed1fc;\n  --color-green-03: #7bdcb5;\n  --color-neutral-04: #cccccc;\n  --color-green-04: #29f48f;\n  --color-green-05: #b6e3d4;\n  --color-neutral-05: #dddddd;\n  --color-neutral-06: #e7e7e7;\n  --color-text-on-dark: #f1f1f1;\n  --color-surface-overlay: #ffffff;\n}",
+      "summary": "35 colors named: 1 brand, 3 surface, 4 text, 4 feedback"
+    },
+    "consistency": {
+      "score": 73,
+      "grade": "C",
+      "label": "Fair",
+      "breakdown": {
+        "color_economy": {
+          "score": 80,
+          "total_colors": 40,
+          "label": "Good"
+        },
+        "typography": {
+          "score": 50,
+          "font_families": 8,
+          "font_weights": 6,
+          "font_sizes": 11,
+          "label": "Fair"
+        },
+        "spacing": {
+          "score": 75,
+          "unique_values": 24,
+          "label": "Good"
+        },
+        "border_radius": {
+          "score": 80,
+          "unique_values": 9,
+          "label": "Good"
+        },
+        "shadows": {
+          "score": 100,
+          "unique_values": 7,
+          "label": "Excellent"
+        }
+      },
+      "issues": [
+        {
+          "dimension": "Color Economy",
+          "severity": "Medium",
+          "message": "40 color values found. Consider reducing to under 20 semantic tokens for maintainability.",
+          "recommendation": "Group similar tones into a single token with opacity variants (e.g. --color-primary at 10%, 20%)."
+        },
+        {
+          "dimension": "Typography",
+          "severity": "High",
+          "message": "8 font families detected. Most design systems use 1–2 typefaces.",
+          "recommendation": "Reduce to a primary body font + optional mono or display font. Remove decorative one-offs."
+        },
+        {
+          "dimension": "Typography",
+          "severity": "Medium",
+          "message": "6 font weights loaded. Loading more than 4 weights adds unnecessary network payload.",
+          "recommendation": "Restrict to Regular (400), Medium (500), SemiBold (600), Bold (700) to save 30–50% font load."
+        },
+        {
+          "dimension": "Typography",
+          "severity": "Low",
+          "message": "11 font-size values found — no clear modular scale detected.",
+          "recommendation": "Adopt a modular type scale (1.25x or Major Third) to create proportional hierarchy."
+        },
+        {
+          "dimension": "Spacing",
+          "severity": "Medium",
+          "message": "50% of spacing values are on-grid. Some rogue values detected.",
+          "recommendation": "Review and snap off-grid values to the nearest 4pt multiple."
+        },
+        {
+          "dimension": "Spacing",
+          "severity": "Low",
+          "message": "24 distinct spacing values — consider tokenizing into a scale (xs/sm/md/lg/xl).",
+          "recommendation": "Define named spacing tokens: --space-1 through --space-16 and use only those values."
+        },
+        {
+          "dimension": "Border Radius",
+          "severity": "Medium",
+          "message": "9 distinct border-radius values — no consistent scale detected.",
+          "recommendation": "Define 4–5 radius tokens: --radius-sm, --radius-md, --radius-lg, --radius-full and reuse them."
+        }
+      ],
+      "positive": [
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "spacing_grid": {
+      "detected": false,
+      "base_unit": 4,
+      "system_name": "No clear grid system",
+      "adherence_pct": 27,
+      "total_values_analyzed": 66,
+      "on_grid_count": 18,
+      "off_grid_count": 48,
+      "off_grid_values": [
+        {
+          "value": 1,
+          "css": "1px",
+          "nearest_snap": "4px",
+          "deviation": 1
+        },
+        {
+          "value": 2,
+          "css": "2px",
+          "nearest_snap": "4px",
+          "deviation": 2
+        },
+        {
+          "value": 3,
+          "css": "3px",
+          "nearest_snap": "4px",
+          "deviation": 1
+        },
+        {
+          "value": 5,
+          "css": "5px",
+          "nearest_snap": "4px",
+          "deviation": 1
+        },
+        {
+          "value": 6,
+          "css": "6px",
+          "nearest_snap": "4px",
+          "deviation": 2
+        },
+        {
+          "value": 7,
+          "css": "7px",
+          "nearest_snap": "8px",
+          "deviation": 1
+        },
+        {
+          "value": 9,
+          "css": "9px",
+          "nearest_snap": "8px",
+          "deviation": 1
+        },
+        {
+          "value": 10,
+          "css": "10px",
+          "nearest_snap": "8px",
+          "deviation": 2
+        },
+        {
+          "value": 11,
+          "css": "11px",
+          "nearest_snap": "12px",
+          "deviation": 1
+        },
+        {
+          "value": 13,
+          "css": "13px",
+          "nearest_snap": "12px",
+          "deviation": 1
+        },
+        {
+          "value": 14,
+          "css": "14px",
+          "nearest_snap": "12px",
+          "deviation": 2
+        },
+        {
+          "value": 15,
+          "css": "15px",
+          "nearest_snap": "16px",
+          "deviation": 1
+        }
+      ],
+      "grid_scale": [
+        {
+          "step": 1,
+          "px": "4px",
+          "rem": "0.250rem",
+          "token_name": "--space-1",
+          "used": true
+        },
+        {
+          "step": 2,
+          "px": "8px",
+          "rem": "0.500rem",
+          "token_name": "--space-2",
+          "used": true
+        },
+        {
+          "step": 3,
+          "px": "12px",
+          "rem": "0.750rem",
+          "token_name": "--space-3",
+          "used": true
+        },
+        {
+          "step": 4,
+          "px": "16px",
+          "rem": "1.000rem",
+          "token_name": "--space-4",
+          "used": true
+        },
+        {
+          "step": 5,
+          "px": "20px",
+          "rem": "1.250rem",
+          "token_name": "--space-5",
+          "used": true
+        },
+        {
+          "step": 6,
+          "px": "24px",
+          "rem": "1.500rem",
+          "token_name": "--space-6",
+          "used": true
+        },
+        {
+          "step": 7,
+          "px": "28px",
+          "rem": "1.750rem",
+          "token_name": "--space-7",
+          "used": true
+        },
+        {
+          "step": 8,
+          "px": "32px",
+          "rem": "2.000rem",
+          "token_name": "--space-8",
+          "used": true
+        },
+        {
+          "step": 9,
+          "px": "36px",
+          "rem": "2.250rem",
+          "token_name": "--space-9",
+          "used": true
+        },
+        {
+          "step": 10,
+          "px": "40px",
+          "rem": "2.500rem",
+          "token_name": "--space-10",
+          "used": true
+        },
+        {
+          "step": 11,
+          "px": "44px",
+          "rem": "2.750rem",
+          "token_name": "--space-11",
+          "used": false
+        },
+        {
+          "step": 12,
+          "px": "48px",
+          "rem": "3.000rem",
+          "token_name": "--space-12",
+          "used": true
+        },
+        {
+          "step": 13,
+          "px": "52px",
+          "rem": "3.250rem",
+          "token_name": "--space-13",
+          "used": true
+        },
+        {
+          "step": 14,
+          "px": "56px",
+          "rem": "3.500rem",
+          "token_name": "--space-14",
+          "used": false
+        },
+        {
+          "step": 15,
+          "px": "60px",
+          "rem": "3.750rem",
+          "token_name": "--space-15",
+          "used": true
+        },
+        {
+          "step": 16,
+          "px": "64px",
+          "rem": "4.000rem",
+          "token_name": "--space-16",
+          "used": true
+        }
+      ],
+      "summary": "No clear grid system detected with 27% adherence. 48 off-grid values need snapping."
+    }
+  },
+  "components": {
+    "detected": [
+      {
+        "type": "Navbar / Header",
+        "tag": "nav/header",
+        "count": 3,
+        "items_count": 12,
+        "has_logo": true,
+        "sticky": false,
+        "styles": "Horizontal flex/grid navigation bar with logo and menu links"
+      },
+      {
+        "type": "Hero Section",
+        "tag": "section/div.hero",
+        "count": 1,
+        "headline": "Not detected",
+        "has_cta": false,
+        "styles": "High-impact visual banner with primary title and primary call to action"
+      },
+      {
+        "type": "Buttons",
+        "tag": "button / a.btn",
+        "count": 17,
+        "sample_labels": [
+          "Send",
+          "Get Started",
+          "Explore More",
+          "Learn more",
+          "Know More"
+        ],
+        "styles": "Rounded interactive click targets with hover states and micro-interactions"
+      },
+      {
+        "type": "Cards / Tiles",
+        "tag": "div.card / article",
+        "count": 1,
+        "styles": "Content surfaces with border-radius, elevation shadows, and structured padding"
+      },
+      {
+        "type": "Forms & Inputs",
+        "tag": "form / input",
+        "count": 1,
+        "inputs_count": 6,
+        "has_search": false,
+        "styles": "Input fields with custom borders, active focus ring, and placeholder text"
+      },
+      {
+        "type": "Footer",
+        "tag": "footer",
+        "count": 1,
+        "links_count": 15,
+        "styles": "Multi-column link lists with copyright attribution and legal policies"
+      },
+      {
+        "type": "Pricing Table",
+        "tag": "div.pricing",
+        "count": 1,
+        "styles": "Comparative tier grid displaying pricing numbers, feature checklists, and action buttons"
+      }
+    ],
+    "total_types": 7
+  },
+  "layout": {
+    "containers": [
+      "99999px",
+      "1280px",
+      "1199px",
+      "1140px",
+      "1100px",
+      "1080px"
+    ],
+    "primary_container": "99999px",
+    "layout_engines": {
+      "css_grid": true,
+      "flexbox": true
+    },
+    "breakpoints": [
+      "sm: 480px",
+      "sm-481: 481px",
+      "sm-568: 568px",
+      "md: 766px",
+      "md-767: 767px",
+      "md-768: 768px",
+      "lg: 959px",
+      "lg-992: 992px"
+    ],
+    "spacing_conventions": {
+      "section_padding_y": "48px – 96px (Standard)",
+      "column_gap": "16px – 32px",
+      "container_padding_x": "16px – 24px"
+    },
+    "page_structure_flow": [
+      "<header> #site-header",
+      "<nav> #site-navigation",
+      "<nav> .clr",
+      "<main> #main",
+      "<section> #cs",
+      "<section> .elementor-element",
+      "<footer> .elementor"
+    ]
+  },
+  "assets": {
+    "total_assets": 2,
+    "images_count": 2,
+    "svgs_count": 0,
+    "picture_sources_count": 0,
+    "format_breakdown": {
+      "PNG": 2
+    },
+    "missing_alt_count": 1,
+    "missing_dimensions_count": 0,
+    "sample_assets": [
+      {
+        "src": "https://whetstone-cyber.in/wp-content/uploads/2023/10/ws-bl-logo.png",
+        "alt": "Whetstone Cyber Solutions Pvt. Ltd.",
+        "width": "1095",
+        "height": "228",
+        "format": "PNG",
+        "loading": "eager"
+      },
+      {
+        "src": "https://whetstone-cyber.in/wp-content/uploads/2023/10/ws-bl-logo.png",
+        "alt": "",
+        "width": "1095",
+        "height": "228",
+        "format": "PNG",
+        "loading": "eager"
+      }
+    ],
+    "issues": [
+      {
+        "severity": "Warning",
+        "message": "1 image(s) missing alt text (accessibility and SEO hazard)."
+      }
+    ]
+  },
+  "responsive": {
+    "viewport_meta": "width=device-width, initial-scale=1",
+    "has_viewport_tag": true,
+    "breakpoints": {
+      "sm": "480px",
+      "sm-481": "481px",
+      "sm-568": "568px",
+      "md": "766px",
+      "md-767": "767px",
+      "md-768": "768px",
+      "lg": "959px",
+      "lg-992": "992px",
+      "lg-1025": "1025px"
+    },
+    "views": {
+      "mobile": {
+        "width": "< 768px",
+        "status": "Supported"
+      },
+      "tablet": {
+        "width": "768px – 1024px",
+        "status": "Supported"
+      },
+      "desktop": {
+        "width": "> 1024px",
+        "status": "Optimized"
+      }
+    },
+    "issues": [
+      {
+        "severity": "Warning",
+        "title": "Hardcoded Pixel Widths Detected",
+        "description": "Observed fixed width rules up to 1280px. Verify max-width: 100% is used to avoid horizontal overflow on mobile."
+      }
+    ],
+    "overall_status": "Responsive Ready"
+  },
+  "accessibility": {
+    "score": 79,
+    "grade": "B",
+    "wcag_level": "Needs Remediation",
+    "issues_count": 3,
+    "critical_count": 1,
+    "warning_count": 2,
+    "info_count": 0,
+    "issues": [
+      {
+        "severity": "Warning",
+        "category": "Document Structure",
+        "rule": "WCAG 2.4.6 Headings and Labels",
+        "message": "Heading hierarchy skips levels (e.g. H1 followed directly by H3).",
+        "remediation": "Do not skip heading levels. Ensure nested structure follows H1 → H2 → H3."
+      },
+      {
+        "severity": "Critical",
+        "category": "Forms & Inputs",
+        "rule": "WCAG 3.3.2 Labels or Instructions",
+        "message": "2 form input(s) lack an associated label or aria-label.",
+        "remediation": "Pair all form controls with explicit <label for='...'> or aria-label."
+      },
+      {
+        "severity": "Warning",
+        "category": "Visual Contrast",
+        "rule": "WCAG 1.4.3 Contrast (Minimum)",
+        "message": "4 extracted color combination(s) fail WCAG AA (4.5:1 ratio).",
+        "remediation": "Increase lightness difference between text and surface backgrounds."
+      }
+    ]
+  },
+  "performance": {
+    "score": 85,
+    "response_time_ms": 1152.8,
+    "transfer_sizes": {
+      "html_kb": 698.3,
+      "css_kb": 1994.7,
+      "total_text_kb": 2692.9
+    },
+    "requests_count": {
+      "html_documents": 6,
+      "stylesheets": 0,
+      "scripts": 11,
+      "images": 2,
+      "fonts": 43,
+      "total_estimated": 57
+    },
+    "optimizations": {
+      "render_blocking_scripts_count": 0,
+      "render_blocking_scripts": [],
+      "resource_hints": [
+        "dns-prefetch: //www.googletagmanager.com",
+        "dns-prefetch: //fonts.googleapis.com",
+        "preload: https://whetstone-cyber.in/wp-content/litespeed/css/d4ebc6d2",
+        "preload: https://whetstone-cyber.in/wp-content/uploads/2023/10/ws-bl-",
+        "preload: https://whetstone-cyber.in/wp-content/uploads/2023/10/ws-bl-"
+      ],
+      "has_font_display_swap": true,
+      "lazy_loaded_images": "0 of 2",
+      "images_without_dimensions_count": 0
+    },
+    "nextjs_performance": {
+      "cls_risk_images_count": 0,
+      "cls_risk_images": [],
+      "lcp_hero_preloaded": true,
+      "uses_google_font_link": true,
+      "recommendations": [
+        "Migrate Google Fonts from <link> tags to `next/font/google` for zero-shift automatic font preloading.",
+        "Push `'use client'` boundaries down to interactive leaf nodes (buttons, inputs) to reduce client bundle size."
+      ]
+    }
+  },
+  "seo": {
+    "score": 100,
+    "title": "Home - Whetstone Cyber Solutions Pvt. Ltd.",
+    "description": "Providing unparalleled services in Cyber Security, Product Engineering, and All Digital transformation to deliver innovative future-centric products.",
+    "canonical": "https://whetstone-cyber.in/",
+    "open_graph": {
+      "title": "Home - Whetstone Cyber Solutions Pvt. Ltd.",
+      "description": "Providing unparalleled services in Cyber Security, Product Engineering, and All Digital transformation to deliver innovative future-centric products.",
+      "image": "https://whetstone-cyber.in/wp-content/uploads/2023/10/wh-fi.png",
+      "twitter_card": "summary_large_image"
+    },
+    "structured_data": {
+      "detected": true,
+      "types": [
+        "ListItem",
+        "SearchAction",
+        "ReadAction",
+        "WebPage",
+        "ImageObject",
+        "WebSite",
+        "EntryPoint",
+        "BreadcrumbList",
+        "PropertyValueSpecification",
+        "Organization"
+      ]
+    },
+    "links": {
+      "internal_count": 33,
+      "external_count": 2,
+      "total": 35
+    },
+    "headings_outline": [
+      {
+        "level": "H1",
+        "text": "Forging Your Digital Future Together"
+      },
+      {
+        "level": "H2",
+        "text": "Our Core Services"
+      },
+      {
+        "level": "H3",
+        "text": "Cyber Security"
+      },
+      {
+        "level": "H3",
+        "text": "Product Engineering"
+      },
+      {
+        "level": "H3",
+        "text": "Digital Solutions"
+      },
+      {
+        "level": "H2",
+        "text": "Redefining SAAS"
+      },
+      {
+        "level": "H2",
+        "text": "Redefining SAAS"
+      },
+      {
+        "level": "H2",
+        "text": "Our Customized Talent Resourcing Solutions"
+      },
+      {
+        "level": "H3",
+        "text": "Contractual Hiring"
+      },
+      {
+        "level": "H3",
+        "text": "Permanent Recruitment"
+      },
+      {
+        "level": "H2",
+        "text": "Talent Acquisition Specialists"
+      },
+      {
+        "level": "H2",
+        "text": "Get Monthly Updates"
+      }
+    ],
+    "checks": [
+      {
+        "name": "Page Title Tag",
+        "status": "Passed",
+        "detail": "42 chars"
+      },
+      {
+        "name": "Meta Description",
+        "status": "Passed",
+        "detail": "149 chars"
+      },
+      {
+        "name": "Canonical Link",
+        "status": "Passed",
+        "detail": "https://whetstone-cyber.in/"
+      },
+      {
+        "name": "Open Graph (Social Sharing)",
+        "status": "Passed",
+        "detail": "Title and image configured"
+      },
+      {
+        "name": "robots.txt",
+        "status": "Passed",
+        "detail": "https://whetstone-cyber.in/robots.txt"
+      },
+      {
+        "name": "sitemap.xml",
+        "status": "Passed",
+        "detail": "https://whetstone-cyber.in/sitemap.xml"
+      }
+    ]
+  },
+  "security": {
+    "score": 45,
+    "grade": "C",
+    "is_https": true,
+    "headers_table": [
+      {
+        "header": "HTTPS Protocol",
+        "status": "Secure",
+        "detail": "Connection is encrypted using TLS"
+      },
+      {
+        "header": "Strict-Transport-Security (HSTS)",
+        "status": "Not detected",
+        "detail": "Vulnerable to SSL stripping attacks"
+      },
+      {
+        "header": "Content-Security-Policy (CSP)",
+        "status": "Configured",
+        "detail": "upgrade-insecure-requests"
+      },
+      {
+        "header": "X-Frame-Options",
+        "status": "Not detected",
+        "detail": "May be vulnerable to clickjacking if not controlled by CSP"
+      },
+      {
+        "header": "X-Content-Type-Options",
+        "status": "Not detected",
+        "detail": "MIME sniffing prevention not explicitly enabled"
+      },
+      {
+        "header": "Referrer-Policy",
+        "status": "Not detected",
+        "detail": "Browser default referrer rules apply"
+      }
+    ]
+  },
+  "technology": {
+    "all_detected": [
+      {
+        "name": "jQuery",
+        "category": "Library"
+      },
+      {
+        "name": "WordPress",
+        "category": "CMS"
+      },
+      {
+        "name": "Google Analytics 4 (GA4)",
+        "category": "Analytics"
+      },
+      {
+        "name": "Google Fonts",
+        "category": "Font Provider"
+      },
+      {
+        "name": "Jquery",
+        "category": "Framework"
+      }
+    ],
+    "count": 5,
+    "by_category": {
+      "Frameworks": [
+        "Jquery"
+      ],
+      "CSS & UI": [],
+      "CMS & Builders": [
+        "WordPress"
+      ],
+      "Analytics": [
+        "Google Analytics 4 (GA4)"
+      ],
+      "Hosting & CDN": [],
+      "Font Providers": [
+        "Google Fonts"
+      ]
+    }
+  },
+  "site_structure": {
+    "crawled_count": 6,
+    "internal_pages": [
+      {
+        "url": "https://whetstone-cyber.in/",
+        "path": "/",
+        "status": 200
+      },
+      {
+        "url": "https://whetstone-cyber.in/about-us/",
+        "path": "/about-us/",
+        "status": 200
+      },
+      {
+        "url": "https://whetstone-cyber.in/services/",
+        "path": "/services/",
+        "status": 200
+      },
+      {
+        "url": "https://whetstone-cyber.in/resourcing/",
+        "path": "/resourcing/",
+        "status": 200
+      },
+      {
+        "url": "https://whetstone-cyber.in/contact-us/",
+        "path": "/contact-us/",
+        "status": 200
+      },
+      {
+        "url": "https://whetstone-cyber.in/services/cyber-security/",
+        "path": "/services/cyber-security/",
+        "status": 200
+      }
+    ],
+    "tree_structure": [
+      {
+        "path": "/",
+        "name": "Homepage (Root)",
+        "depth": 0
+      },
+      {
+        "path": "/about-us/",
+        "name": "About us",
+        "depth": 1
+      },
+      {
+        "path": "/contact-us/",
+        "name": "Contact us",
+        "depth": 1
+      },
+      {
+        "path": "/resourcing/",
+        "name": "Resourcing",
+        "depth": 1
+      },
+      {
+        "path": "/services/",
+        "name": "Services",
+        "depth": 1
+      },
+      {
+        "path": "/services/cyber-security/",
+        "name": "Cyber security",
+        "depth": 2
+      }
+    ],
+    "external_domains_count": 2,
+    "sample_external_domains": [
+      "wa.me",
+      "linkedin.com"
+    ]
+  },
+  "content_intelligence": {
+    "value_proposition": "Forging Your Digital Future Together",
+    "key_headlines": [
+      "Forging Your Digital Future Together",
+      "Our Core Services",
+      "Redefining SAAS",
+      "Our Customized Talent Resourcing Solutions",
+      "Talent Acquisition Specialists"
+    ],
+    "primary_ctas": [
+      "Get Started",
+      "Explore More",
+      "Learn more"
+    ],
+    "trust_signals": [
+      "Not detected"
+    ],
+    "pricing_signals": [
+      "Not detected"
+    ],
+    "messaging_summary": "Targeted online platform for whetstone-cyber.in, emphasizing 'Forging Your Digital Future Together'."
+  },
+  "ai_insights": {
+    "style_archetype": "Editorial & Refined",
+    "consistency_score": 84,
+    "visual_hierarchy_review": "Strong contrast between primary actions and body surfaces; typography scale creates a clear reading hierarchy.",
+    "notable_patterns": [
+      "CSS Grid multi-column bento layouts",
+      "Soft layered elevation shadows",
+      "Chromatic ambient gradients"
+    ],
+    "facts_vs_interpretation": {
+      "detected_facts": [
+        "40 distinct color values extracted from stylesheets",
+        "9 font families detected (sans, serif, mono)",
+        "7 UI component patterns identified",
+        "HTTP security rating graded at C"
+      ],
+      "ai_interpretation": [
+        "Aesthetic categorised as 'Editorial & Refined' based on font selection and corner radius hierarchy.",
+        "Design system emphasizes high-velocity conversion with focused call-to-action color weighting.",
+        "Layout structure indicates a mobile-responsive viewport strategy with standard desktop containers."
+      ]
+    }
+  },
+  "exports": {
+    "primary_format": "css",
+    "framework_detected": "Vanilla CSS",
+    "css_variables": "/* Design tokens for whetstone-cyber.in — generated by ExtractDesign Studio */\n:root {\n  --color-surface-base: #000000;\n  --color-surface-elevated: #121010;\n  --color-neutral: #222222;\n  --color-blue: #1b2f45;\n  --color-neutral-02: #333333;\n  --color-text-primary: #374951;\n  --color-text-muted: #555555;\n  --color-blue-02: #2d657a;\n  --color-feedback-danger: #cf2e2e;\n  --color-blue-03: #41788c;\n  --color-blue-04: #69727d;\n  --color-purple: #9b51e0;\n  --color-blue-05: #2575fc;\n  --color-feedback-info: #238c8c;\n  --color-brand-secondary: #fe2d2d;\n  --color-blue-06: #0693e3;\n  --color-neutral-03: #929292;\n  --color-feedback-warning: #ff6900;\n  --color-blue-07: #13aff0;\n  --color-red: #f78da7;\n  --color-red-02: #fe8f75;\n  --color-feedback-success: #00d084;\n  --color-blue-08: #abb8c3;\n  --color-green: #61ce70;\n  --color-text-subtle: #fcb900;\n  --color-green-02: #4ce09d;\n  --color-blue-09: #8ed1fc;\n  --color-green-03: #7bdcb5;\n  --color-neutral-04: #cccccc;\n  --color-green-04: #29f48f;\n  --color-green-05: #b6e3d4;\n  --color-neutral-05: #dddddd;\n  --color-neutral-06: #e7e7e7;\n  --color-text-on-dark: #f1f1f1;\n  --color-surface-overlay: #ffffff;\n  --font-sans: \"Gabarito\",Sans-serif;\n  --font-serif: \"Playfair Display\",serif;\n  --font-mono: \"Courier New\",Courier,monospace;\n  --font-sans-2: \"Gabarito\";\n  --font-sans-3: \"Cairo\",Sans-serif;\n  --font-sans-4: \"Font Awesome 5 Free\";\n  --font-mono-2: Arial,Baskerville,monospace;\n  --font-mono-3: monospace,monospace;\n  --radius-none: 0;\n  --radius-sm: 3px;\n  --radius-DEFAULT: 5px;\n  --radius-md: 6px;\n  --radius-lg: 10px;\n  --radius-xl: 14px;\n  --space-0: 0px;\n  --space-2px: 2px;\n  --space-3px: 3px;\n  --space-1: 4px;\n  --space-5px: 5px;\n  --space-6px: 6px;\n  --space-2: 8px;\n  --space-10px: 10px;\n  --space-3: 12px;\n  --space-14px: 14px;\n  --space-15px: 15px;\n  --space-4: 16px;\n}",
+    "json_tokens_w3c": "{\n  \"$schema\": \"https://tr.designtokens.org/format/\",\n  \"color\": {\n    \"surface-base\": {\n      \"$value\": \"#000000\",\n      \"$type\": \"color\"\n    },\n    \"surface-elevated\": {\n      \"$value\": \"#121010\",\n      \"$type\": \"color\"\n    },\n    \"neutral\": {\n      \"$value\": \"#222222\",\n      \"$type\": \"color\"\n    },\n    \"blue\": {\n      \"$value\": \"#1b2f45\",\n      \"$type\": \"color\"\n    },\n    \"neutral-02\": {\n      \"$value\": \"#333333\",\n      \"$type\": \"color\"\n    },\n    \"text-primary\": {\n      \"$value\": \"#374951\",\n      \"$type\": \"color\"\n    },\n    \"text-muted\": {\n      \"$value\": \"#555555\",\n      \"$type\": \"color\"\n    },\n    \"blue-02\": {\n      \"$value\": \"#2d657a\",\n      \"$type\": \"color\"\n    },\n    \"feedback-danger\": {\n      \"$value\": \"#cf2e2e\",\n      \"$type\": \"color\"\n    },\n    \"blue-03\": {\n      \"$value\": \"#41788c\",\n      \"$type\": \"color\"\n    },\n    \"blue-04\": {\n      \"$value\": \"#69727d\",\n      \"$type\": \"color\"\n    },\n    \"purple\": {\n      \"$value\": \"#9b51e0\",\n      \"$type\": \"color\"\n    },\n    \"blue-05\": {\n      \"$value\": \"#2575fc\",\n      \"$type\": \"color\"\n    },\n    \"feedback-info\": {\n      \"$value\": \"#238c8c\",\n      \"$type\": \"color\"\n    },\n    \"brand-secondary\": {\n      \"$value\": \"#fe2d2d\",\n      \"$type\": \"color\"\n    },\n    \"blue-06\": {\n      \"$value\": \"#0693e3\",\n      \"$type\": \"color\"\n    },\n    \"neutral-03\": {\n      \"$value\": \"#929292\",\n      \"$type\": \"color\"\n    },\n    \"feedback-warning\": {\n      \"$value\": \"#ff6900\",\n      \"$type\": \"color\"\n    },\n    \"blue-07\": {\n      \"$value\": \"#13aff0\",\n      \"$type\": \"color\"\n    },\n    \"red\": {\n      \"$value\": \"#f78da7\",\n      \"$type\": \"color\"\n    },\n    \"red-02\": {\n      \"$value\": \"#fe8f75\",\n      \"$type\": \"color\"\n    },\n    \"feedback-success\": {\n      \"$value\": \"#00d084\",\n      \"$type\": \"color\"\n    },\n    \"blue-08\": {\n      \"$value\": \"#abb8c3\",\n      \"$type\": \"color\"\n    },\n    \"green\": {\n      \"$value\": \"#61ce70\",\n      \"$type\": \"color\"\n    },\n    \"text-subtle\": {\n      \"$value\": \"#fcb900\",\n      \"$type\": \"color\"\n    },\n    \"green-02\": {\n      \"$value\": \"#4ce09d\",\n      \"$type\": \"color\"\n    },\n    \"blue-09\": {\n      \"$value\": \"#8ed1fc\",\n      \"$type\": \"color\"\n    },\n    \"green-03\": {\n      \"$value\": \"#7bdcb5\",\n      \"$type\": \"color\"\n    },\n    \"neutral-04\": {\n      \"$value\": \"#cccccc\",\n      \"$type\": \"color\"\n    },\n    \"green-04\": {\n      \"$value\": \"#29f48f\",\n      \"$type\": \"color\"\n    },\n    \"green-05\": {\n      \"$value\": \"#b6e3d4\",\n      \"$type\": \"color\"\n    },\n    \"neutral-05\": {\n      \"$value\": \"#dddddd\",\n      \"$type\": \"color\"\n    },\n    \"neutral-06\": {\n      \"$value\": \"#e7e7e7\",\n      \"$type\": \"color\"\n    },\n    \"text-on-dark\": {\n      \"$value\": \"#f1f1f1\",\n      \"$type\": \"color\"\n    },\n    \"surface-overlay\": {\n      \"$value\": \"#ffffff\",\n      \"$type\": \"color\"\n    }\n  },\n  \"typography\": {\n    \"sans\": {\n      \"$value\": \"\\\"Gabarito\\\",Sans-serif\",\n      \"$type\": \"fontFamily\"\n    },\n    \"serif\": {\n      \"$value\": \"\\\"Playfair Display\\\",serif\",\n      \"$type\": \"fontFamily\"\n    },\n    \"mono\": {\n      \"$value\": \"\\\"Courier New\\\",Courier,monospace\",\n      \"$type\": \"fontFamily\"\n    },\n    \"sans-2\": {\n      \"$value\": \"\\\"Gabarito\\\"\",\n      \"$type\": \"fontFamily\"\n    },\n    \"sans-3\": {\n      \"$value\": \"\\\"Cairo\\\",Sans-serif\",\n      \"$type\": \"fontFamily\"\n    },\n    \"sans-4\": {\n      \"$value\": \"\\\"Font Awesome 5 Free\\\"\",\n      \"$type\": \"fontFamily\"\n    },\n    \"mono-2\": {\n      \"$value\": \"Arial,Baskerville,monospace\",\n      \"$type\": \"fontFamily\"\n    },\n    \"mono-3\": {\n      \"$value\": \"monospace,monospace\",\n      \"$type\": \"fontFamily\"\n    }\n  },\n  \"spacing\": {},\n  \"radius\": {\n    \"none\": {\n      \"$value\": \"0\",\n      \"$type\": \"dimension\"\n    },\n    \"sm\": {\n      \"$value\": \"3px\",\n      \"$type\": \"dimension\"\n    },\n    \"DEFAULT\": {\n      \"$value\": \"5px\",\n      \"$type\": \"dimension\"\n    },\n    \"md\": {\n      \"$value\": \"6px\",\n      \"$type\": \"dimension\"\n    },\n    \"lg\": {\n      \"$value\": \"10px\",\n      \"$type\": \"dimension\"\n    },\n    \"xl\": {\n      \"$value\": \"14px\",\n      \"$type\": \"dimension\"\n    }\n  }\n}",
+    "tailwind_config": "",
+    "typescript_theme": "",
+    "vue_composable": "",
+    "design_md": "# Whetstone-cyber — Design System Reference\n> Reverse-engineered by ExtractDesign Studio\n\n## Color Palette\n- `--color-surface-base` → `#000000` (surface-base)\n- `--color-surface-elevated` → `#121010` (surface-elevated)\n- `--color-neutral` → `#222222` (neutral)\n- `--color-blue` → `#1b2f45` (blue)\n- `--color-neutral-02` → `#333333` (neutral-02)\n- `--color-text-primary` → `#374951` (text-primary)\n- `--color-text-muted` → `#555555` (text-muted)\n- `--color-blue-02` → `#2d657a` (blue-02)\n- `--color-feedback-danger` → `#cf2e2e` (feedback-danger)\n- `--color-blue-03` → `#41788c` (blue-03)\n- `--color-blue-04` → `#69727d` (blue-04)\n- `--color-purple` → `#9b51e0` (purple)\n- `--color-blue-05` → `#2575fc` (blue-05)\n- `--color-feedback-info` → `#238c8c` (feedback-info)\n- `--color-brand-secondary` → `#fe2d2d` (brand-secondary)\n- `--color-blue-06` → `#0693e3` (blue-06)\n- `--color-neutral-03` → `#929292` (neutral-03)\n- `--color-feedback-warning` → `#ff6900` (feedback-warning)\n- `--color-blue-07` → `#13aff0` (blue-07)\n- `--color-red` → `#f78da7` (red)\n- `--color-red-02` → `#fe8f75` (red-02)\n- `--color-feedback-success` → `#00d084` (feedback-success)\n- `--color-blue-08` → `#abb8c3` (blue-08)\n- `--color-green` → `#61ce70` (green)\n- `--color-text-subtle` → `#fcb900` (text-subtle)\n- `--color-green-02` → `#4ce09d` (green-02)\n- `--color-blue-09` → `#8ed1fc` (blue-09)\n- `--color-green-03` → `#7bdcb5` (green-03)\n- `--color-neutral-04` → `#cccccc` (neutral-04)\n- `--color-green-04` → `#29f48f` (green-04)\n- `--color-green-05` → `#b6e3d4` (green-05)\n- `--color-neutral-05` → `#dddddd` (neutral-05)\n- `--color-neutral-06` → `#e7e7e7` (neutral-06)\n- `--color-text-on-dark` → `#f1f1f1` (text-on-dark)\n- `--color-surface-overlay` → `#ffffff` (surface-overlay)\n\n## Typography\n- `sans`: \"Gabarito\",Sans-serif\n- `serif`: \"Playfair Display\",serif\n- `mono`: \"Courier New\",Courier,monospace\n- `sans-2`: \"Gabarito\"\n- `sans-3`: \"Cairo\",Sans-serif\n- `sans-4`: \"Font Awesome 5 Free\"\n- `mono-2`: Arial,Baskerville,monospace\n- `mono-3`: monospace,monospace\n\n## Border Radius\n- `--radius-none`: 0\n- `--radius-sm`: 3px\n- `--radius-DEFAULT`: 5px\n- `--radius-md`: 6px\n- `--radius-lg`: 10px\n- `--radius-xl`: 14px\n\n## Spacing Scale\n- `--space-0`: 0px\n- `--space-2px`: 2px\n- `--space-3px`: 3px\n- `--space-1`: 4px\n- `--space-5px`: 5px\n- `--space-6px`: 6px\n- `--space-2`: 8px\n- `--space-10px`: 10px\n- `--space-3`: 12px\n- `--space-14px`: 14px\n- `--space-15px`: 15px\n- `--space-4`: 16px\n\n---\n> All design assets remain property of their respective owners.",
+    "react_components": "// Next.js App Router Components for whetstone-cyber.in\n// Optimized for Core Web Vitals (LCP < 2.5s, CLS < 0.1, INP < 200ms)\n// Generated by ExtractDesign Studio\n\nimport React from 'react';\nimport Image from 'next/image';\n\n'use client';\nexport function Button({ children, variant = 'primary', className = '', ...props }) {\n  const styles = {\n    primary: { backgroundColor: 'var(--color-brand-primary, #ffffff)', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' },\n    secondary: { backgroundColor: 'transparent', border: '1px solid rgba(128,128,128,0.3)', padding: '10px 20px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' },\n  };\n  return <button style={styles[variant]} className={className} {...props}>{children}</button>;\n}\n\nexport function Hero({ headline, description, ctaText = 'Get Started', imageSrc }) {\n  return (\n    <section style={{ padding: '64px 24px', textAlign: 'center', maxWidth: '960px', margin: '0 auto' }}>\n      <h1 style={{ fontSize: '42px', fontWeight: 700, marginBottom: '16px' }}>{headline}</h1>\n      <p style={{ fontSize: '18px', opacity: 0.8, marginBottom: '28px' }}>{description}</p>\n      {imageSrc && <Image src={imageSrc} alt={headline} width={800} height={450} priority />}\n      <Button>{ctaText}</Button>\n    </section>\n  );\n}\n"
+  }
+}

@@ -1,17 +1,25 @@
 // landing.js — ExtractDesign Studio Landing Page Interactivity
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize Lucide icons
-  if (window.lucide && typeof window.lucide.createIcons === 'function') {
-    window.lucide.createIcons();
+  // 1. Initialize Lucide icons
+  function refreshIcons() {
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
   }
+  refreshIcons();
 
-  // DOM Elements
+  // 2. DOM Elements
   const heroForm = document.getElementById('hero-analyze-form');
   const heroUrlInput = document.getElementById('hero-target-url');
   const presetTags = document.querySelectorAll('.preset-tag');
   const liveDemoBtns = document.querySelectorAll('.btn-open-demo');
+  const consoleTargetLabel = document.getElementById('console-target-label');
   
+  // Console Tab Buttons & Panels
+  const consoleTabs = document.querySelectorAll('.console-tab');
+  const consolePanels = document.querySelectorAll('.console-panel');
+
   // Login / Workspace Modal Elements
   const loginModal = document.getElementById('login-modal');
   const openLoginBtns = document.querySelectorAll('.btn-open-login');
@@ -22,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalMagicFeedback = document.getElementById('modal-magic-feedback');
   const modalSubmitBtn = document.getElementById('modal-magic-submit');
 
-  // Inline Section 08 Magic Form Elements
+  // Inline Section Magic Form Elements
   const inlineMagicForm = document.getElementById('inline-magic-form');
   const inlineMagicInput = document.getElementById('inline-magic-email');
   const inlineMagicFeedback = document.getElementById('inline-magic-feedback');
@@ -31,22 +39,49 @@ document.addEventListener('DOMContentLoaded', () => {
   // Pricing Unlock Buttons
   const unlockReportBtns = document.querySelectorAll('.btn-unlock-report');
 
-  // 1. Check existing session
+  // 3. Hero Console Tab Switching
+  consoleTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const targetTab = tab.getAttribute('data-tab');
+      if (!targetTab) return;
+
+      // Update active tab button
+      consoleTabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+
+      // Update active panel
+      consolePanels.forEach(panel => {
+        panel.classList.remove('active');
+      });
+      const activePanel = document.getElementById(`tab-panel-${targetTab}`);
+      if (activePanel) {
+        activePanel.classList.add('active');
+      }
+
+      refreshIcons();
+    });
+  });
+
+  // 4. Check existing session
   const storedUser = localStorage.getItem('extract_design_user');
   if (storedUser) {
     const userBadge = document.getElementById('user-session-badge');
     if (userBadge) {
       userBadge.innerHTML = `
-        <span class="user-pill" style="font-size:12.5px;color:#38bdf8;background:rgba(56,189,248,0.1);padding:4px 10px;border-radius:9999px;border:1px solid rgba(56,189,248,0.25);display:flex;align-items:center;gap:6px;">
-          <i data-lucide="user-check" style="width:14px;height:14px;"></i>
-          <span>${escapeHtml(storedUser)} (Workspace Active)</span>
+        <span class="user-pill" style="font-size:12px;color:#38bdf8;background:rgba(56,189,248,0.1);padding:4px 10px;border-radius:9999px;border:1px solid rgba(56,189,248,0.25);display:flex;align-items:center;gap:6px;">
+          <i data-lucide="user-check" style="width:13px;height:13px;"></i>
+          <span>${escapeHtml(storedUser)}</span>
         </span>
       `;
-      if (window.lucide) window.lucide.createIcons();
+      refreshIcons();
     }
   }
 
-  // 2. Hero URL Form Submission
+  // 5. Hero URL Form Submission
   if (heroForm && heroUrlInput) {
     heroForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -62,6 +97,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const url = tag.getAttribute('data-url');
       if (url) {
         if (heroUrlInput) heroUrlInput.value = url;
+        if (consoleTargetLabel) {
+          try {
+            const parsed = new URL(url.startsWith('http') ? url : `https://${url}`);
+            consoleTargetLabel.textContent = parsed.hostname;
+          } catch {
+            consoleTargetLabel.textContent = url;
+          }
+        }
         redirectToStudio(url);
       }
     });
@@ -83,12 +126,13 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.href = `/studio?url=${encodeURIComponent(cleanUrl)}`;
   }
 
-  // 3. Modal Open/Close Controls
+  // 6. Modal Open/Close Controls
   function openModal() {
     if (!loginModal) return;
     loginModal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     if (modalMagicInput) modalMagicInput.focus();
+    refreshIcons();
   }
 
   function closeModal() {
@@ -122,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Handle Magic Link Submission (Modal Form)
+  // 7. Handle Magic Link Submission (Modal Form)
   if (modalMagicForm && modalMagicInput) {
     modalMagicForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -137,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. Handle Magic Link Submission (Inline Section 08 Form)
+  // 8. Handle Magic Link Submission (Inline Form)
   if (inlineMagicForm && inlineMagicInput) {
     inlineMagicForm.addEventListener('submit', async (e) => {
       e.preventDefault();

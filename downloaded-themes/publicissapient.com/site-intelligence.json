@@ -1,0 +1,1282 @@
+{
+  "overview": {
+    "domain": "publicissapient.com",
+    "primary_url": "https://www.publicissapient.com/",
+    "analyzed_at": "2026-09-18T11:55:39Z",
+    "pages_analyzed": 6,
+    "scores": {
+      "accessibility": 84,
+      "seo": 100,
+      "performance": 69,
+      "security_grade": "B"
+    },
+    "summary": {
+      "components_detected": 7,
+      "assets_count": 86,
+      "technologies_count": 2,
+      "internal_links_count": 6,
+      "design_style": "Playful / Consumer Friendly"
+    }
+  },
+  "design_system": {
+    "colors_count": 23,
+    "colors": {
+      "white": "#ffffff",
+      "black": "#000000",
+      "red-600": "#e90130",
+      "white-a33": "rgb(255 255 255 / 0.333)",
+      "neutral-100": "#e5e7eb",
+      "white-a0": "rgb(0 0 0 / 0.0)",
+      "blue-700": "#0c63ea",
+      "neutral-900": "#444444",
+      "slate-800": "#4a5565",
+      "neutral-200": "#d1d5dc",
+      "slate-400": "#99a1af",
+      "neutral-700": "#666666",
+      "slate-950": "#101828",
+      "slate-600": "#6a7282",
+      "neutral-500": "#949494",
+      "slate-950-2": "#030712",
+      "blue-500": "#2b7fff",
+      "slate-950-3": "#1e2939",
+      "red-800": "#9f0712",
+      "yellow-100": "#fee685",
+      "neutral-50-a5": "rgb(0 0 0 / 0.051)",
+      "orange-400": "#ff6900",
+      "green-400": "#00c950"
+    },
+    "roles": {
+      "background": "white",
+      "foreground": "black",
+      "muted-foreground": "neutral-900",
+      "primary": "red-600",
+      "accent": "blue-700",
+      "border": "neutral-100",
+      "destructive": "red-600",
+      "success": "green-400"
+    },
+    "fonts": {
+      "sans": "ui-sans-serif,system-ui,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\"",
+      "mono": "ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\",monospace",
+      "_webfonts": "Lexend Deca, Roboto Mono, Roboto"
+    },
+    "font_sizes": {
+      "xs": "11px",
+      "sm": "14px",
+      "base": "1rem",
+      "lg": "1.125rem",
+      "xl": "22px",
+      "2xl": "1.5rem",
+      "3xl": "28px",
+      "4xl": "42px",
+      "5xl": "50px",
+      "6xl": "3.75rem",
+      "7xl": "4.5rem"
+    },
+    "font_weights": {
+      "normal": "400",
+      "bold": "700",
+      "light": "300",
+      "medium": "500",
+      "semibold": "600"
+    },
+    "spacing": {
+      "0": "0px",
+      "1px": "1px",
+      "1_6px": "1.6px",
+      "2px": "2px",
+      "1": "4px",
+      "5px": "5px",
+      "6px": "6px",
+      "7px": "7px",
+      "2": "8px",
+      "9_71px": "9.71px",
+      "10px": "10px",
+      "3": "12px",
+      "4": "16px",
+      "19px": "19px",
+      "5": "20px",
+      "6": "24px",
+      "7": "28px",
+      "30px": "30px",
+      "8": "32px",
+      "10": "40px",
+      "12": "48px",
+      "16": "64px",
+      "20": "80px"
+    },
+    "radius": {
+      "none": "0",
+      "sm": "3px",
+      "DEFAULT": ".25rem",
+      "md": ".375rem",
+      "lg": ".5rem",
+      "xl": ".75rem",
+      "2xl": "1rem",
+      "3xl": "1.5rem",
+      "full": "9999px"
+    },
+    "shadows": {
+      "xs": "0 0 #0000,0 0 #0000,inset0 0 0 2px#fff,inset0 0 0 calc(2px + 2px)#e90130,0 0 #0000",
+      "sm": "inset 0 0 0 1px #000",
+      "DEFAULT": "inset 0 0 0 1px #0000",
+      "md": "inset 0 0 0 1px #e90130",
+      "lg": "0 0 1px #888",
+      "xl": "0 0 1px #0003",
+      "2xl": "0 0 0 2px #0c63ea"
+    },
+    "gradients": [
+      "linear-gradient(to right in oklab,color-mix(in oklab,#fff5%,transparent)0%,transparent50%,transparent100%)",
+      "linear-gradient(currentColor,currentColor)",
+      "linear-gradient(90deg,#fff0 -7.04%,#fff 50.7%)",
+      "linear-gradient(270deg,#fff0 -7.04%,#fff 50.7%)",
+      "linear-gradient(270deg,#0000,#fff9 50%,#ffffffbf 75%,#fff)",
+      "linear-gradient(90deg,#0000,#ffffff40 20%,#ffffffd9 55%,#fff)",
+      "repeating-linear-gradient(currentColor 0 1px,#0000 1px 3px)",
+      "repeating-linear-gradient(to bottom,#9494940 1px,transparent 1px 3px)",
+      "linear-gradient(90deg,#fff0,#fff50%,#fff100%)"
+    ],
+    "css_variables": ":root {\n  --color-background: #ffffff;\n  --color-foreground: #000000;\n  --color-muted-foreground: #444444;\n  --color-primary: #e90130;\n  --color-accent: #0c63ea;\n  --color-border: #e5e7eb;\n  --color-destructive: #e90130;\n  --color-success: #00c950;\n  --white: #ffffff;\n  --black: #000000;\n  --red-600: #e90130;\n  --white-a33: rgb(255 255 255 / 0.333);\n  --neutral-100: #e5e7eb;\n  --white-a0: rgb(0 0 0 / 0.0);\n  --blue-700: #0c63ea;\n  --neutral-900: #444444;\n  --slate-800: #4a5565;\n  --neutral-200: #d1d5dc;\n  --slate-400: #99a1af;\n  --neutral-700: #666666;\n  --slate-950: #101828;\n  --slate-600: #6a7282;\n  --neutral-500: #949494;\n  --slate-950-2: #030712;\n  --blue-500: #2b7fff;\n  --slate-950-3: #1e2939;\n  --red-800: #9f0712;\n  --yellow-100: #fee685;\n  --font-sans: ui-sans-serif,system-ui,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\";\n  --font-mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\",monospace;\n  --radius-none: 0;\n  --radius-sm: 3px;\n  --radius-DEFAULT: .25rem;\n  --radius-md: .375rem;\n  --radius-lg: .5rem;\n  --radius-xl: .75rem;\n  --radius-2xl: 1rem;\n  --radius-3xl: 1.5rem;\n  --radius-full: 9999px;\n  --space-0: 0px;\n  --space-1px: 1px;\n  --space-1_6px: 1.6px;\n  --space-2px: 2px;\n  --space-1: 4px;\n  --space-5px: 5px;\n  --space-6px: 6px;\n  --space-7px: 7px;\n  --space-2: 8px;\n  --space-9_71px: 9.71px;\n  --space-10px: 10px;\n  --space-3: 12px;\n}"
+  },
+  "design_intelligence": {
+    "semantic_tokens": {
+      "named_tokens": [
+        {
+          "hex": "#000000",
+          "role": "surface-base",
+          "css_variable": "--color-surface-base",
+          "luminance": 0.0,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "surface"
+        },
+        {
+          "hex": "#030712",
+          "role": "surface-elevated",
+          "css_variable": "--color-surface-elevated",
+          "luminance": 0.002,
+          "saturation": 0.714,
+          "hue_family": "neutral",
+          "usage_class": "surface"
+        },
+        {
+          "hex": "#101828",
+          "role": "blue",
+          "css_variable": "--color-blue",
+          "luminance": 0.009,
+          "saturation": 0.429,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#1e2939",
+          "role": "blue-02",
+          "css_variable": "--color-blue-02",
+          "luminance": 0.022,
+          "saturation": 0.31,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#444444",
+          "role": "neutral",
+          "css_variable": "--color-neutral",
+          "luminance": 0.058,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#9f0712",
+          "role": "feedback-danger",
+          "css_variable": "--color-feedback-danger",
+          "luminance": 0.076,
+          "saturation": 0.916,
+          "hue_family": "red",
+          "usage_class": "feedback"
+        },
+        {
+          "hex": "#4a5565",
+          "role": "text-muted",
+          "css_variable": "--color-text-muted",
+          "luminance": 0.089,
+          "saturation": 0.154,
+          "hue_family": "blue",
+          "usage_class": "text"
+        },
+        {
+          "hex": "#666666",
+          "role": "neutral-02",
+          "css_variable": "--color-neutral-02",
+          "luminance": 0.133,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#0c63ea",
+          "role": "blue-03",
+          "css_variable": "--color-blue-03",
+          "luminance": 0.149,
+          "saturation": 0.902,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#6a7282",
+          "role": "blue-04",
+          "css_variable": "--color-blue-04",
+          "luminance": 0.167,
+          "saturation": 0.102,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#e90130",
+          "role": "red",
+          "css_variable": "--color-red",
+          "luminance": 0.176,
+          "saturation": 0.991,
+          "hue_family": "red",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#2b7fff",
+          "role": "brand-primary",
+          "css_variable": "--color-brand-primary",
+          "luminance": 0.229,
+          "saturation": 1.0,
+          "hue_family": "blue",
+          "usage_class": "brand"
+        },
+        {
+          "hex": "#949494",
+          "role": "neutral-03",
+          "css_variable": "--color-neutral-03",
+          "luminance": 0.296,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#ff6900",
+          "role": "feedback-warning",
+          "css_variable": "--color-feedback-warning",
+          "luminance": 0.314,
+          "saturation": 1.0,
+          "hue_family": "orange",
+          "usage_class": "feedback"
+        },
+        {
+          "hex": "#99a1af",
+          "role": "blue-05",
+          "css_variable": "--color-blue-05",
+          "luminance": 0.354,
+          "saturation": 0.121,
+          "hue_family": "blue",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#00c950",
+          "role": "feedback-success",
+          "css_variable": "--color-feedback-success",
+          "luminance": 0.424,
+          "saturation": 1.0,
+          "hue_family": "green",
+          "usage_class": "feedback"
+        },
+        {
+          "hex": "#d1d5dc",
+          "role": "text-subtle",
+          "css_variable": "--color-text-subtle",
+          "luminance": 0.663,
+          "saturation": 0.136,
+          "hue_family": "neutral",
+          "usage_class": "text"
+        },
+        {
+          "hex": "#fee685",
+          "role": "yellow",
+          "css_variable": "--color-yellow",
+          "luminance": 0.794,
+          "saturation": 0.984,
+          "hue_family": "yellow",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#e5e7eb",
+          "role": "neutral-04",
+          "css_variable": "--color-neutral-04",
+          "luminance": 0.798,
+          "saturation": 0.13,
+          "hue_family": "neutral",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#ffffff",
+          "role": "text-on-dark",
+          "css_variable": "--color-text-on-dark",
+          "luminance": 1.0,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "text"
+        }
+      ],
+      "contrast_pairs": [
+        {
+          "background": "#000000",
+          "background_role": "surface-base",
+          "foreground": "#e5e7eb",
+          "foreground_role": "neutral-04",
+          "contrast_ratio": 16.96,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#000000",
+          "background_role": "surface-base",
+          "foreground": "#fee685",
+          "foreground_role": "yellow",
+          "contrast_ratio": 16.88,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#030712",
+          "background_role": "surface-elevated",
+          "foreground": "#e5e7eb",
+          "foreground_role": "neutral-04",
+          "contrast_ratio": 16.31,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#030712",
+          "background_role": "surface-elevated",
+          "foreground": "#fee685",
+          "foreground_role": "yellow",
+          "contrast_ratio": 16.23,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#101828",
+          "background_role": "blue",
+          "foreground": "#e5e7eb",
+          "foreground_role": "neutral-04",
+          "contrast_ratio": 14.37,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#101828",
+          "background_role": "blue",
+          "foreground": "#fee685",
+          "foreground_role": "yellow",
+          "contrast_ratio": 14.31,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#000000",
+          "background_role": "surface-base",
+          "foreground": "#d1d5dc",
+          "foreground_role": "text-subtle",
+          "contrast_ratio": 14.26,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#030712",
+          "background_role": "surface-elevated",
+          "foreground": "#d1d5dc",
+          "foreground_role": "text-subtle",
+          "contrast_ratio": 13.71,
+          "wcag_level": "AAA"
+        }
+      ],
+      "css_block": ":root {\n  --color-surface-base: #000000;\n  --color-surface-elevated: #030712;\n  --color-blue: #101828;\n  --color-blue-02: #1e2939;\n  --color-neutral: #444444;\n  --color-feedback-danger: #9f0712;\n  --color-text-muted: #4a5565;\n  --color-neutral-02: #666666;\n  --color-blue-03: #0c63ea;\n  --color-blue-04: #6a7282;\n  --color-red: #e90130;\n  --color-brand-primary: #2b7fff;\n  --color-neutral-03: #949494;\n  --color-feedback-warning: #ff6900;\n  --color-blue-05: #99a1af;\n  --color-feedback-success: #00c950;\n  --color-text-subtle: #d1d5dc;\n  --color-yellow: #fee685;\n  --color-neutral-04: #e5e7eb;\n  --color-text-on-dark: #ffffff;\n}",
+      "summary": "20 colors named: 1 brand, 2 surface, 3 text, 3 feedback"
+    },
+    "consistency": {
+      "score": 87,
+      "grade": "B",
+      "label": "Good",
+      "breakdown": {
+        "color_economy": {
+          "score": 92,
+          "total_colors": 23,
+          "label": "Excellent"
+        },
+        "typography": {
+          "score": 90,
+          "font_families": 2,
+          "font_weights": 5,
+          "font_sizes": 11,
+          "label": "Excellent"
+        },
+        "spacing": {
+          "score": 75,
+          "unique_values": 22,
+          "label": "Good"
+        },
+        "border_radius": {
+          "score": 80,
+          "unique_values": 9,
+          "label": "Good"
+        },
+        "shadows": {
+          "score": 100,
+          "unique_values": 7,
+          "label": "Excellent"
+        }
+      },
+      "issues": [
+        {
+          "dimension": "Typography",
+          "severity": "Low",
+          "message": "11 font-size values found — no clear modular scale detected.",
+          "recommendation": "Adopt a modular type scale (1.25x or Major Third) to create proportional hierarchy."
+        },
+        {
+          "dimension": "Spacing",
+          "severity": "Medium",
+          "message": "57% of spacing values are on-grid. Some rogue values detected.",
+          "recommendation": "Review and snap off-grid values to the nearest 4pt multiple."
+        },
+        {
+          "dimension": "Spacing",
+          "severity": "Low",
+          "message": "22 distinct spacing values — consider tokenizing into a scale (xs/sm/md/lg/xl).",
+          "recommendation": "Define named spacing tokens: --space-1 through --space-16 and use only those values."
+        },
+        {
+          "dimension": "Border Radius",
+          "severity": "Medium",
+          "message": "9 distinct border-radius values — no consistent scale detected.",
+          "recommendation": "Define 4–5 radius tokens: --radius-sm, --radius-md, --radius-lg, --radius-full and reuse them."
+        }
+      ],
+      "positive": [
+        null,
+        "Clean 2-family typeface selection",
+        null,
+        null
+      ]
+    },
+    "spacing_grid": {
+      "detected": true,
+      "base_unit": 4,
+      "system_name": "4pt Grid System",
+      "adherence_pct": 60,
+      "total_values_analyzed": 20,
+      "on_grid_count": 12,
+      "off_grid_count": 8,
+      "off_grid_values": [
+        {
+          "value": 1,
+          "css": "1px",
+          "nearest_snap": "4px",
+          "deviation": 1
+        },
+        {
+          "value": 2,
+          "css": "2px",
+          "nearest_snap": "4px",
+          "deviation": 2
+        },
+        {
+          "value": 5,
+          "css": "5px",
+          "nearest_snap": "4px",
+          "deviation": 1
+        },
+        {
+          "value": 6,
+          "css": "6px",
+          "nearest_snap": "4px",
+          "deviation": 2
+        },
+        {
+          "value": 7,
+          "css": "7px",
+          "nearest_snap": "8px",
+          "deviation": 1
+        },
+        {
+          "value": 10,
+          "css": "10px",
+          "nearest_snap": "8px",
+          "deviation": 2
+        },
+        {
+          "value": 19,
+          "css": "19px",
+          "nearest_snap": "20px",
+          "deviation": 1
+        },
+        {
+          "value": 30,
+          "css": "30px",
+          "nearest_snap": "28px",
+          "deviation": 2
+        }
+      ],
+      "grid_scale": [
+        {
+          "step": 1,
+          "px": "4px",
+          "rem": "0.250rem",
+          "token_name": "--space-1",
+          "used": true
+        },
+        {
+          "step": 2,
+          "px": "8px",
+          "rem": "0.500rem",
+          "token_name": "--space-2",
+          "used": true
+        },
+        {
+          "step": 3,
+          "px": "12px",
+          "rem": "0.750rem",
+          "token_name": "--space-3",
+          "used": true
+        },
+        {
+          "step": 4,
+          "px": "16px",
+          "rem": "1.000rem",
+          "token_name": "--space-4",
+          "used": true
+        },
+        {
+          "step": 5,
+          "px": "20px",
+          "rem": "1.250rem",
+          "token_name": "--space-5",
+          "used": true
+        },
+        {
+          "step": 6,
+          "px": "24px",
+          "rem": "1.500rem",
+          "token_name": "--space-6",
+          "used": true
+        },
+        {
+          "step": 7,
+          "px": "28px",
+          "rem": "1.750rem",
+          "token_name": "--space-7",
+          "used": true
+        },
+        {
+          "step": 8,
+          "px": "32px",
+          "rem": "2.000rem",
+          "token_name": "--space-8",
+          "used": true
+        },
+        {
+          "step": 9,
+          "px": "36px",
+          "rem": "2.250rem",
+          "token_name": "--space-9",
+          "used": false
+        },
+        {
+          "step": 10,
+          "px": "40px",
+          "rem": "2.500rem",
+          "token_name": "--space-10",
+          "used": true
+        },
+        {
+          "step": 11,
+          "px": "44px",
+          "rem": "2.750rem",
+          "token_name": "--space-11",
+          "used": false
+        },
+        {
+          "step": 12,
+          "px": "48px",
+          "rem": "3.000rem",
+          "token_name": "--space-12",
+          "used": true
+        },
+        {
+          "step": 13,
+          "px": "52px",
+          "rem": "3.250rem",
+          "token_name": "--space-13",
+          "used": false
+        },
+        {
+          "step": 14,
+          "px": "56px",
+          "rem": "3.500rem",
+          "token_name": "--space-14",
+          "used": false
+        },
+        {
+          "step": 15,
+          "px": "60px",
+          "rem": "3.750rem",
+          "token_name": "--space-15",
+          "used": false
+        },
+        {
+          "step": 16,
+          "px": "64px",
+          "rem": "4.000rem",
+          "token_name": "--space-16",
+          "used": true
+        }
+      ],
+      "summary": "4pt Grid System detected with 60% adherence. 8 off-grid values need snapping."
+    }
+  },
+  "components": {
+    "detected": [
+      {
+        "type": "Navbar / Header",
+        "tag": "nav/header",
+        "count": 4,
+        "items_count": 86,
+        "has_logo": true,
+        "sticky": false,
+        "styles": "Horizontal flex/grid navigation bar with logo and menu links"
+      },
+      {
+        "type": "Hero Section",
+        "tag": "section/div.hero",
+        "count": 1,
+        "headline": "We Build AI Solutions for the Enterprise",
+        "has_cta": true,
+        "styles": "High-impact visual banner with primary title and primary call to action"
+      },
+      {
+        "type": "Buttons",
+        "tag": "button / a.btn",
+        "count": 23,
+        "sample_labels": [
+          "Solutions",
+          "Industries",
+          "AI Platforms",
+          "Resources",
+          "Company"
+        ],
+        "styles": "Rounded interactive click targets with hover states and micro-interactions"
+      },
+      {
+        "type": "Cards / Tiles",
+        "tag": "div.card / article",
+        "count": 20,
+        "styles": "Content surfaces with border-radius, elevation shadows, and structured padding"
+      },
+      {
+        "type": "Forms & Inputs",
+        "tag": "form / input",
+        "count": 1,
+        "inputs_count": 7,
+        "has_search": false,
+        "styles": "Input fields with custom borders, active focus ring, and placeholder text"
+      },
+      {
+        "type": "Footer",
+        "tag": "footer",
+        "count": 1,
+        "links_count": 91,
+        "styles": "Multi-column link lists with copyright attribution and legal policies"
+      },
+      {
+        "type": "Badges / Pills",
+        "tag": "span.badge",
+        "count": 3,
+        "styles": "Compact rounded indicators for status, categories, or featured highlights"
+      }
+    ],
+    "total_types": 7
+  },
+  "layout": {
+    "containers": [
+      "1536px",
+      "1440px",
+      "1408px",
+      "1312px",
+      "1281px",
+      "1280px"
+    ],
+    "primary_container": "1536px",
+    "layout_engines": {
+      "css_grid": true,
+      "flexbox": true
+    },
+    "breakpoints": [
+      "sm: 360px",
+      "sm-639: 639px",
+      "sm-640: 640px",
+      "sm-672: 672px",
+      "md: 768px",
+      "lg: 1024px",
+      "xl: 1153px",
+      "xl-1280: 1280px"
+    ],
+    "spacing_conventions": {
+      "section_padding_y": "48px – 96px (Standard)",
+      "column_gap": "16px – 32px",
+      "container_padding_x": "16px – 24px"
+    },
+    "page_structure_flow": [
+      "<section> .AnnouncementTicker",
+      "<header>",
+      "<nav> .hidden",
+      "<nav> .mobile-nav",
+      "<nav>",
+      "<main> .container",
+      "<section> .bg-white",
+      "<article> .case-study-card",
+      "<article> .relative",
+      "<footer> #12345"
+    ]
+  },
+  "assets": {
+    "total_assets": 86,
+    "images_count": 75,
+    "svgs_count": 11,
+    "picture_sources_count": 0,
+    "format_breakdown": {
+      "JPEG": 1,
+      "SVG": 74
+    },
+    "missing_alt_count": 75,
+    "missing_dimensions_count": 75,
+    "sample_assets": [
+      {
+        "src": "/content/dam/ps-redesign/us/en/global/comps/ticker/ticker-background.jpg",
+        "alt": "",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "JPEG",
+        "loading": "eager"
+      },
+      {
+        "src": "/content/dam/ps-redesign/us/en/global/comps/icons/award-three.svg",
+        "alt": "",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "eager"
+      },
+      {
+        "src": "/content/dam/ps-redesign/us/en/global/comps/icons/award-three.svg",
+        "alt": "",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "eager"
+      },
+      {
+        "src": "/content/dam/ps-redesign/us/en/global/comps/icons/announcement-white-icon.svg",
+        "alt": "",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "eager"
+      },
+      {
+        "src": "/content/dam/ps-redesign/us/en/global/comps/icons/code-square-two.svg",
+        "alt": "",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "eager"
+      },
+      {
+        "src": "/content/dam/ps-redesign/us/en/global/topnav/top-nav-code-browser.svg",
+        "alt": "",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "lazy"
+      },
+      {
+        "src": "/content/dam/ps-redesign/us/en/global/topnav/top-nav-coins-swap.svg",
+        "alt": "",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "lazy"
+      },
+      {
+        "src": "/content/dam/ps-redesign/us/en/global/topnav/top-nav-users.svg",
+        "alt": "",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "lazy"
+      },
+      {
+        "src": "/content/dam/ps-redesign/us/en/global/topnav/top-nav-qr-code.svg",
+        "alt": "",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "lazy"
+      },
+      {
+        "src": "/content/dam/ps-redesign/us/en/global/topnav/top-nav-git-pull-request.svg",
+        "alt": "",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "lazy"
+      },
+      {
+        "src": "/content/dam/ps-redesign/us/en/global/topnav/adobe.svg",
+        "alt": "",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "lazy"
+      },
+      {
+        "src": "/content/dam/ps-redesign/us/en/global/topnav/amazon.svg",
+        "alt": "",
+        "width": "Not specified",
+        "height": "Not specified",
+        "format": "SVG",
+        "loading": "lazy"
+      }
+    ],
+    "issues": [
+      {
+        "severity": "Warning",
+        "message": "75 image(s) missing alt text (accessibility and SEO hazard)."
+      },
+      {
+        "severity": "Info",
+        "message": "75 image(s) missing explicit width/height attributes (may cause Cumulative Layout Shift)."
+      }
+    ]
+  },
+  "responsive": {
+    "viewport_meta": "width=device-width, initial-scale=1",
+    "has_viewport_tag": true,
+    "breakpoints": {
+      "sm": "360px",
+      "sm-639": "639px",
+      "sm-640": "640px",
+      "sm-672": "672px",
+      "md": "768px",
+      "lg": "1024px",
+      "xl": "1153px",
+      "xl-1280": "1280px",
+      "xl-1281": "1281px",
+      "xl-1356": "1356px",
+      "2xl": "1536px"
+    },
+    "views": {
+      "mobile": {
+        "width": "< 768px",
+        "status": "Supported"
+      },
+      "tablet": {
+        "width": "768px – 1024px",
+        "status": "Supported"
+      },
+      "desktop": {
+        "width": "> 1024px",
+        "status": "Optimized"
+      }
+    },
+    "issues": [
+      {
+        "severity": "Warning",
+        "title": "Hardcoded Pixel Widths Detected",
+        "description": "Observed fixed width rules up to 1536px. Verify max-width: 100% is used to avoid horizontal overflow on mobile."
+      }
+    ],
+    "overall_status": "Responsive Ready"
+  },
+  "accessibility": {
+    "score": 84,
+    "grade": "B",
+    "wcag_level": "Needs Remediation",
+    "issues_count": 2,
+    "critical_count": 1,
+    "warning_count": 1,
+    "info_count": 0,
+    "issues": [
+      {
+        "severity": "Critical",
+        "category": "Forms & Inputs",
+        "rule": "WCAG 3.3.2 Labels or Instructions",
+        "message": "1 form input(s) lack an associated label or aria-label.",
+        "remediation": "Pair all form controls with explicit <label for='...'> or aria-label."
+      },
+      {
+        "severity": "Warning",
+        "category": "Visual Contrast",
+        "rule": "WCAG 1.4.3 Contrast (Minimum)",
+        "message": "8 extracted color combination(s) fail WCAG AA (4.5:1 ratio).",
+        "remediation": "Increase lightness difference between text and surface backgrounds."
+      }
+    ]
+  },
+  "performance": {
+    "score": 69,
+    "response_time_ms": 98.5,
+    "transfer_sizes": {
+      "html_kb": 2128.0,
+      "css_kb": 352.6,
+      "total_text_kb": 2480.6
+    },
+    "requests_count": {
+      "html_documents": 6,
+      "stylesheets": 1,
+      "scripts": 26,
+      "images": 75,
+      "fonts": 33,
+      "total_estimated": 136
+    },
+    "optimizations": {
+      "render_blocking_scripts_count": 4,
+      "render_blocking_scripts": [
+        "/etc.clientlibs/ps-redesign/clientlibs/clientlib-runtime.js?v=20260909-2321-39c93",
+        "/etc.clientlibs/ps-redesign/clientlibs/clientlib-lottie.js?v=20260909-2321-39c93",
+        "https://challenges.cloudflare.com/turnstile/v0/api.js",
+        "https://assets.adobedtm.com/8006c40e7dec/d13f0c377358/launch-76a1e5c643eb.min.js"
+      ],
+      "resource_hints": [
+        "preconnect: https://s7d9.scene7.com",
+        "preconnect: https://fonts.gstatic.com",
+        "preconnect: https://fonts.googleapis.com",
+        "preload: https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@10",
+        "preconnect: https://assets.adobedtm.com"
+      ],
+      "has_font_display_swap": true,
+      "lazy_loaded_images": "70 of 75",
+      "images_without_dimensions_count": 75
+    },
+    "nextjs_performance": {
+      "cls_risk_images_count": 75,
+      "cls_risk_images": [
+        "/content/dam/ps-redesign/us/en/global/comps/ticker/ticker-ba",
+        "/content/dam/ps-redesign/us/en/global/comps/icons/award-thre",
+        "/content/dam/ps-redesign/us/en/global/comps/icons/award-thre",
+        "/content/dam/ps-redesign/us/en/global/comps/icons/announceme",
+        "/content/dam/ps-redesign/us/en/global/comps/icons/code-squar"
+      ],
+      "lcp_hero_preloaded": true,
+      "uses_google_font_link": true,
+      "recommendations": [
+        "Specify explicit width/height or use Next.js <Image> on 75 image(s) to eliminate Cumulative Layout Shift (target CLS < 0.1).",
+        "Migrate Google Fonts from <link> tags to `next/font/google` for zero-shift automatic font preloading.",
+        "Eliminate head render-blocking scripts via `next/script` with `strategy='afterInteractive'` or `defer`.",
+        "Push `'use client'` boundaries down to interactive leaf nodes (buttons, inputs) to reduce client bundle size."
+      ]
+    }
+  },
+  "seo": {
+    "score": 100,
+    "title": "AI Solutions for the Enterprise",
+    "description": "Publicis Sapient combines industry experts and AI platforms to help enterprises modernize systems, scale AI and drive measurable results.",
+    "canonical": "https://www.publicissapient.com/",
+    "open_graph": {
+      "title": "AI Solutions for the Enterprise",
+      "description": "Publicis Sapient combines industry experts and AI platforms to help enterprises modernize systems, scale AI and drive measurable results.",
+      "image": "https://www.publicissapient.com/content/dam/ps-redesign/us/en/2026/01/homepage/images/og-product-overview.jpg",
+      "twitter_card": "summary_large_image"
+    },
+    "structured_data": {
+      "detected": true,
+      "types": [
+        "Organization",
+        "WebSite"
+      ]
+    },
+    "links": {
+      "internal_count": 189,
+      "external_count": 3,
+      "total": 192
+    },
+    "headings_outline": [
+      {
+        "level": "H1",
+        "text": "We Build AI Solutions for the Enterprise"
+      },
+      {
+        "level": "H2",
+        "text": "We understand and solve your enterprise issues"
+      },
+      {
+        "level": "H2",
+        "text": "Where enterprise expertise meets AI"
+      },
+      {
+        "level": "H3",
+        "text": "Our People"
+      },
+      {
+        "level": "H3",
+        "text": "Our Platforms"
+      },
+      {
+        "level": "H2",
+        "text": "Where enterprise expertise meets AI"
+      },
+      {
+        "level": "H3",
+        "text": "Our People"
+      },
+      {
+        "level": "H3",
+        "text": "Our Platforms"
+      },
+      {
+        "level": "H2",
+        "text": "The platforms behind the work"
+      },
+      {
+        "level": "H3",
+        "text": "Modernize your enterprise with Sapient Slingshot"
+      },
+      {
+        "level": "H3",
+        "text": "Build and orchestrate agents with Sapient Bodhi"
+      },
+      {
+        "level": "H3",
+        "text": "Run resilient IT operations with Sapient Sustain"
+      }
+    ],
+    "checks": [
+      {
+        "name": "Page Title Tag",
+        "status": "Passed",
+        "detail": "31 chars"
+      },
+      {
+        "name": "Meta Description",
+        "status": "Passed",
+        "detail": "137 chars"
+      },
+      {
+        "name": "Canonical Link",
+        "status": "Passed",
+        "detail": "https://www.publicissapient.com/"
+      },
+      {
+        "name": "Open Graph (Social Sharing)",
+        "status": "Passed",
+        "detail": "Title and image configured"
+      },
+      {
+        "name": "robots.txt",
+        "status": "Passed",
+        "detail": "https://www.publicissapient.com/robots.txt"
+      },
+      {
+        "name": "sitemap.xml",
+        "status": "Passed",
+        "detail": "https://www.publicissapient.com/sitemap.xml"
+      }
+    ]
+  },
+  "security": {
+    "score": 70,
+    "grade": "B",
+    "is_https": true,
+    "headers_table": [
+      {
+        "header": "HTTPS Protocol",
+        "status": "Secure",
+        "detail": "Connection is encrypted using TLS"
+      },
+      {
+        "header": "Strict-Transport-Security (HSTS)",
+        "status": "Enabled",
+        "detail": "max-age=31536000"
+      },
+      {
+        "header": "Content-Security-Policy (CSP)",
+        "status": "Not detected",
+        "detail": "Missing restriction against XSS and injection"
+      },
+      {
+        "header": "X-Frame-Options",
+        "status": "Protected",
+        "detail": "SAMEORIGIN"
+      },
+      {
+        "header": "X-Content-Type-Options",
+        "status": "Protected",
+        "detail": "nosniff"
+      },
+      {
+        "header": "Referrer-Policy",
+        "status": "Not detected",
+        "detail": "Browser default referrer rules apply"
+      }
+    ]
+  },
+  "technology": {
+    "all_detected": [
+      {
+        "name": "Google Fonts",
+        "category": "Font Provider"
+      },
+      {
+        "name": "Tailwind Css",
+        "category": "Framework"
+      }
+    ],
+    "count": 2,
+    "by_category": {
+      "Frameworks": [
+        "Tailwind Css"
+      ],
+      "CSS & UI": [],
+      "CMS & Builders": [],
+      "Analytics": [],
+      "Hosting & CDN": [],
+      "Font Providers": [
+        "Google Fonts"
+      ]
+    }
+  },
+  "site_structure": {
+    "crawled_count": 6,
+    "internal_pages": [
+      {
+        "url": "https://www.publicissapient.com/",
+        "path": "/",
+        "status": 200
+      },
+      {
+        "url": "https://www.publicissapient.com/platforms/slingshot",
+        "path": "/platforms/slingshot",
+        "status": 200
+      },
+      {
+        "url": "https://www.publicissapient.com/platforms/bodhi",
+        "path": "/platforms/bodhi",
+        "status": 200
+      },
+      {
+        "url": "https://www.publicissapient.com/platforms/sustain",
+        "path": "/platforms/sustain",
+        "status": 200
+      },
+      {
+        "url": "https://www.publicissapient.com/customers/stories/financial-services-slingshot-legacy-modernization",
+        "path": "/customers/stories/financial-services-slingshot-legacy-modernization",
+        "status": 200
+      },
+      {
+        "url": "https://www.publicissapient.com/customers/stories",
+        "path": "/customers/stories",
+        "status": 200
+      }
+    ],
+    "tree_structure": [
+      {
+        "path": "/",
+        "name": "Homepage (Root)",
+        "depth": 0
+      },
+      {
+        "path": "/customers/stories",
+        "name": "Stories",
+        "depth": 2
+      },
+      {
+        "path": "/platforms/bodhi",
+        "name": "Bodhi",
+        "depth": 2
+      },
+      {
+        "path": "/platforms/slingshot",
+        "name": "Slingshot",
+        "depth": 2
+      },
+      {
+        "path": "/platforms/sustain",
+        "name": "Sustain",
+        "depth": 2
+      },
+      {
+        "path": "/customers/stories/financial-services-slingshot-legacy-modernization",
+        "name": "Financial services slingshot legacy modernization",
+        "depth": 3
+      }
+    ],
+    "external_domains_count": 5,
+    "sample_external_domains": [
+      "careers.publicissapient.com",
+      "bintelligence.com",
+      "publicisresources-privacy.my.onetrust.com",
+      "tech.stevieawards.com",
+      "huggingface.co"
+    ]
+  },
+  "content_intelligence": {
+    "value_proposition": "We Build AI Solutions for the Enterprise",
+    "key_headlines": [
+      "We Build AI Solutions for the Enterprise",
+      "We understand and solve your enterprise issues",
+      "Where enterprise expertise meets AI",
+      "The platforms behind the work",
+      "Results from our customers' transformations"
+    ],
+    "primary_ctas": [
+      "Explore Slingshot",
+      "Explore Bodhi",
+      "Explore Sustain",
+      "Learn more about Slingshot",
+      "Learn more about Bodhi",
+      "Learn more about Sustain",
+      "Learn more"
+    ],
+    "trust_signals": [
+      "3M lines of COBOL",
+      "40% With AI Monitoring and Au",
+      "40% With AI Monitoring and Au"
+    ],
+    "pricing_signals": [
+      "Not detected"
+    ],
+    "messaging_summary": "Targeted online platform for publicissapient.com, emphasizing 'We Build AI Solutions for the Enterprise'."
+  },
+  "ai_insights": {
+    "style_archetype": "Playful / Consumer Friendly",
+    "consistency_score": 92,
+    "visual_hierarchy_review": "Strong contrast between primary actions and body surfaces; typography scale creates a clear reading hierarchy.",
+    "notable_patterns": [
+      "CSS Grid multi-column bento layouts",
+      "Soft layered elevation shadows",
+      "Chromatic ambient gradients"
+    ],
+    "facts_vs_interpretation": {
+      "detected_facts": [
+        "23 distinct color values extracted from stylesheets",
+        "3 font families detected (sans, mono, _webfonts)",
+        "7 UI component patterns identified",
+        "HTTP security rating graded at B"
+      ],
+      "ai_interpretation": [
+        "Aesthetic categorised as 'Playful / Consumer Friendly' based on font selection and corner radius hierarchy.",
+        "Design system emphasizes high-velocity conversion with focused call-to-action color weighting.",
+        "Layout structure indicates a mobile-responsive viewport strategy with standard desktop containers."
+      ]
+    }
+  },
+  "exports": {
+    "primary_format": "css",
+    "framework_detected": "Vanilla CSS",
+    "css_variables": "/* Design tokens for publicissapient.com — generated by ExtractDesign Studio */\n:root {\n  --color-surface-base: #000000;\n  --color-surface-elevated: #030712;\n  --color-blue: #101828;\n  --color-blue-02: #1e2939;\n  --color-neutral: #444444;\n  --color-feedback-danger: #9f0712;\n  --color-text-muted: #4a5565;\n  --color-neutral-02: #666666;\n  --color-blue-03: #0c63ea;\n  --color-blue-04: #6a7282;\n  --color-red: #e90130;\n  --color-brand-primary: #2b7fff;\n  --color-neutral-03: #949494;\n  --color-feedback-warning: #ff6900;\n  --color-blue-05: #99a1af;\n  --color-feedback-success: #00c950;\n  --color-text-subtle: #d1d5dc;\n  --color-yellow: #fee685;\n  --color-neutral-04: #e5e7eb;\n  --color-text-on-dark: #ffffff;\n  --font-sans: ui-sans-serif,system-ui,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\";\n  --font-mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\",monospace;\n  --radius-none: 0;\n  --radius-sm: 3px;\n  --radius-DEFAULT: .25rem;\n  --radius-md: .375rem;\n  --radius-lg: .5rem;\n  --radius-xl: .75rem;\n  --space-0: 0px;\n  --space-1px: 1px;\n  --space-1_6px: 1.6px;\n  --space-2px: 2px;\n  --space-1: 4px;\n  --space-5px: 5px;\n  --space-6px: 6px;\n  --space-7px: 7px;\n  --space-2: 8px;\n  --space-9_71px: 9.71px;\n  --space-10px: 10px;\n  --space-3: 12px;\n}",
+    "json_tokens_w3c": "{\n  \"$schema\": \"https://tr.designtokens.org/format/\",\n  \"color\": {\n    \"surface-base\": {\n      \"$value\": \"#000000\",\n      \"$type\": \"color\"\n    },\n    \"surface-elevated\": {\n      \"$value\": \"#030712\",\n      \"$type\": \"color\"\n    },\n    \"blue\": {\n      \"$value\": \"#101828\",\n      \"$type\": \"color\"\n    },\n    \"blue-02\": {\n      \"$value\": \"#1e2939\",\n      \"$type\": \"color\"\n    },\n    \"neutral\": {\n      \"$value\": \"#444444\",\n      \"$type\": \"color\"\n    },\n    \"feedback-danger\": {\n      \"$value\": \"#9f0712\",\n      \"$type\": \"color\"\n    },\n    \"text-muted\": {\n      \"$value\": \"#4a5565\",\n      \"$type\": \"color\"\n    },\n    \"neutral-02\": {\n      \"$value\": \"#666666\",\n      \"$type\": \"color\"\n    },\n    \"blue-03\": {\n      \"$value\": \"#0c63ea\",\n      \"$type\": \"color\"\n    },\n    \"blue-04\": {\n      \"$value\": \"#6a7282\",\n      \"$type\": \"color\"\n    },\n    \"red\": {\n      \"$value\": \"#e90130\",\n      \"$type\": \"color\"\n    },\n    \"brand-primary\": {\n      \"$value\": \"#2b7fff\",\n      \"$type\": \"color\"\n    },\n    \"neutral-03\": {\n      \"$value\": \"#949494\",\n      \"$type\": \"color\"\n    },\n    \"feedback-warning\": {\n      \"$value\": \"#ff6900\",\n      \"$type\": \"color\"\n    },\n    \"blue-05\": {\n      \"$value\": \"#99a1af\",\n      \"$type\": \"color\"\n    },\n    \"feedback-success\": {\n      \"$value\": \"#00c950\",\n      \"$type\": \"color\"\n    },\n    \"text-subtle\": {\n      \"$value\": \"#d1d5dc\",\n      \"$type\": \"color\"\n    },\n    \"yellow\": {\n      \"$value\": \"#fee685\",\n      \"$type\": \"color\"\n    },\n    \"neutral-04\": {\n      \"$value\": \"#e5e7eb\",\n      \"$type\": \"color\"\n    },\n    \"text-on-dark\": {\n      \"$value\": \"#ffffff\",\n      \"$type\": \"color\"\n    }\n  },\n  \"typography\": {\n    \"sans\": {\n      \"$value\": \"ui-sans-serif,system-ui,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\",\\\"Segoe UI Symbol\\\",\\\"Noto Color Emoji\\\"\",\n      \"$type\": \"fontFamily\"\n    },\n    \"mono\": {\n      \"$value\": \"ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\\\"Liberation Mono\\\",\\\"Courier New\\\",monospace\",\n      \"$type\": \"fontFamily\"\n    }\n  },\n  \"spacing\": {},\n  \"radius\": {\n    \"none\": {\n      \"$value\": \"0\",\n      \"$type\": \"dimension\"\n    },\n    \"sm\": {\n      \"$value\": \"3px\",\n      \"$type\": \"dimension\"\n    },\n    \"DEFAULT\": {\n      \"$value\": \".25rem\",\n      \"$type\": \"dimension\"\n    },\n    \"md\": {\n      \"$value\": \".375rem\",\n      \"$type\": \"dimension\"\n    },\n    \"lg\": {\n      \"$value\": \".5rem\",\n      \"$type\": \"dimension\"\n    },\n    \"xl\": {\n      \"$value\": \".75rem\",\n      \"$type\": \"dimension\"\n    }\n  }\n}",
+    "tailwind_config": "",
+    "typescript_theme": "",
+    "vue_composable": "",
+    "design_md": "# Publicissapient — Design System Reference\n> Reverse-engineered by ExtractDesign Studio\n\n## Color Palette\n- `--color-surface-base` → `#000000` (surface-base)\n- `--color-surface-elevated` → `#030712` (surface-elevated)\n- `--color-blue` → `#101828` (blue)\n- `--color-blue-02` → `#1e2939` (blue-02)\n- `--color-neutral` → `#444444` (neutral)\n- `--color-feedback-danger` → `#9f0712` (feedback-danger)\n- `--color-text-muted` → `#4a5565` (text-muted)\n- `--color-neutral-02` → `#666666` (neutral-02)\n- `--color-blue-03` → `#0c63ea` (blue-03)\n- `--color-blue-04` → `#6a7282` (blue-04)\n- `--color-red` → `#e90130` (red)\n- `--color-brand-primary` → `#2b7fff` (brand-primary)\n- `--color-neutral-03` → `#949494` (neutral-03)\n- `--color-feedback-warning` → `#ff6900` (feedback-warning)\n- `--color-blue-05` → `#99a1af` (blue-05)\n- `--color-feedback-success` → `#00c950` (feedback-success)\n- `--color-text-subtle` → `#d1d5dc` (text-subtle)\n- `--color-yellow` → `#fee685` (yellow)\n- `--color-neutral-04` → `#e5e7eb` (neutral-04)\n- `--color-text-on-dark` → `#ffffff` (text-on-dark)\n\n## Typography\n- `sans`: ui-sans-serif,system-ui,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\"\n- `mono`: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\",monospace\n\n## Border Radius\n- `--radius-none`: 0\n- `--radius-sm`: 3px\n- `--radius-DEFAULT`: .25rem\n- `--radius-md`: .375rem\n- `--radius-lg`: .5rem\n- `--radius-xl`: .75rem\n\n## Spacing Scale\n- `--space-0`: 0px\n- `--space-1px`: 1px\n- `--space-1_6px`: 1.6px\n- `--space-2px`: 2px\n- `--space-1`: 4px\n- `--space-5px`: 5px\n- `--space-6px`: 6px\n- `--space-7px`: 7px\n- `--space-2`: 8px\n- `--space-9_71px`: 9.71px\n- `--space-10px`: 10px\n- `--space-3`: 12px\n\n---\n> All design assets remain property of their respective owners.",
+    "react_components": "// Next.js App Router Components for publicissapient.com\n// Optimized for Core Web Vitals (LCP < 2.5s, CLS < 0.1, INP < 200ms)\n// Generated by ExtractDesign Studio\n\nimport React from 'react';\nimport Image from 'next/image';\n\n'use client';\nexport function Button({ children, variant = 'primary', className = '', ...props }) {\n  const styles = {\n    primary: { backgroundColor: 'var(--color-brand-primary, #ffffff)', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' },\n    secondary: { backgroundColor: 'transparent', border: '1px solid rgba(128,128,128,0.3)', padding: '10px 20px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' },\n  };\n  return <button style={styles[variant]} className={className} {...props}>{children}</button>;\n}\n\nexport function Hero({ headline, description, ctaText = 'Get Started', imageSrc }) {\n  return (\n    <section style={{ padding: '64px 24px', textAlign: 'center', maxWidth: '960px', margin: '0 auto' }}>\n      <h1 style={{ fontSize: '42px', fontWeight: 700, marginBottom: '16px' }}>{headline}</h1>\n      <p style={{ fontSize: '18px', opacity: 0.8, marginBottom: '28px' }}>{description}</p>\n      {imageSrc && <Image src={imageSrc} alt={headline} width={800} height={450} priority />}\n      <Button>{ctaText}</Button>\n    </section>\n  );\n}\n"
+  }
+}

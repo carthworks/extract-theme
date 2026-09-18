@@ -16,6 +16,12 @@ Extracts multi-dimensional website intelligence:
 12. 📝 Content Intelligence: Headlines, CTAs, value proposition, testimonials, pricing, trust signals
 13. 🤖 AI Design Insights: Visual style synthesis, hierarchy, consistency, facts vs interpretation
 14. 📦 Export: CSS variables, JSON design tokens, Tailwind config, DESIGN.md, React component suggestions
+
+Tier 1 Design Intelligence (NEW):
+T1a. 🏷  Semantic Token Naming — assigns role-based CSS variable names (--color-brand-primary) from raw hex
+T1b. 📏  Visual Consistency Score — 0–100 grade across color economy, typography, spacing, radius discipline
+T1c. 📐  Spacing Grid Detection — identifies 4pt/8pt base unit and adherence %, flags off-grid rogue values
+T1d. 🚀  Framework-Aware Exports — generates Tailwind config, TypeScript theme, or CSS vars based on detected stack
 """
 
 from __future__ import annotations
@@ -113,9 +119,17 @@ class SiteAnalyzer:
             },
         }
 
+        # Tier 1 Design Intelligence
+        design_intelligence = {
+            "semantic_tokens": self.name_semantic_tokens(),
+            "consistency": self.score_visual_consistency(),
+            "spacing_grid": self.detect_spacing_grid(),
+        }
+
         return {
             "overview": overview,
             "design_system": self.format_design_system(),
+            "design_intelligence": design_intelligence,
             "components": comp_audit,
             "layout": layout_audit,
             "assets": asset_audit,
@@ -128,7 +142,7 @@ class SiteAnalyzer:
             "site_structure": site_struct,
             "content_intelligence": content_intel,
             "ai_insights": ai_insights,
-            "exports": exports,
+            "exports": self.generate_framework_exports(tech_audit),
         }
 
     # =========================================================================
@@ -1264,170 +1278,809 @@ class SiteAnalyzer:
         }
 
     # =========================================================================
-    # 14. 📦 EXPORT GENERATOR
+    # T1a. 🏷  SEMANTIC TOKEN NAMING
     # =========================================================================
-    def generate_exports(self) -> dict[str, str]:
-        """Generates ready-to-use exports including Next.js App Router components, Tailwind, and CSS."""
-        colors = self.tokens.get("colors", {})
-        primary_color = list(colors.values())[0] if colors else "#4f46e5"
+    def name_semantic_tokens(self) -> dict[str, Any]:
+        """Assigns semantic CSS variable names and roles to raw extracted hex color values.
 
-        # Next.js App Router Component Library adhering to nextjs-performance skill
-        react_code = f"""// Next.js App Router Components for {self.domain}
+        Uses luminance, saturation, and hue analysis to classify each color into a meaningful
+        role: brand-primary, brand-accent, surface-base, text-primary, feedback-success, etc.
+        Also detects WCAG AA contrast pairs (background + foreground).
+        """
+        colors = self.tokens.get("colors", {})
+        if not colors:
+            return {"named_tokens": [], "contrast_pairs": [], "summary": "No colors extracted"}
+
+        def hex_to_rgb(hex_str: str) -> tuple[int, int, int] | None:
+            """Convert a hex color string to (r, g, b) tuple."""
+            s = str(hex_str).strip().lstrip("#")
+            if len(s) == 3:
+                s = s[0]*2 + s[1]*2 + s[2]*2
+            if len(s) < 6:
+                return None
+            try:
+                return int(s[0:2], 16), int(s[2:4], 16), int(s[4:6], 16)
+            except ValueError:
+                return None
+
+        def relative_luminance(r: int, g: int, b: int) -> float:
+            """WCAG relative luminance (0=black, 1=white)."""
+            def linearize(c: float) -> float:
+                c = c / 255.0
+                return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+            return 0.2126 * linearize(r) + 0.7152 * linearize(g) + 0.0722 * linearize(b)
+
+        def saturation(r: int, g: int, b: int) -> float:
+            """HSL saturation 0.0–1.0."""
+            r_, g_, b_ = r / 255.0, g / 255.0, b / 255.0
+            cmax, cmin = max(r_, g_, b_), min(r_, g_, b_)
+            delta = cmax - cmin
+            if delta == 0:
+                return 0.0
+            l = (cmax + cmin) / 2.0
+            return delta / (1.0 - abs(2 * l - 1.0)) if l != 0.5 else delta / (1.0 - abs(2 * l - 1.0))
+
+        def hue_name(r: int, g: int, b: int) -> str:
+            """Rough hue family (red/green/blue/yellow/purple/cyan/neutral)."""
+            r_, g_, b_ = r / 255.0, g / 255.0, b / 255.0
+            cmax = max(r_, g_, b_)
+            cmin = min(r_, g_, b_)
+            delta = cmax - cmin
+            if delta < 0.06:
+                return "neutral"
+            if cmax == r_:
+                h = 60 * (((g_ - b_) / delta) % 6)
+            elif cmax == g_:
+                h = 60 * (((b_ - r_) / delta) + 2)
+            else:
+                h = 60 * (((r_ - g_) / delta) + 4)
+            h = h % 360
+            if h < 20 or h >= 340:
+                return "red"
+            if h < 45:
+                return "orange"
+            if h < 70:
+                return "yellow"
+            if h < 165:
+                return "green"
+            if h < 195:
+                return "cyan"
+            if h < 260:
+                return "blue"
+            if h < 300:
+                return "purple"
+            return "pink"
+
+        def wcag_contrast(lum1: float, lum2: float) -> float:
+            lighter = max(lum1, lum2)
+            darker = min(lum1, lum2)
+            return (lighter + 0.05) / (darker + 0.05)
+
+        # Analyze each color
+        analyzed: list[dict] = []
+        for raw_name, hex_val in colors.items():
+            if not isinstance(hex_val, str) or not hex_val.startswith("#"):
+                continue
+            rgb = hex_to_rgb(hex_val)
+            if not rgb:
+                continue
+            r, g, b = rgb
+            lum = relative_luminance(r, g, b)
+            sat = saturation(r, g, b)
+            hue = hue_name(r, g, b)
+            analyzed.append({
+                "raw_name": raw_name,
+                "hex": hex_val,
+                "luminance": lum,
+                "saturation": sat,
+                "hue": hue,
+            })
+
+        if not analyzed:
+            return {"named_tokens": [], "contrast_pairs": [], "summary": "No valid hex colors to classify"}
+
+        analyzed.sort(key=lambda x: x["luminance"])
+
+        # Role assignment — ordered by priority
+        role_slots: dict[str, str] = {}  # role -> hex
+        named_tokens: list[dict] = []
+
+        def claim_role(role: str, hex_val: str) -> bool:
+            if role not in role_slots:
+                role_slots[role] = hex_val
+                return True
+            return False
+
+        # Pass 1: Classify by luminance extremes for surface/text
+        very_dark = [c for c in analyzed if c["luminance"] < 0.06]
+        very_light = [c for c in analyzed if c["luminance"] > 0.85]
+        dark_mid = [c for c in analyzed if 0.06 <= c["luminance"] < 0.25]
+        light_mid = [c for c in analyzed if 0.5 <= c["luminance"] <= 0.85]
+        chromatic = [c for c in analyzed if c["saturation"] > 0.3]
+
+        for c in very_dark[:1]:
+            claim_role("surface-base", c["hex"])
+        for c in very_dark[1:2]:
+            claim_role("surface-elevated", c["hex"])
+        for c in very_light[:1]:
+            claim_role("text-on-dark", c["hex"])
+        for c in very_light[1:2]:
+            claim_role("surface-overlay", c["hex"])
+        for c in dark_mid[:1]:
+            claim_role("text-primary", c["hex"])
+        for c in dark_mid[1:2]:
+            claim_role("text-muted", c["hex"])
+        for c in light_mid[:1]:
+            claim_role("text-subtle", c["hex"])
+
+        # Pass 2: Most saturated chromatic colors → brand roles
+        sorted_chroma = sorted(chromatic, key=lambda x: x["saturation"], reverse=True)
+        brand_idx = 0
+        brand_labels = ["brand-primary", "brand-accent", "brand-secondary"]
+        for c in sorted_chroma:
+            if brand_idx >= len(brand_labels):
+                break
+            if c["hex"] not in role_slots.values():
+                claim_role(brand_labels[brand_idx], c["hex"])
+                brand_idx += 1
+
+        # Pass 3: Hue-semantic feedback colors
+        for c in analyzed:
+            if c["hue"] == "green" and c["saturation"] > 0.4 and "feedback-success" not in role_slots:
+                claim_role("feedback-success", c["hex"])
+            elif c["hue"] == "red" and c["saturation"] > 0.4 and "feedback-danger" not in role_slots:
+                claim_role("feedback-danger", c["hex"])
+            elif c["hue"] in ("yellow", "orange") and c["saturation"] > 0.4 and "feedback-warning" not in role_slots:
+                claim_role("feedback-warning", c["hex"])
+            elif c["hue"] == "cyan" and c["saturation"] > 0.3 and "feedback-info" not in role_slots:
+                claim_role("feedback-info", c["hex"])
+
+        # Reverse map: hex -> role
+        hex_to_role = {v: k for k, v in role_slots.items()}
+
+        # Build named token list
+        role_counter: dict[str, int] = {}
+        for c in analyzed:
+            hex_val = c["hex"]
+            role = hex_to_role.get(hex_val)
+            if not role:
+                # Fallback: assign a positional neutral name
+                hue = c["hue"]
+                role_counter[hue] = role_counter.get(hue, 0) + 1
+                idx = role_counter[hue]
+                role = f"{hue}-{idx:02d}" if idx > 1 else hue
+
+            css_var = f"--color-{role}"
+            named_tokens.append({
+                "hex": hex_val,
+                "role": role,
+                "css_variable": css_var,
+                "luminance": round(c["luminance"], 3),
+                "saturation": round(c["saturation"], 3),
+                "hue_family": c["hue"],
+                "usage_class": (
+                    "brand" if "brand" in role
+                    else "surface" if "surface" in role
+                    else "text" if "text" in role
+                    else "feedback" if "feedback" in role
+                    else "neutral"
+                ),
+            })
+
+        # WCAG AA Contrast Pairs
+        contrast_pairs: list[dict] = []
+        lum_by_hex = {c["hex"]: c["luminance"] for c in analyzed}
+        bg_candidates = [t for t in named_tokens if t["usage_class"] in ("surface", "neutral") and t["luminance"] < 0.4]
+        fg_candidates = [t for t in named_tokens if t["usage_class"] in ("text", "brand") or t["luminance"] > 0.4]
+        seen_pairs: set[tuple] = set()
+        for bg in bg_candidates[:4]:
+            for fg in fg_candidates[:6]:
+                key = (bg["hex"], fg["hex"])
+                if key in seen_pairs:
+                    continue
+                seen_pairs.add(key)
+                contrast = wcag_contrast(bg["luminance"], fg["luminance"])
+                if contrast >= 3.0:
+                    wcag_level = "AAA" if contrast >= 7.0 else ("AA" if contrast >= 4.5 else "AA Large")
+                    contrast_pairs.append({
+                        "background": bg["hex"],
+                        "background_role": bg["role"],
+                        "foreground": fg["hex"],
+                        "foreground_role": fg["role"],
+                        "contrast_ratio": round(contrast, 2),
+                        "wcag_level": wcag_level,
+                    })
+        contrast_pairs.sort(key=lambda x: x["contrast_ratio"], reverse=True)
+
+        # CSS output block
+        css_lines = [":root {"]
+        for t in named_tokens:
+            css_lines.append(f"  {t['css_variable']}: {t['hex']};")
+        css_lines.append("}")
+
+        return {
+            "named_tokens": named_tokens,
+            "contrast_pairs": contrast_pairs[:8],
+            "css_block": "\n".join(css_lines),
+            "summary": (
+                f"{len(named_tokens)} colors named: "
+                f"{sum(1 for t in named_tokens if t['usage_class'] == 'brand')} brand, "
+                f"{sum(1 for t in named_tokens if t['usage_class'] == 'surface')} surface, "
+                f"{sum(1 for t in named_tokens if t['usage_class'] == 'text')} text, "
+                f"{sum(1 for t in named_tokens if t['usage_class'] == 'feedback')} feedback"
+            ),
+        }
+
+    # =========================================================================
+    # T1b. 📏  VISUAL CONSISTENCY SCORE
+    # =========================================================================
+    def score_visual_consistency(self) -> dict[str, Any]:
+        """Computes a 0–100 visual discipline score across color, typography, spacing, and radius.
+
+        Low scores surface actionable issues with specific recommendations for tightening
+        the design system. Grade: A (90+), B (75+), C (60+), D (45+), F (<45).
+        """
+        colors = self.tokens.get("colors", {})
+        fonts = self.tokens.get("fonts", {})
+        font_sizes = self.tokens.get("font_sizes", {})
+        font_weights = self.tokens.get("font_weights", {})
+        spacing = self.tokens.get("spacing", {})
+        radius = self.tokens.get("radius", {})
+        shadows = self.tokens.get("shadows", {})
+        gradients = self.tokens.get("gradients", [])
+
+        issues: list[dict] = []
+        breakdown: dict[str, dict] = {}
+
+        # ── COLOR ECONOMY ─────────────────────────────────────────────────────
+        color_score = 100
+        total_colors = len(colors)
+        # Unique chromatic colors (saturated ones) are the signal — too many = rogue colors
+        # Heuristic: SaaS systems use 3-8 semantic colors; editorial may use 10-15
+        if total_colors > 60:
+            color_score -= 35
+            issues.append({
+                "dimension": "Color Economy",
+                "severity": "High",
+                "message": f"{total_colors} unique color values detected — typical design systems use 8–20 semantic tokens.",
+                "recommendation": "Consolidate to a token-based palette. Reduce one-off hex values to named CSS variables.",
+            })
+        elif total_colors > 35:
+            color_score -= 20
+            issues.append({
+                "dimension": "Color Economy",
+                "severity": "Medium",
+                "message": f"{total_colors} color values found. Consider reducing to under 20 semantic tokens for maintainability.",
+                "recommendation": "Group similar tones into a single token with opacity variants (e.g. --color-primary at 10%, 20%).",
+            })
+        elif total_colors > 20:
+            color_score -= 8
+        breakdown["color_economy"] = {
+            "score": max(color_score, 20),
+            "total_colors": total_colors,
+            "label": "Excellent" if color_score >= 90 else ("Good" if color_score >= 70 else ("Fair" if color_score >= 50 else "Poor")),
+        }
+
+        # ── TYPOGRAPHY DISCIPLINE ──────────────────────────────────────────────
+        type_score = 100
+        font_family_count = len([k for k in fonts if not str(k).startswith("_")])
+        weight_count = len(font_weights) if isinstance(font_weights, dict) else len(set(font_weights)) if font_weights else 0
+        size_count = len(font_sizes) if isinstance(font_sizes, dict) else len(set(font_sizes)) if font_sizes else 0
+
+        if font_family_count > 3:
+            type_score -= 25
+            issues.append({
+                "dimension": "Typography",
+                "severity": "High",
+                "message": f"{font_family_count} font families detected. Most design systems use 1–2 typefaces.",
+                "recommendation": "Reduce to a primary body font + optional mono or display font. Remove decorative one-offs.",
+            })
+        elif font_family_count > 2:
+            type_score -= 10
+            issues.append({
+                "dimension": "Typography",
+                "severity": "Low",
+                "message": f"{font_family_count} font families in use. Consider consolidating to 2.",
+                "recommendation": "Evaluate whether the third family serves a distinct visual purpose.",
+            })
+
+        if weight_count > 5:
+            type_score -= 15
+            issues.append({
+                "dimension": "Typography",
+                "severity": "Medium",
+                "message": f"{weight_count} font weights loaded. Loading more than 4 weights adds unnecessary network payload.",
+                "recommendation": "Restrict to Regular (400), Medium (500), SemiBold (600), Bold (700) to save 30–50% font load.",
+            })
+
+        if size_count > 10:
+            type_score -= 10
+            issues.append({
+                "dimension": "Typography",
+                "severity": "Low",
+                "message": f"{size_count} font-size values found — no clear modular scale detected.",
+                "recommendation": "Adopt a modular type scale (1.25x or Major Third) to create proportional hierarchy.",
+            })
+        breakdown["typography"] = {
+            "score": max(type_score, 20),
+            "font_families": font_family_count,
+            "font_weights": weight_count,
+            "font_sizes": size_count,
+            "label": "Excellent" if type_score >= 90 else ("Good" if type_score >= 70 else ("Fair" if type_score >= 50 else "Poor")),
+        }
+
+        # ── SPACING DISCIPLINE ─────────────────────────────────────────────────
+        spacing_score = 100
+        spacing_vals: list[int] = []
+        for v in (spacing.values() if isinstance(spacing, dict) else spacing):
+            m = re.match(r"^([0-9]+(?:\.[0-9]+)?)", str(v))
+            if m:
+                spacing_vals.append(int(float(m.group(1))))
+
+        if spacing_vals:
+            # Test 8pt grid adherence
+            on_grid_8 = sum(1 for v in spacing_vals if v % 8 == 0 or v % 4 == 0)
+            adherence = on_grid_8 / len(spacing_vals)
+            if adherence < 0.5:
+                spacing_score -= 30
+                issues.append({
+                    "dimension": "Spacing",
+                    "severity": "High",
+                    "message": f"Only {round(adherence*100)}% of spacing values align to a 4pt/8pt grid system.",
+                    "recommendation": "Adopt an 8pt grid: use multiples of 8 (8, 16, 24, 32, 48, 64) for all margin, padding, and gap values.",
+                })
+            elif adherence < 0.75:
+                spacing_score -= 15
+                issues.append({
+                    "dimension": "Spacing",
+                    "severity": "Medium",
+                    "message": f"{round(adherence*100)}% of spacing values are on-grid. Some rogue values detected.",
+                    "recommendation": "Review and snap off-grid values to the nearest 4pt multiple.",
+                })
+            unique_vals = len(set(spacing_vals))
+            if unique_vals > 20:
+                spacing_score -= 10
+                issues.append({
+                    "dimension": "Spacing",
+                    "severity": "Low",
+                    "message": f"{unique_vals} distinct spacing values — consider tokenizing into a scale (xs/sm/md/lg/xl).",
+                    "recommendation": "Define named spacing tokens: --space-1 through --space-16 and use only those values.",
+                })
+        breakdown["spacing"] = {
+            "score": max(spacing_score, 20),
+            "unique_values": len(set(spacing_vals)) if spacing_vals else 0,
+            "label": "Excellent" if spacing_score >= 90 else ("Good" if spacing_score >= 70 else ("Fair" if spacing_score >= 50 else "Poor")),
+        }
+
+        # ── RADIUS CONSISTENCY ─────────────────────────────────────────────────
+        radius_score = 100
+        radius_vals: list[str] = list(radius.values()) if isinstance(radius, dict) else list(radius)
+        unique_radii = len(set(str(v) for v in radius_vals))
+        if unique_radii > 6:
+            radius_score -= 20
+            issues.append({
+                "dimension": "Border Radius",
+                "severity": "Medium",
+                "message": f"{unique_radii} distinct border-radius values — no consistent scale detected.",
+                "recommendation": "Define 4–5 radius tokens: --radius-sm, --radius-md, --radius-lg, --radius-full and reuse them.",
+            })
+        elif unique_radii > 4:
+            radius_score -= 8
+        breakdown["border_radius"] = {
+            "score": max(radius_score, 20),
+            "unique_values": unique_radii,
+            "label": "Excellent" if radius_score >= 90 else ("Good" if radius_score >= 70 else ("Fair" if radius_score >= 50 else "Poor")),
+        }
+
+        # ── SHADOW DEPTH LEVELS ────────────────────────────────────────────────
+        shadow_score = 100
+        shadow_vals = list(shadows.values()) if isinstance(shadows, dict) else list(shadows) if shadows else []
+        unique_shadows = len(set(str(s) for s in shadow_vals))
+        if unique_shadows > 8:
+            shadow_score -= 15
+            issues.append({
+                "dimension": "Shadow System",
+                "severity": "Low",
+                "message": f"{unique_shadows} unique shadow definitions found. A well-structured elevation system uses 3–5 levels.",
+                "recommendation": "Define shadow tokens: --shadow-xs, --shadow-sm, --shadow-md, --shadow-lg, --shadow-glow.",
+            })
+        breakdown["shadows"] = {
+            "score": max(shadow_score, 40),
+            "unique_values": unique_shadows,
+            "label": "Excellent" if shadow_score >= 90 else ("Good" if shadow_score >= 70 else ("Fair" if shadow_score >= 50 else "Poor")),
+        }
+
+        # ── OVERALL SCORE ──────────────────────────────────────────────────────
+        weights = {"color_economy": 0.3, "typography": 0.25, "spacing": 0.25, "border_radius": 0.1, "shadows": 0.1}
+        overall = round(sum(breakdown[k]["score"] * w for k, w in weights.items()))
+        overall = max(min(overall, 100), 20)
+        grade = "A" if overall >= 90 else ("B" if overall >= 75 else ("C" if overall >= 60 else ("D" if overall >= 45 else "F")))
+
+        return {
+            "score": overall,
+            "grade": grade,
+            "label": "Excellent" if overall >= 90 else ("Good" if overall >= 75 else ("Fair" if overall >= 60 else ("Needs Work" if overall >= 45 else "Poor"))),
+            "breakdown": breakdown,
+            "issues": issues,
+            "positive": [
+                f"Consistent {len(colors)}-color system" if total_colors <= 20 else None,
+                f"Clean {font_family_count}-family typeface selection" if font_family_count <= 2 else None,
+                "Shadow elevation system defined" if 2 <= unique_shadows <= 6 else None,
+                "Radius scale is well-contained" if unique_radii <= 4 else None,
+            ],
+        }
+
+    # =========================================================================
+    # T1c. 📐  SPACING GRID DETECTION
+    # =========================================================================
+    def detect_spacing_grid(self) -> dict[str, Any]:
+        """Detects the underlying spacing base unit (4pt, 8pt, 12pt) from extracted spacing values.
+
+        Calculates adherence percentage, lists off-grid rogue values, and generates the
+        canonical grid scale so developers know which values to use.
+        """
+        spacing = self.tokens.get("spacing", {})
+
+        # Extract numeric pixel values from spacing tokens
+        raw_vals: list[int] = []
+        for v in (spacing.values() if isinstance(spacing, dict) else spacing):
+            m = re.match(r"^([0-9]+(?:\.[0-9]+)?)", str(v))
+            if m:
+                val = float(m.group(1))
+                if 0 < val <= 256:  # Ignore 0 and unreasonably large values
+                    raw_vals.append(int(round(val)))
+
+        # Also extract spacing from raw CSS
+        css_spacing = re.findall(
+            r"(?:margin|padding|gap|top|left|right|bottom|row-gap|column-gap):\s*([0-9]+(?:\.[0-9]+)?)px",
+            self.css_text, re.I
+        )
+        for v in css_spacing:
+            val = int(round(float(v)))
+            if 0 < val <= 256:
+                raw_vals.append(val)
+
+        if not raw_vals:
+            return {
+                "detected": False,
+                "base_unit": None,
+                "system_name": "Not enough spacing data",
+                "adherence_pct": 0,
+                "grid_scale": [],
+                "off_grid_values": [],
+                "summary": "No spacing values found in extracted tokens or CSS.",
+            }
+
+        # Find best-fit base unit
+        all_vals = list(set(raw_vals))
+        best_base = 8
+        best_adherence = 0.0
+        for base in (4, 8, 12, 16):
+            on_grid = sum(1 for v in all_vals if v % base == 0)
+            adherence = on_grid / len(all_vals)
+            if adherence > best_adherence:
+                best_adherence = adherence
+                best_base = base
+
+        # Also check 4pt sub-grid (if 8pt wins but 4pt captures more)
+        on_grid_4 = sum(1 for v in all_vals if v % 4 == 0)
+        on_grid_best = sum(1 for v in all_vals if v % best_base == 0)
+        # Prefer 8pt unless 4pt gives significantly more coverage
+        if best_base == 4:
+            on_grid_8 = sum(1 for v in all_vals if v % 8 == 0)
+            if on_grid_8 / len(all_vals) >= 0.55:
+                best_base = 8
+                best_adherence = on_grid_8 / len(all_vals)
+
+        adherence_pct = round(best_adherence * 100)
+        system_name = f"{best_base}pt Grid System"
+        if adherence_pct < 40:
+            system_name = "No clear grid system"
+        elif adherence_pct < 60:
+            system_name = f"Loose {best_base}pt Grid"
+
+        # Off-grid values
+        off_grid: list[dict] = []
+        for v in sorted(set(all_vals)):
+            if v % best_base != 0:
+                nearest_lower = (v // best_base) * best_base
+                nearest_upper = nearest_lower + best_base
+                nearest = nearest_upper if (v - nearest_lower) > (nearest_upper - v) else nearest_lower
+                off_grid.append({
+                    "value": v,
+                    "css": f"{v}px",
+                    "nearest_snap": f"{max(nearest, best_base)}px",
+                    "deviation": abs(v - nearest),
+                })
+
+        # Canonical grid scale for this base unit
+        scale_steps = [best_base * i for i in range(1, 17)]  # 1x through 16x
+        grid_scale = [
+            {
+                "step": i + 1,
+                "px": f"{val}px",
+                "rem": f"{val/16:.3f}rem",
+                "token_name": f"--space-{i+1}",
+                "used": val in all_vals,
+            }
+            for i, val in enumerate(scale_steps)
+        ]
+
+        return {
+            "detected": adherence_pct >= 40,
+            "base_unit": best_base,
+            "system_name": system_name,
+            "adherence_pct": adherence_pct,
+            "total_values_analyzed": len(all_vals),
+            "on_grid_count": sum(1 for v in all_vals if v % best_base == 0),
+            "off_grid_count": len(off_grid),
+            "off_grid_values": off_grid[:12],
+            "grid_scale": grid_scale,
+            "summary": (
+                f"{system_name} detected with {adherence_pct}% adherence. "
+                f"{len(off_grid)} off-grid values need snapping."
+            ),
+        }
+
+    # =========================================================================
+    # T1d. 🚀  FRAMEWORK-AWARE EXPORTS
+    # =========================================================================
+    def generate_framework_exports(self, tech: dict | None = None) -> dict[str, Any]:
+        """Generates correctly-formatted token exports based on the detected technology stack.
+
+        - Tailwind CSS detected → tailwind.config.js with theme.extend
+        - Next.js / React detected → TypeScript theme.ts + globals.css
+        - Vue / Nuxt detected → CSS tokens + useTokens() composable
+        - Default → Clean tokens.css + W3C tokens.json
+        Always includes: DESIGN.md summary, CSS custom properties, JSON tokens.
+        """
+        colors = self.tokens.get("colors", {})
+        fonts = self.tokens.get("fonts", {})
+        spacing = self.tokens.get("spacing", {})
+        radius = self.tokens.get("radius", {})
+        shadows = self.tokens.get("shadows", {})
+        primary_color = list(colors.values())[0] if colors else "#4f46e5"
+        domain = self.domain
+
+        # Determine detected frameworks from tech audit
+        by_cat = (tech or {}).get("by_category", {})
+        frameworks = by_cat.get("Frameworks", [])
+        css_libs = by_cat.get("CSS & UI", [])
+        uses_tailwind = "Tailwind CSS" in css_libs
+        uses_nextjs = "Next.js" in frameworks
+        uses_vue = any(f in frameworks for f in ["Vue.js", "Nuxt"])
+        uses_react = "React" in frameworks or uses_nextjs
+
+        # ── 1. CSS CUSTOM PROPERTIES (always generated) ─────────────────────
+        css_vars_lines = [f"/* Design tokens for {domain} — generated by ExtractDesign Studio */", ":root {"]
+        semantic = self.name_semantic_tokens()
+        for t in semantic.get("named_tokens", []):
+            css_vars_lines.append(f"  {t['css_variable']}: {t['hex']};")
+        for f_k, f_v in fonts.items():
+            if not str(f_k).startswith("_"):
+                val = f_v if isinstance(f_v, str) else f_v.get("family", str(f_v)) if isinstance(f_v, dict) else str(f_v)
+                css_vars_lines.append(f"  --font-{f_k}: {val};")
+        for r_k, r_v in list(radius.items())[:6]:
+            css_vars_lines.append(f"  --radius-{r_k}: {r_v};")
+        sp_items = list(spacing.items()) if isinstance(spacing, dict) else [(str(i), v) for i, v in enumerate(spacing)]
+        for s_k, s_v in sp_items[:12]:
+            css_vars_lines.append(f"  --space-{s_k}: {s_v};")
+        css_vars_lines.append("}")
+        css_vars_output = "\n".join(css_vars_lines)
+
+        # ── 2. W3C FORMAT JSON TOKENS (always generated) ─────────────────────
+        w3c_tokens: dict = {"$schema": "https://tr.designtokens.org/format/", "color": {}, "typography": {}, "spacing": {}, "radius": {}}
+        for t in semantic.get("named_tokens", []):
+            role = t["role"].replace("-", ".")  # nested W3C path
+            w3c_tokens["color"][t["role"]] = {"$value": t["hex"], "$type": "color"}
+        for f_k, f_v in fonts.items():
+            if not str(f_k).startswith("_"):
+                val = f_v if isinstance(f_v, str) else f_v.get("family", str(f_v)) if isinstance(f_v, dict) else str(f_v)
+                w3c_tokens["typography"][f_k] = {"$value": val, "$type": "fontFamily"}
+        for r_k, r_v in list(radius.items())[:6]:
+            w3c_tokens["radius"][r_k] = {"$value": str(r_v), "$type": "dimension"}
+        import json as _json
+        json_tokens_output = _json.dumps(w3c_tokens, indent=2, ensure_ascii=False)
+
+        # ── 3. TAILWIND CONFIG (if Tailwind detected) ─────────────────────────
+        tailwind_output = ""
+        if uses_tailwind:
+            color_entries = ""
+            for t in semantic.get("named_tokens", []):
+                key = t["role"].replace("-", "_")
+                color_entries += f"      '{key}': '{t['hex']}',\n"
+            font_entries = ""
+            for f_k, f_v in fonts.items():
+                if not str(f_k).startswith("_"):
+                    val = f_v if isinstance(f_v, str) else f_v.get("family", str(f_v)) if isinstance(f_v, dict) else str(f_v)
+                    font_entries += f"      '{f_k}': ['{val}', 'sans-serif'],\n"
+            radius_entries = ""
+            for r_k, r_v in list(radius.items())[:6]:
+                radius_entries += f"      '{r_k}': '{r_v}',\n"
+            spacing_entries = ""
+            for s_k, s_v in sp_items[:12]:
+                spacing_entries += f"      '{s_k}': '{s_v}',\n"
+            tailwind_output = f"""// tailwind.config.js — {domain}
+// Auto-generated by ExtractDesign Studio from extracted design tokens
+
+/** @type {{import('tailwindcss').Config}} */
+module.exports = {{
+  content: [
+    './app/**/*.{{js,ts,jsx,tsx,mdx}}',
+    './components/**/*.{{js,ts,jsx,tsx,mdx}}',
+    './pages/**/*.{{js,ts,jsx,tsx,mdx}}',
+  ],
+  theme: {{
+    extend: {{
+      colors: {{
+{color_entries}    }},
+      fontFamily: {{
+{font_entries}    }},
+      borderRadius: {{
+{radius_entries}    }},
+      spacing: {{
+{spacing_entries}    }},
+    }},
+  }},
+  plugins: [],
+}};
+"""
+
+        # ── 4. TYPESCRIPT THEME (if React/Next.js detected) ───────────────────
+        typescript_theme = ""
+        if uses_react:
+            color_ts = ""
+            for t in semantic.get("named_tokens", []):
+                key = t["role"].replace("-", "_").replace(".", "_")
+                color_ts += f"  {key}: '{t['hex']}',\n"
+            font_ts = ""
+            for f_k, f_v in fonts.items():
+                if not str(f_k).startswith("_"):
+                    val = f_v if isinstance(f_v, str) else f_v.get("family", str(f_v)) if isinstance(f_v, dict) else str(f_v)
+                    font_ts += f"  {f_k}: '{val}',\n"
+            typescript_theme = f"""// theme.ts — {domain}
+// Auto-generated by ExtractDesign Studio
+// Import and use in _app.tsx, layout.tsx, or ThemeProvider
+
+export const theme = {{
+  colors: {{
+{color_ts}  }},
+  fonts: {{
+{font_ts}  }},
+  borderRadius: {{
+    sm: '{list(radius.values())[0] if radius else "4px"}',
+    md: '{list(radius.values())[1] if len(radius) > 1 else "8px"}',
+    lg: '{list(radius.values())[2] if len(radius) > 2 else "16px"}',
+    full: '9999px',
+  }},
+}} as const;
+
+export type ThemeColors = keyof typeof theme.colors;
+export type ThemeFonts = keyof typeof theme.fonts;
+"""
+
+        # ── 5. VUE COMPOSABLE (if Vue/Nuxt detected) ──────────────────────────
+        vue_composable = ""
+        if uses_vue:
+            color_obj = ", ".join(f"{t['role'].replace('-', '_')}: '{t['hex']}'" for t in semantic.get("named_tokens", [])[:10])
+            vue_composable = f"""// composables/useTokens.ts — {domain}
+// Auto-generated by ExtractDesign Studio
+
+export function useTokens() {{
+  const colors = reactive({{
+    {color_obj}
+  }});
+
+  return {{ colors }};
+}}
+"""
+
+        # ── 6. FIGMA TOKENS (Tokens Studio standard format) ──────────────────
+        figma_dict: dict = {
+            "global": {
+                "color": {},
+                "fontFamilies": {},
+                "borderRadius": {},
+                "spacing": {},
+            }
+        }
+        for t in semantic.get("named_tokens", []):
+            role_key = t["role"].replace("-", "_")
+            figma_dict["global"]["color"][role_key] = {"value": t["hex"], "type": "color"}
+        for f_k, f_v in fonts.items():
+            if not str(f_k).startswith("_"):
+                val = f_v if isinstance(f_v, str) else f_v.get("family", str(f_v)) if isinstance(f_v, dict) else str(f_v)
+                figma_dict["global"]["fontFamilies"][str(f_k)] = {"value": val, "type": "fontFamilies"}
+        for r_k, r_v in list(radius.items())[:6]:
+            figma_dict["global"]["borderRadius"][str(r_k)] = {"value": str(r_v), "type": "borderRadius"}
+        for s_k, s_v in sp_items[:12]:
+            figma_dict["global"]["spacing"][str(s_k)] = {"value": str(s_v), "type": "spacing"}
+        figma_tokens_output = _json.dumps(figma_dict, indent=2, ensure_ascii=False)
+
+        # ── 7. DESIGN.md DOCUMENTATION ────────────────────────────────────────
+        design_md_lines = [
+            f"# {domain.split('.')[0].capitalize()} — Design System Reference",
+            f"> Reverse-engineered by ExtractDesign Studio",
+            "",
+            "## Color Palette",
+        ]
+        for t in semantic.get("named_tokens", []):
+            design_md_lines.append(f"- `{t['css_variable']}` → `{t['hex']}` ({t['role']})")
+        design_md_lines += ["", "## Typography"]
+        for f_k, f_v in fonts.items():
+            if not str(f_k).startswith("_"):
+                val = f_v if isinstance(f_v, str) else f_v.get("family", str(f_v)) if isinstance(f_v, dict) else str(f_v)
+                design_md_lines.append(f"- `{f_k}`: {val}")
+        design_md_lines += ["", "## Border Radius"]
+        for r_k, r_v in list(radius.items())[:6]:
+            design_md_lines.append(f"- `--radius-{r_k}`: {r_v}")
+        design_md_lines += ["", "## Spacing Scale"]
+        for s_k, s_v in sp_items[:12]:
+            design_md_lines.append(f"- `--space-{s_k}`: {s_v}")
+        design_md_lines += ["", "---", "> All design assets remain property of their respective owners."]
+        design_md_output = "\n".join(design_md_lines)
+
+        # ── DETERMINE ACTIVE FORMAT ────────────────────────────────────────────
+        primary_format = (
+            "tailwind" if uses_tailwind
+            else "typescript" if uses_react
+            else "vue" if uses_vue
+            else "css"
+        )
+        framework_label = (
+            "Tailwind CSS" if uses_tailwind
+            else "Next.js / React (TypeScript)" if uses_nextjs
+            else "React (TypeScript)" if uses_react
+            else "Vue / Nuxt" if uses_vue
+            else "Vanilla CSS"
+        )
+
+        return {
+            "primary_format": primary_format,
+            "framework_detected": framework_label,
+            "css_variables": css_vars_output,
+            "json_tokens_w3c": json_tokens_output,
+            "figma_tokens": figma_tokens_output,
+            "tailwind_config": tailwind_output,
+            "typescript_theme": typescript_theme,
+            "vue_composable": vue_composable,
+            "design_md": design_md_output,
+            # Legacy field kept for backward compatibility
+            "react_components": self._generate_react_components(primary_color),
+        }
+
+    def _generate_react_components(self, primary_color: str) -> str:
+        """Generates Next.js App Router component templates (legacy export, kept for compatibility)."""
+        return f"""// Next.js App Router Components for {self.domain}
 // Optimized for Core Web Vitals (LCP < 2.5s, CLS < 0.1, INP < 200ms)
 // Generated by ExtractDesign Studio
 
 import React from 'react';
 import Image from 'next/image';
 
-// =========================================================================
-// 1. Interactive Button — 'use client' pushed to interactive leaf
-// =========================================================================
 'use client';
-
 export function Button({{ children, variant = 'primary', className = '', ...props }}) {{
-  const baseStyle = {{
-    padding: '10px 20px',
-    borderRadius: '8px',
-    fontWeight: 600,
-    fontSize: '14px',
-    cursor: 'pointer',
-    border: 'none',
-    transition: 'all 0.15s ease-in-out',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '8px',
+  const styles = {{
+    primary: {{ backgroundColor: 'var(--color-brand-primary, {primary_color})', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }},
+    secondary: {{ backgroundColor: 'transparent', border: '1px solid rgba(128,128,128,0.3)', padding: '10px 20px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }},
   }};
-
-  const variants = {{
-    primary: {{
-      backgroundColor: 'var(--color-primary, {primary_color})',
-      color: '#ffffff',
-    }},
-    secondary: {{
-      backgroundColor: 'transparent',
-      border: '1px solid rgba(128, 128, 128, 0.3)',
-      color: 'inherit',
-    }},
-  }};
-
-  return (
-    <button style={{{{ ...baseStyle, ...variants[variant] }}}} className={{className}} {{...props}}>
-      {{children}}
-    </button>
-  );
+  return <button style={{styles[variant]}} className={{className}} {{...props}}>{{children}}</button>;
 }}
 
-// =========================================================================
-// 2. Server Component: Hero Section with next/image LCP Priority Preload
-// =========================================================================
-export function Hero({{
-  headline = 'Welcome to {self.domain}',
-  description = 'Reverse-engineered design system and modern UI presentation.',
-  ctaText = 'Get Started',
-  imageSrc,
-  onCtaClick
-}}) {{
+export function Hero({{ headline, description, ctaText = 'Get Started', imageSrc }}) {{
   return (
     <section style={{{{ padding: '64px 24px', textAlign: 'center', maxWidth: '960px', margin: '0 auto' }}}}>
-      <h1 style={{{{ fontSize: '42px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px' }}}}>
-        {{headline}}
-      </h1>
-      <p style={{{{ fontSize: '18px', opacity: 0.8, maxWidth: '640px', margin: '0 auto 28px', lineHeight: '1.6' }}}}>
-        {{description}}
-      </p>
-      {{imageSrc && (
-        <div style={{{{ position: 'relative', width: '100%', maxWidth: '800px', height: '450px', margin: '0 auto 32px' }}}}>
-          {{/* LCP Optimization: priority preloads hero image and eliminates layout shifts */}}
-          <Image
-            src={{imageSrc}}
-            alt={{headline}}
-            width={{800}}
-            height={{450}}
-            priority
-            sizes="(max-width: 768px) 100vw, 800px"
-            style={{{{ objectFit: 'cover', borderRadius: '12px' }}}}
-          />
-        </div>
-      )}}
-      <div>
-        <Button variant="primary" onClick={{onCtaClick}}>{{ctaText}}</Button>
-      </div>
+      <h1 style={{{{ fontSize: '42px', fontWeight: 700, marginBottom: '16px' }}}}>{{headline}}</h1>
+      <p style={{{{ fontSize: '18px', opacity: 0.8, marginBottom: '28px' }}}}>{{description}}</p>
+      {{imageSrc && <Image src={{imageSrc}} alt={{headline}} width={{800}} height={{450}} priority />}}
+      <Button>{{ctaText}}</Button>
     </section>
   );
 }}
-
-// =========================================================================
-// 3. Server Component: Content Card with Zero-CLS Image Dimensions
-// =========================================================================
-export function Card({{ title, subtitle, imageSrc, children, className = '' }}) {{
-  return (
-    <div
-      style={{{{
-        padding: '24px',
-        borderRadius: '12px',
-        border: '1px solid rgba(128, 128, 128, 0.2)',
-        backgroundColor: 'var(--color-surface, rgba(255, 255, 255, 0.03))',
-        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',
-        overflow: 'hidden',
-      }}}}
-      className={{className}}
-    >
-      {{imageSrc && (
-        <div style={{{{ position: 'relative', width: '100%', height: '200px', marginBottom: '16px' }}}}>
-          {{/* Lazy loaded automatically below fold with explicit dimensions to prevent CLS */}}
-          <Image
-            src={{imageSrc}}
-            alt={{title || 'Card thumbnail'}}
-            width={{400}}
-            height={{200}}
-            loading="lazy"
-            sizes="(max-width: 768px) 100vw, 400px"
-            style={{{{ objectFit: 'cover', borderRadius: '8px' }}}}
-          />
-        </div>
-      )}}
-      {{title && <h3 style={{{{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: 600 }}}}>{{title}}</h3>}}
-      {{subtitle && <p style={{{{ margin: '0 0 16px 0', opacity: 0.7, fontSize: '14px' }}}}>{{subtitle}}</p>}}
-      {{children}}
-    </div>
-  );
-}}
 """
 
-        # Next.js App Router Root Layout snippet using next/font
-        layout_code = f"""// app/layout.tsx — Next.js 14+ App Router Zero-Layout-Shift Layout
-import {{ Inter }} from 'next/font/google';
-import './globals.css';
-
-// Zero-shift web font loading with font-display: swap
-const inter = Inter({{
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-  preload: true,
-}});
-
-export const metadata = {{
-  title: '{self.domain} — Extracted Design System',
-  description: 'Built with design tokens and components reverse-engineered by ExtractDesign Studio.',
-}};
-
-export default function RootLayout({{
-  children,
-}}: {{
-  children: React.ReactNode;
-}}) {{
-  return (
-    <html lang="en" className={{inter.variable}}>
-      <body style={{{{ fontFamily: 'var(--font-inter), sans-serif' }}}}>
-        {{children}}
-      </body>
-    </html>
-  );
-}}
-"""
-        return {
-            "react_components": react_code,
-            "nextjs_layout": layout_code,
-        }
+    # =========================================================================
+    # 14. EXPORT GENERATOR (legacy - now calls generate_framework_exports)
+    # =========================================================================
+    def generate_exports(self):
+        return self.generate_framework_exports(None)

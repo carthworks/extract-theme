@@ -1,4 +1,4 @@
-/* Tailwind v3 config extracted from https://www.pitowings.com */
+/* Tailwind v3 config extracted from https://www.pitowings.com/ */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   "content": [
@@ -9,71 +9,30 @@ module.exports = {
       "colors": {
         "white": "#ffffff",
         "white-a0": {
-          "2": "rgb(0 0 0 / 0.0)",
-          "3": "rgb(225 29 63 / 0.0)"
+          "2": "rgb(0 0 0 / 0.0)"
         },
         "stone-100-a14": "rgb(225 29 63 / 0.139)",
         "stone-50-a8": "rgb(225 29 63 / 0.076)",
-        "stone-200-a20": "rgb(225 29 63 / 0.197)",
         "white-a35": "rgb(255 255 255 / 0.35)",
-        "white-a70": "rgb(255 255 255 / 0.702)",
-        "neutral-50-a6": "rgb(200 16 46 / 0.059)",
-        "white-a80": "rgb(255 255 255 / 0.8)",
-        "stone-100-a80": "rgb(255 224 228 / 0.8)",
-        "neutral-50-a50": "rgb(255 241 243 / 0.502)",
-        "neutral-50-a4": "rgb(246 90 118 / 0.043)",
-        "white-a40": "rgb(255 255 255 / 0.4)",
-        "stone-50-a30": "rgb(255 198 207 / 0.302)",
-        "white-a10": "rgb(255 255 255 / 0.102)",
-        "white-a95": "rgb(255 255 255 / 0.949)",
-        "white-a85": "rgb(255 255 255 / 0.851)",
-        "stone-100-a70": "rgb(255 224 228 / 0.702)",
-        "stone-100-a50": "rgb(255 198 207 / 0.502)",
-        "neutral-50-a40": {
-          "2": "rgb(255 224 228 / 0.4)"
-        },
-        "neutral-50-a60": "rgb(255 241 243 / 0.6)",
-        "neutral-50-a80": "rgb(255 241 243 / 0.8)",
-        "stone-50-a45": "rgb(255 224 228 / 0.451)",
-        "stone-50-a50": "rgb(255 224 228 / 0.502)",
-        "stone-50-a60": "rgb(255 224 228 / 0.6)",
-        "stone-100-a40": "rgb(255 198 207 / 0.4)",
         "stone": {
-          "100": "#ffe0e4",
-          "50": "#fff1f3",
-          "950": "#3a2f35",
-          "700": "#6b5b62"
+          "100": "#ffe0e4"
         },
         "rose": {
-          "200": "#ffc6cf",
           "600": "#e11d3f",
+          "200": "#ffc6cf",
+          "400": "#f65a76",
           "300": "#ff9aab",
           "800": "#a50d26",
-          "400": "#f65a76",
-          "700": "#c8102e",
-          "900": "#7a0c1f",
-          "950": "#5c0a17"
+          "700": "#c8102e"
         },
         "neutral": {
-          "100": "#f3e9ea",
           "950": "#1b1418"
         },
         "zinc": {
           "400": "#a999aa"
         },
-        "red": {
-          "500": "#fb2c36",
-          "600": "#e7000b"
-        },
-        "rose-400": {
-          "2": "#ff6467"
-        },
-        "stone-100": {
-          "2": "#ffe6da"
-        },
         "background": "#ffffff",
         "foreground": "#1b1418",
-        "muted-foreground": "#3a2f35",
         "primary": "#e11d3f",
         "accent": "#ff9aab",
         "border": "#ffe0e4",

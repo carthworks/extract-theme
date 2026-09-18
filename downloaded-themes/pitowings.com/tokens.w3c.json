@@ -1,0 +1,82 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "color": {
+    "surface-base": {
+      "$value": "#1b1418",
+      "$type": "color"
+    },
+    "feedback-danger": {
+      "$value": "#a50d26",
+      "$type": "color"
+    },
+    "text-muted": {
+      "$value": "#c8102e",
+      "$type": "color"
+    },
+    "red": {
+      "$value": "#e11d3f",
+      "$type": "color"
+    },
+    "brand-secondary": {
+      "$value": "#f65a76",
+      "$type": "color"
+    },
+    "purple": {
+      "$value": "#a999aa",
+      "$type": "color"
+    },
+    "brand-primary": {
+      "$value": "#ff9aab",
+      "$type": "color"
+    },
+    "text-subtle": {
+      "$value": "#ffc6cf",
+      "$type": "color"
+    },
+    "brand-accent": {
+      "$value": "#ffe0e4",
+      "$type": "color"
+    },
+    "text-on-dark": {
+      "$value": "#ffffff",
+      "$type": "color"
+    }
+  },
+  "typography": {
+    "sans": {
+      "$value": "\"Poppins\",ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif",
+      "$type": "fontFamily"
+    },
+    "mono": {
+      "$value": "ui-monospace,SFMono-Regular,\"SF Mono\",Menlo,Consolas,\"Liberation Mono\",\"Courier New\",monospace",
+      "$type": "fontFamily"
+    }
+  },
+  "spacing": {},
+  "radius": {
+    "none": {
+      "$value": "0",
+      "$type": "dimension"
+    },
+    "DEFAULT": {
+      "$value": ".25rem",
+      "$type": "dimension"
+    },
+    "lg": {
+      "$value": ".5rem",
+      "$type": "dimension"
+    },
+    "xl": {
+      "$value": ".75rem",
+      "$type": "dimension"
+    },
+    "2xl": {
+      "$value": "1rem",
+      "$type": "dimension"
+    },
+    "3xl": {
+      "$value": "1.5rem",
+      "$type": "dimension"
+    }
+  }
+}

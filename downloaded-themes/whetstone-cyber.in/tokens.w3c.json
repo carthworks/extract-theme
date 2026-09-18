@@ -1,0 +1,206 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "color": {
+    "surface-base": {
+      "$value": "#000000",
+      "$type": "color"
+    },
+    "surface-elevated": {
+      "$value": "#121010",
+      "$type": "color"
+    },
+    "neutral": {
+      "$value": "#222222",
+      "$type": "color"
+    },
+    "blue": {
+      "$value": "#1b2f45",
+      "$type": "color"
+    },
+    "neutral-02": {
+      "$value": "#333333",
+      "$type": "color"
+    },
+    "text-primary": {
+      "$value": "#374951",
+      "$type": "color"
+    },
+    "text-muted": {
+      "$value": "#555555",
+      "$type": "color"
+    },
+    "blue-02": {
+      "$value": "#2d657a",
+      "$type": "color"
+    },
+    "feedback-danger": {
+      "$value": "#cf2e2e",
+      "$type": "color"
+    },
+    "blue-03": {
+      "$value": "#41788c",
+      "$type": "color"
+    },
+    "blue-04": {
+      "$value": "#69727d",
+      "$type": "color"
+    },
+    "purple": {
+      "$value": "#9b51e0",
+      "$type": "color"
+    },
+    "blue-05": {
+      "$value": "#2575fc",
+      "$type": "color"
+    },
+    "feedback-info": {
+      "$value": "#238c8c",
+      "$type": "color"
+    },
+    "brand-secondary": {
+      "$value": "#fe2d2d",
+      "$type": "color"
+    },
+    "blue-06": {
+      "$value": "#0693e3",
+      "$type": "color"
+    },
+    "neutral-03": {
+      "$value": "#929292",
+      "$type": "color"
+    },
+    "feedback-warning": {
+      "$value": "#ff6900",
+      "$type": "color"
+    },
+    "blue-07": {
+      "$value": "#13aff0",
+      "$type": "color"
+    },
+    "red": {
+      "$value": "#f78da7",
+      "$type": "color"
+    },
+    "red-02": {
+      "$value": "#fe8f75",
+      "$type": "color"
+    },
+    "feedback-success": {
+      "$value": "#00d084",
+      "$type": "color"
+    },
+    "blue-08": {
+      "$value": "#abb8c3",
+      "$type": "color"
+    },
+    "green": {
+      "$value": "#61ce70",
+      "$type": "color"
+    },
+    "text-subtle": {
+      "$value": "#fcb900",
+      "$type": "color"
+    },
+    "green-02": {
+      "$value": "#4ce09d",
+      "$type": "color"
+    },
+    "blue-09": {
+      "$value": "#8ed1fc",
+      "$type": "color"
+    },
+    "green-03": {
+      "$value": "#7bdcb5",
+      "$type": "color"
+    },
+    "neutral-04": {
+      "$value": "#cccccc",
+      "$type": "color"
+    },
+    "green-04": {
+      "$value": "#29f48f",
+      "$type": "color"
+    },
+    "green-05": {
+      "$value": "#b6e3d4",
+      "$type": "color"
+    },
+    "neutral-05": {
+      "$value": "#dddddd",
+      "$type": "color"
+    },
+    "neutral-06": {
+      "$value": "#e7e7e7",
+      "$type": "color"
+    },
+    "text-on-dark": {
+      "$value": "#f1f1f1",
+      "$type": "color"
+    },
+    "surface-overlay": {
+      "$value": "#ffffff",
+      "$type": "color"
+    }
+  },
+  "typography": {
+    "sans": {
+      "$value": "\"Gabarito\",Sans-serif",
+      "$type": "fontFamily"
+    },
+    "serif": {
+      "$value": "\"Playfair Display\",serif",
+      "$type": "fontFamily"
+    },
+    "mono": {
+      "$value": "\"Courier New\",Courier,monospace",
+      "$type": "fontFamily"
+    },
+    "sans-2": {
+      "$value": "\"Gabarito\"",
+      "$type": "fontFamily"
+    },
+    "sans-3": {
+      "$value": "\"Cairo\",Sans-serif",
+      "$type": "fontFamily"
+    },
+    "sans-4": {
+      "$value": "\"Font Awesome 5 Free\"",
+      "$type": "fontFamily"
+    },
+    "mono-2": {
+      "$value": "Arial,Baskerville,monospace",
+      "$type": "fontFamily"
+    },
+    "mono-3": {
+      "$value": "monospace,monospace",
+      "$type": "fontFamily"
+    }
+  },
+  "spacing": {},
+  "radius": {
+    "none": {
+      "$value": "0",
+      "$type": "dimension"
+    },
+    "sm": {
+      "$value": "3px",
+      "$type": "dimension"
+    },
+    "DEFAULT": {
+      "$value": "5px",
+      "$type": "dimension"
+    },
+    "md": {
+      "$value": "6px",
+      "$type": "dimension"
+    },
+    "lg": {
+      "$value": "10px",
+      "$type": "dimension"
+    },
+    "xl": {
+      "$value": "14px",
+      "$type": "dimension"
+    }
+  }
+}

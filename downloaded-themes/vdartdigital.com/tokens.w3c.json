@@ -1,0 +1,218 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "color": {
+    "surface-base": {
+      "$value": "#000000",
+      "$type": "color"
+    },
+    "surface-elevated": {
+      "$value": "#232323",
+      "$type": "color"
+    },
+    "brand-primary": {
+      "$value": "#330072",
+      "$type": "color"
+    },
+    "brand-accent": {
+      "$value": "#003049",
+      "$type": "color"
+    },
+    "neutral": {
+      "$value": "#333333",
+      "$type": "color"
+    },
+    "blue": {
+      "$value": "#293e4b",
+      "$type": "color"
+    },
+    "neutral-02": {
+      "$value": "#444444",
+      "$type": "color"
+    },
+    "text-primary": {
+      "$value": "#a81d84",
+      "$type": "color"
+    },
+    "text-muted": {
+      "$value": "#9c27b0",
+      "$type": "color"
+    },
+    "neutral-03": {
+      "$value": "#616161",
+      "$type": "color"
+    },
+    "blue-02": {
+      "$value": "#7347db",
+      "$type": "color"
+    },
+    "blue-03": {
+      "$value": "#636e78",
+      "$type": "color"
+    },
+    "feedback-danger": {
+      "$value": "#cf2e2e",
+      "$type": "color"
+    },
+    "brand-secondary": {
+      "$value": "#ea0048",
+      "$type": "color"
+    },
+    "purple": {
+      "$value": "#9b51e0",
+      "$type": "color"
+    },
+    "blue-04": {
+      "$value": "#007acc",
+      "$type": "color"
+    },
+    "neutral-04": {
+      "$value": "#777777",
+      "$type": "color"
+    },
+    "pink": {
+      "$value": "#e91e63",
+      "$type": "color"
+    },
+    "blue-05": {
+      "$value": "#2874fc",
+      "$type": "color"
+    },
+    "red": {
+      "$value": "#fe2d2d",
+      "$type": "color"
+    },
+    "blue-06": {
+      "$value": "#0693e3",
+      "$type": "color"
+    },
+    "feedback-warning": {
+      "$value": "#ff6900",
+      "$type": "color"
+    },
+    "neutral-05": {
+      "$value": "#999999",
+      "$type": "color"
+    },
+    "red-02": {
+      "$value": "#f78da7",
+      "$type": "color"
+    },
+    "feedback-success": {
+      "$value": "#00d084",
+      "$type": "color"
+    },
+    "blue-07": {
+      "$value": "#abb8c3",
+      "$type": "color"
+    },
+    "feedback-info": {
+      "$value": "#00c9ff",
+      "$type": "color"
+    },
+    "text-subtle": {
+      "$value": "#62d69e",
+      "$type": "color"
+    },
+    "orange": {
+      "$value": "#fcb900",
+      "$type": "color"
+    },
+    "blue-08": {
+      "$value": "#8ed1fc",
+      "$type": "color"
+    },
+    "green": {
+      "$value": "#7bdcb5",
+      "$type": "color"
+    },
+    "neutral-06": {
+      "$value": "#d2d2d2",
+      "$type": "color"
+    },
+    "neutral-07": {
+      "$value": "#dddddd",
+      "$type": "color"
+    },
+    "yellow": {
+      "$value": "#fddd00",
+      "$type": "color"
+    },
+    "text-on-dark": {
+      "$value": "#eeeeee",
+      "$type": "color"
+    },
+    "surface-overlay": {
+      "$value": "#fef84c",
+      "$type": "color"
+    },
+    "yellow-02": {
+      "$value": "#fff5cb",
+      "$type": "color"
+    },
+    "neutral-08": {
+      "$value": "#ffffff",
+      "$type": "color"
+    }
+  },
+  "typography": {
+    "sans": {
+      "$value": "\"Proxima-nova\", sans-serif",
+      "$type": "fontFamily"
+    },
+    "serif": {
+      "$value": "\"Roboto Slab\",\"Times New Roman\",serif",
+      "$type": "fontFamily"
+    },
+    "mono": {
+      "$value": "monospace,monospace",
+      "$type": "fontFamily"
+    },
+    "sans-2": {
+      "$value": "\"Proxima-nova\",sans-serif",
+      "$type": "fontFamily"
+    },
+    "sans-3": {
+      "$value": "\"Proxima-nova\", Sans-serif",
+      "$type": "fontFamily"
+    },
+    "sans-4": {
+      "$value": "\"proxima-nova\", sans-serif",
+      "$type": "fontFamily"
+    },
+    "serif-2": {
+      "$value": "Georgia, \"Proxima-nova\", Times, serif",
+      "$type": "fontFamily"
+    },
+    "mono-2": {
+      "$value": "Menlo,Monaco,Consolas,\"Courier New\",monospace",
+      "$type": "fontFamily"
+    }
+  },
+  "spacing": {},
+  "radius": {
+    "none": {
+      "$value": "0px",
+      "$type": "dimension"
+    },
+    "sm": {
+      "$value": "3px",
+      "$type": "dimension"
+    },
+    "DEFAULT": {
+      "$value": "5px",
+      "$type": "dimension"
+    },
+    "md": {
+      "$value": "7px",
+      "$type": "dimension"
+    },
+    "lg": {
+      "$value": "10px",
+      "$type": "dimension"
+    },
+    "2xl": {
+      "$value": "20px",
+      "$type": "dimension"
+    }
+  }
+}

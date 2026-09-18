@@ -1,0 +1,140 @@
+/* ---------------------------------------------------------------
+   Design tokens extracted from https://www.publicissapient.com/
+   extract-theme v2.1.0
+   --------------------------------------------------------------- */
+
+:root {
+  /* palette */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-red-600: #e90130;
+  --color-white-a33: rgb(255 255 255 / 0.333);
+  --color-neutral-100: #e5e7eb;
+  --color-white-a0: rgb(0 0 0 / 0.0);
+  --color-blue-700: #0c63ea;
+  --color-neutral-900: #444444;
+  --color-slate-800: #4a5565;
+  --color-neutral-200: #d1d5dc;
+  --color-slate-400: #99a1af;
+  --color-neutral-700: #666666;
+  --color-slate-950: #101828;
+  --color-slate-600: #6a7282;
+  --color-neutral-500: #949494;
+  --color-slate-950-2: #030712;
+  --color-blue-500: #2b7fff;
+  --color-slate-950-3: #1e2939;
+  --color-red-800: #9f0712;
+  --color-yellow-100: #fee685;
+  --color-neutral-50-a5: rgb(0 0 0 / 0.051);
+  --color-orange-400: #ff6900;
+  --color-green-400: #00c950;
+
+  /* semantic roles */
+  --background: var(--color-white);
+  --foreground: var(--color-black);
+  --muted-foreground: var(--color-neutral-900);
+  --primary: var(--color-red-600);
+  --accent: var(--color-blue-700);
+  --border: var(--color-neutral-100);
+  --destructive: var(--color-red-600);
+  --success: var(--color-green-400);
+
+  /* typography */
+  --font-sans: ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  --font-mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  --text-xs: 11px;
+  --text-sm: 14px;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 22px;
+  --text-2xl: 1.5rem;
+  --text-3xl: 28px;
+  --text-4xl: 42px;
+  --text-5xl: 50px;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+  --weight-normal: 400;
+  --weight-bold: 700;
+  --weight-light: 300;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --leading-none: 1;
+  --leading-tight: 1.25em;
+  --leading-snug: 1.33333;
+  --leading-normal: 1.5;
+  --leading-loose: 30px;
+  --tracking-tighter: -2.4px;
+  --tracking-tight: -.025em;
+  --tracking-wide: .025em;
+  --tracking-wider: .05em;
+  --tracking-widest: .1em;
+
+  /* spacing */
+  --space-0: 0px;
+  --space-1px: 1px;
+  --space-1_6px: 1.6px;
+  --space-2px: 2px;
+  --space-1: 4px;
+  --space-5px: 5px;
+  --space-6px: 6px;
+  --space-7px: 7px;
+  --space-2: 8px;
+  --space-9_71px: 9.71px;
+  --space-10px: 10px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-19px: 19px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-30px: 30px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* radius */
+  --radius-none: 0;
+  --radius-sm: 3px;
+  --radius: .25rem;
+  --radius-md: .375rem;
+  --radius-lg: .5rem;
+  --radius-xl: .75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* elevation */
+  --shadow-xs: 0 0 #0000,0 0 #0000,inset0 0 0 2px#fff,inset0 0 0 calc(2px + 2px)#e90130,0 0 #0000;
+  --shadow-sm: inset 0 0 0 1px #000;
+  --shadow: inset 0 0 0 1px #0000;
+  --shadow-md: inset 0 0 0 1px #e90130;
+  --shadow-lg: 0 0 1px #888;
+  --shadow-xl: 0 0 1px #0003;
+  --shadow-2xl: 0 0 0 2px #0c63ea;
+
+  /* gradients */
+  --gradient-1: linear-gradient(to right in oklab,color-mix(in oklab,#fff5%,transparent)0%,transparent50%,transparent100%);
+  --gradient-2: linear-gradient(currentColor,currentColor);
+  --gradient-3: linear-gradient(90deg,#fff0 -7.04%,#fff 50.7%);
+  --gradient-4: linear-gradient(270deg,#fff0 -7.04%,#fff 50.7%);
+  --gradient-5: linear-gradient(270deg,#0000,#fff9 50%,#ffffffbf 75%,#fff);
+  --gradient-6: linear-gradient(90deg,#0000,#ffffff40 20%,#ffffffd9 55%,#fff);
+  --gradient-7: repeating-linear-gradient(currentColor 0 1px,#0000 1px 3px);
+  --gradient-8: repeating-linear-gradient(to bottom,#9494940 1px,transparent 1px 3px);
+  --gradient-9: linear-gradient(90deg,#fff0,#fff50%,#fff100%);
+}
+
+/* Breakpoints (custom media — needs postcss-custom-media) */
+@custom-media --sm (min-width: 360px);
+@custom-media --sm-639 (min-width: 639px);
+@custom-media --sm-640 (min-width: 640px);
+@custom-media --sm-672 (min-width: 672px);
+@custom-media --md (min-width: 768px);
+@custom-media --lg (min-width: 1024px);
+@custom-media --xl (min-width: 1153px);
+@custom-media --xl-1280 (min-width: 1280px);
+@custom-media --xl-1281 (min-width: 1281px);
+@custom-media --xl-1356 (min-width: 1356px);
+@custom-media --2xl (min-width: 1536px);

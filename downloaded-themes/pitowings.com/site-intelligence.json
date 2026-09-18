@@ -1,79 +1,45 @@
 {
   "overview": {
     "domain": "pitowings.com",
-    "primary_url": "https://www.pitowings.com",
-    "analyzed_at": "2026-09-17T13:47:45Z",
-    "pages_analyzed": 1,
+    "primary_url": "https://www.pitowings.com/",
+    "analyzed_at": "2026-09-18T11:46:26Z",
+    "pages_analyzed": 6,
     "scores": {
-      "accessibility": 85,
-      "seo": 49,
-      "performance": 95,
-      "security_grade": "F"
+      "accessibility": 88,
+      "seo": 88,
+      "performance": 90,
+      "security_grade": "B"
     },
     "summary": {
-      "components_detected": 0,
-      "assets_count": 0,
-      "technologies_count": 2,
-      "internal_links_count": 1,
+      "components_detected": 5,
+      "assets_count": 102,
+      "technologies_count": 5,
+      "internal_links_count": 6,
       "design_style": "Developer Tooling / Technical"
     }
   },
   "design_system": {
-    "colors_count": 48,
+    "colors_count": 15,
     "colors": {
       "white": "#ffffff",
+      "stone-100": "#ffe0e4",
       "white-a0": "rgb(255 255 255 / 0.0)",
       "stone-100-a14": "rgb(225 29 63 / 0.139)",
-      "stone-100": "#ffe0e4",
-      "stone-50": "#fff1f3",
-      "stone-50-a8": "rgb(225 29 63 / 0.076)",
       "white-a0-2": "rgb(0 0 0 / 0.0)",
-      "rose-200": "#ffc6cf",
       "rose-600": "#e11d3f",
-      "stone-200-a20": "rgb(225 29 63 / 0.197)",
+      "rose-200": "#ffc6cf",
+      "rose-400": "#f65a76",
       "rose-300": "#ff9aab",
       "rose-800": "#a50d26",
-      "neutral-100": "#f3e9ea",
-      "rose-400": "#f65a76",
+      "stone-50-a8": "rgb(225 29 63 / 0.076)",
       "rose-700": "#c8102e",
       "neutral-950": "#1b1418",
       "zinc-400": "#a999aa",
-      "red-500": "#fb2c36",
-      "rose-900": "#7a0c1f",
-      "rose-400-2": "#ff6467",
-      "red-600": "#e7000b",
-      "rose-950": "#5c0a17",
-      "stone-950": "#3a2f35",
-      "stone-700": "#6b5b62",
-      "white-a35": "rgb(255 255 255 / 0.35)",
-      "white-a0-3": "rgb(225 29 63 / 0.0)",
-      "white-a70": "rgb(255 255 255 / 0.702)",
-      "neutral-50-a6": "rgb(200 16 46 / 0.059)",
-      "white-a80": "rgb(255 255 255 / 0.8)",
-      "stone-100-2": "#ffe6da",
-      "stone-100-a80": "rgb(255 224 228 / 0.8)",
-      "neutral-50-a50": "rgb(255 241 243 / 0.502)",
-      "neutral-50-a4": "rgb(246 90 118 / 0.043)",
-      "white-a40": "rgb(255 255 255 / 0.4)",
-      "stone-50-a30": "rgb(255 198 207 / 0.302)",
-      "white-a10": "rgb(255 255 255 / 0.102)",
-      "white-a95": "rgb(255 255 255 / 0.949)",
-      "white-a85": "rgb(255 255 255 / 0.851)",
-      "stone-100-a70": "rgb(255 224 228 / 0.702)",
-      "stone-100-a50": "rgb(255 198 207 / 0.502)",
-      "neutral-50-a40": "rgb(255 241 243 / 0.4)",
-      "neutral-50-a60": "rgb(255 241 243 / 0.6)",
-      "neutral-50-a80": "rgb(255 241 243 / 0.8)",
-      "neutral-50-a40-2": "rgb(255 224 228 / 0.4)",
-      "stone-50-a45": "rgb(255 224 228 / 0.451)",
-      "stone-50-a50": "rgb(255 224 228 / 0.502)",
-      "stone-50-a60": "rgb(255 224 228 / 0.6)",
-      "stone-100-a40": "rgb(255 198 207 / 0.4)"
+      "white-a35": "rgb(255 255 255 / 0.35)"
     },
     "roles": {
       "background": "white",
       "foreground": "neutral-950",
-      "muted-foreground": "stone-950",
       "primary": "rose-600",
       "accent": "rose-300",
       "border": "stone-100",
@@ -140,27 +106,487 @@
     },
     "gradients": [
       "linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%)",
+      "radial-gradient(circle at 50% 50%, #ffe6da, transparent 68%)",
       "linear-gradient(140deg, rgba(225,29,63,0.139), rgba(255,255,255,0))",
       "linear-gradient(140deg, rgba(225,29,63,0.076), rgba(255,255,255,0))",
       "linear-gradient(140deg, rgba(225,29,63,0.103), rgba(255,255,255,0))",
       "linear-gradient(140deg, rgba(225,29,63,0.181), rgba(255,255,255,0))",
       "linear-gradient(140deg, rgba(225,29,63,0.117), rgba(255,255,255,0))",
-      "radial-gradient(circle at 50% 50%, #ffe3e8, transparent 68%)",
-      "radial-gradient(circle at 50% 50%, #f3e9ea, transparent 68%)",
-      "radial-gradient(circle at 50% 50%, #ffd8de, transparent 68%)",
-      "radial-gradient(circle at 50% 50%, #eee5e2, transparent 68%)",
-      "radial-gradient(circle at 50% 50%, #ffe9ec, transparent 68%)",
-      "radial-gradient(circle, rgba(225,29,63,0.085) 0%, rgba(246,90,118,0.0425) 38%, rgba(225,29,63,0) 70%)",
-      "radial-gradient(circle, rgba(225,29,63,0.16) 0%, rgba(225,29,63,0.07) 45%, rgba(225,29,63,0) 72%)",
-      "linear-gradient(140deg, rgba(225,29,63,0.197), rgba(255,255,255,0))",
-      "linear-gradient(140deg, rgba(225,29,63,0.059), rgba(255,255,255,0))",
-      "linear-gradient(140deg, rgba(225,29,63,0.110), rgba(255,255,255,0))"
+      "radial-gradient(circle at 50% 50%, #ffdfe4, transparent 68%)",
+      "radial-gradient(circle at 50% 50%, #f3e9e4, transparent 68%)",
+      "radial-gradient(circle at 50% 50%, #ffe3d6, transparent 68%)",
+      "radial-gradient(circle at 50% 50%, #ede6e0, transparent 68%)",
+      "radial-gradient(circle at 50% 50%, #ffe1e6, transparent 68%)",
+      "radial-gradient(circle at 50% 50%, #ffe6ea, transparent 68%)",
+      "linear-gradient(to right in oklab,#fff 0%,color-mix(in oklab,#fff 70%,transparent) 50%,#fff 100%)",
+      "linear-gradient(100deg,#e11d3f,#7a0c1f)",
+      "linear-gradient(120deg,#e11d3f 0,#a50d26 55%,#5c0a17 100%)"
     ],
-    "css_variables": ":root {\n  --color-background: #ffffff;\n  --color-foreground: #1b1418;\n  --color-muted-foreground: #3a2f35;\n  --color-primary: #e11d3f;\n  --color-accent: #ff9aab;\n  --color-border: #ffe0e4;\n  --color-destructive: #e11d3f;\n  --white: #ffffff;\n  --white-a0: rgb(255 255 255 / 0.0);\n  --stone-100-a14: rgb(225 29 63 / 0.139);\n  --stone-100: #ffe0e4;\n  --stone-50: #fff1f3;\n  --stone-50-a8: rgb(225 29 63 / 0.076);\n  --white-a0-2: rgb(0 0 0 / 0.0);\n  --rose-200: #ffc6cf;\n  --rose-600: #e11d3f;\n  --stone-200-a20: rgb(225 29 63 / 0.197);\n  --rose-300: #ff9aab;\n  --rose-800: #a50d26;\n  --neutral-100: #f3e9ea;\n  --rose-400: #f65a76;\n  --rose-700: #c8102e;\n  --neutral-950: #1b1418;\n  --zinc-400: #a999aa;\n  --red-500: #fb2c36;\n  --rose-900: #7a0c1f;\n  --rose-400-2: #ff6467;\n  --font-sans: \"Poppins\",ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif;\n  --font-mono: ui-monospace,SFMono-Regular,\"SF Mono\",Menlo,Consolas,\"Liberation Mono\",\"Courier New\",monospace;\n  --radius-none: 0;\n  --radius-DEFAULT: .25rem;\n  --radius-lg: .5rem;\n  --radius-xl: .75rem;\n  --radius-2xl: 1rem;\n  --radius-3xl: 1.5rem;\n  --space-0: 0px;\n  --space-1px: 1px;\n  --space-2_56px: 2.56px;\n  --space-3px: 3px;\n  --space-1: 4px;\n  --space-4_48px: 4.48px;\n  --space-4_8px: 4.8px;\n  --space-8_8px: 8.8px;\n  --space-9_6px: 9.6px;\n  --space-14_4px: 14.4px;\n  --space-17_6px: 17.6px;\n  --space-5: 20px;\n}"
+    "css_variables": ":root {\n  --color-background: #ffffff;\n  --color-foreground: #1b1418;\n  --color-primary: #e11d3f;\n  --color-accent: #ff9aab;\n  --color-border: #ffe0e4;\n  --color-destructive: #e11d3f;\n  --white: #ffffff;\n  --stone-100: #ffe0e4;\n  --white-a0: rgb(255 255 255 / 0.0);\n  --stone-100-a14: rgb(225 29 63 / 0.139);\n  --white-a0-2: rgb(0 0 0 / 0.0);\n  --rose-600: #e11d3f;\n  --rose-200: #ffc6cf;\n  --rose-400: #f65a76;\n  --rose-300: #ff9aab;\n  --rose-800: #a50d26;\n  --stone-50-a8: rgb(225 29 63 / 0.076);\n  --rose-700: #c8102e;\n  --neutral-950: #1b1418;\n  --zinc-400: #a999aa;\n  --white-a35: rgb(255 255 255 / 0.35);\n  --font-sans: \"Poppins\",ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif;\n  --font-mono: ui-monospace,SFMono-Regular,\"SF Mono\",Menlo,Consolas,\"Liberation Mono\",\"Courier New\",monospace;\n  --radius-none: 0;\n  --radius-DEFAULT: .25rem;\n  --radius-lg: .5rem;\n  --radius-xl: .75rem;\n  --radius-2xl: 1rem;\n  --radius-3xl: 1.5rem;\n  --space-0: 0px;\n  --space-1px: 1px;\n  --space-2_56px: 2.56px;\n  --space-3px: 3px;\n  --space-1: 4px;\n  --space-4_48px: 4.48px;\n  --space-4_8px: 4.8px;\n  --space-8_8px: 8.8px;\n  --space-9_6px: 9.6px;\n  --space-14_4px: 14.4px;\n  --space-17_6px: 17.6px;\n  --space-5: 20px;\n}"
+  },
+  "design_intelligence": {
+    "semantic_tokens": {
+      "named_tokens": [
+        {
+          "hex": "#1b1418",
+          "role": "surface-base",
+          "css_variable": "--color-surface-base",
+          "luminance": 0.008,
+          "saturation": 0.149,
+          "hue_family": "neutral",
+          "usage_class": "surface"
+        },
+        {
+          "hex": "#a50d26",
+          "role": "feedback-danger",
+          "css_variable": "--color-feedback-danger",
+          "luminance": 0.084,
+          "saturation": 0.854,
+          "hue_family": "red",
+          "usage_class": "feedback"
+        },
+        {
+          "hex": "#c8102e",
+          "role": "text-muted",
+          "css_variable": "--color-text-muted",
+          "luminance": 0.128,
+          "saturation": 0.852,
+          "hue_family": "red",
+          "usage_class": "text"
+        },
+        {
+          "hex": "#e11d3f",
+          "role": "red",
+          "css_variable": "--color-red",
+          "luminance": 0.172,
+          "saturation": 0.772,
+          "hue_family": "red",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#f65a76",
+          "role": "brand-secondary",
+          "css_variable": "--color-brand-secondary",
+          "luminance": 0.282,
+          "saturation": 0.897,
+          "hue_family": "red",
+          "usage_class": "brand"
+        },
+        {
+          "hex": "#a999aa",
+          "role": "purple",
+          "css_variable": "--color-purple",
+          "luminance": 0.341,
+          "saturation": 0.091,
+          "hue_family": "purple",
+          "usage_class": "neutral"
+        },
+        {
+          "hex": "#ff9aab",
+          "role": "brand-primary",
+          "css_variable": "--color-brand-primary",
+          "luminance": 0.473,
+          "saturation": 1.0,
+          "hue_family": "red",
+          "usage_class": "brand"
+        },
+        {
+          "hex": "#ffc6cf",
+          "role": "text-subtle",
+          "css_variable": "--color-text-subtle",
+          "luminance": 0.662,
+          "saturation": 1.0,
+          "hue_family": "red",
+          "usage_class": "text"
+        },
+        {
+          "hex": "#ffe0e4",
+          "role": "brand-accent",
+          "css_variable": "--color-brand-accent",
+          "luminance": 0.802,
+          "saturation": 1.0,
+          "hue_family": "red",
+          "usage_class": "brand"
+        },
+        {
+          "hex": "#ffffff",
+          "role": "text-on-dark",
+          "css_variable": "--color-text-on-dark",
+          "luminance": 1.0,
+          "saturation": 0.0,
+          "hue_family": "neutral",
+          "usage_class": "text"
+        }
+      ],
+      "contrast_pairs": [
+        {
+          "background": "#1b1418",
+          "background_role": "surface-base",
+          "foreground": "#ffffff",
+          "foreground_role": "text-on-dark",
+          "contrast_ratio": 18.1,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#1b1418",
+          "background_role": "surface-base",
+          "foreground": "#ffe0e4",
+          "foreground_role": "brand-accent",
+          "contrast_ratio": 14.69,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#1b1418",
+          "background_role": "surface-base",
+          "foreground": "#ffc6cf",
+          "foreground_role": "text-subtle",
+          "contrast_ratio": 12.28,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#1b1418",
+          "background_role": "surface-base",
+          "foreground": "#ff9aab",
+          "foreground_role": "brand-primary",
+          "contrast_ratio": 9.02,
+          "wcag_level": "AAA"
+        },
+        {
+          "background": "#1b1418",
+          "background_role": "surface-base",
+          "foreground": "#f65a76",
+          "foreground_role": "brand-secondary",
+          "contrast_ratio": 5.72,
+          "wcag_level": "AA"
+        },
+        {
+          "background": "#e11d3f",
+          "background_role": "red",
+          "foreground": "#ffffff",
+          "foreground_role": "text-on-dark",
+          "contrast_ratio": 4.73,
+          "wcag_level": "AA"
+        },
+        {
+          "background": "#e11d3f",
+          "background_role": "red",
+          "foreground": "#ffe0e4",
+          "foreground_role": "brand-accent",
+          "contrast_ratio": 3.84,
+          "wcag_level": "AA Large"
+        },
+        {
+          "background": "#e11d3f",
+          "background_role": "red",
+          "foreground": "#ffc6cf",
+          "foreground_role": "text-subtle",
+          "contrast_ratio": 3.21,
+          "wcag_level": "AA Large"
+        }
+      ],
+      "css_block": ":root {\n  --color-surface-base: #1b1418;\n  --color-feedback-danger: #a50d26;\n  --color-text-muted: #c8102e;\n  --color-red: #e11d3f;\n  --color-brand-secondary: #f65a76;\n  --color-purple: #a999aa;\n  --color-brand-primary: #ff9aab;\n  --color-text-subtle: #ffc6cf;\n  --color-brand-accent: #ffe0e4;\n  --color-text-on-dark: #ffffff;\n}",
+      "summary": "10 colors named: 3 brand, 1 surface, 3 text, 1 feedback"
+    },
+    "consistency": {
+      "score": 89,
+      "grade": "B",
+      "label": "Good",
+      "breakdown": {
+        "color_economy": {
+          "score": 100,
+          "total_colors": 15,
+          "label": "Excellent"
+        },
+        "typography": {
+          "score": 90,
+          "font_families": 2,
+          "font_weights": 5,
+          "font_sizes": 11,
+          "label": "Excellent"
+        },
+        "spacing": {
+          "score": 70,
+          "unique_values": 17,
+          "label": "Good"
+        },
+        "border_radius": {
+          "score": 92,
+          "unique_values": 6,
+          "label": "Excellent"
+        },
+        "shadows": {
+          "score": 100,
+          "unique_values": 3,
+          "label": "Excellent"
+        }
+      },
+      "issues": [
+        {
+          "dimension": "Typography",
+          "severity": "Low",
+          "message": "11 font-size values found — no clear modular scale detected.",
+          "recommendation": "Adopt a modular type scale (1.25x or Major Third) to create proportional hierarchy."
+        },
+        {
+          "dimension": "Spacing",
+          "severity": "High",
+          "message": "Only 42% of spacing values align to a 4pt/8pt grid system.",
+          "recommendation": "Adopt an 8pt grid: use multiples of 8 (8, 16, 24, 32, 48, 64) for all margin, padding, and gap values."
+        }
+      ],
+      "positive": [
+        "Consistent 15-color system",
+        "Clean 2-family typeface selection",
+        "Shadow elevation system defined",
+        null
+      ]
+    },
+    "spacing_grid": {
+      "detected": false,
+      "base_unit": 4,
+      "system_name": "No clear grid system",
+      "adherence_pct": 25,
+      "total_values_analyzed": 16,
+      "on_grid_count": 4,
+      "off_grid_count": 12,
+      "off_grid_values": [
+        {
+          "value": 1,
+          "css": "1px",
+          "nearest_snap": "4px",
+          "deviation": 1
+        },
+        {
+          "value": 3,
+          "css": "3px",
+          "nearest_snap": "4px",
+          "deviation": 1
+        },
+        {
+          "value": 5,
+          "css": "5px",
+          "nearest_snap": "4px",
+          "deviation": 1
+        },
+        {
+          "value": 9,
+          "css": "9px",
+          "nearest_snap": "8px",
+          "deviation": 1
+        },
+        {
+          "value": 10,
+          "css": "10px",
+          "nearest_snap": "8px",
+          "deviation": 2
+        },
+        {
+          "value": 14,
+          "css": "14px",
+          "nearest_snap": "12px",
+          "deviation": 2
+        },
+        {
+          "value": 18,
+          "css": "18px",
+          "nearest_snap": "16px",
+          "deviation": 2
+        },
+        {
+          "value": 23,
+          "css": "23px",
+          "nearest_snap": "24px",
+          "deviation": 1
+        },
+        {
+          "value": 27,
+          "css": "27px",
+          "nearest_snap": "28px",
+          "deviation": 1
+        },
+        {
+          "value": 50,
+          "css": "50px",
+          "nearest_snap": "48px",
+          "deviation": 2
+        },
+        {
+          "value": 62,
+          "css": "62px",
+          "nearest_snap": "60px",
+          "deviation": 2
+        },
+        {
+          "value": 70,
+          "css": "70px",
+          "nearest_snap": "68px",
+          "deviation": 2
+        }
+      ],
+      "grid_scale": [
+        {
+          "step": 1,
+          "px": "4px",
+          "rem": "0.250rem",
+          "token_name": "--space-1",
+          "used": true
+        },
+        {
+          "step": 2,
+          "px": "8px",
+          "rem": "0.500rem",
+          "token_name": "--space-2",
+          "used": false
+        },
+        {
+          "step": 3,
+          "px": "12px",
+          "rem": "0.750rem",
+          "token_name": "--space-3",
+          "used": false
+        },
+        {
+          "step": 4,
+          "px": "16px",
+          "rem": "1.000rem",
+          "token_name": "--space-4",
+          "used": false
+        },
+        {
+          "step": 5,
+          "px": "20px",
+          "rem": "1.250rem",
+          "token_name": "--space-5",
+          "used": true
+        },
+        {
+          "step": 6,
+          "px": "24px",
+          "rem": "1.500rem",
+          "token_name": "--space-6",
+          "used": false
+        },
+        {
+          "step": 7,
+          "px": "28px",
+          "rem": "1.750rem",
+          "token_name": "--space-7",
+          "used": true
+        },
+        {
+          "step": 8,
+          "px": "32px",
+          "rem": "2.000rem",
+          "token_name": "--space-8",
+          "used": false
+        },
+        {
+          "step": 9,
+          "px": "36px",
+          "rem": "2.250rem",
+          "token_name": "--space-9",
+          "used": false
+        },
+        {
+          "step": 10,
+          "px": "40px",
+          "rem": "2.500rem",
+          "token_name": "--space-10",
+          "used": false
+        },
+        {
+          "step": 11,
+          "px": "44px",
+          "rem": "2.750rem",
+          "token_name": "--space-11",
+          "used": false
+        },
+        {
+          "step": 12,
+          "px": "48px",
+          "rem": "3.000rem",
+          "token_name": "--space-12",
+          "used": false
+        },
+        {
+          "step": 13,
+          "px": "52px",
+          "rem": "3.250rem",
+          "token_name": "--space-13",
+          "used": true
+        },
+        {
+          "step": 14,
+          "px": "56px",
+          "rem": "3.500rem",
+          "token_name": "--space-14",
+          "used": false
+        },
+        {
+          "step": 15,
+          "px": "60px",
+          "rem": "3.750rem",
+          "token_name": "--space-15",
+          "used": false
+        },
+        {
+          "step": 16,
+          "px": "64px",
+          "rem": "4.000rem",
+          "token_name": "--space-16",
+          "used": false
+        }
+      ],
+      "summary": "No clear grid system detected with 25% adherence. 12 off-grid values need snapping."
+    }
   },
   "components": {
-    "detected": [],
-    "total_types": 0
+    "detected": [
+      {
+        "type": "Navbar / Header",
+        "tag": "nav/header",
+        "count": 2,
+        "items_count": 8,
+        "has_logo": true,
+        "sticky": false,
+        "styles": "Horizontal flex/grid navigation bar with logo and menu links"
+      },
+      {
+        "type": "Hero Section",
+        "tag": "section/div.hero",
+        "count": 1,
+        "headline": "ProtectingYourBusiness,Everywhere",
+        "has_cta": true,
+        "styles": "High-impact visual banner with primary title and primary call to action"
+      },
+      {
+        "type": "Buttons",
+        "tag": "button / a.btn",
+        "count": 8,
+        "sample_labels": [
+          "Solutions",
+          "01MutateOne application becomes thousands of structurally unique builds.",
+          "02BindEach login is handed its own private copy, tied to that session alone.",
+          "03ExecuteIt runs isolated and looks completely normal to the person using it.",
+          "04DestroyThe moment they log out, that build is erased and never returns."
+        ],
+        "styles": "Rounded interactive click targets with hover states and micro-interactions"
+      },
+      {
+        "type": "Footer",
+        "tag": "footer",
+        "count": 1,
+        "links_count": 16,
+        "styles": "Multi-column link lists with copyright attribution and legal policies"
+      },
+      {
+        "type": "Testimonials",
+        "tag": "blockquote / .testimonial",
+        "count": 5,
+        "styles": "Customer endorsement cards with quote text, avatar image, and author credentials"
+      }
+    ],
+    "total_types": 5
   },
   "layout": {
     "containers": [
@@ -169,8 +595,8 @@
     ],
     "primary_container": "1280px",
     "layout_engines": {
-      "css_grid": false,
-      "flexbox": false
+      "css_grid": true,
+      "flexbox": true
     },
     "breakpoints": [
       "sm: 640px",
@@ -185,26 +611,56 @@
       "container_padding_x": "16px – 24px"
     },
     "page_structure_flow": [
-      "<header>",
+      "<header> .fixed",
+      "<nav> .hidden",
       "<main>",
-      "<section>",
-      "<footer>"
+      "<section> .relative",
+      "<section> .mx-auto",
+      "<footer> .relative"
     ]
   },
   "assets": {
-    "total_assets": 0,
-    "images_count": 0,
-    "svgs_count": 0,
+    "total_assets": 102,
+    "images_count": 3,
+    "svgs_count": 99,
     "picture_sources_count": 0,
-    "format_breakdown": {},
+    "format_breakdown": {
+      "WEBP/Dynamic": 2,
+      "WEBP": 1
+    },
     "missing_alt_count": 0,
     "missing_dimensions_count": 0,
-    "sample_assets": [],
+    "sample_assets": [
+      {
+        "src": "/_next/image?url=%2Flogo.png&w=1920&q=75",
+        "alt": "PITOWINGS — Secure Everywhere",
+        "width": "715",
+        "height": "349",
+        "format": "WEBP/Dynamic",
+        "loading": "lazy"
+      },
+      {
+        "src": "/pito-emblem-poster-v5.webp",
+        "alt": "PITOWINGS emblem — a bird within the PITOWINGS shield",
+        "width": "680",
+        "height": "478",
+        "format": "WEBP",
+        "loading": "eager"
+      },
+      {
+        "src": "/_next/image?url=%2Flogo.png&w=1920&q=75",
+        "alt": "PITOWINGS — Secure Everywhere",
+        "width": "715",
+        "height": "349",
+        "format": "WEBP/Dynamic",
+        "loading": "lazy"
+      }
+    ],
     "issues": []
   },
   "responsive": {
-    "viewport_meta": "Not detected",
-    "has_viewport_tag": false,
+    "viewport_meta": "width=device-width, initial-scale=1",
+    "has_viewport_tag": true,
     "breakpoints": {
       "sm": "640px",
       "md": "768px",
@@ -228,100 +684,164 @@
     },
     "issues": [
       {
-        "severity": "Critical",
-        "title": "Missing Viewport Meta Tag",
-        "description": "No <meta name='viewport'> tag detected. Mobile browsers will render at desktop scale (980px)."
+        "severity": "Warning",
+        "title": "Hardcoded Pixel Widths Detected",
+        "description": "Observed fixed width rules up to 780px. Verify max-width: 100% is used to avoid horizontal overflow on mobile."
       }
     ],
-    "overall_status": "Action Required"
+    "overall_status": "Responsive Ready"
   },
   "accessibility": {
-    "score": 85,
+    "score": 88,
     "grade": "B",
     "wcag_level": "AA Compliant",
-    "issues_count": 2,
+    "issues_count": 1,
     "critical_count": 0,
-    "warning_count": 2,
+    "warning_count": 1,
     "info_count": 0,
     "issues": [
       {
         "severity": "Warning",
-        "category": "Document Structure",
-        "rule": "WCAG 1.3.1 Info and Relationships",
-        "message": "Page has no <h1> heading tag.",
-        "remediation": "Include a single <h1> heading describing the page purpose."
-      },
-      {
-        "severity": "Warning",
-        "category": "Language",
-        "rule": "WCAG 3.1.1 Language of Page",
-        "message": "<html lang='...'> attribute is missing.",
-        "remediation": "Add lang='en' (or respective language code) to the root <html> tag."
+        "category": "Visual Contrast",
+        "rule": "WCAG 1.4.3 Contrast (Minimum)",
+        "message": "29 extracted color combination(s) fail WCAG AA (4.5:1 ratio).",
+        "remediation": "Increase lightness difference between text and surface backgrounds."
       }
     ]
   },
   "performance": {
-    "score": 95,
-    "response_time_ms": 0.0,
+    "score": 90,
+    "response_time_ms": 9.6,
     "transfer_sizes": {
-      "html_kb": 0.0,
-      "css_kb": 0.0,
-      "total_text_kb": 0.0
+      "html_kb": 576.4,
+      "css_kb": 94.4,
+      "total_text_kb": 670.8
     },
     "requests_count": {
-      "html_documents": 1,
-      "stylesheets": 0,
-      "scripts": 0,
-      "images": 0,
+      "html_documents": 6,
+      "stylesheets": 1,
+      "scripts": 39,
+      "images": 3,
       "fonts": 6,
-      "total_estimated": 7
+      "total_estimated": 50
     },
     "optimizations": {
-      "render_blocking_scripts_count": 0,
-      "render_blocking_scripts": [],
-      "resource_hints": [],
-      "has_font_display_swap": false,
-      "lazy_loaded_images": "0 of 0"
+      "render_blocking_scripts_count": 17,
+      "render_blocking_scripts": [
+        "/_next/static/chunks/4bd1b696-c023c6e3521b1417.js",
+        "/_next/static/chunks/255-59971d1efcac0287.js",
+        "/_next/static/chunks/main-app-7d2d4a96060f7de3.js",
+        "/_next/static/chunks/c15bf2b0-52e8419f34af26ab.js",
+        "/_next/static/chunks/619-ba102abea3e3d0e4.js"
+      ],
+      "resource_hints": [
+        "preload: /pito-emblem-poster-v5.webp",
+        "preload: /_next/static/chunks/webpack-2eb758dea75faf50.js"
+      ],
+      "has_font_display_swap": true,
+      "lazy_loaded_images": "2 of 3",
+      "images_without_dimensions_count": 0
+    },
+    "nextjs_performance": {
+      "cls_risk_images_count": 0,
+      "cls_risk_images": [],
+      "lcp_hero_preloaded": true,
+      "uses_google_font_link": false,
+      "recommendations": [
+        "Eliminate head render-blocking scripts via `next/script` with `strategy='afterInteractive'` or `defer`.",
+        "Push `'use client'` boundaries down to interactive leaf nodes (buttons, inputs) to reduce client bundle size."
+      ]
     }
   },
   "seo": {
-    "score": 49,
-    "title": "Not detected",
-    "description": "Not detected",
-    "canonical": "Not detected",
+    "score": 88,
+    "title": "Cyber Security Company in Coimbatore | India | PITOWINGS",
+    "description": "PITOWINGS is a predictive cyber security company in Coimbatore, Tamil Nadu, serving all of India — VAPT, managed security (SOC), digital forensics and the patented J.I.M.M.Y. platform.",
+    "canonical": "https://www.pitowings.com",
     "open_graph": {
-      "title": "Not detected",
-      "description": "Not detected",
+      "title": "Cyber Security Company in Coimbatore | India | PITOWINGS",
+      "description": "PITOWINGS is a predictive cyber security company in Coimbatore, Tamil Nadu, serving all of India — VAPT, managed security (SOC), digital forensics and the patented J.I.M.M.Y. platform.",
       "image": "Not detected",
-      "twitter_card": "Not detected"
+      "twitter_card": "summary_large_image"
     },
     "structured_data": {
-      "detected": false,
+      "detected": true,
       "types": [
-        "Not detected"
+        "WebSite",
+        "ProfessionalService",
+        "PostalAddress"
       ]
     },
     "links": {
-      "internal_count": 0,
-      "external_count": 0,
-      "total": 0
+      "internal_count": 32,
+      "external_count": 2,
+      "total": 34
     },
-    "headings_outline": [],
+    "headings_outline": [
+      {
+        "level": "H1",
+        "text": "ProtectingYourBusiness,Everywhere"
+      },
+      {
+        "level": "H2",
+        "text": "Acybersecuritycompanythatthinksastepahead."
+      },
+      {
+        "level": "H3",
+        "text": "Predictive by design"
+      },
+      {
+        "level": "H3",
+        "text": "Certified experts"
+      },
+      {
+        "level": "H3",
+        "text": "End-to-end coverage"
+      },
+      {
+        "level": "H3",
+        "text": "Made in India, trusted worldwide"
+      },
+      {
+        "level": "H2",
+        "text": "Followoneattackallthewayin—andwatchitrunoutofroad."
+      },
+      {
+        "level": "H3",
+        "text": "It is flagged before it ever lands"
+      },
+      {
+        "level": "H2",
+        "text": "Sixdisciplines,oneteamthatownsthewholepicture."
+      },
+      {
+        "level": "H3",
+        "text": "Penetration Testing & VAPT"
+      },
+      {
+        "level": "H3",
+        "text": "Penetration Testing & VAPT"
+      },
+      {
+        "level": "H3",
+        "text": "Managed Security (SOC)"
+      }
+    ],
     "checks": [
       {
         "name": "Page Title Tag",
-        "status": "Failed",
-        "detail": "Missing <title> tag"
+        "status": "Passed",
+        "detail": "56 chars"
       },
       {
         "name": "Meta Description",
-        "status": "Failed",
-        "detail": "Missing meta description"
+        "status": "Passed",
+        "detail": "184 chars"
       },
       {
         "name": "Canonical Link",
-        "status": "Warning",
-        "detail": "Not specified"
+        "status": "Passed",
+        "detail": "https://www.pitowings.com"
       },
       {
         "name": "Open Graph (Social Sharing)",
@@ -330,19 +850,19 @@
       },
       {
         "name": "robots.txt",
-        "status": "Not detected",
-        "detail": "No robots.txt found"
+        "status": "Passed",
+        "detail": "https://www.pitowings.com/robots.txt"
       },
       {
         "name": "sitemap.xml",
-        "status": "Not detected",
-        "detail": "No sitemap.xml detected"
+        "status": "Passed",
+        "detail": "https://www.pitowings.com/sitemap.xml"
       }
     ]
   },
   "security": {
-    "score": 25,
-    "grade": "F",
+    "score": 65,
+    "grade": "B",
     "is_https": true,
     "headers_table": [
       {
@@ -352,8 +872,8 @@
       },
       {
         "header": "Strict-Transport-Security (HSTS)",
-        "status": "Not detected",
-        "detail": "Vulnerable to SSL stripping attacks"
+        "status": "Enabled",
+        "detail": "max-age=63072000; includeSubDomains; preload"
       },
       {
         "header": "Content-Security-Policy (CSP)",
@@ -367,18 +887,30 @@
       },
       {
         "header": "X-Content-Type-Options",
-        "status": "Not detected",
-        "detail": "MIME sniffing prevention not explicitly enabled"
+        "status": "Protected",
+        "detail": "nosniff"
       },
       {
         "header": "Referrer-Policy",
-        "status": "Not detected",
-        "detail": "Browser default referrer rules apply"
+        "status": "Configured",
+        "detail": "strict-origin-when-cross-origin"
       }
     ]
   },
   "technology": {
     "all_detected": [
+      {
+        "name": "Next.js",
+        "category": "Framework"
+      },
+      {
+        "name": "Tailwind CSS",
+        "category": "CSS Framework"
+      },
+      {
+        "name": "AWS CloudFront",
+        "category": "CDN"
+      },
       {
         "name": "Next.Js",
         "category": "Framework"
@@ -388,25 +920,55 @@
         "category": "Framework"
       }
     ],
-    "count": 2,
+    "count": 5,
     "by_category": {
       "Frameworks": [
+        "Next.js",
         "Next.Js",
         "Tailwind Css"
       ],
-      "CSS & UI": [],
+      "CSS & UI": [
+        "Tailwind CSS"
+      ],
       "CMS & Builders": [],
       "Analytics": [],
-      "Hosting & CDN": [],
+      "Hosting & CDN": [
+        "AWS CloudFront"
+      ],
       "Font Providers": []
     }
   },
   "site_structure": {
-    "crawled_count": 1,
+    "crawled_count": 6,
     "internal_pages": [
       {
-        "url": "https://www.pitowings.com",
+        "url": "https://www.pitowings.com/",
         "path": "/",
+        "status": 200
+      },
+      {
+        "url": "https://www.pitowings.com/jimmy",
+        "path": "/jimmy",
+        "status": 200
+      },
+      {
+        "url": "https://www.pitowings.com/cyber-security-services",
+        "path": "/cyber-security-services",
+        "status": 200
+      },
+      {
+        "url": "https://www.pitowings.com/digital-forensics",
+        "path": "/digital-forensics",
+        "status": 200
+      },
+      {
+        "url": "https://www.pitowings.com/managed-security-services",
+        "path": "/managed-security-services",
+        "status": 200
+      },
+      {
+        "url": "https://www.pitowings.com/about-us",
+        "path": "/about-us",
         "status": 200
       }
     ],
@@ -415,28 +977,67 @@
         "path": "/",
         "name": "Homepage (Root)",
         "depth": 0
+      },
+      {
+        "path": "/about-us",
+        "name": "About us",
+        "depth": 1
+      },
+      {
+        "path": "/cyber-security-services",
+        "name": "Cyber security services",
+        "depth": 1
+      },
+      {
+        "path": "/digital-forensics",
+        "name": "Digital forensics",
+        "depth": 1
+      },
+      {
+        "path": "/jimmy",
+        "name": "Jimmy",
+        "depth": 1
+      },
+      {
+        "path": "/managed-security-services",
+        "name": "Managed security services",
+        "depth": 1
       }
     ],
-    "external_domains_count": 0,
-    "sample_external_domains": []
+    "external_domains_count": 4,
+    "sample_external_domains": [
+      "linkedin.com",
+      "kriyavan.in",
+      "x.com",
+      "theenterpriseworld.com"
+    ]
   },
   "content_intelligence": {
-    "value_proposition": "Not detected",
-    "key_headlines": [],
+    "value_proposition": "ProtectingYourBusiness,Everywhere",
+    "key_headlines": [
+      "ProtectingYourBusiness,Everywhere",
+      "Acybersecuritycompanythatthinksastepahead.",
+      "Followoneattackallthewayin—andwatchitrunoutofroad.",
+      "Sixdisciplines,oneteamthatownsthewholepicture.",
+      "J.I.M.M.Y.giveseveryusertheirownprivatebuild—thendeletesit.",
+      "Trusted by teams that can't afford a breach"
+    ],
     "primary_ctas": [
-      "Not detected"
+      "Explore Services"
     ],
     "trust_signals": [
-      "Not detected"
+      "ISO 27001 Certified",
+      "GDPR Compliant",
+      "HIPAA Ready"
     ],
     "pricing_signals": [
       "Not detected"
     ],
-    "messaging_summary": "Standard web application presentation."
+    "messaging_summary": "Targeted online platform for pitowings.com, emphasizing 'ProtectingYourBusiness,Everywhere'."
   },
   "ai_insights": {
     "style_archetype": "Developer Tooling / Technical",
-    "consistency_score": 82,
+    "consistency_score": 92,
     "visual_hierarchy_review": "Strong contrast between primary actions and body surfaces; typography scale creates a clear reading hierarchy.",
     "notable_patterns": [
       "CSS Grid multi-column bento layouts",
@@ -445,10 +1046,10 @@
     ],
     "facts_vs_interpretation": {
       "detected_facts": [
-        "48 distinct color values extracted from stylesheets",
+        "15 distinct color values extracted from stylesheets",
         "3 font families detected (sans, mono, _webfonts)",
-        "0 UI component patterns identified",
-        "HTTP security rating graded at F"
+        "5 UI component patterns identified",
+        "HTTP security rating graded at B"
       ],
       "ai_interpretation": [
         "Aesthetic categorised as 'Developer Tooling / Technical' based on font selection and corner radius hierarchy.",
@@ -458,6 +1059,14 @@
     }
   },
   "exports": {
-    "react_components": "// Generated React Components for pitowings.com\n// Built with tokens extracted by ExtractTheme Studio\n\nimport React from 'react';\n\nexport function Button({ children, variant = 'primary', className = '', ...props }) {\n  const baseStyle = {\n    padding: '10px 20px',\n    borderRadius: '8px',\n    fontWeight: 600,\n    fontSize: '14px',\n    cursor: 'pointer',\n    border: 'none',\n    transition: 'all 0.15s ease-in-out',\n    display: 'inline-flex',\n    alignItems: 'center',\n    justifyContent: 'center',\n    gap: '8px',\n  };\n\n  const variants = {\n    primary: {\n      backgroundColor: 'var(--color-primary, #ffffff)',\n      color: '#ffffff',\n    },\n    secondary: {\n      backgroundColor: 'transparent',\n      border: '1px solid rgba(128, 128, 128, 0.3)',\n      color: 'inherit',\n    },\n  };\n\n  return (\n    <button style={{ ...baseStyle, ...variants[variant] }} className={className} {...props}>\n      {children}\n    </button>\n  );\n}\n\nexport function Card({ title, subtitle, children, className = '' }) {\n  return (\n    <div\n      style={{\n        padding: '24px',\n        borderRadius: '12px',\n        border: '1px solid rgba(128, 128, 128, 0.2)',\n        backgroundColor: 'var(--color-surface, rgba(255, 255, 255, 0.03))',\n        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',\n      }}\n      className={className}\n    >\n      {title && <h3 style={{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: 600 }}>{title}</h3>}\n      {subtitle && <p style={{ margin: '0 0 16px 0', opacity: 0.7, fontSize: '14px' }}>{subtitle}</p>}\n      {children}\n    </div>\n  );\n}\n\nexport function Hero({ headline, description, ctaText = 'Get Started', onCtaClick }) {\n  return (\n    <section style={{ padding: '64px 24px', textAlign: 'center', maxWidth: '960px', margin: '0 auto' }}>\n      <h1 style={{ fontSize: '42px', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '16px' }}>\n        {headline}\n      </h1>\n      <p style={{ fontSize: '18px', opacity: 0.8, maxWidth: '640px', margin: '0 auto 28px' }}>\n        {description}\n      </p>\n      <Button variant=\"primary\" onClick={onCtaClick}>{ctaText}</Button>\n    </section>\n  );\n}\n"
+    "primary_format": "tailwind",
+    "framework_detected": "Tailwind CSS",
+    "css_variables": "/* Design tokens for pitowings.com — generated by ExtractDesign Studio */\n:root {\n  --color-surface-base: #1b1418;\n  --color-feedback-danger: #a50d26;\n  --color-text-muted: #c8102e;\n  --color-red: #e11d3f;\n  --color-brand-secondary: #f65a76;\n  --color-purple: #a999aa;\n  --color-brand-primary: #ff9aab;\n  --color-text-subtle: #ffc6cf;\n  --color-brand-accent: #ffe0e4;\n  --color-text-on-dark: #ffffff;\n  --font-sans: \"Poppins\",ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif;\n  --font-mono: ui-monospace,SFMono-Regular,\"SF Mono\",Menlo,Consolas,\"Liberation Mono\",\"Courier New\",monospace;\n  --radius-none: 0;\n  --radius-DEFAULT: .25rem;\n  --radius-lg: .5rem;\n  --radius-xl: .75rem;\n  --radius-2xl: 1rem;\n  --radius-3xl: 1.5rem;\n  --space-0: 0px;\n  --space-1px: 1px;\n  --space-2_56px: 2.56px;\n  --space-3px: 3px;\n  --space-1: 4px;\n  --space-4_48px: 4.48px;\n  --space-4_8px: 4.8px;\n  --space-8_8px: 8.8px;\n  --space-9_6px: 9.6px;\n  --space-14_4px: 14.4px;\n  --space-17_6px: 17.6px;\n  --space-5: 20px;\n}",
+    "json_tokens_w3c": "{\n  \"$schema\": \"https://tr.designtokens.org/format/\",\n  \"color\": {\n    \"surface-base\": {\n      \"$value\": \"#1b1418\",\n      \"$type\": \"color\"\n    },\n    \"feedback-danger\": {\n      \"$value\": \"#a50d26\",\n      \"$type\": \"color\"\n    },\n    \"text-muted\": {\n      \"$value\": \"#c8102e\",\n      \"$type\": \"color\"\n    },\n    \"red\": {\n      \"$value\": \"#e11d3f\",\n      \"$type\": \"color\"\n    },\n    \"brand-secondary\": {\n      \"$value\": \"#f65a76\",\n      \"$type\": \"color\"\n    },\n    \"purple\": {\n      \"$value\": \"#a999aa\",\n      \"$type\": \"color\"\n    },\n    \"brand-primary\": {\n      \"$value\": \"#ff9aab\",\n      \"$type\": \"color\"\n    },\n    \"text-subtle\": {\n      \"$value\": \"#ffc6cf\",\n      \"$type\": \"color\"\n    },\n    \"brand-accent\": {\n      \"$value\": \"#ffe0e4\",\n      \"$type\": \"color\"\n    },\n    \"text-on-dark\": {\n      \"$value\": \"#ffffff\",\n      \"$type\": \"color\"\n    }\n  },\n  \"typography\": {\n    \"sans\": {\n      \"$value\": \"\\\"Poppins\\\",ui-sans-serif,system-ui,-apple-system,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif\",\n      \"$type\": \"fontFamily\"\n    },\n    \"mono\": {\n      \"$value\": \"ui-monospace,SFMono-Regular,\\\"SF Mono\\\",Menlo,Consolas,\\\"Liberation Mono\\\",\\\"Courier New\\\",monospace\",\n      \"$type\": \"fontFamily\"\n    }\n  },\n  \"spacing\": {},\n  \"radius\": {\n    \"none\": {\n      \"$value\": \"0\",\n      \"$type\": \"dimension\"\n    },\n    \"DEFAULT\": {\n      \"$value\": \".25rem\",\n      \"$type\": \"dimension\"\n    },\n    \"lg\": {\n      \"$value\": \".5rem\",\n      \"$type\": \"dimension\"\n    },\n    \"xl\": {\n      \"$value\": \".75rem\",\n      \"$type\": \"dimension\"\n    },\n    \"2xl\": {\n      \"$value\": \"1rem\",\n      \"$type\": \"dimension\"\n    },\n    \"3xl\": {\n      \"$value\": \"1.5rem\",\n      \"$type\": \"dimension\"\n    }\n  }\n}",
+    "tailwind_config": "// tailwind.config.js — pitowings.com\n// Auto-generated by ExtractDesign Studio from extracted design tokens\n\n/** @type {import('tailwindcss').Config} */\nmodule.exports = {\n  content: [\n    './app/**/*.{js,ts,jsx,tsx,mdx}',\n    './components/**/*.{js,ts,jsx,tsx,mdx}',\n    './pages/**/*.{js,ts,jsx,tsx,mdx}',\n  ],\n  theme: {\n    extend: {\n      colors: {\n      'surface_base': '#1b1418',\n      'feedback_danger': '#a50d26',\n      'text_muted': '#c8102e',\n      'red': '#e11d3f',\n      'brand_secondary': '#f65a76',\n      'purple': '#a999aa',\n      'brand_primary': '#ff9aab',\n      'text_subtle': '#ffc6cf',\n      'brand_accent': '#ffe0e4',\n      'text_on_dark': '#ffffff',\n    },\n      fontFamily: {\n      'sans': ['\"Poppins\",ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif', 'sans-serif'],\n      'mono': ['ui-monospace,SFMono-Regular,\"SF Mono\",Menlo,Consolas,\"Liberation Mono\",\"Courier New\",monospace', 'sans-serif'],\n    },\n      borderRadius: {\n      'none': '0',\n      'DEFAULT': '.25rem',\n      'lg': '.5rem',\n      'xl': '.75rem',\n      '2xl': '1rem',\n      '3xl': '1.5rem',\n    },\n      spacing: {\n      '0': '0px',\n      '1px': '1px',\n      '2_56px': '2.56px',\n      '3px': '3px',\n      '1': '4px',\n      '4_48px': '4.48px',\n      '4_8px': '4.8px',\n      '8_8px': '8.8px',\n      '9_6px': '9.6px',\n      '14_4px': '14.4px',\n      '17_6px': '17.6px',\n      '5': '20px',\n    },\n    },\n  },\n  plugins: [],\n};\n",
+    "typescript_theme": "// theme.ts — pitowings.com\n// Auto-generated by ExtractDesign Studio\n// Import and use in _app.tsx, layout.tsx, or ThemeProvider\n\nexport const theme = {\n  colors: {\n  surface_base: '#1b1418',\n  feedback_danger: '#a50d26',\n  text_muted: '#c8102e',\n  red: '#e11d3f',\n  brand_secondary: '#f65a76',\n  purple: '#a999aa',\n  brand_primary: '#ff9aab',\n  text_subtle: '#ffc6cf',\n  brand_accent: '#ffe0e4',\n  text_on_dark: '#ffffff',\n  },\n  fonts: {\n  sans: '\"Poppins\",ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif',\n  mono: 'ui-monospace,SFMono-Regular,\"SF Mono\",Menlo,Consolas,\"Liberation Mono\",\"Courier New\",monospace',\n  },\n  borderRadius: {\n    sm: '0',\n    md: '.25rem',\n    lg: '.5rem',\n    full: '9999px',\n  },\n} as const;\n\nexport type ThemeColors = keyof typeof theme.colors;\nexport type ThemeFonts = keyof typeof theme.fonts;\n",
+    "vue_composable": "",
+    "design_md": "# Pitowings — Design System Reference\n> Reverse-engineered by ExtractDesign Studio\n\n## Color Palette\n- `--color-surface-base` → `#1b1418` (surface-base)\n- `--color-feedback-danger` → `#a50d26` (feedback-danger)\n- `--color-text-muted` → `#c8102e` (text-muted)\n- `--color-red` → `#e11d3f` (red)\n- `--color-brand-secondary` → `#f65a76` (brand-secondary)\n- `--color-purple` → `#a999aa` (purple)\n- `--color-brand-primary` → `#ff9aab` (brand-primary)\n- `--color-text-subtle` → `#ffc6cf` (text-subtle)\n- `--color-brand-accent` → `#ffe0e4` (brand-accent)\n- `--color-text-on-dark` → `#ffffff` (text-on-dark)\n\n## Typography\n- `sans`: \"Poppins\",ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif\n- `mono`: ui-monospace,SFMono-Regular,\"SF Mono\",Menlo,Consolas,\"Liberation Mono\",\"Courier New\",monospace\n\n## Border Radius\n- `--radius-none`: 0\n- `--radius-DEFAULT`: .25rem\n- `--radius-lg`: .5rem\n- `--radius-xl`: .75rem\n- `--radius-2xl`: 1rem\n- `--radius-3xl`: 1.5rem\n\n## Spacing Scale\n- `--space-0`: 0px\n- `--space-1px`: 1px\n- `--space-2_56px`: 2.56px\n- `--space-3px`: 3px\n- `--space-1`: 4px\n- `--space-4_48px`: 4.48px\n- `--space-4_8px`: 4.8px\n- `--space-8_8px`: 8.8px\n- `--space-9_6px`: 9.6px\n- `--space-14_4px`: 14.4px\n- `--space-17_6px`: 17.6px\n- `--space-5`: 20px\n\n---\n> All design assets remain property of their respective owners.",
+    "react_components": "// Next.js App Router Components for pitowings.com\n// Optimized for Core Web Vitals (LCP < 2.5s, CLS < 0.1, INP < 200ms)\n// Generated by ExtractDesign Studio\n\nimport React from 'react';\nimport Image from 'next/image';\n\n'use client';\nexport function Button({ children, variant = 'primary', className = '', ...props }) {\n  const styles = {\n    primary: { backgroundColor: 'var(--color-brand-primary, #ffffff)', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' },\n    secondary: { backgroundColor: 'transparent', border: '1px solid rgba(128,128,128,0.3)', padding: '10px 20px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' },\n  };\n  return <button style={styles[variant]} className={className} {...props}>{children}</button>;\n}\n\nexport function Hero({ headline, description, ctaText = 'Get Started', imageSrc }) {\n  return (\n    <section style={{ padding: '64px 24px', textAlign: 'center', maxWidth: '960px', margin: '0 auto' }}>\n      <h1 style={{ fontSize: '42px', fontWeight: 700, marginBottom: '16px' }}>{headline}</h1>\n      <p style={{ fontSize: '18px', opacity: 0.8, marginBottom: '28px' }}>{description}</p>\n      {imageSrc && <Image src={imageSrc} alt={headline} width={800} height={450} priority />}\n      <Button>{ctaText}</Button>\n    </section>\n  );\n}\n"
   }
 }

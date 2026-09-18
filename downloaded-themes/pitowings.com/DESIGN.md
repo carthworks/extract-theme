@@ -1,7 +1,7 @@
 # Design System & UI Specifications — www.pitowings.com
 
-Extracted from [https://www.pitowings.com](https://www.pitowings.com) using `extract-theme`.
-Generated on: 2026-08-27T18:23:07
+Extracted from [https://www.pitowings.com/](https://www.pitowings.com/) using `extract-theme`.
+Generated on: 2026-09-18T17:16:25
 
 > **AI SYSTEM PROMPT FOR VIBE CODING & UI DEVELOPMENT**
 > You are an expert frontend engineer and UI/UX designer. When building pages, components, or screens for this project, you MUST strictly adhere to the design system rules, tokens, and aesthetic principles defined below.
@@ -12,58 +12,24 @@ Generated on: 2026-08-27T18:23:07
 
 ### Brand Palette
 - `white`: `#ffffff`
+- `stone-100`: `#ffe0e4`
 - `white-a0`: `rgb(255 255 255 / 0.0)`
 - `stone-100-a14`: `rgb(225 29 63 / 0.139)`
-- `stone-100`: `#ffe0e4`
-- `stone-50`: `#fff1f3`
-- `stone-50-a8`: `rgb(225 29 63 / 0.076)`
 - `white-a0-2`: `rgb(0 0 0 / 0.0)`
-- `rose-200`: `#ffc6cf`
 - `rose-600`: `#e11d3f`
-- `stone-200-a20`: `rgb(225 29 63 / 0.197)`
+- `rose-200`: `#ffc6cf`
+- `rose-400`: `#f65a76`
 - `rose-300`: `#ff9aab`
 - `rose-800`: `#a50d26`
-- `neutral-100`: `#f3e9ea`
-- `rose-400`: `#f65a76`
+- `stone-50-a8`: `rgb(225 29 63 / 0.076)`
 - `rose-700`: `#c8102e`
 - `neutral-950`: `#1b1418`
 - `zinc-400`: `#a999aa`
-- `red-500`: `#fb2c36`
-- `rose-900`: `#7a0c1f`
-- `rose-400-2`: `#ff6467`
-- `red-600`: `#e7000b`
-- `rose-950`: `#5c0a17`
-- `stone-950`: `#3a2f35`
-- `stone-700`: `#6b5b62`
 - `white-a35`: `rgb(255 255 255 / 0.35)`
-- `white-a0-3`: `rgb(225 29 63 / 0.0)`
-- `white-a70`: `rgb(255 255 255 / 0.702)`
-- `neutral-50-a6`: `rgb(200 16 46 / 0.059)`
-- `white-a80`: `rgb(255 255 255 / 0.8)`
-- `stone-100-2`: `#ffe6da`
-- `stone-100-a80`: `rgb(255 224 228 / 0.8)`
-- `neutral-50-a50`: `rgb(255 241 243 / 0.502)`
-- `neutral-50-a4`: `rgb(246 90 118 / 0.043)`
-- `white-a40`: `rgb(255 255 255 / 0.4)`
-- `stone-50-a30`: `rgb(255 198 207 / 0.302)`
-- `white-a10`: `rgb(255 255 255 / 0.102)`
-- `white-a95`: `rgb(255 255 255 / 0.949)`
-- `white-a85`: `rgb(255 255 255 / 0.851)`
-- `stone-100-a70`: `rgb(255 224 228 / 0.702)`
-- `stone-100-a50`: `rgb(255 198 207 / 0.502)`
-- `neutral-50-a40`: `rgb(255 241 243 / 0.4)`
-- `neutral-50-a60`: `rgb(255 241 243 / 0.6)`
-- `neutral-50-a80`: `rgb(255 241 243 / 0.8)`
-- `neutral-50-a40-2`: `rgb(255 224 228 / 0.4)`
-- `stone-50-a45`: `rgb(255 224 228 / 0.451)`
-- `stone-50-a50`: `rgb(255 224 228 / 0.502)`
-- `stone-50-a60`: `rgb(255 224 228 / 0.6)`
-- `stone-100-a40`: `rgb(255 198 207 / 0.4)`
 
 ### Semantic UI Roles
 - `--background`: `white`
 - `--foreground`: `neutral-950`
-- `--muted-foreground`: `stone-950`
 - `--primary`: `rose-600`
 - `--accent`: `rose-300`
 - `--border`: `stone-100`
@@ -131,8 +97,57 @@ Generated on: 2026-08-27T18:23:07
 ---
 
 ## 💻 Tech Stack & Context
-- **Primary Source**: https://www.pitowings.com
+- **Primary Source**: https://www.pitowings.com/
 - **Detected Frameworks**: Next.js, Tailwind CSS
+
+---
+
+## 📊 Intelligence & Health Scorecard
+- **Security Rating**: Grade B (Score: 65/100)
+- **Accessibility (WCAG 2.1)**: 88/100 (AA Compliant)
+- **SEO Optimization**: 88/100
+- **Performance Rating**: 90/100
+
+---
+
+## 🧩 Detected Component Architecture
+- **Navbar / Header** (nav/header): 2 instances — Horizontal flex/grid navigation bar with logo and menu links
+- **Hero Section** (section/div.hero): 1 instances — High-impact visual banner with primary title and primary call to action
+- **Buttons** (button / a.btn): 8 instances — Rounded interactive click targets with hover states and micro-interactions
+- **Footer** (footer): 1 instances — Multi-column link lists with copyright attribution and legal policies
+- **Testimonials** (blockquote / .testimonial): 5 instances — Customer endorsement cards with quote text, avatar image, and author credentials
+
+---
+
+## 🔐 Security Headers Audit
+| Security Header | Status | Observation |
+| :--- | :--- | :--- |
+| HTTPS Protocol | Secure | Connection is encrypted using TLS |
+| Strict-Transport-Security (HSTS) | Enabled | max-age=63072000; includeSubDomains; preload |
+| Content-Security-Policy (CSP) | Not detected | Missing restriction against XSS and injection |
+| X-Frame-Options | Not detected | May be vulnerable to clickjacking if not controlled by CSP |
+| X-Content-Type-Options | Protected | nosniff |
+| Referrer-Policy | Configured | strict-origin-when-cross-origin |
+
+---
+
+## ♿ Accessibility Audit (WCAG 2.1 AA)
+- [Warning] **Visual Contrast**: 29 extracted color combination(s) fail WCAG AA (4.5:1 ratio). *(Remediation: Increase lightness difference between text and surface backgrounds.)*
+
+---
+
+## 🤖 AI Design Insights & Archetype
+- **Aesthetic Archetype**: Developer Tooling / Technical
+- **Consistency Index**: 92/100
+- **Hierarchy Analysis**: Strong contrast between primary actions and body surfaces; typography scale creates a clear reading hierarchy.
+- **Notable Patterns**: CSS Grid multi-column bento layouts, Soft layered elevation shadows, Chromatic ambient gradients
+
+---
+
+## ⚖️ Brand Ownership & Copyright Attribution
+- **Brand / Entity**: PITOWINGS
+- **Copyright Notice**: © 2026 PITOWINGS. All rights reserved.
+- **Attribution Policy**: All trademarks, logos, brand names, and design tokens belong to PITOWINGS. Extracted for design system analysis and interoperability.
 
 ---
 
@@ -143,7 +158,7 @@ Role: Senior Frontend Engineer
 Task: Build modern, pixel-perfect, accessible UI components for www.pitowings.com.
 
 Design System Guidelines:
-- Primary Color Palette: white: #ffffff, white-a0: rgb(255 255 255 / 0.0), stone-100-a14: rgb(225 29 63 / 0.139), stone-100: #ffe0e4, stone-50: #fff1f3, stone-50-a8: rgb(225 29 63 / 0.076), white-a0-2: rgb(0 0 0 / 0.0), rose-200: #ffc6cf
+- Primary Color Palette: white: #ffffff, stone-100: #ffe0e4, white-a0: rgb(255 255 255 / 0.0), stone-100-a14: rgb(225 29 63 / 0.139), white-a0-2: rgb(0 0 0 / 0.0), rose-600: #e11d3f, rose-200: #ffc6cf, rose-400: #f65a76
 - Fonts: sans ("Poppins",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif), mono (ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace)
 - Layout: Use consistent 4px grid spacing. Rounded corners using none=0, DEFAULT=.25rem, lg=.5rem.
 - WCAG Accessibility: Ensure text elements have ≥4.5:1 contrast against surfaces.

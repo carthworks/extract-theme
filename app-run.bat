@@ -45,7 +45,7 @@ for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":8000" ^| findstr "LISTENING
 
 :: 3. Verify core dependencies
 echo [*] Checking Python dependencies...
-!PY_CMD! -c "import requests, bs4, tinycss2" >nul 2>&1
+!PY_CMD! -c "import requests, bs4, tinycss2, flask, flask_cors" >nul 2>&1
 if !errorlevel! neq 0 (
     echo [*] Missing dependencies detected. Installing from requirements.txt...
     !PY_CMD! -m pip install -r requirements.txt
@@ -69,10 +69,9 @@ echo   Server is active! Press Ctrl+C in this window to stop the server.
 echo ========================================================================
 echo.
 
+:server_loop
 !PY_CMD! -u server.py
-
-if !errorlevel! neq 0 (
-    echo.
-    echo [NOTICE] Server terminated with exit code !errorlevel!.
-    pause
-)
+echo.
+echo [*] Server process ended. Auto-restarting in 1s... (Press Ctrl+C in terminal to abort)
+timeout /t 1 /nobreak >nul
+goto server_loop

@@ -213,6 +213,16 @@
             </button>
           </div>
 
+          <div class="filter-controls sort-wrap">
+            <i data-lucide="arrow-up-down" class="search-icon icon-xs"></i>
+            <select id="sort-projects" class="sort-select" title="Sort order for design systems">
+              <option value="newest" selected>Newest First (Latest Scan)</option>
+              <option value="oldest">Oldest First</option>
+              <option value="alpha-asc">Domain (A → Z)</option>
+              <option value="alpha-desc">Domain (Z → A)</option>
+            </select>
+          </div>
+
           <div class="filter-controls search-wrap">
             <i data-lucide="search" class="search-icon icon-sm"></i>
             <input type="text" id="search-projects" placeholder="Filter domains..." aria-label="Filter projects by domain name" class="search-input">
@@ -329,6 +339,7 @@
             <span class="fold-label"><i data-lucide="palette" class="icon-xxs"></i> Design & UI</span>
             <button type="button" class="dash-tab active" data-tab="overview"><i data-lucide="layout-dashboard" class="icon-xs"></i><span>Overview</span></button>
             <button type="button" class="dash-tab" data-tab="design_system"><i data-lucide="palette" class="icon-xs"></i><span>Design System</span></button>
+            <button type="button" class="dash-tab" data-tab="design_intelligence"><i data-lucide="brain-circuit" class="icon-xs"></i><span>Intelligence</span></button>
             <button type="button" class="dash-tab" data-tab="components"><i data-lucide="boxes" class="icon-xs"></i><span>Components</span></button>
             <button type="button" class="dash-tab" data-tab="layout"><i data-lucide="columns" class="icon-xs"></i><span>Layout</span></button>
             <button type="button" class="dash-tab" data-tab="assets"><i data-lucide="image" class="icon-xs"></i><span>Assets</span></button>
@@ -391,7 +402,7 @@
     </div>
   </footer>
 
-  <script src="app.js?v=15"></script>
+  <script src="app.js?v=19"></script>
 </body>
 </html>
 

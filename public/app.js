@@ -131,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewCardBtn = document.getElementById('view-card-btn');
   const viewTableBtn = document.getElementById('view-table-btn');
   const projectsCount = document.getElementById('projects-count');
+  const sortSelect = document.getElementById('sort-projects');
 
   const previewModal = document.getElementById('preview-modal');
   const modalTitle = document.getElementById('modal-title');
@@ -170,6 +171,54 @@ document.addEventListener('DOMContentLoaded', () => {
   let allProjects = [];
   let filteredProjects = [];
   let currentPage = 1;
+  let activeSort = localStorage.getItem('extract_theme_sort') || 'newest';
+  let newlyScannedDomain = null;
+
+  if (sortSelect) {
+    sortSelect.value = activeSort;
+    sortSelect.addEventListener('change', (e) => {
+      activeSort = e.target.value;
+      localStorage.setItem('extract_theme_sort', activeSort);
+      const query = searchProjectsInput ? searchProjectsInput.value.trim().toLowerCase() : '';
+      filteredProjects = query ? allProjects.filter(p => p.domain.toLowerCase().includes(query)) : allProjects;
+      filteredProjects = sortProjectsList(filteredProjects, activeSort);
+      currentPage = 1;
+      renderPaginatedView();
+    });
+  }
+
+  function sortProjectsList(list, sortMode = activeSort) {
+    const getTs = (p) => {
+      if (!p) return 0;
+      const meta = p.meta || {};
+      if (typeof meta.timestamp === 'number' && meta.timestamp > 0) return meta.timestamp * 1000;
+      if (meta.generated) {
+        const parsed = Date.parse(meta.generated);
+        if (!isNaN(parsed)) return parsed;
+      }
+      return 0;
+    };
+
+    return [...list].sort((a, b) => {
+      if (newlyScannedDomain && sortMode === 'newest') {
+        const aMatch = a.domain && a.domain.toLowerCase() === newlyScannedDomain.toLowerCase();
+        const bMatch = b.domain && b.domain.toLowerCase() === newlyScannedDomain.toLowerCase();
+        if (aMatch && !bMatch) return -1;
+        if (!aMatch && bMatch) return 1;
+      }
+      if (sortMode === 'newest') {
+        return getTs(b) - getTs(a); // Newest / latest scan first
+      } else if (sortMode === 'oldest') {
+        return getTs(a) - getTs(b);
+      } else if (sortMode === 'alpha-asc') {
+        return (a.domain || '').localeCompare(b.domain || '');
+      } else if (sortMode === 'alpha-desc') {
+        return (b.domain || '').localeCompare(a.domain || '');
+      }
+      return getTs(b) - getTs(a);
+    });
+  }
+
   const storedPageSize = localStorage.getItem('extract_theme_pagesize') || '6';
   let pageSize = storedPageSize === 'all' ? 'all' : parseInt(storedPageSize, 10);
   if (pageSizeSelect) {
@@ -308,6 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
   searchProjectsInput.addEventListener('input', (e) => {
     const query = e.target.value.trim().toLowerCase();
     filteredProjects = query ? allProjects.filter(p => p.domain.toLowerCase().includes(query)) : allProjects;
+    filteredProjects = sortProjectsList(filteredProjects, activeSort);
     currentPage = 1;
     renderPaginatedView();
   });
@@ -318,6 +368,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const url = targetUrlInput.value.trim();
     if (!url) return;
+
+    // Track newly scanned domain name to guarantee top placement
+    try {
+      const parsed = new URL(url.startsWith('http') ? url : `https://${url}`);
+      newlyScannedDomain = parsed.hostname.replace(/^www\./, '').toLowerCase().replace(/[^\w.-]/g, '_');
+    } catch (_) {
+      newlyScannedDomain = url.replace(/^https?:\/\//i, '').replace(/^www\./i, '').split('/')[0].toLowerCase().replace(/[^\w.-]/g, '_');
+    }
 
     // Show Terminal
     terminalSection.classList.remove('hidden');
@@ -364,11 +422,29 @@ document.addEventListener('DOMContentLoaded', () => {
         terminalLog.scrollTop = terminalLog.scrollHeight;
       }
 
+      // Reset search filter and guarantee Newest First ordering
+      if (searchProjectsInput) searchProjectsInput.value = '';
+      activeSort = 'newest';
+      if (sortSelect) sortSelect.value = 'newest';
+      currentPage = 1;
+
       // Refresh projects list after stream finishes
       await fetchProjects();
 
-      // Auto scroll to projects section
-      document.querySelector('.projects-section').scrollIntoView({ behavior: 'smooth' });
+      // Auto scroll to projects section and highlight the newly scanned card
+      const prjSection = document.querySelector('.projects-section');
+      if (prjSection) {
+        prjSection.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      setTimeout(() => {
+        const targetCard = (newlyScannedDomain && document.querySelector(`.project-card[data-domain="${newlyScannedDomain}"]`)) || document.querySelector('.projects-grid .project-card:first-child');
+        if (targetCard) {
+          targetCard.classList.add('new-scan-highlight');
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          setTimeout(() => targetCard.classList.remove('new-scan-highlight'), 5000);
+        }
+      }, 350);
     } catch (err) {
       terminalLog.textContent += `\n❌ NETWORK ERROR: ${err.message}\n`;
     } finally {
@@ -391,7 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(`HTTP ${res.status} ${res.statusText}`);
       }
       const data = await res.json();
-      allProjects = data.projects || [];
+      allProjects = sortProjectsList(data.projects || [], activeSort);
       window.__EXTRACT_DESIGN_PROJECTS__ = allProjects;
       if (statusBadge) {
         if (data.storage_configured) {
@@ -404,6 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       const query = searchProjectsInput.value.trim().toLowerCase();
       filteredProjects = query ? allProjects.filter(p => p.domain.toLowerCase().includes(query)) : allProjects;
+      filteredProjects = sortProjectsList(filteredProjects, activeSort);
       renderPaginatedView();
     } catch (err) {
       console.error('fetchProjects error:', err);
@@ -446,8 +523,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const visibleProjects = filteredProjects.slice(startIdx, endIdx);
 
     // Render Cards Format
-    projectsGrid.innerHTML = visibleProjects.map(proj => {
+    projectsGrid.innerHTML = visibleProjects.map((proj, idx) => {
       const meta = proj.meta || {};
+      const isFirstNewest = (idx === 0 && currentPage === 1 && activeSort === 'newest');
+      const isFreshScan = newlyScannedDomain && proj.domain && proj.domain.toLowerCase() === newlyScannedDomain.toLowerCase();
       const logoFile = meta.logo ? (meta.logo.logo_svg || meta.logo.logo_img || meta.logo.favicon) : null;
 
       const logoThumb = logoFile 
@@ -456,7 +535,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const formattedDate = meta.generated ? new Date(meta.generated).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : 'Extracted';
 
-      const frameworkPills = (meta.frameworks || []).map(fw => 
+      const frameworksList = Array.isArray(meta.frameworks)
+        ? meta.frameworks
+        : (meta.frameworks && typeof meta.frameworks === 'object' ? Object.keys(meta.frameworks) : []);
+
+      const frameworkPills = frameworksList.map(fw => 
         `<span class="stat-pill fw-pill">${icon('layers', 'icon-xs')} ${escapeHtml(fw)}</span>`
       ).join('');
 
@@ -471,18 +554,41 @@ document.addEventListener('DOMContentLoaded', () => {
       const copyrightText = meta.copyright || `© 2026 ${brandTitle}. All rights reserved.`;
 
       // Extract major colors from token for card background mini tiles
-      const rawMajorColors = (meta.brand_colors && meta.brand_colors.length > 0)
+      const rawMajorColors = (Array.isArray(meta.brand_colors) && meta.brand_colors.length > 0)
         ? meta.brand_colors
-        : ((meta.top_colors && meta.top_colors.length > 0) ? meta.top_colors : Object.values(meta.roles || {}));
+        : ((Array.isArray(meta.top_colors) && meta.top_colors.length > 0) 
+            ? meta.top_colors 
+            : (meta.roles && typeof meta.roles === 'object' ? Object.values(meta.roles) : []));
+
+      // Deterministic palette from domain string as secondary fallback
+      const hashDomainColors = (str) => {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        const h1 = Math.abs(hash) % 360;
+        const h2 = (h1 + 45) % 360;
+        const h3 = (h1 + 175) % 360;
+        const h4 = (h1 + 220) % 360;
+        return [
+          `hsl(${h1}, 75%, 52%)`,
+          `hsl(${h2}, 70%, 48%)`,
+          `hsl(${h3}, 80%, 58%)`,
+          `hsl(${h4}, 75%, 45%)`
+        ];
+      };
+
       const majorColors = rawMajorColors.filter(c => typeof c === 'string' && c && !c.includes('/ 0)') && !c.includes('/ 0.0)'));
-      const cardColors = majorColors.length > 0 ? majorColors : ['#6366f1', '#3b82f6', '#10b981', '#f59e0b'];
+      const cardColors = majorColors.length > 0 ? majorColors : hashDomainColors(proj.domain);
       const primaryColor = cardColors[0] || '#6366f1';
       const secondaryColor = cardColors[1] || primaryColor;
+
+      // Seed-based mosaic generation for distinctive tile patterns per domain
+      let domainSeed = 0;
+      for (let i = 0; i < proj.domain.length; i++) domainSeed += proj.domain.charCodeAt(i) * (i + 1);
 
       // Generate 28 mini tiles from major colors (4 rows x 7 columns)
       const tileCount = 28;
       const miniTilesHtml = Array.from({ length: tileCount }).map((_, i) => {
-        const c = cardColors[i % cardColors.length];
+        const c = cardColors[(i * 3 + domainSeed) % cardColors.length];
         return `<div class="card-mini-tile" style="--tile-c:${escapeHtml(c)};background-color:${escapeHtml(c)};"></div>`;
       }).join('');
 
@@ -497,14 +603,17 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
 
       return `
-        <div class="project-card" style="--card-accent:${escapeHtml(primaryColor)};">
+        <div class="project-card ${isFreshScan ? 'new-scan-highlight' : ''}" data-domain="${escapeHtml(proj.domain)}" style="--card-accent:${escapeHtml(primaryColor)};">
           ${cardBgTiles}
           <div>
             <div class="project-card-header">
               <div class="project-title-area">
                 ${logoThumb}
                 <div>
-                  <div class="project-brand-title">${escapeHtml(brandTitle)}</div>
+                  <div class="project-brand-title">
+                    ${escapeHtml(brandTitle)}
+                    ${isFirstNewest ? `<span class="latest-scan-badge" title="Most recently scanned design system">${icon('sparkles', 'icon-xs')} Newest Scan</span>` : ''}
+                  </div>
                   <div class="project-domain-row">
                     <span class="project-domain">${escapeHtml(proj.domain)}</span>
                     <span class="project-date-inline">&bull; ${formattedDate}</span>
@@ -543,8 +652,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Render Table Format
     if (projectsTableBody) {
-      projectsTableBody.innerHTML = visibleProjects.map(proj => {
+      projectsTableBody.innerHTML = visibleProjects.map((proj, idx) => {
         const meta = proj.meta || {};
+        const isFirstNewest = (idx === 0 && currentPage === 1 && activeSort === 'newest');
         const logoFile = meta.logo ? (meta.logo.logo_svg || meta.logo.logo_img || meta.logo.favicon) : null;
 
         const logoThumb = logoFile 
@@ -560,7 +670,11 @@ document.addEventListener('DOMContentLoaded', () => {
              </div>`
           : '';
 
-        const frameworkBadges = (meta.frameworks || []).slice(0, 2).map(fw => 
+        const frameworksList = Array.isArray(meta.frameworks)
+          ? meta.frameworks
+          : (meta.frameworks && typeof meta.frameworks === 'object' ? Object.keys(meta.frameworks) : []);
+
+        const frameworkBadges = frameworksList.slice(0, 2).map(fw => 
           `<span class="stat-pill fw-pill" style="font-size:9.5px;padding:1px 4px;">${icon('layers', 'icon-xs')} ${escapeHtml(fw)}</span>`
         ).join('');
 
@@ -573,7 +687,10 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="table-site-cell">
                 ${logoThumb}
                 <div class="table-site-info">
-                  <div class="table-brand-title">${escapeHtml(brandTitle)}</div>
+                  <div class="table-brand-title">
+                    ${escapeHtml(brandTitle)}
+                    ${isFirstNewest ? `<span class="latest-scan-badge" style="font-size:9px!important;padding:1px 5px!important;">${icon('sparkles', 'icon-xs')} Newest</span>` : ''}
+                  </div>
                   <div class="table-domain-meta">
                     <span class="table-domain">${escapeHtml(proj.domain)}</span>
                     <span class="project-date" style="font-size:9.5px;">&bull; ${formattedDate}</span>
@@ -864,6 +981,9 @@ document.addEventListener('DOMContentLoaded', () => {
       case 'design_system':
         html = tabRenderDesignSystem(currentIntelData);
         break;
+      case 'design_intelligence':
+        html = tabRenderDesignIntelligence(currentIntelData);
+        break;
       case 'components':
         html = tabRenderComponents(currentIntelData);
         break;
@@ -1102,6 +1222,233 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="code-box-wrapper">
           <pre class="code-box-content">${escapeHtml(ds.css_variables || '/* No variables extracted */')}</pre>
+        </div>
+      </div>
+    `;
+  }
+
+  // 2b. Design Intelligence Tab (Tier 1)
+  function tabRenderDesignIntelligence(data) {
+    const di = data.design_intelligence || {};
+    const consistency = di.consistency || {};
+    const semantic = di.semantic_tokens || {};
+    const spacingGrid = di.spacing_grid || {};
+
+    const breakdown = consistency.breakdown || {};
+    const issues = consistency.issues || [];
+    const positives = (consistency.positive || []).filter(Boolean);
+
+    const grade = consistency.grade || 'B';
+    const gradeClass = grade.toLowerCase().startsWith('a') ? 'grade-a' :
+      (grade === 'B' ? 'grade-b' : (grade === 'C' ? 'grade-c' : 'grade-f'));
+
+    const dimColor = (score) => score >= 85 ? '#10b981' : (score >= 70 ? '#38bdf8' : (score >= 50 ? '#fbbf24' : '#f87171'));
+
+    const dims = [
+      { key: 'color_economy', label: 'Color Economy', iconName: 'palette', data: breakdown.color_economy },
+      { key: 'typography', label: 'Typography Discipline', iconName: 'type', data: breakdown.typography },
+      { key: 'spacing', label: 'Spacing Discipline', iconName: 'ruler', data: breakdown.spacing },
+      { key: 'border_radius', label: 'Border Radius Scale', iconName: 'square', data: breakdown.border_radius },
+      { key: 'shadows', label: 'Shadow System', iconName: 'layers', data: breakdown.shadows },
+    ];
+
+    const dimRowsHtml = dims.map(d => {
+      const s = d.data?.score != null ? d.data.score : 80;
+      const lbl = d.data?.label || 'Good';
+      const color = dimColor(s);
+      return `
+        <div class="dim-row">
+          <div class="dim-row-header">
+            <span style="display:flex;align-items:center;gap:6px;font-weight:500;color:var(--text-main);">
+              ${icon(d.iconName, 'icon-xs')} ${d.label}
+            </span>
+            <span style="font-family:var(--font-mono);font-weight:600;color:${color};">${s}/100 <span style="font-size:10.5px;color:var(--text-sub);font-weight:400;">(${lbl})</span></span>
+          </div>
+          <div class="dim-bar-track">
+            <div class="dim-bar-fill" style="width:${s}%;background:${color};"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    const issuesHtml = issues.length > 0 ? issues.map(iss => {
+      const badgeClass = iss.severity === 'High' ? 'badge-critical' : (iss.severity === 'Medium' ? 'badge-warning' : 'badge-info');
+      return `
+        <div class="issue-item">
+          <div class="issue-header">
+            <span class="issue-rule">${escapeHtml(iss.dimension)} Inconsistency</span>
+            <span class="${badgeClass}">${escapeHtml(iss.severity)}</span>
+          </div>
+          <p style="margin:0;color:var(--text-main);font-size:12px;line-height:1.4;">${escapeHtml(iss.message)}</p>
+          <div class="issue-remediation">
+            💡 <strong>Recommendation:</strong> ${escapeHtml(iss.recommendation)}
+          </div>
+        </div>
+      `;
+    }).join('') : `<div class="badge-pass" style="padding:12px;text-align:center;">${icon('check-circle-2', 'icon-xs')} No design system inconsistencies detected.</div>`;
+
+    const positiveHtml = positives.length > 0 ? `
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
+        ${positives.map(p => `<span class="badge-pass" style="font-size:11px;">✓ ${escapeHtml(p)}</span>`).join('')}
+      </div>
+    ` : '';
+
+    // Semantic tokens table
+    const namedTokens = semantic.named_tokens || [];
+    const tokensHtml = namedTokens.length > 0 ? namedTokens.map(t => {
+      const classBadge = t.usage_class === 'brand' ? 'badge-info' :
+        (t.usage_class === 'feedback' ? 'badge-warning' :
+        (t.usage_class === 'surface' ? 'badge-pass' : 'intel-card-badge'));
+      return `
+        <div class="spec-item" style="cursor:pointer;" data-copy="${escapeHtml(t.css_variable)}" title="Click to copy CSS variable">
+          <span class="spec-item-key">
+            <span style="width:16px;height:16px;border-radius:3px;background:${escapeHtml(t.hex)};border:1px solid rgba(255,255,255,0.2);display:inline-block;flex-shrink:0;"></span>
+            <code>${escapeHtml(t.css_variable)}</code>
+          </span>
+          <span class="spec-item-val" style="display:flex;align-items:center;gap:6px;">
+            <span class="${classBadge}" style="font-size:9.5px;text-transform:uppercase;">${escapeHtml(t.usage_class)}</span>
+            <code>${escapeHtml(t.hex)}</code>
+          </span>
+        </div>
+      `;
+    }).join('') : '<p style="color:var(--text-sub);">No semantic tokens generated.</p>';
+
+    // WCAG Contrast matrix
+    const contrastPairs = semantic.contrast_pairs || [];
+    const contrastHtml = contrastPairs.length > 0 ? contrastPairs.map(p => {
+      const badgeClass = p.wcag_level === 'AAA' ? 'badge-pass' : (p.wcag_level === 'AA' ? 'badge-info' : 'badge-warning');
+      return `
+        <div class="contrast-card" style="background:var(--bg-dark);">
+          <div class="contrast-preview" style="background:${escapeHtml(p.background)};color:${escapeHtml(p.foreground)};">
+            <span>Aa Contrast Test</span>
+            <span style="font-family:var(--font-mono);font-size:11px;">${p.contrast_ratio}:1</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:11px;">
+            <span style="color:var(--text-sub);">${escapeHtml(p.foreground_role)} on ${escapeHtml(p.background_role)}</span>
+            <span class="${badgeClass}">${escapeHtml(p.wcag_level)}</span>
+          </div>
+        </div>
+      `;
+    }).join('') : '<p style="color:var(--text-sub);">No contrast pairs computed.</p>';
+
+    // Spacing Grid System
+    const gridScale = spacingGrid.grid_scale || [];
+    const offGrid = spacingGrid.off_grid_values || [];
+
+    const gridScaleHtml = gridScale.length > 0 ? gridScale.map(s => `
+      <div class="grid-scale-chip ${s.used ? 'chip-used' : ''}" title="${s.used ? 'Active in extracted stylesheet' : 'Canonical scale step'}">
+        <span class="chip-step">${s.step}x</span>
+        <span class="chip-val">${s.px}</span>
+        <span class="chip-token">${s.token_name}</span>
+      </div>
+    `).join('') : '<p style="color:var(--text-sub);">No grid scale available.</p>';
+
+    const offGridHtml = offGrid.length > 0 ? `
+      <table class="snap-table">
+        <thead>
+          <tr>
+            <th>Rogue Value</th>
+            <th>Deviation</th>
+            <th>Recommended Snap</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${offGrid.map(og => `
+            <tr>
+              <td><code>${escapeHtml(og.css)}</code></td>
+              <td style="color:#fbbf24;">±${og.deviation}px</td>
+              <td><strong style="color:#34d399;">${escapeHtml(og.nearest_snap)}</strong></td>
+              <td><button type="button" class="btn btn-secondary btn-sm" style="padding:2px 8px;font-size:10.5px;" data-copy="${escapeHtml(og.nearest_snap)}">Copy Snap</button></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    ` : `<div class="badge-pass" style="padding:8px 12px;display:inline-block;">✓ All spacing values align to the ${spacingGrid.base_unit || 8}pt grid.</div>`;
+
+    return `
+      <!-- Row 1: System Consistency Score Card -->
+      <div class="intel-grid-2">
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('award', 'icon-sm')} Visual Consistency Discipline</h3>
+            <span class="intel-card-badge">${consistency.score != null ? consistency.score : 85}/100 • Grade ${grade}</span>
+          </div>
+          <div class="score-card-big">
+            <div class="score-circle ${gradeClass}">${consistency.score != null ? consistency.score : 85}</div>
+            <div class="score-info">
+              <div class="score-info-title">System Discipline: ${consistency.label || 'Good'}</div>
+              <div class="score-info-sub">Measured across 5 core design system dimensions</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
+            ${dimRowsHtml}
+          </div>
+          ${positiveHtml}
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('alert-triangle', 'icon-sm')} Actionable Inconsistencies & Fixes</h3>
+            <span class="intel-card-badge">${issues.length} Issues Flagged</span>
+          </div>
+          <div class="issue-list" style="max-height:380px;overflow-y:auto;">
+            ${issuesHtml}
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Semantic Token Mapper & Contrast Matrix -->
+      <div class="intel-grid-2" style="margin-top:16px;">
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('tag', 'icon-sm')} Semantic Token Mapping (${namedTokens.length})</h3>
+            <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(semantic.css_block || '')}">
+              ${icon('copy', 'icon-xs')} <span>Copy Token CSS</span>
+            </button>
+          </div>
+          <p style="font-size:12px;color:var(--text-sub);margin:0;">Tokens mapped from raw hex values to functional UI intent:</p>
+          <div class="spec-list" style="max-height:320px;overflow-y:auto;margin-top:4px;">
+            ${tokensHtml}
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('shield-check', 'icon-sm')} WCAG 2.1 Contrast Matrix</h3>
+            <span class="intel-card-badge">Surface & Text Pairings</span>
+          </div>
+          <p style="font-size:12px;color:var(--text-sub);margin:0;">Live contrast verification on extracted brand & surface colors:</p>
+          <div class="contrast-grid" style="max-height:320px;overflow-y:auto;margin-top:4px;">
+            ${contrastHtml}
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3: Spacing Grid Detector -->
+      <div class="intel-card" style="margin-top:16px;">
+        <div class="intel-card-header">
+          <h3 class="intel-card-title">${icon('ruler', 'icon-sm')} ${escapeHtml(spacingGrid.system_name || 'Spacing Grid System')}</h3>
+          <span class="intel-card-badge ${spacingGrid.detected ? 'badge-pass' : 'badge-warning'}">
+            ${spacingGrid.adherence_pct != null ? spacingGrid.adherence_pct : 0}% Grid Adherence
+          </span>
+        </div>
+        <p style="font-size:13px;color:var(--text-main);margin:0;">
+          ${escapeHtml(spacingGrid.summary || 'Calculated adherence across all layout margins, paddings, and flex/grid gaps.')}
+        </p>
+
+        <div style="margin-top:8px;">
+          <h4 style="font-size:12px;font-weight:600;color:var(--text-sub);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Canonical ${spacingGrid.base_unit || 8}pt Scale (${spacingGrid.on_grid_count || 0} tokens in use)</h4>
+          <div class="grid-scale-container">
+            ${gridScaleHtml}
+          </div>
+        </div>
+
+        <div style="margin-top:14px;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;">
+          <h4 style="font-size:12px;font-weight:600;color:var(--text-sub);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Off-Grid Rogue Values & Auto-Snap Fixes (${offGrid.length} Rogue Tokens)</h4>
+          <div style="overflow-x:auto;">
+            ${offGridHtml}
+          </div>
         </div>
       </div>
     `;
@@ -1749,20 +2096,75 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  // 14. Export Tab
+  // 14. Framework-Aware Export Tab
   function tabRenderExport(data) {
     const exports = data.exports || {};
     const ds = data.design_system || {};
-    const reactCode = exports.react_components || '';
-    const layoutCode = exports.nextjs_layout || '';
-    const cssVars = ds.css_variables || '';
     const domain = currentIntelDomain || 'extracted-theme';
 
+    const fwDetected = exports.framework_detected || 'Vanilla CSS';
+    const primaryFormat = exports.primary_format || 'css';
+    const tailwindCode = exports.tailwind_config || '';
+    const tsCode = exports.typescript_theme || '';
+    const vueCode = exports.vue_composable || '';
+    const w3cTokens = exports.json_tokens_w3c || '';
+    const cssVars = exports.css_variables || ds.css_variables || '';
+    const designMd = exports.design_md || '';
+    const reactCode = exports.react_components || '';
+    const layoutCode = exports.nextjs_layout || '';
+
+    // Choose the primary configuration block to show
+    let primaryConfigTitle = 'CSS Variables & Tokens (:root)';
+    let primaryConfigFile = 'theme.css';
+    let primaryConfigCode = cssVars;
+    let primaryIcon = 'file-text';
+
+    if (primaryFormat === 'tailwind' && tailwindCode) {
+      primaryConfigTitle = 'Tailwind CSS Configuration (Extended Theme)';
+      primaryConfigFile = 'tailwind.config.js';
+      primaryConfigCode = tailwindCode;
+      primaryIcon = 'file-code';
+    } else if (primaryFormat === 'typescript' && tsCode) {
+      primaryConfigTitle = 'TypeScript Design Theme';
+      primaryConfigFile = 'theme.ts';
+      primaryConfigCode = tsCode;
+      primaryIcon = 'file-code';
+    } else if (primaryFormat === 'vue' && vueCode) {
+      primaryConfigTitle = 'Vue / Nuxt Token Composable';
+      primaryConfigFile = 'composables/useTokens.ts';
+      primaryConfigCode = vueCode;
+      primaryIcon = 'file-code';
+    }
+
     return `
-      <div class="intel-grid-2">
+      <!-- Framework Stack Detection Card -->
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h3 class="intel-card-title">${icon('layers', 'icon-sm')} Framework-Aware Export Engine</h3>
+          <span class="badge-pass" style="font-size:11px;">Detected: ${escapeHtml(fwDetected)}</span>
+        </div>
+        <p style="font-size:13px;color:var(--text-main);margin:0;">
+          ExtractDesign Studio has automatically tailored export tokens, configurations, and components for <strong>${escapeHtml(fwDetected)}</strong>.
+        </p>
+      </div>
+
+      <!-- Primary Framework Config & Next.js Components -->
+      <div class="intel-grid-2" style="margin-top:16px;">
         <div class="intel-card">
           <div class="intel-card-header">
-            <h3 class="intel-card-title">${icon('file-code', 'icon-sm')} Next.js App Router Components</h3>
+            <h3 class="intel-card-title">${icon(primaryIcon, 'icon-sm')} ${escapeHtml(primaryConfigTitle)}</h3>
+            <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(primaryConfigCode)}">
+              ${icon('copy', 'icon-xs')} <span>Copy ${escapeHtml(primaryConfigFile)}</span>
+            </button>
+          </div>
+          <div class="code-box-wrapper">
+            <pre class="code-box-content">${escapeHtml(primaryConfigCode || '/* No configuration generated */')}</pre>
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('boxes', 'icon-sm')} Next.js App Router Components</h3>
             <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(reactCode)}">
               ${icon('copy', 'icon-xs')} <span>Copy Components</span>
             </button>
@@ -1771,37 +2173,42 @@ document.addEventListener('DOMContentLoaded', () => {
             <pre class="code-box-content">${escapeHtml(reactCode || '// Next.js App Router component template')}</pre>
           </div>
         </div>
+      </div>
 
+      <!-- W3C Tokens & CSS Custom Properties -->
+      <div class="intel-grid-2" style="margin-top:16px;">
         <div class="intel-card">
           <div class="intel-card-header">
-            <h3 class="intel-card-title">${icon('layout', 'icon-sm')} Next.js Root Layout (Zero-CLS)</h3>
-            <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(layoutCode)}">
-              ${icon('copy', 'icon-xs')} <span>Copy Layout</span>
+            <h3 class="intel-card-title">${icon('code-2', 'icon-sm')} W3C Standard Design Tokens (JSON)</h3>
+            <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(w3cTokens)}">
+              ${icon('copy', 'icon-xs')} <span>Copy Tokens JSON</span>
             </button>
           </div>
           <div class="code-box-wrapper">
-            <pre class="code-box-content">${escapeHtml(layoutCode || '// app/layout.tsx')}</pre>
+            <pre class="code-box-content">${escapeHtml(w3cTokens || '{}')}</pre>
+          </div>
+        </div>
+
+        <div class="intel-card">
+          <div class="intel-card-header">
+            <h3 class="intel-card-title">${icon('file-text', 'icon-sm')} CSS Variables (:root)</h3>
+            <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(cssVars)}">
+              ${icon('copy', 'icon-xs')} <span>Copy CSS Variables</span>
+            </button>
+          </div>
+          <div class="code-box-wrapper">
+            <pre class="code-box-content">${escapeHtml(cssVars || '/* No CSS variables */')}</pre>
           </div>
         </div>
       </div>
 
+      <!-- DESIGN.md Documentation & Actions -->
       <div class="intel-card" style="margin-top:16px;">
         <div class="intel-card-header">
-          <h3 class="intel-card-title">${icon('file-text', 'icon-sm')} CSS Variables & Tokens</h3>
-          <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(cssVars)}">
-            ${icon('copy', 'icon-xs')} <span>Copy CSS Variables</span>
-          </button>
+          <h3 class="intel-card-title">${icon('download', 'icon-sm')} Export Packages & Source Files</h3>
+          <span class="intel-card-badge">Instant Access</span>
         </div>
-        <div class="code-box-wrapper">
-          <pre class="code-box-content">${escapeHtml(cssVars || '/* No CSS variables */')}</pre>
-        </div>
-      </div>
-
-      <div class="intel-card">
-        <div class="intel-card-header">
-          <h3 class="intel-card-title">${icon('download', 'icon-sm')} Export Packages & Files</h3>
-        </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
           <a href="/output/${encodeURIComponent(domain)}/DESIGN.md" target="_blank" class="btn btn-secondary btn-sm">
             ${icon('file-text', 'icon-xs')} <span>View DESIGN.md</span>
           </a>

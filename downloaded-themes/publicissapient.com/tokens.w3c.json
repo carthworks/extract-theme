@@ -1,0 +1,122 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "color": {
+    "surface-base": {
+      "$value": "#000000",
+      "$type": "color"
+    },
+    "surface-elevated": {
+      "$value": "#030712",
+      "$type": "color"
+    },
+    "blue": {
+      "$value": "#101828",
+      "$type": "color"
+    },
+    "blue-02": {
+      "$value": "#1e2939",
+      "$type": "color"
+    },
+    "neutral": {
+      "$value": "#444444",
+      "$type": "color"
+    },
+    "feedback-danger": {
+      "$value": "#9f0712",
+      "$type": "color"
+    },
+    "text-muted": {
+      "$value": "#4a5565",
+      "$type": "color"
+    },
+    "neutral-02": {
+      "$value": "#666666",
+      "$type": "color"
+    },
+    "blue-03": {
+      "$value": "#0c63ea",
+      "$type": "color"
+    },
+    "blue-04": {
+      "$value": "#6a7282",
+      "$type": "color"
+    },
+    "red": {
+      "$value": "#e90130",
+      "$type": "color"
+    },
+    "brand-primary": {
+      "$value": "#2b7fff",
+      "$type": "color"
+    },
+    "neutral-03": {
+      "$value": "#949494",
+      "$type": "color"
+    },
+    "feedback-warning": {
+      "$value": "#ff6900",
+      "$type": "color"
+    },
+    "blue-05": {
+      "$value": "#99a1af",
+      "$type": "color"
+    },
+    "feedback-success": {
+      "$value": "#00c950",
+      "$type": "color"
+    },
+    "text-subtle": {
+      "$value": "#d1d5dc",
+      "$type": "color"
+    },
+    "yellow": {
+      "$value": "#fee685",
+      "$type": "color"
+    },
+    "neutral-04": {
+      "$value": "#e5e7eb",
+      "$type": "color"
+    },
+    "text-on-dark": {
+      "$value": "#ffffff",
+      "$type": "color"
+    }
+  },
+  "typography": {
+    "sans": {
+      "$value": "ui-sans-serif,system-ui,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\"",
+      "$type": "fontFamily"
+    },
+    "mono": {
+      "$value": "ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\",monospace",
+      "$type": "fontFamily"
+    }
+  },
+  "spacing": {},
+  "radius": {
+    "none": {
+      "$value": "0",
+      "$type": "dimension"
+    },
+    "sm": {
+      "$value": "3px",
+      "$type": "dimension"
+    },
+    "DEFAULT": {
+      "$value": ".25rem",
+      "$type": "dimension"
+    },
+    "md": {
+      "$value": ".375rem",
+      "$type": "dimension"
+    },
+    "lg": {
+      "$value": ".5rem",
+      "$type": "dimension"
+    },
+    "xl": {
+      "$value": ".75rem",
+      "$type": "dimension"
+    }
+  }
+}
