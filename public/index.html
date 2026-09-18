@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="app.css?v=15">
+  <link rel="stylesheet" href="app.css?v=16">
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -44,6 +44,9 @@
         <a href="/" class="btn btn-secondary btn-sm" title="Return to Landing Page">
           <i data-lucide="home" class="icon-sm"></i> <span>Home</span>
         </a>
+        <button id="open-settings-btn" class="btn btn-secondary btn-sm" title="Workspace & Platform Settings">
+          <i data-lucide="settings" class="icon-sm"></i> <span>Settings</span>
+        </button>
         <span class="status-badge"><span class="pulse"></span> Host Active: http://localhost:8000</span>
         <button id="refresh-projects" class="btn btn-secondary btn-sm" title="Reload extracted projects">
           <i data-lucide="rotate-cw" class="icon-sm"></i> <span>Refresh</span>
@@ -64,9 +67,14 @@
           <div class="ambient-beam"></div>
         </div>
         <div class="sidebar-header">
-          <span class="sidebar-badge"><i data-lucide="sparkles" class="icon-xs"></i> Token & Intelligence Extractor</span>
-          <h2 class="sidebar-title">ExtractDesign Studio</h2>
-          <p class="sidebar-desc">Reverse-engineer design systems, UI components & website intelligence from any live URL.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span class="sidebar-badge"><i data-lucide="sparkles" class="icon-xs"></i> Token & Intelligence Extractor</span>
+            <button type="button" id="sidebar-plan-badge" class="plan-pill-mini" title="Click to view subscription settings">
+              <span class="pulse"></span> <span id="sidebar-plan-label">Pro Agency</span> &bull; <span id="sidebar-plan-days">30d left</span>
+            </button>
+          </div>
+          <h2 class="sidebar-title" id="sidebar-studio-title">ExtractDesign Studio</h2>
+          <p class="sidebar-desc" id="sidebar-studio-desc">Reverse-engineer design systems, UI components & website intelligence from any live URL.</p>
         </div>
 
         <!-- Main Form -->
@@ -321,6 +329,12 @@
             <strong id="dash-score-perf">--</strong>
           </div>
           <div class="dash-action-buttons">
+            <button type="button" id="dash-share-btn" class="btn btn-secondary btn-sm" title="Share with client or create whitelabeled presentation link">
+              <i data-lucide="share-2" class="icon-xs"></i> <span>Whitelabel & Share</span>
+            </button>
+            <button type="button" id="dash-scorecard-btn" class="btn btn-secondary btn-sm" title="Export printable executive audit scorecard">
+              <i data-lucide="printer" class="icon-xs"></i> <span>Executive Scorecard</span>
+            </button>
             <a id="dash-launch-guide" href="#" target="_blank" class="btn btn-primary btn-sm" title="Launch Interactive Style Guide">
               <i data-lucide="external-link" class="icon-xs"></i> <span>Style Guide</span>
             </a>
@@ -389,6 +403,425 @@
     </div>
   </div>
 
+  <!-- Modal for Whitelabel Client Presentation Link & Share -->
+  <div id="whitelabel-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" style="max-width:540px;">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <i data-lucide="share-2" class="icon-sm" style="color:var(--primary);"></i>
+          <h3 id="whitelabel-modal-title">Client Presentation & Whitelabel</h3>
+        </div>
+        <button id="whitelabel-close" class="modal-close-btn" title="Close"><i data-lucide="x" class="icon-md"></i></button>
+      </div>
+      <div class="modal-body" style="display:flex;flex-direction:column;gap:16px;">
+        <p style="font-size:13px;color:var(--text-sub);margin:0;">
+          Generate a branded client presentation link. Shows your agency name on the live interactive style guide and unlocks a 1-click printable executive audit scorecard.
+        </p>
+
+        <div class="field-group">
+          <label for="agency-name-input" style="font-size:12px;font-weight:600;display:block;margin-bottom:6px;"><i data-lucide="briefcase" class="icon-xs"></i> Agency / Team Name</label>
+          <input type="text" id="agency-name-input" class="search-input" style="width:100%;box-sizing:border-box;" placeholder="e.g. Acme Studio, Pixel & Co" value="Acme Design Studio">
+        </div>
+
+        <div class="field-group">
+          <label for="client-name-input" style="font-size:12px;font-weight:600;display:block;margin-bottom:6px;"><i data-lucide="building" class="icon-xs"></i> Client / Project Name</label>
+          <input type="text" id="client-name-input" class="search-input" style="width:100%;box-sizing:border-box;" placeholder="e.g. Client Redesign Benchmark">
+        </div>
+
+        <div class="field-group">
+          <label style="font-size:12px;font-weight:600;display:block;margin-bottom:6px;"><i data-lucide="link" class="icon-xs"></i> Whitelabeled Presentation Link</label>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="whitelabel-link-input" class="search-input" readonly style="flex:1;font-family:monospace;font-size:12px;">
+            <button type="button" id="copy-whitelabel-link-btn" class="btn btn-primary btn-sm"><i data-lucide="copy" class="icon-xs"></i> <span>Copy</span></button>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
+          <button type="button" id="open-whitelabel-preview-btn" class="btn btn-secondary btn-sm"><i data-lucide="external-link" class="icon-xs"></i> <span>Preview as Client</span></button>
+          <button type="button" id="print-executive-scorecard-btn" class="btn btn-primary btn-sm"><i data-lucide="printer" class="icon-xs"></i> <span>Executive Scorecard (Print/PDF)</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Workspace & Platform Settings -->
+  <div id="settings-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content settings-modal-content">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="settings-modal-icon"><i data-lucide="settings-2" class="icon-sm"></i></div>
+          <div>
+            <h3 id="settings-modal-title">Workspace & Platform Settings</h3>
+            <p class="settings-modal-desc">Configure brand identity, whitelabel client links, active plan, engine flags & integrations.</p>
+          </div>
+        </div>
+        <button id="settings-close" class="modal-close-btn" title="Close"><i data-lucide="x" class="icon-md"></i></button>
+      </div>
+
+      <div class="settings-modal-layout">
+        <!-- Settings Sidebar Tabs -->
+        <nav class="settings-tabs-nav" role="tablist">
+          <button type="button" class="settings-tab-btn active" data-tab="brand">
+            <i data-lucide="palette" class="icon-sm"></i> <span>Brand & Theme</span>
+          </button>
+          <button type="button" class="settings-tab-btn" data-tab="whitelabel">
+            <i data-lucide="tag" class="icon-sm"></i> <span>Whitelabeling</span>
+          </button>
+          <button type="button" class="settings-tab-btn" data-tab="plan">
+            <i data-lucide="credit-card" class="icon-sm"></i> <span>Current Plan & Quota</span>
+          </button>
+          <button type="button" class="settings-tab-btn" data-tab="engine">
+            <i data-lucide="cpu" class="icon-sm"></i> <span>Extraction Engine</span>
+          </button>
+          <button type="button" class="settings-tab-btn" data-tab="api">
+            <i data-lucide="key" class="icon-sm"></i> <span>API & Webhooks</span>
+          </button>
+          <button type="button" class="settings-tab-btn" data-tab="maintenance">
+            <i data-lucide="database" class="icon-sm"></i> <span>Data & Reset</span>
+          </button>
+        </nav>
+
+        <!-- Settings Content Panes -->
+        <div class="settings-tab-content">
+          <!-- 1. Brand & Theme -->
+          <div class="settings-pane active" id="pane-brand">
+            <div class="pane-header">
+              <h4>Brand Appearance & Studio Title</h4>
+              <p>Customize the workspace studio branding, accent theme color, and custom logo.</p>
+            </div>
+
+            <div class="settings-field-group">
+              <label for="setting-brand-name">Studio / App Display Name</label>
+              <input type="text" id="setting-brand-name" class="settings-input" placeholder="e.g. ExtractDesign Studio or Apex Design Systems">
+              <span class="settings-help">Appears in header title and browser tab title.</span>
+            </div>
+
+            <div class="settings-field-group">
+              <label for="setting-brand-tagline">Studio Tagline</label>
+              <input type="text" id="setting-brand-tagline" class="settings-input" placeholder="Reverse-engineer design systems & website intelligence">
+            </div>
+
+            <div class="settings-field-group">
+              <label>Brand Primary Accent Color</label>
+              <div class="color-picker-row">
+                <div class="color-swatches-list">
+                  <button type="button" class="theme-color-swatch active" data-color="#6366f1" style="background:#6366f1;" title="Indigo (Default)"></button>
+                  <button type="button" class="theme-color-swatch" data-color="#06b6d4" style="background:#06b6d4;" title="Cyan"></button>
+                  <button type="button" class="theme-color-swatch" data-color="#10b981" style="background:#10b981;" title="Emerald"></button>
+                  <button type="button" class="theme-color-swatch" data-color="#8b5cf6" style="background:#8b5cf6;" title="Purple"></button>
+                  <button type="button" class="theme-color-swatch" data-color="#f59e0b" style="background:#f59e0b;" title="Amber"></button>
+                  <button type="button" class="theme-color-swatch" data-color="#f43f5e" style="background:#f43f5e;" title="Rose"></button>
+                </div>
+                <div class="custom-color-wrap">
+                  <input type="color" id="setting-brand-color" value="#6366f1" class="native-color-picker">
+                  <span id="setting-brand-color-val" class="color-hex-label">#6366f1</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-field-group">
+              <label for="setting-brand-logo">Custom Brand Logo Image URL</label>
+              <input type="url" id="setting-brand-logo" class="settings-input" placeholder="https://your-domain.com/logo.svg">
+              <span class="settings-help">Leave empty to use default studio palette icon.</span>
+            </div>
+
+            <div class="settings-field-group">
+              <label for="setting-brand-domain">Custom Subdomain / CNAME</label>
+              <input type="text" id="setting-brand-domain" class="settings-input" placeholder="audit.youragency.com">
+              <span class="settings-help">Map your agency domain for fully whitelabeled access links.</span>
+            </div>
+          </div>
+
+          <!-- 2. Whitelabeling -->
+          <div class="settings-pane hidden" id="pane-whitelabel">
+            <div class="pane-header">
+              <h4>Default Whitelabel Client Presentation Settings</h4>
+              <p>Configure default company signatures applied when sharing interactive style guides and scorecards with clients.</p>
+            </div>
+
+            <div class="settings-field-group">
+              <label for="setting-wl-agency">Default Agency / Company Name</label>
+              <input type="text" id="setting-wl-agency" class="settings-input" placeholder="e.g. Apex Digital Studio">
+              <span class="settings-help">Pre-fills the agency name in client links and report headers.</span>
+            </div>
+
+            <div class="settings-field-group">
+              <label for="setting-wl-url">Agency Website / Portfolio URL</label>
+              <input type="url" id="setting-wl-url" class="settings-input" placeholder="https://apexdigital.design">
+            </div>
+
+            <div class="settings-field-group">
+              <label for="setting-wl-signature">Report Footer Attribution & Disclaimer</label>
+              <textarea id="setting-wl-signature" class="settings-textarea" rows="2" placeholder="Design Intelligence Audit prepared by Apex Digital Studio"></textarea>
+            </div>
+
+            <div class="settings-toggle-group">
+              <label class="toggle-switch-label">
+                <input type="checkbox" id="setting-wl-hide-brand" class="toggle-checkbox">
+                <span class="toggle-slider"></span>
+                <div class="toggle-text">
+                  <span class="toggle-title">Hide "Powered by ExtractDesign" Attribution</span>
+                  <span class="toggle-desc">Completely removes vendor attribution badges on client-facing presentation links.</span>
+                </div>
+              </label>
+            </div>
+
+            <div class="settings-toggle-group">
+              <label class="toggle-switch-label">
+                <input type="checkbox" id="setting-wl-auto-print" class="toggle-checkbox">
+                <span class="toggle-slider"></span>
+                <div class="toggle-text">
+                  <span class="toggle-title">Auto-Open Print / PDF Dialog</span>
+                  <span class="toggle-desc">Automatically prompts client's browser with the Save as PDF print dialog upon link launch.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 3. Current Plan & Billing -->
+          <div class="settings-pane hidden" id="pane-plan">
+            <div class="pane-header">
+              <h4>Subscription Plan & Resource Quotas</h4>
+              <p>View current subscription status, renewal date, and usage consumption across services.</p>
+            </div>
+
+            <!-- Active Plan Banner -->
+            <div class="plan-card-featured">
+              <div class="plan-card-left">
+                <div class="plan-badge-row">
+                  <span class="plan-badge-pill"><span class="pulse"></span> Active Subscription</span>
+                  <span class="plan-cycle-pill" id="setting-plan-cycle">Monthly Billing</span>
+                </div>
+                <h3 id="setting-plan-name" class="plan-name-display">Pro Agency Plan</h3>
+                <p id="setting-plan-expiry" class="plan-expiry-text">Renews on October 18, 2026 &bull; <strong>30 days remaining</strong></p>
+              </div>
+              <div class="plan-card-right">
+                <div class="plan-price-display" id="setting-plan-price">₹999/mo</div>
+                <span class="plan-price-usd">~$12/mo / $29 USD</span>
+              </div>
+            </div>
+
+            <!-- Usage Quota Meters -->
+            <div class="quota-grid">
+              <div class="quota-meter-card">
+                <div class="quota-meter-header">
+                  <span><i data-lucide="zap" class="icon-xs"></i> Website Scans</span>
+                  <strong id="quota-scans-val">14 / Unlimited</strong>
+                </div>
+                <div class="quota-progress-bar">
+                  <div id="quota-scans-fill" class="quota-progress-fill" style="width: 28%; background: var(--primary);"></div>
+                </div>
+                <span class="quota-subtext">Single-site token & 6-pillar engineering audits</span>
+              </div>
+
+              <div class="quota-meter-card">
+                <div class="quota-meter-header">
+                  <span><i data-lucide="layers" class="icon-xs"></i> Deep Crawls</span>
+                  <strong id="quota-crawls-val">4 / 20 used</strong>
+                </div>
+                <div class="quota-progress-bar">
+                  <div id="quota-crawls-fill" class="quota-progress-fill" style="width: 20%; background: #06b6d4;"></div>
+                </div>
+                <span class="quota-subtext">5, 10, or 20 page multi-route crawling</span>
+              </div>
+
+              <div class="quota-meter-card">
+                <div class="quota-meter-header">
+                  <span><i data-lucide="hard-drive" class="icon-xs"></i> Storage</span>
+                  <strong id="quota-storage-val">182 MB / 10 GB</strong>
+                </div>
+                <div class="quota-progress-bar">
+                  <div id="quota-storage-fill" class="quota-progress-fill" style="width: 2%; background: #10b981;"></div>
+                </div>
+                <span class="quota-subtext">Extracted style guides, fonts & raw CSS</span>
+              </div>
+            </div>
+
+            <!-- Plan Switching / Upgrade Simulation -->
+            <div class="plan-selector-section">
+              <h5 style="margin-bottom:10px;font-size:13px;color:var(--text-sub);">Switch Plan Tier:</h5>
+              <div class="plan-options-grid">
+                <label class="plan-option-card">
+                  <input type="radio" name="plan-tier" value="free" class="plan-radio">
+                  <div class="plan-option-content">
+                    <span class="plan-opt-name">Free</span>
+                    <span class="plan-opt-price">₹0</span>
+                    <span class="plan-opt-limits">3 scans/mo</span>
+                  </div>
+                </label>
+                <label class="plan-option-card">
+                  <input type="radio" name="plan-tier" value="pay_per_scan" class="plan-radio">
+                  <div class="plan-option-content">
+                    <span class="plan-opt-name">Pay-Per-Scan</span>
+                    <span class="plan-opt-price">₹149</span>
+                    <span class="plan-opt-limits">Single site full ZIP</span>
+                  </div>
+                </label>
+                <label class="plan-option-card selected">
+                  <input type="radio" name="plan-tier" value="pro" class="plan-radio" checked>
+                  <div class="plan-option-content">
+                    <span class="plan-opt-name">Pro Agency</span>
+                    <span class="plan-opt-price">₹999/mo</span>
+                    <span class="plan-opt-limits">Unlimited + Figma + Crawl</span>
+                  </div>
+                </label>
+                <label class="plan-option-card">
+                  <input type="radio" name="plan-tier" value="agency" class="plan-radio">
+                  <div class="plan-option-content">
+                    <span class="plan-opt-name">Workspace</span>
+                    <span class="plan-opt-price">₹3,999/mo</span>
+                    <span class="plan-opt-limits">Multi-seat & API</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Extraction Engine -->
+          <div class="settings-pane hidden" id="pane-engine">
+            <div class="pane-header">
+              <h4>Extraction Engine & Parser Flags</h4>
+              <p>Configure default timeout thresholds, webfont downloading, and crawler behavior.</p>
+            </div>
+
+            <div class="settings-field-row">
+              <div class="settings-field-group" style="flex:1;">
+                <label for="setting-engine-crawl">Default Crawl Depth</label>
+                <select id="setting-engine-crawl" class="settings-select">
+                  <option value="1">1 page (Single landing page)</option>
+                  <option value="5" selected>5 pages (Standard domain scan)</option>
+                  <option value="10">10 pages (Thorough site scan)</option>
+                  <option value="20">20 pages (Deep architecture audit)</option>
+                </select>
+              </div>
+
+              <div class="settings-field-group" style="flex:1;">
+                <label for="setting-engine-timeout">Scraper Timeout Threshold</label>
+                <select id="setting-engine-timeout" class="settings-select">
+                  <option value="15">15 Seconds (Fast fail)</option>
+                  <option value="30" selected>30 Seconds (Recommended)</option>
+                  <option value="60">60 Seconds (Heavy media/SPA)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-field-row">
+              <div class="settings-field-group" style="flex:1;">
+                <label for="setting-engine-ua">User-Agent Engine Preset</label>
+                <select id="setting-engine-ua" class="settings-select">
+                  <option value="desktop_chrome" selected>Desktop Chrome (Windows 11 / x64)</option>
+                  <option value="mobile_safari">Mobile Safari (iOS 17 / iPhone)</option>
+                  <option value="googlebot">Googlebot / Search Spider</option>
+                </select>
+              </div>
+
+              <div class="settings-field-group" style="flex:1;">
+                <label for="setting-engine-export">Default Preferred Export Format</label>
+                <select id="setting-engine-export" class="settings-select">
+                  <option value="tailwind" selected>Tailwind CSS (tailwind.config.js)</option>
+                  <option value="figma">Figma Tokens (Tokens Studio JSON)</option>
+                  <option value="typescript">TypeScript / React Theme</option>
+                  <option value="w3c">Standard W3C tokens.json</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-toggle-group">
+              <label class="toggle-switch-label">
+                <input type="checkbox" id="setting-engine-fonts" class="toggle-checkbox" checked>
+                <span class="toggle-slider"></span>
+                <div class="toggle-text">
+                  <span class="toggle-title">Download Raw Webfont Binaries</span>
+                  <span class="toggle-desc">Automatically fetch and download .woff2 and .ttf files for offline visual parity.</span>
+                </div>
+              </label>
+            </div>
+
+            <div class="settings-toggle-group">
+              <label class="toggle-switch-label">
+                <input type="checkbox" id="setting-engine-tls" class="toggle-checkbox">
+                <span class="toggle-slider"></span>
+                <div class="toggle-text">
+                  <span class="toggle-title">Bypass Insecure SSL/TLS Certificates</span>
+                  <span class="toggle-desc">Allows extracting staging environments or local test domains with self-signed SSL certs.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 5. API & Webhooks -->
+          <div class="settings-pane hidden" id="pane-api">
+            <div class="pane-header">
+              <h4>REST API Access & Webhook Notifications</h4>
+              <p>Programmatically trigger site scans and receive real-time webhooks upon scan completion.</p>
+            </div>
+
+            <div class="settings-field-group">
+              <label for="setting-api-key">Personal API Secret Key</label>
+              <div style="display:flex;gap:8px;">
+                <input type="password" id="setting-api-key" class="settings-input" readonly style="font-family:monospace;letter-spacing:1px;" value="sk_live_extract_99f82d114ba742e88a09b">
+                <button type="button" id="toggle-key-visibility-btn" class="btn btn-secondary btn-sm" title="Show/Hide"><i data-lucide="eye" class="icon-xs"></i></button>
+                <button type="button" id="copy-api-key-btn" class="btn btn-secondary btn-sm" title="Copy Key"><i data-lucide="copy" class="icon-xs"></i> <span>Copy</span></button>
+                <button type="button" id="regenerate-api-key-btn" class="btn btn-secondary btn-sm" title="Generate New Key"><i data-lucide="refresh-cw" class="icon-xs"></i> <span>Regenerate</span></button>
+              </div>
+              <span class="settings-help">Include as <code>Authorization: Bearer &lt;KEY&gt;</code> in programmatic requests.</span>
+            </div>
+
+            <div class="settings-field-group">
+              <label for="setting-webhook-url">Webhook Delivery Endpoint URL</label>
+              <input type="url" id="setting-webhook-url" class="settings-input" placeholder="https://your-server.com/webhooks/design-intel">
+              <span class="settings-help">POST payload with full audit scores and token metadata dispatched on each extraction completion.</span>
+            </div>
+
+            <div class="settings-field-group">
+              <label>Sample API Execution Snippet (cURL)</label>
+              <pre class="code-block" style="font-size:11.5px;max-height:120px;overflow:auto;margin:0;"><code id="api-curl-snippet">curl -X POST http://localhost:8000/api/extract \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer sk_live_extract_99f82d114ba742e88a09b" \
+  -d '{"url": "https://stripe.com", "crawl": 5}'</code></pre>
+            </div>
+          </div>
+
+          <!-- 6. Maintenance & Reset -->
+          <div class="settings-pane hidden" id="pane-maintenance">
+            <div class="pane-header">
+              <h4>Local Data Management & Factory Reset</h4>
+              <p>Purge client-side cached data or restore all configuration defaults.</p>
+            </div>
+
+            <div class="maintenance-action-card">
+              <div>
+                <h5>Purge Browser Local Storage Cache</h5>
+                <p>Clears locally stored sort preferences, search filters, and recent form inputs.</p>
+              </div>
+              <button type="button" id="clear-local-cache-btn" class="btn btn-secondary btn-sm"><i data-lucide="trash-2" class="icon-xs"></i> <span>Clear Cache</span></button>
+            </div>
+
+            <div class="maintenance-action-card danger">
+              <div>
+                <h5>Reset All Settings to Factory Defaults</h5>
+                <p>Reverts custom brand colors, whitelabel signatures, engine flags, and API tokens.</p>
+              </div>
+              <button type="button" id="reset-settings-default-btn" class="btn btn-danger btn-sm" style="background:#dc2626;color:#fff;"><i data-lucide="rotate-ccw" class="icon-xs"></i> <span>Reset to Defaults</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer settings-modal-footer">
+        <span id="settings-save-status" class="settings-save-status"></span>
+        <div style="display:flex;gap:10px;">
+          <button type="button" id="settings-cancel-btn" class="btn btn-secondary btn-sm">Cancel</button>
+          <button type="button" id="settings-save-btn" class="btn btn-primary btn-sm">
+            <i data-lucide="check" class="icon-xs"></i> <span>Save Changes</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="app-footer">
     <div class="footer-container">
       <div class="footer-main-text">
@@ -402,7 +835,7 @@
     </div>
   </footer>
 
-  <script src="app.js?v=19"></script>
+  <script src="app.js?v=21"></script>
 </body>
 </html>
 

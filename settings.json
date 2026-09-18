@@ -1,0 +1,43 @@
+{
+  "brand": {
+    "name": "ExtractDesign Studio",
+    "tagline": "Reverse-engineer design systems & website intelligence",
+    "accent_color": "#6366f1",
+    "logo_url": "",
+    "custom_domain": "design-intel.local"
+  },
+  "whitelabel": {
+    "agency_name": "Apex Digital Studio",
+    "agency_url": "https://apexdigital.design",
+    "footer_signature": "Design Intelligence Audit prepared by Apex Digital Studio",
+    "hide_powered_by": false,
+    "default_print_auto": false
+  },
+  "plan": {
+    "id": "pro",
+    "name": "Pro Agency Plan",
+    "price_label": "\u20b9999/mo (~$12/mo)",
+    "status": "Active",
+    "billing_cycle": "Monthly",
+    "expiry_date": "2026-10-18T00:00:00Z",
+    "days_remaining": 30,
+    "scans_used": 14,
+    "scans_limit": "Unlimited",
+    "crawls_used": 4,
+    "crawls_limit": 20,
+    "storage_used_mb": 182,
+    "storage_limit_mb": 10240
+  },
+  "engine": {
+    "default_crawl_depth": 5,
+    "request_timeout_seconds": 30,
+    "download_fonts": true,
+    "user_agent_preset": "desktop_chrome",
+    "skip_tls_verify": false,
+    "preferred_export_format": "tailwind"
+  },
+  "api": {
+    "api_key": "sk_live_extract_99f82d114ba742e88a09b",
+    "webhook_url": ""
+  }
+}

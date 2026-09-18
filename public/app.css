@@ -2446,3 +2446,525 @@ body {
   transform: translateY(-2px);
 }
 
+/* =============================================================================
+   Workspace & Platform Settings Modal Styling
+   ============================================================================= */
+.settings-modal-content {
+  max-width: 860px !important;
+  width: 94vw !important;
+  max-height: 88vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  border-radius: var(--radius-lg, 16px) !important;
+  overflow: hidden !important;
+}
+
+.settings-modal-icon {
+  background: var(--primary-glow, rgba(99, 102, 241, 0.15));
+  color: var(--primary, #6366f1);
+  padding: 8px;
+  border-radius: var(--radius-sm, 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+}
+
+.settings-modal-desc {
+  font-size: 12px;
+  color: var(--text-sub, #9ca3af);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.settings-modal-layout {
+  display: flex;
+  flex: 1;
+  min-height: 480px;
+  max-height: calc(88vh - 130px);
+  overflow: hidden;
+  background: var(--bg-dark, #0b0f19);
+}
+
+/* Sidebar Tab Navigation */
+.settings-tabs-nav {
+  width: 220px;
+  background: rgba(15, 23, 42, 0.65);
+  border-right: 1px solid var(--border, #232d42);
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.settings-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md, 8px);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-sub, #9ca3af);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.settings-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-main, #f3f4f6);
+}
+
+.settings-tab-btn.active {
+  background: var(--primary-glow, rgba(99, 102, 241, 0.15));
+  color: #fff;
+  border-color: rgba(99, 102, 241, 0.35);
+  font-weight: 600;
+}
+
+.settings-tab-btn.active svg {
+  color: var(--primary, #6366f1);
+}
+
+/* Settings Content Panes */
+.settings-tab-content {
+  flex: 1;
+  padding: 24px 28px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.settings-pane.hidden {
+  display: none !important;
+}
+
+.pane-header {
+  border-bottom: 1px solid var(--border, #232d42);
+  padding-bottom: 12px;
+  margin-bottom: 4px;
+}
+
+.pane-header h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.pane-header p {
+  font-size: 12.5px;
+  color: var(--text-sub, #9ca3af);
+}
+
+/* Settings Inputs */
+.settings-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings-field-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main, #e2e8f0);
+}
+
+.settings-field-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.settings-input, .settings-select, .settings-textarea {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--border, #232d42);
+  border-radius: var(--radius-sm, 8px);
+  padding: 9px 12px;
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.settings-input:focus, .settings-select:focus, .settings-textarea:focus {
+  border-color: var(--primary, #6366f1);
+  box-shadow: 0 0 0 3px var(--primary-glow, rgba(99, 102, 241, 0.2));
+}
+
+.settings-help {
+  font-size: 11.5px;
+  color: var(--text-muted, #6b7280);
+}
+
+/* Color Swatches */
+.color-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.color-swatches-list {
+  display: flex;
+  gap: 8px;
+}
+
+.theme-color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.theme-color-swatch:hover {
+  transform: scale(1.15);
+}
+
+.theme-color-swatch.active {
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.custom-color-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--border, #232d42);
+  border-radius: var(--radius-sm, 8px);
+  padding: 4px 8px;
+}
+
+.native-color-picker {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.color-hex-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  color: var(--text-sub, #9ca3af);
+}
+
+/* Toggles */
+.settings-toggle-group {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid var(--border, #232d42);
+  border-radius: var(--radius-md, 8px);
+  padding: 12px 14px;
+}
+
+.toggle-switch-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  cursor: pointer;
+}
+
+.toggle-checkbox {
+  appearance: none;
+  width: 38px;
+  height: 22px;
+  background: #334155;
+  border-radius: 9999px;
+  position: relative;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.toggle-checkbox:checked {
+  background: var(--primary, #6366f1);
+}
+
+.toggle-checkbox::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.2s;
+}
+
+.toggle-checkbox:checked::before {
+  transform: translateX(16px);
+}
+
+.toggle-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toggle-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.toggle-desc {
+  font-size: 11.5px;
+  color: var(--text-sub, #9ca3af);
+  line-height: 1.4;
+}
+
+/* Plan Card & Meters */
+.plan-card-featured {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  border-radius: var(--radius-md, 12px);
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.plan-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.plan-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.plan-cycle-pill {
+  font-size: 11.5px;
+  color: var(--text-sub, #9ca3af);
+}
+
+.plan-name-display {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.plan-expiry-text {
+  font-size: 12.5px;
+  color: var(--text-sub, #9ca3af);
+  margin-top: 4px;
+}
+
+.plan-price-display {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  text-align: right;
+  letter-spacing: -0.02em;
+}
+
+.plan-price-usd {
+  font-size: 11.5px;
+  color: var(--text-muted, #6b7280);
+  display: block;
+  text-align: right;
+}
+
+/* Quota Grid */
+.quota-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.quota-meter-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border, #232d42);
+  border-radius: var(--radius-sm, 8px);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quota-meter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-sub, #9ca3af);
+}
+
+.quota-meter-header strong {
+  color: #fff;
+  font-size: 12.5px;
+}
+
+.quota-progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.quota-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+.quota-subtext {
+  font-size: 10.5px;
+  color: var(--text-muted, #6b7280);
+  line-height: 1.2;
+}
+
+/* Plan Options Grid */
+.plan-options-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.plan-option-card {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid var(--border, #232d42);
+  border-radius: var(--radius-sm, 8px);
+  padding: 12px 10px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.plan-option-card:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.plan-option-card.selected {
+  border-color: var(--primary, #6366f1);
+  background: var(--primary-glow, rgba(99, 102, 241, 0.1));
+}
+
+.plan-radio {
+  display: none;
+}
+
+.plan-option-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.plan-opt-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.plan-opt-price {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--primary, #6366f1);
+}
+
+.plan-opt-limits {
+  font-size: 10.5px;
+  color: var(--text-muted, #6b7280);
+}
+
+/* Maintenance Cards */
+.maintenance-action-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid var(--border, #232d42);
+  border-radius: var(--radius-sm, 8px);
+  padding: 14px 16px;
+  gap: 16px;
+}
+
+.maintenance-action-card.danger {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.maintenance-action-card h5 {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.maintenance-action-card p {
+  font-size: 12px;
+  color: var(--text-sub, #9ca3af);
+}
+
+/* Settings Modal Footer */
+.settings-modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  border-top: 1px solid var(--border, #232d42);
+  background: rgba(19, 25, 38, 0.95);
+}
+
+.settings-save-status {
+  font-size: 12px;
+  font-weight: 500;
+  color: #10b981;
+}
+
+/* Sidebar Plan Mini Pill */
+.plan-pill-mini {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s;
+}
+
+.plan-pill-mini:hover {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: #818cf8;
+  color: #fff;
+}
+
+

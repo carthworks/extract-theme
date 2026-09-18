@@ -110,6 +110,93 @@ Open **`http://localhost:8000`** in your browser to access the **ExtractDesign S
 
 ---
 
+## 💼 Who Benefits & How (Target Audiences)
+
+| Persona / ICP | Current Pain Point | How ExtractDesign Solves It | Measurable Benefit |
+| :--- | :--- | :--- | :--- |
+| **Freelance Web Designers & Agencies** | Spending 4–8 hours manually inspecting a client's old site or competitor site with DevTools to pitch a redesign. | Enters client URL $\rightarrow$ gets an interactive style guide, brand assets, font files, and WCAG contrast scorecard ready for a pitch deck. | **Saves 4–6 billable hours per pitch.** Increases proposal win-rate by presenting a live interactive style guide before signing the contract. |
+| **Frontend Engineers & Devs** | Rebuilding UI components or integrating legacy sites into modern stacks (Tailwind, Next.js, Figma). Typing tokens manually is tedious. | Instant 1-click export to `tailwind.config.js`, `tokens.w3c.json`, Figma Tokens Studio JSON, and TypeScript `theme.ts`. | **Eliminates 1–2 days of boilerplate scaffolding.** Direct copy-paste into production repositories. |
+| **UI/UX & Design System Leads** | "Design Debt" — inconsistencies across large enterprise web properties (rogue hex colors, off-grid 13px padding, poor contrast). | The **Visual Consistency Engine** automatically flags rogue colors, off-grid spacing values, and contrast violations. | **Instant automated design audit.** Acts as an objective scorecard to justify redesign budgets to stakeholders. |
+| **Growth Marketers & Strategists** | Reverse-engineering competitors' visual positioning, landing page patterns, tech stacks, and font choices. | Extracts typography pairings, visual hierarchy, tech stack breakdown, and brand asset vectors in one click. | **Competitive intelligence** in seconds without needing technical knowledge. |
+
+---
+
+## 🚀 High-Converting Commercial Capabilities
+
+1. **👑 Whitelabeled Client Presentation Link**:
+   - Share interactive style guides branded under your agency name (`/output/domain/style-guide.html?agency=Your+Agency&client=Client+Name`).
+   - Displays a professional presentation header on the style guide with 1-click client PDF export.
+
+2. **⚡ 1-Click Framework & Figma Configs**:
+   - **Figma Tokens**: JSON schema conforming to the Tokens Studio standard for direct import into Figma.
+   - **Tailwind CSS**: `tailwind.config.js` extended theme ready for Tailwind v3 and `@theme` block for Tailwind v4.
+   - **Next.js & React**: Type-safe `theme.ts` definitions.
+   - **W3C Standard**: `tokens.w3c.json` Design Tokens Community Group specification.
+
+3. **📄 Executive Audit Scorecard (Print / PDF)**:
+   - A ready-made, print-optimized executive audit summary report detailing:
+     - Visual Consistency Score & Letter Grade (A–F)
+     - 8pt Spacing Grid Adherence % and rogue deviations
+     - WCAG 2.1 Contrast Matrix & accessibility violations
+     - Response headers security posture grade
+     - Prioritized remediation checklist for client handoff
+
+4. **🕷️ Deep Multi-Page Crawling**:
+   - Crawls 5, 10, or 20 subpages across an entire domain to capture all sub-route stylesheets, component variants, and rogue utility classes.
+
+---
+
+## 💳 Pricing & Packaging Model
+
+| Tier | Price | Target Audience | Features Included |
+| :--- | :--- | :--- | :--- |
+| **Community / Free** | **₹0 / $0** | Casual testing, developers | • 3 scans / month<br>• Color palette & font names<br>• HTML style guide preview<br>• Tech stack detection |
+| **Pay-Per-Scan** | **₹149 (~$2) / $9** | Freelancers doing one-off client jobs | • Full brand asset ZIP download<br>• Tailwind, Figma, TypeScript & W3C exports<br>• Full 6-pillar technical audit & consistency report<br>• Zero recurring subscriptions |
+| **Pro Subscription** | **₹999/mo (~$12) / $29/mo** | Active freelancers & boutique agencies | • **Unlimited site scans**<br>• Deep crawl up to **20 subpages**<br>• Whitelabel client presentation links<br>• Live Figma Tokens Studio export<br>• Executive PDF scorecards |
+| **Agency / Team** | **₹3,999/mo (~$49) / $99/mo** | Digital agencies & design teams | • Team sharing & workspace history<br>• Scheduled automated competitor audits<br>• Dedicated REST API access for CI/CD pipelines |
+
+---
+
+## ⚙️ Workspace & Platform Settings
+
+Access the complete configuration suite at `http://localhost:8000/settings` or via the **Settings** button in the Studio header:
+
+1. **🎨 Brand & Visual Identity**:
+   - **Studio / App Name**: Customize the workspace name and browser title.
+   - **Accent Theme Color**: Dynamic color picker (with Indigo, Cyan, Emerald, Purple, Amber, Rose presets) that applies live across the entire Studio UI.
+   - **Custom Logo & CNAME**: Configure custom domain mappings (`audit.youragency.com`) and custom SVG/PNG logo URLs.
+
+2. **🏷️ Default Whitelabeling Engine**:
+   - **Agency / Firm Name**: Set default agency attribution for client links.
+   - **Portfolio URL**: Link back to your agency design portfolio.
+   - **Footer Attribution & Disclaimer**: Pre-fill customized disclaimers on client style guides and scorecards.
+   - **Vendor Shield**: 1-click toggle to hide "Powered by ExtractDesign" branding from all client presentations.
+   - **Auto-Print Trigger**: Automatically launch the browser "Save as PDF" dialog when clients open presentation links.
+
+3. **💳 Subscription Plan & Resource Quotas**:
+   - **Active Plan Display**: Real-time status badge, billing cycle, and expiration date countdown (e.g. *Renews on October 18, 2026 · 30 days remaining*).
+   - **Live Resource Meters**: Track Scans Used, Deep Multi-Page Crawls, and Disk/S3 Storage Quota with visual progress bars.
+   - **Interactive Plan Switcher**: Instantly switch between Community Free, Pay-Per-Scan, Pro Agency, and Workspace Enterprise tiers.
+
+4. **⚙️ Extraction Engine & Crawler Settings**:
+   - Configure default crawl depth (1, 5, 10, or 20 pages).
+   - Request timeout thresholds (15s, 30s, 60s).
+   - Toggle raw webfont binary downloads (`.woff2`, `.ttf`).
+   - User-Agent engine presets: Desktop Chrome (Default), Mobile Safari (iOS), Googlebot.
+   - Bypass self-signed SSL/TLS certificates for internal or staging sites.
+
+5. **🔌 REST API Keys & Webhooks**:
+   - Personal API Secret Key management (`sk_live_extract_...`) with reveal, 1-click copy, and regeneration.
+   - Webhook delivery endpoint URL for triggering CI/CD pipelines or Slack notifications upon scan completion.
+   - Auto-generated `cURL` command snippets.
+
+6. **💾 Data Management**:
+   - Purge browser local storage cache.
+   - 1-Click factory reset to default settings (`POST /api/settings/reset`).
+
+---
+
 ## 🤝 License
 
 Apache-2.0 License. Developed by Karthikeyan T (@carthworks). Built for designers, frontend developers, and AI-driven UI workflows.
+

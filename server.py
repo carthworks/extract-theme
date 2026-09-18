@@ -80,6 +80,7 @@ def serve_landing():
 @app.route("/studio")
 @app.route("/app")
 @app.route("/workbench")
+@app.route("/settings")
 def serve_studio():
     index_file = PUBLIC_DIR / "index.html"
     if index_file.is_file():
@@ -131,6 +132,122 @@ def api_magic_link():
         "email": email,
         "token": token,
         "access_url": f"/studio?auth={token}&user={email}",
+    })
+
+
+# =============================================================================
+# API: Workspace & Platform Settings
+# =============================================================================
+SETTINGS_FILE = BASE_DIR / "settings.json"
+
+DEFAULT_SETTINGS = {
+    "brand": {
+        "name": "ExtractDesign Studio",
+        "tagline": "Reverse-engineer design systems & website intelligence",
+        "accent_color": "#6366f1",
+        "logo_url": "",
+        "custom_domain": "design-intel.local",
+    },
+    "whitelabel": {
+        "agency_name": "Apex Digital Studio",
+        "agency_url": "https://apexdigital.design",
+        "footer_signature": "Design Intelligence Audit prepared by Apex Digital Studio",
+        "hide_powered_by": False,
+        "default_print_auto": False,
+    },
+    "plan": {
+        "id": "pro",
+        "name": "Pro Agency Plan",
+        "price_label": "₹999/mo (~$12/mo)",
+        "status": "Active",
+        "billing_cycle": "Monthly",
+        "expiry_date": "2026-10-18T00:00:00Z",
+        "days_remaining": 30,
+        "scans_used": 14,
+        "scans_limit": "Unlimited",
+        "crawls_used": 4,
+        "crawls_limit": 20,
+        "storage_used_mb": 182,
+        "storage_limit_mb": 10240,
+    },
+    "engine": {
+        "default_crawl_depth": 5,
+        "request_timeout_seconds": 30,
+        "download_fonts": True,
+        "user_agent_preset": "desktop_chrome",
+        "skip_tls_verify": False,
+        "preferred_export_format": "tailwind",
+    },
+    "api": {
+        "api_key": "sk_live_extract_99f82d114ba742e88a09b",
+        "webhook_url": "",
+    },
+}
+
+
+def load_settings() -> dict:
+    if SETTINGS_FILE.is_file():
+        try:
+            with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
+                user_settings = json.load(f)
+                merged = json.loads(json.dumps(DEFAULT_SETTINGS))
+                for section, vals in user_settings.items():
+                    if isinstance(vals, dict) and section in merged and isinstance(merged[section], dict):
+                        merged[section].update(vals)
+                    else:
+                        merged[section] = vals
+                return merged
+        except Exception as e:
+            print(f"[Settings] Error loading settings: {e}")
+    return json.loads(json.dumps(DEFAULT_SETTINGS))
+
+
+def save_settings(new_settings: dict) -> dict:
+    try:
+        current = load_settings()
+        for section, vals in new_settings.items():
+            if isinstance(vals, dict) and section in current and isinstance(current[section], dict):
+                current[section].update(vals)
+            else:
+                current[section] = vals
+        with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
+            json.dump(current, f, indent=2)
+        return current
+    except Exception as e:
+        print(f"[Settings] Error saving settings: {e}")
+        return current
+
+
+@app.route("/api/settings", methods=["GET"])
+def api_get_settings():
+    return jsonify({
+        "status": "ok",
+        "settings": load_settings(),
+    })
+
+
+@app.route("/api/settings", methods=["POST", "PUT"])
+def api_update_settings():
+    data = request.get_json(silent=True) or {}
+    updated = save_settings(data)
+    return jsonify({
+        "status": "ok",
+        "message": "Settings saved successfully",
+        "settings": updated,
+    })
+
+
+@app.route("/api/settings/reset", methods=["POST"])
+def api_reset_settings():
+    if SETTINGS_FILE.is_file():
+        try:
+            SETTINGS_FILE.unlink()
+        except Exception:
+            pass
+    return jsonify({
+        "status": "ok",
+        "message": "Settings reset to defaults",
+        "settings": DEFAULT_SETTINGS,
     })
 
 

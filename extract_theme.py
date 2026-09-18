@@ -2229,6 +2229,11 @@ td code{font-size:12.5px}
 .ease-tag{display:inline-block;padding:3px 11px;border-radius:99px;font-size:12px;font-family:ui-monospace,monospace;background:color-mix(in oklab,var(--acc) 10%,transparent);color:var(--acc);margin:2px 2px 2px 0}
 .kf-tag{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-family:ui-monospace,monospace;background:var(--panel);border:1px solid var(--line);color:var(--tx2);margin:2px 2px 2px 0}
 .dur-tag{display:inline-block;padding:3px 11px;border-radius:99px;font-size:12px;background:color-mix(in oklab,var(--tx) 8%,transparent);margin:2px 2px 2px 0}
+@media print {
+  .toggle, #toast, .agency-whitelabel-print-btn { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+  .panel, table, .sw { border-color: #cbd5e1 !important; box-shadow: none !important; }
+}
 """
 
 GUIDE_JS = """
@@ -2244,6 +2249,29 @@ document.getElementById('theme').addEventListener('click', function(){
   var h=document.documentElement;
   h.dataset.t = h.dataset.t==='dark' ? 'light' : 'dark';
 });
+
+// Whitelabel & Agency Presentation Link Engine
+(function initWhitelabelBanner(){
+  try {
+    var p = new URLSearchParams(window.location.search);
+    var agency = p.get('agency') || p.get('presented_by');
+    var client = p.get('client');
+    if (agency) {
+      var safeAgency = agency.replace(/[<>"/']/g, '');
+      var safeClient = client ? client.replace(/[<>"/']/g, '') : '';
+      var b = document.createElement('div');
+      b.className = 'agency-whitelabel-banner';
+      b.style.cssText = 'background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#ffffff;padding:12px 20px;border-radius:12px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(79,70,229,0.3);font-size:13.5px;font-weight:600;';
+      b.innerHTML = '<div style="display:flex;align-items:center;gap:10px;">' +
+        '<span style="background:rgba(255,255,255,0.25);padding:3px 8px;border-radius:6px;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;">Whitelabel Presentation</span>' +
+        '<span>Presented by <strong>' + safeAgency + '</strong>' + (safeClient ? ' for <em>' + safeClient + '</em>' : '') + ' &bull; Design System Benchmark</span>' +
+        '</div>' +
+        '<button type="button" class="agency-whitelabel-print-btn" onclick="window.print()" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">Export PDF / Print</button>';
+      var wrap = document.querySelector('.wrap');
+      if (wrap) wrap.insertBefore(b, wrap.firstChild);
+    }
+  } catch(e) {}
+})();
 """
 
 
