@@ -12,7 +12,9 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application source files
-COPY extract_theme.py server.py storage.py ./
+COPY extract_theme.py server.py storage.py auth.py analyzer.py ./
+COPY core/ ./core/
+COPY db/ ./db/
 COPY public/ ./public/
 
 # Create non-root user for container security
