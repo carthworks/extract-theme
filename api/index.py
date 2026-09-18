@@ -1,5 +1,6 @@
 """
-api/index.py — Vercel Serverless Function entrypoint for ExtractTheme Studio.
+api/index.py — Vercel Serverless Function entrypoint for ExtractDesign Studio.
+Exposes the Flask WSGI application for cloud deployments.
 """
 
 from __future__ import annotations
@@ -15,12 +16,7 @@ if str(BASE_DIR) not in sys.path:
 
 os.environ["PYTHONPATH"] = f"{BASE_DIR}{os.pathsep}{os.environ.get('PYTHONPATH', '')}"
 
-from server import ExtractThemeHandler
+from server import app
 
-
-class handler(ExtractThemeHandler):
-    """
-    Vercel serverless function entrypoint.
-    Inherits all route handlers from ExtractThemeHandler (S3/R2 storage, projects list, file serving, extraction).
-    """
-    pass
+# Vercel WSGI callable
+handler = app

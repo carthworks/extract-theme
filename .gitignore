@@ -48,3 +48,10 @@ node_modules/
 *.pem
 *.key
 credentials.json
+
+# SQLite runtime files
+*.db
+*.db-shm
+*.db-wal
+studio.db
+

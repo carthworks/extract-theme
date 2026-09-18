@@ -32,6 +32,7 @@ from __future__ import annotations
 import argparse
 import concurrent.futures as futures
 import hashlib
+import html as html_lib
 import json
 import math
 import re
@@ -43,6 +44,31 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Sequence
 from urllib.parse import urljoin, urlparse, urldefrag
+
+# Reconfigure stdout/stderr to UTF-8 on Windows to prevent UnicodeEncodeError in pipes
+if sys.platform == "win32" or (hasattr(sys.stdout, "encoding") and sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8"):
+    import io
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+    elif hasattr(sys.stdout, "buffer"):
+        try:
+            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+
+    if hasattr(sys.stderr, "reconfigure"):
+        try:
+            sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+    elif hasattr(sys.stderr, "buffer"):
+        try:
+            sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
+        except Exception:
+            pass
 
 try:
     import requests
@@ -59,8 +85,13 @@ try:
 except ImportError:  # pragma: no cover
     sys.exit("Missing dependency: pip install tinycss2")
 
+try:
+    from analyzer import SiteAnalyzer
+except ImportError:
+    SiteAnalyzer = None
 
-__version__ = "2.0.0"
+
+__version__ = "2.1.0"
 
 DEFAULT_UA = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -189,17 +220,9 @@ class Color:
         return 0.2126 * r + 0.7152 * g + 0.0722 * b
 
     def distance(self, other: "Color") -> float:
-        """
-        Perceptual distance in OKLab (<0.02 is imperceptible), with alpha
-        folded in. Without the alpha term a fully transparent white sits at
-        distance 0 from opaque white, and role inference happily assigns
-        `--foreground: rgb(255 255 255 / 0)`.
-        """
-        return math.dist(self.oklab, other.oklab) + abs(self.a - other.a) * 0.6
-
-    @property
-    def is_overlay(self) -> bool:
-        return self.a < 0.98
+        """Perceptual distance in OKLab (roughly: <0.02 is imperceptible)."""
+        a, b = self.oklab, other.oklab
+        return math.dist(a, b)
 
     def contrast(self, other: "Color") -> float:
         l1, l2 = sorted((self.luminance, other.luminance), reverse=True)
@@ -398,18 +421,13 @@ STEP_LIGHTNESS = [
 
 
 def color_name(c: Color) -> str:
-    """
-    Tailwind-shaped name: `blue-600`, `slate-100`, `white`.
-
-    Naming reads the colour's OWN channels. Flattening against white first
-    (the obvious shortcut) makes every low-alpha colour look white, so
-    `rgb(12 12 12 / 0)` gets named "white" — it is black.
-    """
-    L, C, H = c.oklch
-    if c.r == c.g == c.b:
-        if c.r >= 250:
+    """Tailwind-shaped name: `blue-600`, `gray-100`, `white`."""
+    flat = c.on_white()
+    L, C, H = flat.oklch
+    if flat.r == flat.g == flat.b:
+        if flat.r == 255:
             return "white"
-        if c.r <= 8:
+        if flat.r == 0:
             return "black"
     if C < 0.055:
         # Low-chroma colours are greys with a tint. Naming them "blue-600"
@@ -486,11 +504,21 @@ class Fetcher:
         self.session.headers.update(
             {
                 "User-Agent": ua,
-                "Accept": "text/html,text/css,*/*;q=0.8",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
                 "Accept-Language": "en-US,en;q=0.9",
+                "Sec-Ch-Ua": '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
+                "Sec-Ch-Ua-Mobile": "?0",
+                "Sec-Ch-Ua-Platform": '"Windows"',
+                "Sec-Fetch-Dest": "document",
+                "Sec-Fetch-Mode": "navigate",
+                "Sec-Fetch-Site": "none",
+                "Sec-Fetch-User": "?1",
+                "Upgrade-Insecure-Requests": "1",
             }
         )
         self._cache: dict[str, tuple[str, str]] = {}
+        self.last_headers: dict[str, str] = {}
+        self.last_timing_ms: float = 0.0
 
     def get(self, url: str) -> tuple[str, str]:
         """Returns (final_url, text). Supports local paths."""
@@ -511,16 +539,48 @@ class Fetcher:
                         allow_redirects=True,
                     )
                     r.raise_for_status()
+                    self.last_headers = dict(r.headers)
+                    self.last_timing_ms = round(r.elapsed.total_seconds() * 1000, 1) if hasattr(r, "elapsed") and r.elapsed else 0.0
                     if not r.encoding or r.encoding.lower() == "iso-8859-1":
                         r.encoding = r.apparent_encoding or "utf-8"
                     result = (r.url, r.text)
                     break
+                except requests.exceptions.SSLError:
+                    if self.verify:
+                        warn(f"SSL verification failed for {url}. Retrying with TLS verification disabled...")
+                        try:
+                            r = self.session.get(
+                                url, timeout=self.timeout, verify=False,
+                                allow_redirects=True,
+                            )
+                            r.raise_for_status()
+                            self.last_headers = dict(r.headers)
+                            self.last_timing_ms = round(r.elapsed.total_seconds() * 1000, 1) if hasattr(r, "elapsed") and r.elapsed else 0.0
+                            if not r.encoding or r.encoding.lower() == "iso-8859-1":
+                                r.encoding = r.apparent_encoding or "utf-8"
+                            result = (r.url, r.text)
+                            break
+                        except Exception:
+                            pass
+                    if attempt == 2:
+                        raise
+                    time.sleep(0.6 * (attempt + 1))
                 except requests.RequestException:
                     if attempt == 2:
                         raise
                     time.sleep(0.6 * (attempt + 1))
         self._cache[url] = result
         return result
+
+    def get_quiet(self, url: str) -> str | None:
+        """Fetch a secondary resource (robots.txt, sitemap.xml) quietly without raising."""
+        try:
+            r = self.session.get(url, timeout=min(self.timeout, 8), verify=self.verify, allow_redirects=True)
+            if r.status_code == 200 and r.text:
+                return r.text
+        except Exception:
+            pass
+        return None
 
     def get_many(self, urls: Sequence[str]) -> list[tuple[str, str, str]]:
         """Parallel fetch. Yields (requested_url, final_url, text) for successes."""
@@ -852,80 +912,19 @@ def collect_colors(
     return _cluster(counts, tol), fg, bg
 
 
-STEPS = [s for s, _l in STEP_LIGHTNESS]
-
-
-def continuous_step(L: float) -> float:
-    """
-    Map OKLab lightness onto the 50–950 step scale, interpolating between the
-    anchors and extrapolating past 950 for the very dark end.
-    """
-    pts = STEP_LIGHTNESS
-    if L >= pts[0][1]:
-        return 25.0
-    for (s1, l1), (s2, l2) in zip(pts, pts[1:]):
-        if l2 <= L <= l1:
-            t = (l1 - L) / (l1 - l2) if l1 != l2 else 0.0
-            return s1 + t * (s2 - s1)
-    tail = (pts[-2][1] - pts[-1][1]) or 0.1
-    return min(1000.0, 950 + (pts[-1][1] - L) / tail * 50)
-
-
 def name_palette(entries: Sequence[tuple[Color, int]]) -> dict[str, Color]:
-    """
-    Assign stable names, then resolve collisions by *subdividing the lightness
-    ramp* rather than appending -2, -3, -4.
-
-    A dark-first product legitimately ships six near-black surfaces. Calling
-    them neutral-950 through neutral-950-5 destroys the only information a
-    reader needs: which one is darker. They become 900 / 925 / 950 / 975.
-    """
-    groups: dict[tuple[str, str], list[Color]] = defaultdict(list)
-    flat: list[Color] = []
-    for color, _n in entries:
-        name = color_name(color)
-        if "-" in name and name.rsplit("-", 1)[1].isdigit():
-            family, _step = name.rsplit("-", 1)
-            alpha = f"a{round(color.a * 100)}" if color.is_overlay else ""
-            groups[(family, alpha)].append(color)
-        else:
-            flat.append(color)
-
     used: dict[str, Color] = {}
-
-    def claim(name: str, color: Color) -> None:
-        final, i = name, 2
-        while final in used:
-            final, i = f"{name}-{i}", i + 1
-        used[final] = color
-
-    for color in flat:
+    for color, _n in entries:
         base = color_name(color)
-        claim(f"{base}-a{round(color.a * 100)}" if color.is_overlay else base, color)
-
-    for (family, alpha), colors in groups.items():
-        # Assign from the dark end upward. Going the other way lets a crowded
-        # dark cluster overflow past 950 into invented steps like neutral-1050.
-        colors.sort(key=lambda c: c.oklch[0])            # darkest first
-        suffix = f"-{alpha}" if alpha else ""
-        last = STEPS[-1] + 25
-        for color in colors:
-            cont = continuous_step(color.oklch[0])
-            snap = min(STEPS, key=lambda st: abs(st - cont))
-            step = snap if snap < last else max(25, last - 25)
-            last = step
-            claim(f"{family}-{step}{suffix}", color)
-
-    for name in [n for n in used if n.endswith("-2")]:
-        base = name[:-2]
-        if base not in used:
-            used[base] = used.pop(name)
-
-    return dict(sorted(used.items(), key=lambda kv: -entry_count(entries, kv[1])))
-
-
-def entry_count(entries: Sequence[tuple[Color, int]], color: Color) -> int:
-    return next((n for c, n in entries if c == color), 0)
+        if color.a < 0.999:
+            base = f"{base}-a{round(color.a * 100)}"
+        name = base
+        i = 2
+        while name in used:
+            name = f"{base}-{i}"
+            i += 1
+        used[name] = color
+    return used
 
 
 def collect_property(
@@ -952,21 +951,6 @@ def collect_property(
         elif hint and d.prop.startswith("--") and hint.search(d.prop):
             c[val] += 2   # an explicitly declared token outranks incidental use
     return c
-
-
-def detect_grid(counts: Counter[float]) -> float:
-    """
-    Infer the base unit by scoring candidate grids on how much of the
-    (frequency-weighted) usage lands on them. Almost every system is 4 or 8.
-    """
-    best, best_score = 4.0, -1.0
-    for unit in (2.0, 4.0, 5.0, 6.0, 8.0):
-        hit = sum(n for px, n in counts.items() if px % unit == 0)
-        total = sum(counts.values()) or 1
-        score = (hit / total) * (1 + unit / 40)   # mild bias to a coarser grid
-        if score > best_score:
-            best, best_score = unit, score
-    return best
 
 
 SPACING_VAR_RE = re.compile(r"^--(space|spacing|gap|gutter|pad)", re.I)
@@ -1054,12 +1038,19 @@ def collect_leading(counts: Counter[str], root_px: float) -> dict[str, str]:
     out: dict[str, str] = {}
     for raw, _n in counts.most_common(24):
         raw = raw.strip()
+        ratio = None
         if raw in ("normal", "inherit"):
             ratio = 1.5
         elif re.fullmatch(rf"{_NUM}", raw):
-            ratio = float(raw)
+            try:
+                ratio = float(raw)
+            except ValueError:
+                pass
         elif raw.endswith("%"):
-            ratio = float(raw[:-1]) / 100
+            try:
+                ratio = float(raw[:-1]) / 100
+            except ValueError:
+                pass
         else:
             px = to_px(raw, root_px)
             ratio = px / root_px if px else None
@@ -1075,10 +1066,19 @@ def collect_tracking(counts: Counter[str], root_px: float) -> dict[str, str]:
     out: dict[str, str] = {}
     for raw, _n in counts.most_common(24):
         raw = raw.strip()
+        em = None
         if raw == "normal":
             em = 0.0
+        elif raw.endswith("rem"):
+            try:
+                em = float(raw[:-3])
+            except ValueError:
+                pass
         elif raw.endswith("em"):
-            em = float(raw[:-2])
+            try:
+                em = float(raw[:-2])
+            except ValueError:
+                pass
         else:
             px = to_px(raw, root_px)
             em = px / root_px if px is not None else None
@@ -1089,39 +1089,16 @@ def collect_tracking(counts: Counter[str], root_px: float) -> dict[str, str]:
     return dict(sorted(out.items(), key=lambda kv: dict(TRACKING_NAMES)[kv[0]]))
 
 
-def collect_breakpoints(medias: Sequence[str], limit: int = 6) -> dict[str, str]:
-    """
-    Real systems have four to six breakpoints. A raw dump gives you fifteen —
-    1024 and 1025 and 1101 — because max-width rules sit one pixel below the
-    min-width rule they pair with. Cluster, then keep the ones actually used.
-    """
+def collect_breakpoints(medias: Sequence[str]) -> dict[str, str]:
     widths: Counter[int] = Counter()
     for q in medias:
-        for m in re.finditer(
-            r"(min|max)-width\s*:\s*(\d+(?:\.\d+)?)(px|rem|em)", q, re.I
-        ):
-            n = float(m.group(2))
-            px = n * 16 if m.group(3) in ("rem", "em") else n
-            if m.group(1).lower() == "max":
-                px += 1                     # max-width: 767px pairs with 768
-            if 320 <= px <= 2560:
-                widths[int(round(px))] += 1
-
-    clusters: list[list[tuple[int, int]]] = []
-    for px in sorted(widths):
-        if clusters and px - clusters[-1][-1][0] <= 40:
-            clusters[-1].append((px, widths[px]))
-        else:
-            clusters.append([(px, widths[px])])
-
-    merged = [
-        (max(c, key=lambda kv: kv[1])[0], sum(n for _p, n in c)) for c in clusters
-    ]
-    merged.sort(key=lambda kv: -kv[1])
-    keep = sorted(px for px, _n in merged[:limit])
-
+        for m in re.finditer(r"min-width\s*:\s*(\d+(?:\.\d+)?)(px|rem|em)", q, re.I):
+            n = float(m.group(1))
+            px = n * 16 if m.group(2) in ("rem", "em") else n
+            if 300 <= px <= 2400:
+                widths[int(px)] += 1
     out: dict[str, str] = {}
-    for px in keep:
+    for px, _n in sorted(widths.items()):
         name = _nearest_name(px, BREAKPOINT_NAMES)
         if name in out:
             name = f"{name}-{px}"
@@ -1177,71 +1154,480 @@ def collect_fonts(counts: Counter[str], faces: Sequence[dict]) -> dict[str, str]
     return out
 
 
-def collect_shadows(
-    decls: Sequence[Decl], var_map: dict[str, str]
-) -> tuple[dict[str, str], dict[str, str], list[str]]:
-    """
-    Returns (elevation, rings, suspects).
-
-    Three things the naive version gets wrong:
-      · `0 0 0 0 #fff` sorts smallest and wins the `xs` slot — it is a no-op.
-      · `inset 0 0 0 1px <c>` is a border drawn as a shadow. It is a ring, not
-        elevation, and mixing the two produces an unusable scale.
-      · `rgba(255,0,0,.5)` is somebody's debug outline that shipped.
-    """
+def collect_shadows(decls: Sequence[Decl], var_map: dict[str, str]) -> dict[str, str]:
     counts: Counter[str] = Counter()
     for d in decls:
-        if d.prop != "box-shadow" and not re.match(
-            r"^--(box-)?shadow|^--elevation|^--ring", d.prop
-        ):
+        if d.prop != "box-shadow" and not re.match(r"^--(box-)?shadow|^--elevation", d.prop):
             continue
         v = re.sub(r"\s+", " ", resolve_vars(d.value, var_map).strip())
-        if v.lower() in ("none", "inherit", "initial", "unset") or "var(" in v:
+        if v.lower() in ("none", "inherit") or "var(" in v:
             continue
         counts[v] += 1
 
-    def lengths(v: str) -> list[float]:
-        return [to_px(t) or 0.0 for t in length_tokens(v)]
+    def blur(v: str) -> float:
+        px = [to_px(t) or 0 for t in length_tokens(v)]
+        return sum(abs(x) for x in px)
 
-    def is_debug(v: str) -> bool:
-        for c in find_colors(v):
-            if c.a > 0.2 and c.oklch[1] > 0.22 and max(c.r, c.g, c.b) > 200:
-                mx = max(c.r, c.g, c.b)
-                if sorted((c.r, c.g, c.b))[1] < mx * 0.35:   # pure R/G/B
-                    return True
-        return False
+    ranked = sorted(counts.items(), key=lambda kv: (blur(kv[0]), -kv[1]))
+    names = ["xs", "sm", "DEFAULT", "md", "lg", "xl", "2xl"]
+    out: dict[str, str] = {}
+    for i, (v, _n) in enumerate(ranked[:7]):
+        out[names[i] if i < len(names) else f"s{i}"] = v
+    return out
 
-    elevation: Counter[str] = Counter()
-    rings: Counter[str] = Counter()
-    suspects: list[str] = []
-    for v, n in counts.items():
-        px = lengths(v)
-        if not px or all(abs(x) < 0.01 for x in px):
-            continue                                    # no-op shadow
-        if is_debug(v):
-            suspects.append(v)
-            continue
-        ox, oy = (px + [0.0, 0.0])[:2]
-        blur = px[2] if len(px) > 2 else 0.0
-        spread = px[3] if len(px) > 3 else 0.0
-        ring = (
-            (abs(ox) < 0.5 and abs(oy) < 0.5 and abs(blur) < 1.5 and abs(spread) > 0.5)
-            or (v.lower().startswith("inset") and abs(blur) < 1.5)
+
+# ===========================================================================
+# 6b.  GRADIENTS & ANIMATIONS
+# ===========================================================================
+
+_GRADIENT_FUNC_RE = re.compile(
+    r"((?:repeating-)?(?:linear|radial|conic)-gradient)\s*\(",
+    re.I,
+)
+_GRADIENT_PROPS = {"background", "background-image"}
+
+
+def collect_gradients(
+    decls: Sequence[Decl], var_map: dict[str, str], limit: int = 16
+) -> list[str]:
+    """Unique CSS gradient values, most-used first."""
+    counts: Counter[str] = Counter()
+    for d in decls:
+        is_relevant = (
+            d.prop in _GRADIENT_PROPS
+            or (d.prop.startswith("--") and re.search(r"grad|bg|background", d.prop, re.I))
         )
-        (rings if ring else elevation)[v] = n           # a border in disguise
+        if not is_relevant:
+            continue
+        value = resolve_vars(d.value, var_map) if "var(" in d.value else d.value
+        for m in _GRADIENT_FUNC_RE.finditer(value):
+            depth, end = 0, m.start()
+            for j in range(m.start(), len(value)):
+                if value[j] == "(":
+                    depth += 1
+                elif value[j] == ")":
+                    depth -= 1
+                    if depth == 0:
+                        end = j
+                        break
+            grad = re.sub(r"\s+", " ", value[m.start():end + 1].strip())
+            if 20 < len(grad) < 600:
+                counts[grad] += 1
+    seen: set[str] = set()
+    out: list[str] = []
+    for grad, _n in counts.most_common(limit * 2):
+        if grad not in seen:
+            seen.add(grad)
+            out.append(grad)
+            if len(out) >= limit:
+                break
+    return out
 
-    def scale(c: Counter[str], names: Sequence[str]) -> dict[str, str]:
-        ranked = sorted(c.items(), key=lambda kv: (sum(abs(x) for x in lengths(kv[0])), -kv[1]))
-        return {
-            (names[i] if i < len(names) else f"s{i}"): v
-            for i, (v, _n) in enumerate(ranked[: len(names)])
-        }
 
-    return (
-        scale(elevation, ["xs", "sm", "DEFAULT", "md", "lg", "xl", "2xl"]),
-        scale(rings, ["ring", "ring-2", "ring-inset", "ring-lg"]),
-        suspects,
+_CUBIC_BEZIER_RE = re.compile(r"cubic-bezier\s*\([^)]+\)", re.I)
+_STEPS_FUNC_RE = re.compile(r"steps\s*\([^)]+\)", re.I)
+_DURATION_RE = re.compile(r"\b(\d+(?:\.\d+)?)(ms|s)\b", re.I)
+_KEYFRAME_NAME_RE = re.compile(r"@keyframes\s+([\w-]+)", re.I)
+_EASING_KEYWORDS = {
+    "ease", "ease-in", "ease-out", "ease-in-out",
+    "linear", "step-start", "step-end",
+}
+_ANIM_PROPS = {
+    "animation", "animation-name", "animation-duration",
+    "animation-timing-function", "animation-delay",
+}
+_TRANS_PROPS = {
+    "transition", "transition-duration",
+    "transition-timing-function", "transition-delay",
+}
+
+
+def collect_animations(decls: Sequence[Decl], combined_css: str) -> dict:
+    """Return animation/transition design tokens.
+
+    Keys
+    ----
+    keyframes   – list[str]  @keyframes names found in the CSS
+    durations   – list[str]  unique timing values sorted short→long
+    easings     – list[str]  unique easing expressions
+    transitions – list[str]  most-common transition shorthand values
+    """
+    kf_names: list[str] = []
+    seen_kf: set[str] = set()
+    for m in _KEYFRAME_NAME_RE.finditer(combined_css):
+        name = m.group(1)
+        if name not in seen_kf:
+            seen_kf.add(name)
+            kf_names.append(name)
+
+    dur_counts: Counter[str] = Counter()
+    easing_counts: Counter[str] = Counter()
+    trans_counts: Counter[str] = Counter()
+
+    for d in decls:
+        if d.prop not in _ANIM_PROPS | _TRANS_PROPS:
+            continue
+        val = re.sub(r"\s+", " ", d.value.strip())
+        if not val or val.lower() in ("none", "inherit", "initial", "unset"):
+            continue
+        for m in _DURATION_RE.finditer(val):
+            n, unit = float(m.group(1)), m.group(2).lower()
+            ms = n * 1000 if unit == "s" else n
+            if 50 <= ms <= 10_000:
+                dur_counts[m.group(0)] += 1
+        for m in _CUBIC_BEZIER_RE.finditer(val):
+            easing_counts[m.group(0).strip()] += 1
+        for m in _STEPS_FUNC_RE.finditer(val):
+            easing_counts[m.group(0).strip()] += 1
+        low = val.lower()
+        for kw in _EASING_KEYWORDS:
+            if re.search(rf"(?<![a-z-]){re.escape(kw)}(?![a-z-])", low):
+                easing_counts[kw] += 1
+        if d.prop == "transition":
+            trans_counts[val] += 1
+
+    def _dur_ms(s: str) -> float:
+        m = _DURATION_RE.search(s)
+        if not m:
+            return 0.0
+        n, unit = float(m.group(1)), m.group(2).lower()
+        return n * 1000 if unit == "s" else n
+
+    durations = sorted(
+        {k for k, _ in dur_counts.most_common(20)},
+        key=_dur_ms,
     )
+    return {
+        "keyframes": kf_names[:40],
+        "durations": durations,
+        "easings": [k for k, _ in easing_counts.most_common(12)],
+        "transitions": [k for k, _ in trans_counts.most_common(8)],
+    }
+
+
+# ===========================================================================
+# 6c.  FONT FILE DOWNLOAD & FRAMEWORK DETECTION
+# ===========================================================================
+
+_FONT_URL_RE = re.compile(
+    r"""url\(\s*['"]?([^'")]+\.(?:woff2?|ttf|otf|eot)[^'")]*?)['"]?\s*\)"""
+    r"""(?:\s*format\(\s*['"]?([^'")\s]+)['"]?\s*\))?""",
+    re.I,
+)
+_EXT_PRIORITY = {"woff2": 0, "woff": 1, "ttf": 2, "otf": 3, "eot": 4}
+
+
+def download_fonts(
+    fetcher: "Fetcher", faces: Sequence[dict], out_dir: Path
+) -> list[dict]:
+    """Download @font-face files (woff2 preferred). Saves to out_dir/fonts/.
+
+    Returns a manifest list of dicts with family/weight/style/format/file keys.
+    """
+    fonts_dir = out_dir / "fonts"
+    fonts_dir.mkdir(parents=True, exist_ok=True)
+    manifest: list[dict] = []
+    seen_urls: set[str] = set()
+
+    for face in faces:
+        src = face.get("src", "")
+        family = face.get("font-family", "unknown").strip("\"' ")
+        weight = face.get("font-weight", "400").strip()
+        style = face.get("font-style", "normal").strip()
+
+        # collect (priority, url, fmt) candidates; pick best format
+        candidates: list[tuple[int, str, str]] = []
+        for m in _FONT_URL_RE.finditer(src):
+            url = m.group(1).strip()
+            fmt = (m.group(2) or "").strip()
+            ext = url.rsplit(".", 1)[-1].split("?")[0].lower()
+            priority = _EXT_PRIORITY.get(ext, 9)
+            candidates.append((priority, url, fmt or ext))
+        candidates.sort(key=lambda t: t[0])
+
+        for _, url, fmt in candidates:
+            if url in seen_urls:
+                break
+            seen_urls.add(url)
+            try:
+                resp = fetcher.session.get(
+                    url, timeout=fetcher.timeout, verify=fetcher.verify
+                )
+                resp.raise_for_status()
+                safe = re.sub(r"[^\w-]", "_", family)
+                ext_part = url.rsplit(".", 1)[-1].split("?")[0].lower()
+                filename = f"{safe}-{weight}-{style}.{ext_part}"
+                dest = fonts_dir / filename
+                # avoid collisions
+                idx = 1
+                while dest.exists():
+                    dest = fonts_dir / f"{safe}-{weight}-{style}-{idx}.{ext_part}"
+                    idx += 1
+                dest.write_bytes(resp.content)
+                manifest.append({
+                    "family": family, "weight": weight, "style": style,
+                    "format": fmt, "url": url,
+                    "file": f"fonts/{dest.name}",
+                    "size_kb": round(len(resp.content) / 1024, 1),
+                })
+            except Exception as exc:  # noqa: BLE001
+                warn(f"font {url} — {type(exc).__name__}")
+            break  # only download best-format file per face
+    return manifest
+
+
+# Each entry: (display_name, [(check_type, pattern), ...], confidence)
+# check_type: "css" | "html" | "script_src"
+_FW_RULES: list[tuple[str, list[tuple[str, str]], str]] = [
+    ("Next.js",          [("html", r"__NEXT_DATA__|/_next/static/")],           "confirmed"),
+    ("React",            [("html", r"data-reactroot|react\.production\.min|react-dom\.production")], "confirmed"),
+    ("Vue",              [("html", r"data-v-[a-f0-9]{6,}|__vue_app__|vue\.runtime\.esm")], "confirmed"),
+    ("Nuxt",             [("html", r"/_nuxt/|__nuxt_")],                        "confirmed"),
+    ("Angular",          [("html", r"ng-version=|_nghost-|ng\.coreTokens")],    "confirmed"),
+    ("Svelte",           [("html", r"\.svelte-[a-z0-9]+|__sveltekit_")],        "confirmed"),
+    ("Astro",            [("html", r"astro-island|astro:load|@astrojs")],        "confirmed"),
+    ("Gatsby",           [("html", r"gatsby-focus-wrapper|___gatsby")],          "confirmed"),
+    ("Tailwind CSS",     [("css",  r"--tw-[a-z]"), ("html", r"@tailwind\s+base")], "confirmed"),
+    ("Bootstrap 5",      [("css",  r"--bs-[a-z]")],                             "confirmed"),
+    ("Bootstrap 4",      [("html", r"bootstrap(?:\.bundle)?\.(?:min\.)?js|col-(?:md|lg|sm|xl)-")], "likely"),
+    ("MUI / Material",   [("css",  r"--mdc-|MuiBox|MuiButton"),
+                          ("html", r"MuiBox|MuiButton|@mui/material")],          "confirmed"),
+    ("Styled-Components", [("html", r"data-styled(?:=|\s)"),
+                           ("css",  r"data-styled")],                            "likely"),
+    ("Emotion CSS",      [("html", r"data-emotion"),
+                          ("css",  r"css-[a-zA-Z0-9]{5,}\s*\{")],               "likely"),
+    ("Framer Motion",    [("html", r"data-framer-|framer-motion|framer\.com/motion")], "confirmed"),
+    ("GSAP",             [("html", r"gsap\.min\.js|TweenMax|gsap\.to\s*\(")],   "confirmed"),
+    ("jQuery",           [("html", r"jquery[\.-][0-9]|/jquery\.(?:min\.)?js")], "confirmed"),
+]
+
+
+def detect_frameworks(
+    pages: list[tuple[str, str]], combined_css: str
+) -> dict[str, str]:
+    """Return {framework_name: confidence} for detected stacks.
+
+    Checks combined CSS text and HTML source of every crawled page.
+    """
+    all_html = "\n".join(html for _, html in pages)
+    found: dict[str, str] = {}
+
+    for name, checks, confidence in _FW_RULES:
+        for kind, pattern in checks:
+            src = combined_css if kind == "css" else all_html
+            if re.search(pattern, src, re.I):
+                found[name] = confidence
+                break  # one hit is enough
+
+    # Tailwind heuristic: many utility classes in HTML (no explicit marker)
+    if "Tailwind CSS" not in found:
+        util_hit = re.search(
+            r"""class=["'][^"']*(?:(?:text|bg|p|m|flex|grid|gap|rounded|border|shadow|font)-[\w-]+\s*){5,}""",
+            all_html, re.I,
+        )
+        if util_hit:
+            found["Tailwind CSS"] = "likely"
+
+    return found
+
+
+_LOGO_ALT_RE = re.compile(r"logo", re.I)
+
+
+def extract_logo(
+    fetcher: "Fetcher", pages: list[tuple[str, str]], out_dir: Path
+) -> dict:
+    """Find and download the site's logo / favicon.
+
+    Priority:
+      1. SVG favicon  (vector, lossless)
+      2. <img> with 'logo' in class/id/alt/src  (actual logotype)
+      3. Largest PNG favicon / apple-touch-icon
+      4. og:image URL (recorded but not downloaded — may be large)
+
+    Returns a dict with keys: logo_svg, logo_img, favicon, og_image_url.
+    """
+    if not pages:
+        return {}
+
+    primary_url, html = pages[0]
+
+    # ---- parse HTML ---------------------------------------------------------
+    # Simple regex-based approach (no BS4 dependency assumption)
+    result: dict[str, str] = {}
+
+    # collect <link> tags
+    link_tags = re.findall(r"<link\b[^>]+>", html, re.I)
+
+    # 1. SVG favicon
+    for tag in link_tags:
+        if re.search(r'type=["\']image/svg\+xml["\']', tag, re.I) and \
+                re.search(r'rel=["\'][^"\']*icon[^"\']*["\']', tag, re.I):
+            href_m = re.search(r'href=["\']([^"\']+)["\']', tag, re.I)
+            if href_m:
+                url = urljoin(primary_url, href_m.group(1))
+                try:
+                    resp = fetcher.session.get(url, timeout=fetcher.timeout, verify=fetcher.verify)
+                    resp.raise_for_status()
+                    dest = out_dir / "logo.svg"
+                    dest.write_bytes(resp.content)
+                    result["logo_svg"] = "logo.svg"
+                    log(f"  logo  ← {url}")
+                except Exception as exc:  # noqa: BLE001
+                    warn(f"logo SVG {url} — {type(exc).__name__}")
+                break
+
+    # 2. <img> with 'logo' in class / id / alt / src (in <header> or <nav>)
+    if "logo_svg" not in result:
+        # grab header/nav block first for higher precision
+        header_block = re.search(
+            r"<(?:header|nav)\b[^>]*>.*?</(?:header|nav)>", html, re.I | re.S
+        )
+        search_zone = header_block.group(0) if header_block else html[:8000]
+        for img_tag in re.findall(r"<img\b[^>]+>", search_zone, re.I):
+            attrs_str = img_tag
+            if _LOGO_ALT_RE.search(attrs_str):
+                src_m = re.search(r'src=["\']([^"\']+)["\']', img_tag, re.I)
+                if src_m:
+                    raw_src = html_lib.unescape(src_m.group(1))
+                    url = urljoin(primary_url, raw_src)
+                    try:
+                        resp = fetcher.session.get(url, timeout=fetcher.timeout, verify=fetcher.verify)
+                        resp.raise_for_status()
+                        ext = url.split("?")[0].rsplit(".", 1)[-1].lower()
+                        if ext not in {"png", "jpg", "jpeg", "svg", "webp", "gif", "avif"}:
+                            ext = "png"
+                        dest = out_dir / f"logo.{ext}"
+                        dest.write_bytes(resp.content)
+                        result["logo_img"] = f"logo.{ext}"
+                        log(f"  logo  ← {url}")
+                    except Exception as exc:  # noqa: BLE001
+                        warn(f"logo img {url} — {type(exc).__name__}")
+                    break
+
+    # 3. Largest favicon (apple-touch-icon or PNG icon)
+    if not result:
+        candidates: list[tuple[int, str]] = []
+        for tag in link_tags:
+            rel_m = re.search(r'rel=["\']([^"\']+)["\']', tag, re.I)
+            href_m = re.search(r'href=["\']([^"\']+)["\']', tag, re.I)
+            if not (rel_m and href_m):
+                continue
+            rel = rel_m.group(1).lower()
+            href = href_m.group(1)
+            if "apple-touch-icon" in rel:
+                size_m = re.search(r'sizes=["\'](\d+)x', tag, re.I)
+                size = int(size_m.group(1)) if size_m else 180
+                candidates.append((size, href))
+            elif "icon" in rel and re.search(r'\.(png|webp|jpg)(\?|$)', href, re.I):
+                size_m = re.search(r'sizes=["\'](\d+)x', tag, re.I)
+                size = int(size_m.group(1)) if size_m else 32
+                candidates.append((size, href))
+        candidates.sort(key=lambda t: -t[0])
+        for size, href in candidates[:4]:
+            url = urljoin(primary_url, href)
+            try:
+                resp = fetcher.session.get(url, timeout=fetcher.timeout, verify=fetcher.verify)
+                resp.raise_for_status()
+                ext = href.rsplit(".", 1)[-1].split("?")[0].lower()
+                dest = out_dir / f"favicon.{ext}"
+                dest.write_bytes(resp.content)
+                result["favicon"] = f"favicon.{ext}"
+                log(f"  favicon ({size}px) ← {url}")
+                break
+            except Exception:  # noqa: BLE001
+                pass
+
+    # 4. OG image URL (record only — may be a large hero image)
+    og_m = re.search(
+        r'<meta\b[^>]+(?:property|name)=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']'
+        r'|<meta\b[^>]+content=["\']([^"\']+)["\'][^>]+(?:property|name)=["\']og:image["\']',
+        html, re.I,
+    )
+    if og_m:
+        result["og_image_url"] = og_m.group(1) or og_m.group(2)
+
+    return result
+
+
+def extract_copyright_and_brand(
+    fetcher: "Fetcher", pages: list[tuple[str, str]], primary_url: str
+) -> dict[str, str]:
+    """Extract brand name, copyright notice, and legal ownership information from the page HTML."""
+    if not pages:
+        return {}
+
+    html = pages[0][1]
+    result: dict[str, str] = {}
+    p = urlparse(primary_url)
+    domain = p.netloc or primary_url
+    domain_clean = domain.split(":")[0]
+    domain_parts = domain_clean.split(".")
+    brand_guess = domain_parts[-2].capitalize() if len(domain_parts) >= 2 and domain_parts[-2] not in {"co", "com", "org", "net", "io", "ai", "app"} else domain_parts[0].capitalize()
+
+    # 1. Look for meta og:site_name, author, copyright, title
+    og_site = re.search(r'<meta\b[^>]+(?:property|name)=["\']og:site_name["\'][^>]+content=["\']([^"\']+)["\']', html, re.I)
+    if not og_site:
+        og_site = re.search(r'<meta\b[^>]+content=["\']([^"\']+)["\'][^>]+(?:property|name)=["\']og:site_name["\']', html, re.I)
+    
+    meta_author = re.search(r'<meta\b[^>]+name=["\']author["\'][^>]+content=["\']([^"\']+)["\']', html, re.I)
+    if not meta_author:
+        meta_author = re.search(r'<meta\b[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']author["\']', html, re.I)
+
+    meta_copy = re.search(r'<meta\b[^>]+name=["\']copyright["\'][^>]+content=["\']([^"\']+)["\']', html, re.I)
+    if not meta_copy:
+        meta_copy = re.search(r'<meta\b[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']copyright["\']', html, re.I)
+
+    # Clean brand name
+    if og_site and og_site.group(1).strip():
+        result["brand_name"] = html_lib.unescape(og_site.group(1).strip())
+    elif meta_author and meta_author.group(1).strip():
+        result["brand_name"] = html_lib.unescape(meta_author.group(1).strip())
+    else:
+        title_m = re.search(r'<title\b[^>]*>(.*?)</title>', html, re.I | re.S)
+        if title_m:
+            raw_title = html_lib.unescape(title_m.group(1).strip())
+            parts = re.split(r'[\s\—\-\|:•]+', raw_title)
+            if parts and parts[0] and len(parts[0]) <= 30:
+                result["brand_name"] = parts[0].strip()
+            else:
+                result["brand_name"] = brand_guess
+        else:
+            result["brand_name"] = brand_guess
+
+    # 2. Extract Copyright text
+    copyright_text = ""
+    if meta_copy and meta_copy.group(1).strip():
+        copyright_text = html_lib.unescape(meta_copy.group(1).strip())
+
+    if not copyright_text:
+        # Search in <footer> or bottom of HTML for copyright strings
+        footer_block = re.search(r'<footer\b[^>]*>(.*?)</footer>', html, re.I | re.S)
+        search_zone = footer_block.group(0) if footer_block else html[-20000:]
+        
+        # Regex to match copyright patterns like "© 2026 Stripe, Inc. All rights reserved"
+        copy_pattern = re.compile(
+            r'(?:(?:©|&copy;|&#169;|\(c\)|Copyright)\s*(?:(?:\d{4}\s*[-–—]\s*)?\d{4})?\s*[^<>\n\r]{2,80}?(?:all\s+rights?\s+reserved|inc\.?|llc\.?|corp\.?|ltd\.?|gmbh|co\.?|studio|technologies|group)?)',
+            re.I
+        )
+        match = copy_pattern.search(search_zone)
+        if match:
+            raw_match = re.sub(r'<[^>]+>', ' ', match.group(0))
+            raw_match = html_lib.unescape(raw_match).strip()
+            raw_match = ' '.join(raw_match.split())
+            if len(raw_match) > 6 and len(raw_match) < 120:
+                if not raw_match.startswith("©") and not raw_match.lower().startswith("copyright"):
+                    raw_match = f"© {raw_match}"
+                copyright_text = raw_match
+
+    current_year = time.strftime("%Y")
+    brand = result.get("brand_name", brand_guess)
+    if not copyright_text:
+        copyright_text = f"© {current_year} {brand}. All rights reserved."
+
+    result["copyright"] = copyright_text
+    result["legal_notice"] = f"All trademarks, logos, brand names, and design tokens belong to {brand}. Extracted for design system analysis and interoperability."
+    return result
 
 
 # ===========================================================================
@@ -1351,54 +1737,7 @@ def guess_roles(
     return roles
 
 
-def ambiguous_vars(decls: Iterable[Decl]) -> set[str]:
-    """
-    Custom properties redeclared with different values across components.
-    `--bs-btn-hover-bg` has one value per button variant, so resolving it
-    statically pairs one variant's text with another's surface and invents
-    contrast failures that nobody can see.
-    """
-    values: dict[str, set[str]] = defaultdict(set)
-    for d in decls:
-        if d.prop.startswith("--") and not d.dark:
-            values[d.prop].add(d.value.strip())
-    return {k for k, v in values.items() if len(v) > 1}
-
-
-def collect_pairs(
-    decls: Sequence[Decl], var_map: dict[str, str], ambiguous: set[str] | None = None
-) -> list[tuple[str, Color, Color]]:
-    """
-    Foreground/background colours declared on the same selector — the pairs a
-    user actually sees. A cartesian product of every colour against every other
-    produces forty rows of `black on white — 21:1 ✓` and hides the two pairs
-    that fail.
-    """
-    fg_by_sel: dict[str, Color] = {}
-    bg_by_sel: dict[str, Color] = {}
-    ambiguous = ambiguous or set()
-    for d in decls:
-        if d.prop not in FG_PROPS | BG_PROPS:
-            continue
-        if any(v in ambiguous for v in VAR_REF_RE.findall(d.value)):
-            continue
-        found = find_colors(resolve_vars(d.value, var_map))
-        if len(found) != 1 or found[0].a < 0.9:
-            continue
-        (fg_by_sel if d.prop in FG_PROPS else bg_by_sel)[d.selector] = found[0]
-
-    pairs: list[tuple[str, Color, Color]] = []
-    seen: set[tuple[Color, Color]] = set()
-    for sel, fg in fg_by_sel.items():
-        bg = bg_by_sel.get(sel)
-        if bg is None or (fg, bg) in seen or fg == bg:
-            continue
-        seen.add((fg, bg))
-        pairs.append((sel, fg, bg))
-    return pairs
-
-
-def contrast_report(palette: dict[str, Color], limit: int = 6) -> list[dict]:
+def contrast_report(palette: dict[str, Color], limit: int = 10) -> list[dict]:
     lights = sorted(
         ((n, c) for n, c in palette.items() if c.on_white().luminance > 0.5),
         key=lambda kv: -kv[1].luminance,
@@ -1419,113 +1758,16 @@ def contrast_report(palette: dict[str, Color], limit: int = 6) -> list[dict]:
                     "aa_normal": ratio >= 4.5,
                     "aa_large": ratio >= 3.0,
                     "aaa_normal": ratio >= 7.0,
+                    "aaa_large": ratio >= 4.5,
                 }
             )
     rows.sort(key=lambda r: -r["ratio"])
-    return rows[:40]
+    return rows[:80]
 
 
 # ===========================================================================
 # 8.  EMITTERS
 # ===========================================================================
-
-
-def build_audit(
-    palette: dict[str, Color],
-    overlays: dict[str, Color],
-    off_grid: Sequence[tuple[float, int]],
-    grid: float,
-    contrast: Sequence[dict],
-    shadow_suspects: Sequence[str],
-    fonts: dict[str, str],
-    breakpoint_count: int,
-    raw_breakpoints: int,
-) -> list[dict]:
-    """
-    Extraction is table stakes. The useful output is the diff between the
-    system a team thinks they have and the CSS they actually shipped.
-    """
-    issues: list[dict] = []
-
-    fails = [c for c in contrast if not c["aa_normal"]]
-    if fails:
-        issues.append({
-            "severity": "high",
-            "title": f"{len(fails)} colour pair(s) below WCAG AA",
-            "detail": ", ".join(
-                f"{c['foreground']} on {c['background']} ({c['ratio']}:1)"
-                for c in fails[:6]
-            ),
-            "action": "Darken the foreground or lighten the surface to clear 4.5:1.",
-        })
-
-    near = []
-    items = list(palette.items())
-    for i, (n1, c1) in enumerate(items):
-        for n2, c2 in items[i + 1:]:
-            d = c1.distance(c2)
-            if d < 0.045:
-                near.append(f"{n1} {c1.hex} ≈ {n2} {c2.hex}")
-    if near:
-        issues.append({
-            "severity": "medium",
-            "title": f"{len(near)} near-duplicate colour pair(s)",
-            "detail": "; ".join(near[:8]),
-            "action": "Collapse to one token. Nobody can tell these apart on a screen.",
-        })
-
-    if off_grid:
-        total_off = sum(n for _px, n in off_grid)
-        issues.append({
-            "severity": "medium",
-            "title": f"{len(off_grid)} spacing values off the {grid:g}px grid "
-                     f"({total_off} uses)",
-            "detail": ", ".join(f"{px:g}px×{n}" for px, n in off_grid[:12]),
-            "action": f"Snap to the nearest multiple of {grid:g}px, or promote the "
-                      f"recurring ones into real tokens.",
-        })
-
-    if raw_breakpoints > breakpoint_count:
-        issues.append({
-            "severity": "medium",
-            "title": f"{raw_breakpoints} distinct media-query widths, "
-                     f"{breakpoint_count} kept",
-            "detail": "Off-by-one widths usually mean min-width and max-width "
-                      "rules were written against different values.",
-            "action": "Standardise on min-width only and one shared width list.",
-        })
-
-    if shadow_suspects:
-        issues.append({
-            "severity": "high",
-            "title": "Debug styling in production CSS",
-            "detail": "; ".join(shadow_suspects[:4]),
-            "action": "A saturated primary-channel shadow is almost always a "
-                      "leftover outline. Remove it.",
-        })
-
-    stacks = [v for k, v in fonts.items() if not k.startswith("_")]
-    norm = [re.sub(r"[\"'\s]", "", v).lower() for v in stacks]
-    if len(norm) != len(set(norm)):
-        issues.append({
-            "severity": "low",
-            "title": "Duplicate font stacks differing only in quoting",
-            "detail": "; ".join(stacks[:4]),
-            "action": "Normalise quoting and declare the stack once as a token.",
-        })
-
-    if len(overlays) > 8:
-        issues.append({
-            "severity": "low",
-            "title": f"{len(overlays)} one-off overlay tints",
-            "detail": ", ".join(list(overlays)[:10]),
-            "action": "Reduce to a 3-4 step scrim scale "
-                      "(--overlay-subtle / -medium / -strong).",
-        })
-
-    order = {"high": 0, "medium": 1, "low": 2}
-    issues.sort(key=lambda i: order[i["severity"]])
-    return issues
 
 
 def emit_theme_css(tokens: dict, source: str) -> str:
@@ -1546,11 +1788,6 @@ def emit_theme_css(tokens: dict, source: str) -> str:
         for role, ref in tokens["roles"].items():
             ref_css = f"var(--color-{ref})" if ref in tokens["colors"] else ref
             L.append(f"  --{role}: {ref_css};")
-
-    if tokens["overlays"]:
-        L += ["", "  /* overlays and scrims */"]
-        for name, css in tokens["overlays"].items():
-            L.append(f"  --overlay-{name}: {css};")
 
     if tokens["fonts"]:
         L += ["", "  /* typography */"]
@@ -1584,10 +1821,10 @@ def emit_theme_css(tokens: dict, source: str) -> str:
             key = "shadow" if k == "DEFAULT" else f"shadow-{k}"
             L.append(f"  --{key}: {v};")
 
-    if tokens["rings"]:
-        L += ["", "  /* rings — inset shadows used as borders */"]
-        for k, v in tokens["rings"].items():
-            L.append(f"  --{k}: {v};")
+    if tokens.get("gradients"):
+        L += ["", "  /* gradients */"]
+        for i, grad in enumerate(tokens["gradients"], 1):
+            L.append(f"  --gradient-{i}: {grad};")
 
     L.append("}")
 
@@ -1789,6 +2026,159 @@ def emit_tailwind_v3(tokens: dict, source: str) -> str:
     )
 
 
+def _clean_str(s: object) -> str:
+    return str(s).encode("utf-8", errors="replace").decode("utf-8")
+
+
+def emit_design_md(tokens: dict, source: str, intel_report: dict | None = None) -> str:
+    """Generate a prompt-ready DESIGN.md system reference for Vibe Coding / AI tools."""
+    domain = _clean_str(urlparse(source).netloc or source)
+    colors_md = "\n".join([f"- `{_clean_str(name)}`: `{_clean_str(hexv)}`" for name, hexv in tokens["colors"].items()])
+    roles_md = "\n".join([f"- `--{_clean_str(role)}`: `{_clean_str(ref)}`" for role, ref in tokens["roles"].items()])
+    fonts_md = "\n".join([f"- `{_clean_str(k)}`: `{_clean_str(v)}`" for k, v in tokens["fonts"].items() if not k.startswith("_")])
+    sizes_md = "\n".join([f"- `{_clean_str(k)}`: `{_clean_str(v)}`" for k, v in tokens["font_sizes"].items()])
+    spacing_md = "\n".join([f"- `{_clean_str(k)}`: `{_clean_str(v)}`" for k, v in tokens["spacing"].items()])
+    radius_md = "\n".join([f"- `{_clean_str(k)}`: `{_clean_str(v)}`" for k, v in tokens["radius"].items()])
+    shadow_md = "\n".join([f"- `{_clean_str(k)}`: `{_clean_str(v)}`" for k, v in tokens["shadows"].items()])
+    frameworks_str = _clean_str(", ".join(tokens.get("frameworks", {}).keys()) or "HTML5 / Vanilla CSS")
+
+    intel_sections = ""
+    if intel_report:
+        overview = intel_report.get("overview", {})
+        scores = overview.get("scores", {})
+        comp = intel_report.get("components", {})
+        a11y = intel_report.get("accessibility", {})
+        sec = intel_report.get("security", {})
+        seo = intel_report.get("seo", {})
+        ai = intel_report.get("ai_insights", {})
+
+        comp_rows = "\n".join([
+            f"- **{c.get('type')}** ({c.get('tag')}): {c.get('count')} instances — {c.get('styles')}"
+            for c in comp.get("detected", [])
+        ]) or "- No standard component signatures detected."
+
+        a11y_issues = "\n".join([
+            f"- [{i.get('severity')}] **{i.get('category')}**: {i.get('message')} *(Remediation: {i.get('remediation')})*"
+            for i in a11y.get("issues", [])[:8]
+        ]) or "- No major WCAG violations observed."
+
+        sec_table = "\n".join([
+            f"| {h.get('header')} | {h.get('status')} | {h.get('detail')} |"
+            for h in sec.get("headers_table", [])
+        ])
+
+        intel_sections = f"""
+---
+
+## 📊 Intelligence & Health Scorecard
+- **Security Rating**: Grade {scores.get('security_grade', 'B')} (Score: {sec.get('score', 0)}/100)
+- **Accessibility (WCAG 2.1)**: {scores.get('accessibility', 0)}/100 ({a11y.get('wcag_level', 'Evaluated')})
+- **SEO Optimization**: {scores.get('seo', 0)}/100
+- **Performance Rating**: {scores.get('performance', 0)}/100
+
+---
+
+## 🧩 Detected Component Architecture
+{comp_rows}
+
+---
+
+## 🔐 Security Headers Audit
+| Security Header | Status | Observation |
+| :--- | :--- | :--- |
+{sec_table}
+
+---
+
+## ♿ Accessibility Audit (WCAG 2.1 AA)
+{a11y_issues}
+
+---
+
+## 🤖 AI Design Insights & Archetype
+- **Aesthetic Archetype**: {ai.get('style_archetype', 'Modern SaaS')}
+- **Consistency Index**: {ai.get('consistency_score', 90)}/100
+- **Hierarchy Analysis**: {ai.get('visual_hierarchy_review', 'Balanced hierarchy.')}
+- **Notable Patterns**: {", ".join(ai.get('notable_patterns', [])) or "Clean standard web layout"}
+"""
+
+    content = f"""# Design System & UI Specifications — {domain}
+
+Extracted from [{_clean_str(source)}]({_clean_str(source)}) using `extract-theme`.
+Generated on: {_clean_str(tokens.get("generated", "N/A"))}
+
+> **AI SYSTEM PROMPT FOR VIBE CODING & UI DEVELOPMENT**
+> You are an expert frontend engineer and UI/UX designer. When building pages, components, or screens for this project, you MUST strictly adhere to the design system rules, tokens, and aesthetic principles defined below.
+
+---
+
+## 🎨 Color Palette & Hex Tokens
+
+### Brand Palette
+{colors_md or "None extracted."}
+
+### Semantic UI Roles
+{roles_md or "None inferred."}
+
+---
+
+## 🔤 Typography & Font System
+
+### Font Families
+{fonts_md or "System font stack."}
+
+### Type Scale (Font Sizes)
+{sizes_md or "Standard font scale."}
+
+---
+
+## 📏 Spacing, Layout & Elevation
+
+### Spacing Scale
+{spacing_md or "4px step grid."}
+
+### Border Radius
+{radius_md or "Default rounded corners."}
+
+### Shadows & Elevation
+{shadow_md or "Flat / subtle borders."}
+
+---
+
+## 💻 Tech Stack & Context
+- **Primary Source**: {_clean_str(source)}
+- **Detected Frameworks**: {frameworks_str}
+{intel_sections}
+---
+
+## ⚖️ Brand Ownership & Copyright Attribution
+- **Brand / Entity**: {_clean_str(tokens.get("brand_name", domain))}
+- **Copyright Notice**: {_clean_str(tokens.get("copyright", f"© {time.strftime('%Y')} {domain}. All rights reserved. "))}
+- **Attribution Policy**: {_clean_str(tokens.get("legal_notice", "All brand assets, trademarks, and design tokens belong to their respective owners."))}
+
+---
+
+## 🚀 Copy-Paste AI Prompt
+
+```markdown
+Role: Senior Frontend Engineer
+Task: Build modern, pixel-perfect, accessible UI components for {domain}.
+
+Design System Guidelines:
+- Primary Color Palette: {", ".join([f"{_clean_str(k)}: {_clean_str(v)}" for k, v in list(tokens["colors"].items())[:8]])}
+- Fonts: {", ".join([f"{_clean_str(k)} ({_clean_str(v)})" for k, v in tokens["fonts"].items() if not k.startswith("_")])}
+- Layout: Use consistent 4px grid spacing. Rounded corners using {", ".join([f"{_clean_str(k)}={_clean_str(v)}" for k, v in list(tokens["radius"].items())[:3]])}.
+- WCAG Accessibility: Ensure text elements have ≥4.5:1 contrast against surfaces.
+
+Instructions:
+1. Write clean, accessible, modern code matching this design language.
+2. Use CSS custom properties or Tailwind CSS classes matching these tokens.
+```
+"""
+    return content.encode("utf-8", errors="replace").decode("utf-8")
+
+
+
 GUIDE_CSS = """
 *,*::before,*::after{box-sizing:border-box}
 :root{
@@ -1835,15 +2225,15 @@ td code{font-size:12.5px}
   padding:9px 18px;border-radius:99px;font-size:13px;transition:transform .18s ease;pointer-events:none}
 .copy.on{transform:translate(-50%,0)}
 .note{color:var(--tx2);font-size:12.5px;margin:8px 0 0}
-.iss{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--sev);
-  border-radius:10px;padding:14px 16px;margin-bottom:10px}
-.iss.high{--sev:#dc2626}.iss.medium{--sev:#d97706}.iss.low{--sev:#64748b}
-.iss h3{margin:0 0 4px;font-size:14px;display:flex;align-items:center;gap:9px}
-.iss .tag{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;
-  color:var(--sev);border:1px solid var(--sev);border-radius:99px;padding:0 7px}
-.iss p{margin:2px 0 0;font-size:13px;color:var(--tx2)}
-.iss .fix{color:var(--tx);margin-top:7px;font-size:13px}
-.clean{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;font-size:13.5px}
+.grad-chip{height:72px;border-radius:10px;border:1px solid var(--line);margin-bottom:6px}
+.ease-tag{display:inline-block;padding:3px 11px;border-radius:99px;font-size:12px;font-family:ui-monospace,monospace;background:color-mix(in oklab,var(--acc) 10%,transparent);color:var(--acc);margin:2px 2px 2px 0}
+.kf-tag{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-family:ui-monospace,monospace;background:var(--panel);border:1px solid var(--line);color:var(--tx2);margin:2px 2px 2px 0}
+.dur-tag{display:inline-block;padding:3px 11px;border-radius:99px;font-size:12px;background:color-mix(in oklab,var(--tx) 8%,transparent);margin:2px 2px 2px 0}
+@media print {
+  .toggle, #toast, .agency-whitelabel-print-btn { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+  .panel, table, .sw { border-color: #cbd5e1 !important; box-shadow: none !important; }
+}
 """
 
 GUIDE_JS = """
@@ -1859,6 +2249,29 @@ document.getElementById('theme').addEventListener('click', function(){
   var h=document.documentElement;
   h.dataset.t = h.dataset.t==='dark' ? 'light' : 'dark';
 });
+
+// Whitelabel & Agency Presentation Link Engine
+(function initWhitelabelBanner(){
+  try {
+    var p = new URLSearchParams(window.location.search);
+    var agency = p.get('agency') || p.get('presented_by');
+    var client = p.get('client');
+    if (agency) {
+      var safeAgency = agency.replace(/[<>"/']/g, '');
+      var safeClient = client ? client.replace(/[<>"/']/g, '') : '';
+      var b = document.createElement('div');
+      b.className = 'agency-whitelabel-banner';
+      b.style.cssText = 'background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#ffffff;padding:12px 20px;border-radius:12px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(79,70,229,0.3);font-size:13.5px;font-weight:600;';
+      b.innerHTML = '<div style="display:flex;align-items:center;gap:10px;">' +
+        '<span style="background:rgba(255,255,255,0.25);padding:3px 8px;border-radius:6px;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;">Whitelabel Presentation</span>' +
+        '<span>Presented by <strong>' + safeAgency + '</strong>' + (safeClient ? ' for <em>' + safeClient + '</em>' : '') + ' &bull; Design System Benchmark</span>' +
+        '</div>' +
+        '<button type="button" class="agency-whitelabel-print-btn" onclick="window.print()" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">Export PDF / Print</button>';
+      var wrap = document.querySelector('.wrap');
+      if (wrap) wrap.insertBefore(b, wrap.firstChild);
+    }
+  } catch(e) {}
+})();
 """
 
 
@@ -1899,19 +2312,18 @@ def emit_style_guide(tokens: dict, source: str, stats: dict) -> str:
     ) or '<tr><td colspan="3" class="note">no roles inferred</td></tr>'
 
     contrast_rows = "".join(
-        f"<tr><td><code>{_esc(r['foreground'])}</code> on <code>{_esc(r['background'])}</code>"
-        + (f"<br><span class='u' style='font-size:11px;color:var(--tx2)'>"
-           f"{_esc(r['selector'])}</span>" if r.get("selector") else "")
-        + "</td>"
+        f"<tr><td><code>{_esc(r['foreground'])}</code> on <code>{_esc(r['background'])}</code></td>"
         f"<td><b>{r['ratio']}</b>:1</td>"
         f"<td><span class='pill {'ok' if r['aa_normal'] else 'no'}'>"
-        f"{'AA' if r['aa_normal'] else 'fail'}</span> "
-        f"<span class='pill {'ok' if r['aaa_normal'] else 'no'}'>"
-        f"{'AAA' if r['aaa_normal'] else '—'}</span></td>"
+        f"{'\u2713' if r['aa_normal'] else '\u2717'}</span></td>"
+        f"<td><span class='pill {'ok' if r['aa_large'] else 'no'}'>"
+        f"{'\u2713' if r['aa_large'] else '\u2717'}</span></td>"
+        f"<td><span class='pill {'ok' if r['aaa_normal'] else 'no'}'>"
+        f"{'\u2713' if r['aaa_normal'] else '\u2014'}</span></td>"
         f"<td style=\"background:{_esc(r['background_hex'])};color:{_esc(r['foreground_hex'])};"
-        f"border-radius:6px\">The quick brown fox</td></tr>"
-        for r in tokens["contrast"][:14]
-    ) or '<tr><td colspan="4" class="note">not enough colours</td></tr>'
+        f"padding:4px 10px;border-radius:6px\">The quick brown fox</td></tr>"
+        for r in tokens["contrast"][:28]
+    ) or '<tr><td colspan="6" class="note">not enough colours</td></tr>'
 
     type_rows = "".join(
         f'<tr><td><code>{_esc(k)}</code></td><td><code>{_esc(v)}</code></td>'
@@ -1964,30 +2376,141 @@ def emit_style_guide(tokens: dict, source: str, stats: dict) -> str:
         if webfonts else ""
     )
 
-    audit_html = "".join(
-        f'<div class="iss {_esc(i["severity"])}">'
-        f'<h3><span class="tag">{_esc(i["severity"])}</span>{_esc(i["title"])}</h3>'
-        f'<p>{_esc(i["detail"])}</p>'
-        f'<p class="fix">→ {_esc(i["action"])}</p></div>'
-        for i in tokens["audit"]
-    ) or '<div class="clean">No issues found. The palette is internally '\
-         'consistent, spacing sits on the grid, and every declared colour '\
-         'pair clears WCAG AA.</div>'
+    # --- gradients section -----------------------------------------------
+    grads = tokens.get("gradients", [])
+    if grads:
+        grad_chips = "".join(
+            f'<div><div class="grad-chip" style="background:{_esc(g)}"></div>'
+            f'<code style="font-size:11px;color:var(--tx2);word-break:break-all">'
+            f'{_esc(g)}</code></div>'
+            for g in grads
+        )
+        gradient_section = (
+            '<h2>Gradients</h2>'
+            '<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr))">'
+            f'{grad_chips}</div>'
+        )
+    else:
+        gradient_section = '<h2>Gradients</h2><p class="note">none found</p>'
 
-    overlay_html = "".join(
-        f'<button class="sw" data-copy="{_esc(v)}">'
-        f'<div class="chip"><i style="background:{_esc(v)}"></i></div>'
-        f'<div class="meta"><span class="n">{_esc(k)}</span>'
-        f'<code>{_esc(v)}</code></div></button>'
-        for k, v in tokens["overlays"].items()
-    ) or '<p class="note">none found</p>'
+    # --- animations section ----------------------------------------------
+    anim = tokens.get("animations", {})
+    kf_tags = "".join(
+        f'<span class="kf-tag">{_esc(n)}</span>'
+        for n in anim.get("keyframes", [])[:30]
+    ) or '<span class="note">none found</span>'
+    dur_tags = "".join(
+        f'<span class="dur-tag">{_esc(d)}</span>'
+        for d in anim.get("durations", [])
+    ) or '<span class="note">none found</span>'
+    ease_tags = "".join(
+        f'<span class="ease-tag">{_esc(e)}</span>'
+        for e in anim.get("easings", [])
+    ) or '<span class="note">none found</span>'
+    trans_rows_html = "".join(
+        f'<tr><td><code style="font-size:12px;word-break:break-all">{_esc(t)}</code></td></tr>'
+        for t in anim.get("transitions", [])
+    ) or '<tr><td class="note">none found</td></tr>'
+    animation_section = (
+        f'<h2>Animations &amp; Easing</h2>'
+        f'<div class="panel">'
+        f'<div class="spec"><span class="k">@keyframes</span><div>{kf_tags}</div></div>'
+        f'<div class="spec"><span class="k">Durations</span><div>{dur_tags}</div></div>'
+        f'<div class="spec"><span class="k">Easings</span><div>{ease_tags}</div></div>'
+        f'</div>'
+        f'<h2 style="margin-top:32px">Transitions</h2>'
+        f'<table><thead><tr><th>Value</th></tr></thead>'
+        f'<tbody>{trans_rows_html}</tbody></table>'
+    )
 
-    ring_rows = rows(tokens["rings"])
+    # --- logo section ------------------------------------------------------
+    logo_data = tokens.get("logo", {})
+    logo_file = logo_data.get("logo_svg") or logo_data.get("logo_img") or logo_data.get("favicon")
+    logo_header_html = ""
+    logo_brand_html = ""
+    if logo_file:
+        logo_header_html = (
+            f'<img src="{_esc(logo_file)}" alt="Site Logo" '
+            f'style="max-height:48px;max-width:180px;object-fit:contain;margin-right:16px;border-radius:6px">'
+        )
+        logo_brand_html = (
+            f'<h2>Brand Logo &amp; Assets</h2>'
+            f'<div class="panel" style="display:flex;align-items:center;gap:24px;padding:16px 24px">'
+            f'<div style="background:var(--bg);padding:12px;border-radius:8px;border:1px solid var(--line)">'
+            f'<img src="{_esc(logo_file)}" style="max-height:64px;max-width:200px;object-fit:contain"></div>'
+            f'<div>'
+            f'<div><strong>Extracted Asset:</strong> <code>{_esc(logo_file)}</code></div>'
+            f'<div style="margin-top:6px"><a href="{_esc(logo_file)}" download style="color:var(--acc);font-size:13px">&#8659; Download Logo Asset</a></div>'
+            f'</div></div>'
+        )
+
+    # --- frameworks section -----------------------------------------------
+    fw_map = tokens.get("frameworks", {})
+    _fw_color = {"confirmed": ("#16a34a", "#dcfce7"), "likely": ("#d97706", "#fef3c7")}
+    fw_badges = "".join(
+        f'<span style="display:inline-flex;align-items:center;gap:6px;'
+        f'padding:6px 14px;border-radius:99px;font-size:13px;font-weight:600;'
+        f'background:{_fw_color.get(conf,("#6366f1","#ede9fe"))[1]};'
+        f'color:{_fw_color.get(conf,("#6366f1","#ede9fe"))[0]};margin:4px">'
+        f'{_esc(fw)} <span style="opacity:.7;font-weight:400;font-size:11px;text-transform:uppercase">({_esc(conf)})</span></span>'
+        for fw, conf in fw_map.items()
+    ) or '<span class="note">No major framework signatures detected (custom / HTML / static)</span>'
+
+    framework_banner = (
+        f'<div style="margin-top:16px;margin-bottom:8px;padding:12px 16px;background:var(--panel);'
+        f'border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;gap:12px">'
+        f'<span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;'
+        f'color:var(--tx2);font-weight:700">Stack Detected</span><div>{fw_badges}</div></div>'
+    )
+
+    framework_section = (
+        f'<h2>Frameworks &amp; Tech Stack</h2>'
+        f'<div class="panel" style="padding:16px 24px">'
+        f'<p style="margin:0 0 12px;font-size:13px;color:var(--tx2)">Detected frontend frameworks, UI libraries, and utility tools from stylesheet declarations and script signatures:</p>'
+        f'<div>{fw_badges}</div>'
+        f'</div>'
+    )
+
+    # --- font files section -----------------------------------------------
+    ff = tokens.get("font_files", [])
+    ff_rows = "".join(
+        f'<tr>'
+        f'<td><code>{_esc(f["family"])}</code></td>'
+        f'<td>{_esc(f["weight"])}</td>'
+        f'<td>{_esc(f["style"])}</td>'
+        f'<td><code>{_esc(f["format"])}</code></td>'
+        f'<td>{_esc(str(f["size_kb"]))} KB</td>'
+        f'<td><a href="{_esc(f["file"])}" download style="color:var(--acc);font-size:12px">'
+        f'&#8659; {_esc(f["file"].split("/")[-1])}</a></td>'
+        f'</tr>'
+        for f in ff
+    ) or '<tr><td colspan="6" class="note">none — @font-face declarations may use Google Fonts CDN</td></tr>'
+    font_files_section = (
+        f'<h2>Font files</h2>'
+        f'<table><thead><tr>'
+        f'<th>Family</th><th>Weight</th><th>Style</th>'
+        f'<th>Format</th><th>Size</th><th>Download</th>'
+        f'</tr></thead><tbody>{ff_rows}</tbody></table>'
+    )
 
     stat_html = "".join(
         f'<div class="stat"><b>{v}</b><span>{_esc(k)}</span></div>'
         for k, v in stats.items()
     )
+
+    domain_label = _esc(urlparse(source).netloc or source)
+    brand_title = _esc(tokens.get("brand_name") or domain_label)
+    copyright_line = _esc(tokens.get("copyright") or f"© {time.strftime('%Y')} {brand_title}. All rights reserved.")
+    legal_line = _esc(tokens.get("legal_notice") or f"All trademarks, logos, brand assets, and design tokens belong to {brand_title}.")
+
+    brand_attribution_section = f"""
+<h2>Brand Ownership &amp; Legal Notice</h2>
+<div class="panel" style="padding:18px 24px;border-left:4px solid var(--acc)">
+  <div style="font-weight:700;font-size:14px;color:var(--tx)">{copyright_line}</div>
+  <div style="margin-top:6px;font-size:12.5px;color:var(--tx2);line-height:1.5">{legal_line}</div>
+  <div style="margin-top:8px;font-size:11px;color:var(--tx2);opacity:.8">Source: <a href="{_esc(source)}" target="_blank" style="color:var(--acc)">{_esc(source)}</a> &bull; Extracted for design analysis &amp; interoperability by extract-theme</div>
+</div>
+"""
 
     return f"""<!DOCTYPE html>
 <html lang="en" data-t="light">
@@ -2000,19 +2523,24 @@ def emit_style_guide(tokens: dict, source: str, stats: dict) -> str:
 <body>
 <div class="wrap">
 
-<header>
-  <div>
-    <h1>Design system</h1>
-    <p class="sub">Extracted from <a href="{_esc(source)}">{_esc(source)}</a> ·
-       {_esc(time.strftime('%d %b %Y'))} · extract-theme v{__version__}</p>
+<header style="display:flex;align-items:center;justify-content:space-between">
+  <div style="display:flex;align-items:center">
+    {logo_header_html}
+    <div>
+      <h1>Design system</h1>
+      <p class="sub">Extracted from <a href="{_esc(source)}">{_esc(source)}</a> ·
+         {_esc(time.strftime('%d %b %Y'))} · extract-theme v{__version__}</p>
+    </div>
   </div>
   <button class="toggle" id="theme">Toggle theme</button>
 </header>
 
 <div class="stats">{stat_html}</div>
+{framework_banner}
 
-<h2>Audit</h2>
-{audit_html}
+{logo_brand_html}
+
+{framework_section}
 
 <h2>Palette <span style="text-transform:none;letter-spacing:0;font-weight:400">— click to copy</span></h2>
 <div class="grid">{"".join(swatches)}</div>
@@ -2023,12 +2551,14 @@ def emit_style_guide(tokens: dict, source: str, stats: dict) -> str:
 <p class="note">Inferred from usage frequency and hue. Verify before shipping.</p>
 
 <h2>Contrast (WCAG 2.1)</h2>
-<table><thead><tr><th>Pair</th><th>Ratio</th><th>Rating</th><th>Preview</th></tr></thead>
+<table><thead><tr><th>Pair</th><th>Ratio</th><th>AA</th><th>AA Large</th><th>AAA</th><th>Preview</th></tr></thead>
 <tbody>{contrast_rows}</tbody></table>
+<p class="note">AA ≥ 4.5:1 normal text · AA Large ≥ 3:1 (18pt+ or bold 14pt+) · AAA ≥ 7:1</p>
 
 <h2>Font families</h2>
 <div class="panel">{font_rows}</div>
 {webfont_html}
+{font_files_section}
 
 <h2>Type scale</h2>
 <table><thead><tr><th>Token</th><th>Value</th><th>Sample</th></tr></thead>
@@ -2050,20 +2580,24 @@ def emit_style_guide(tokens: dict, source: str, stats: dict) -> str:
 <table><thead><tr><th>Token</th><th>Value</th><th>Preview</th></tr></thead>
 <tbody>{radius_rows}</tbody></table>
 
-<h2>Overlays and scrims</h2>
-<div class="grid">{overlay_html}</div>
-
 <h2>Elevation</h2>
 <table><thead><tr><th>Token</th><th>Value</th><th>Preview</th></tr></thead>
 <tbody>{shadow_rows}</tbody></table>
 
-<h2>Rings <span style="text-transform:none;letter-spacing:0;font-weight:400">— inset shadows doing a border's job</span></h2>
-<table><thead><tr><th>Token</th><th>Value</th></tr></thead>
-<tbody>{ring_rows}</tbody></table>
-
 <h2>Breakpoints</h2>
 <table><thead><tr><th>Token</th><th>Min width</th></tr></thead>
 <tbody>{bp_rows}</tbody></table>
+
+{gradient_section}
+
+{animation_section}
+
+{brand_attribution_section}
+
+<footer style="margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--tx2)">
+  <div>{copyright_line}</div>
+  <div style="font-size:11px;opacity:0.8">Generated by ExtractTheme Studio &bull; {time.strftime('%Y')}</div>
+</footer>
 
 </div>
 <div class="copy" id="toast"></div>
@@ -2078,6 +2612,11 @@ def emit_style_guide(tokens: dict, source: str, stats: dict) -> str:
 # ===========================================================================
 
 
+def _norm_url(u: str) -> str:
+    p = urlparse(u)
+    return f"{p.scheme}://{p.netloc}{p.path.rstrip('/')}" if p.netloc else u
+
+
 def crawl(fetcher: Fetcher, seeds: Sequence[str], limit: int) -> list[tuple[str, str]]:
     """Fetch the seed pages, then up to `limit` extra same-site pages."""
     pages: list[tuple[str, str]] = []
@@ -2085,12 +2624,28 @@ def crawl(fetcher: Fetcher, seeds: Sequence[str], limit: int) -> list[tuple[str,
     seen: set[str] = set()
 
     for seed in seeds:
+        norm_seed = _norm_url(seed)
+        if norm_seed in seen:
+            continue
+        seen.add(norm_seed)
+        seen.add(seed)
         try:
             final, html = fetcher.get(seed)
+        except requests.exceptions.HTTPError as http_err:
+            status = getattr(http_err.response, "status_code", None)
+            if status == 403:
+                warn(f"{seed} — HTTP 403 Forbidden: Target server blocked automated access (Bot/WAF mitigation active).")
+                warn("  Tip: Save the webpage as local HTML and extract from the file (e.g. extract-theme ./page.html).")
+            elif status == 404:
+                warn(f"{seed} — HTTP 404 Not Found: The target URL does not exist or returned 404.")
+            else:
+                warn(f"{seed} — HTTP {status} Error: {http_err}")
+            continue
         except Exception as exc:  # noqa: BLE001
             warn(f"{seed} — {type(exc).__name__}: {exc}")
             continue
         seen.add(final)
+        seen.add(_norm_url(final))
         pages.append((final, html))
         log(f"  · {final}", 1)
         if limit:
@@ -2101,11 +2656,13 @@ def crawl(fetcher: Fetcher, seeds: Sequence[str], limit: int) -> list[tuple[str,
     for url in queue:
         if extra >= limit:
             break
-        if url in seen or url.rsplit(".", 1)[-1].lower() in {
+        norm_u = _norm_url(url)
+        if norm_u in seen or url in seen or url.rsplit(".", 1)[-1].lower() in {
             "pdf", "jpg", "png", "zip", "svg", "webp", "mp4", "gz"
         }:
             continue
         seen.add(url)
+        seen.add(norm_u)
         try:
             final, html = fetcher.get(url)
         except Exception:  # noqa: BLE001
@@ -2126,7 +2683,8 @@ def run(args: argparse.Namespace) -> int:
     log("\n▸ Fetching pages")
     pages = crawl(fetcher, args.urls, args.crawl)
     if not pages:
-        log("Nothing fetched. Check the URL.")
+        log("\n❌ No pages could be retrieved.")
+        log("  Please verify the URL is reachable, formatted correctly (e.g. https://domain.com), and not blocked by bot mitigation.")
         return 1
     primary = pages[0][0]
 
@@ -2192,15 +2750,36 @@ def run(args: argparse.Namespace) -> int:
 
     light_vars, dark_vars = build_var_map(all_decls)
 
+    log("\n▸ Detecting frameworks")
+    frameworks = detect_frameworks(pages, combined_css)
+    if frameworks:
+        for fw, conf in frameworks.items():
+            log(f"  {fw} [{conf}]")
+    else:
+        log("  none detected")
+
+    log("\n▸ Extracting logo / icon")
+    logo_info = extract_logo(fetcher, pages, out)
+    if logo_info:
+        for k, v in logo_info.items():
+            log(f"  {k}: {v}")
+    else:
+        log("  none found")
+
+    log("\n▸ Extracting brand & copyright information")
+    brand_info = extract_copyright_and_brand(fetcher, pages, primary)
+    if brand_info:
+        log(f"  brand: {brand_info.get('brand_name')}")
+        log(f"  copyright: {brand_info.get('copyright')}")
+
+    log("\n▸ Downloading font files")
+    font_files = download_fonts(fetcher, all_faces, out)
+    log(f"  {len(font_files)} font files saved")
+
     log("\n▸ Extracting tokens")
     entries, fg, bg = collect_colors(all_decls, light_vars, args.color_tolerance)
-    # alpha-0 values are gradient/transition endpoints, never design tokens
-    entries = [
-        (c, n) for c, n in entries if n >= args.min_count and c.a >= 0.04
-    ][: args.max_colors]
+    entries = [(c, n) for c, n in entries if n >= args.min_count][: args.max_colors]
     palette = name_palette(entries)
-    overlays = {n: c for n, c in palette.items() if c.is_overlay}
-    palette = {n: c for n, c in palette.items() if not c.is_overlay}
     color_uses = {
         name: next((n for c, n in entries if c == color), 0)
         for name, color in palette.items()
@@ -2235,32 +2814,21 @@ def run(args: argparse.Namespace) -> int:
             font_weights[key] = v.strip()
 
     space_counts = collect_spacing(all_decls, args.root_font_size)
-    grid = detect_grid(space_counts)
-    on_grid = {px: n for px, n in space_counts.items() if px % grid == 0}
-    off_grid = sorted(
-        ((px, n) for px, n in space_counts.items() if px % grid != 0),
-        key=lambda kv: -kv[1],
-    )
     spacing: dict[str, str] = {}
-    for px, _n in sorted(
-        Counter(on_grid).most_common(args.max_spacing), key=lambda kv: kv[0]
-    ):
+    for px, _n in sorted(space_counts.most_common(args.max_spacing), key=lambda kv: kv[0]):
         # Tailwind's scale is 1 unit = 4px; keeping that mapping means p-4 still
         # means 1rem after you drop the generated config in.
         key = f"{px / 4:g}" if px % 4 == 0 else f"{px:g}px".replace(".", "_")
         spacing[key] = f"{px:g}px"
 
-    elevation, rings, shadow_suspects = collect_shadows(all_decls, light_vars)
-    raw_widths = len({
-        m.group(0) for q in all_media
-        for m in re.finditer(r"\d+(?:\.\d+)?(?:px|rem|em)", q)
-    })
-    breakpoints = collect_breakpoints(all_media)
-
     tokens = {
         "source": primary,
         "generated": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "generator": f"extract-theme {__version__}",
+        "brand": brand_info,
+        "brand_name": brand_info.get("brand_name", ""),
+        "copyright": brand_info.get("copyright", ""),
+        "legal_notice": brand_info.get("legal_notice", ""),
         "colors": {name: c.css for name, c in palette.items()},
         "color_rgb_channels": {name: c.rgb_channels for name, c in palette.items()},
         "roles": guess_roles(palette, fg, bg, entries),
@@ -2277,51 +2845,53 @@ def run(args: argparse.Namespace) -> int:
         ),
         "spacing": spacing,
         "radius": radius,
-        "shadows": elevation,
-        "rings": rings,
-        "overlays": {n: c.css for n, c in overlays.items()},
-        "breakpoints": breakpoints,
-        "spacing_grid": f"{grid:g}px",
-        "off_grid_spacing": {f"{px:g}px": n for px, n in off_grid},
+        "shadows": collect_shadows(all_decls, light_vars),
+        "gradients": collect_gradients(all_decls, light_vars),
+        "animations": collect_animations(all_decls, combined_css),
+        "frameworks": frameworks,
+        "font_files": font_files,
+        "logo": logo_info,
+        "breakpoints": collect_breakpoints(all_media),
         "dark_vars": dark_vars,
         "source_variables": light_vars,
         "contrast": [],
         "_color_uses": color_uses,
-        "_overlay_objs": overlays,
     }
-    pairs = collect_pairs(all_decls, light_vars, ambiguous_vars(all_decls))
-    rev = {c: n for n, c in palette.items()}
+    tokens["contrast"] = contrast_report(palette)
 
-    def label(c: Color) -> str:
-        if c in rev:
-            return rev[c]
-        near = min(palette.items(), key=lambda kv: kv[1].distance(c), default=None)
-        return near[0] if near and near[1].distance(c) < 0.06 else c.hex
+    log("\n▸ Analyzing website intelligence & architecture")
+    robots_url = urljoin(primary, "/robots.txt")
+    sitemap_url = urljoin(primary, "/sitemap.xml")
+    robots_txt = fetcher.get_quiet(robots_url) if primary.startswith("http") else None
+    sitemap_xml = fetcher.get_quiet(sitemap_url) if primary.startswith("http") else None
 
-    if pairs:
-        rows = []
-        for sel, fg, bg in pairs:
-            ratio = fg.contrast(bg)
-            rows.append(
-                {
-                    "selector": sel[:64],
-                    "foreground": label(fg), "foreground_hex": fg.hex,
-                    "background": label(bg), "background_hex": bg.hex,
-                    "ratio": round(ratio, 2),
-                    "aa_normal": ratio >= 4.5,
-                    "aa_large": ratio >= 3.0,
-                    "aaa_normal": ratio >= 7.0,
-                }
+    intel_report = {}
+    if SiteAnalyzer:
+        try:
+            analyzer = SiteAnalyzer(
+                primary_url=primary,
+                pages=pages,
+                css_text=combined_css,
+                tokens=tokens,
+                http_headers=getattr(fetcher, "last_headers", {}),
+                fetch_timing_ms=getattr(fetcher, "last_timing_ms", 0.0),
+                robots_txt=robots_txt,
+                sitemap_xml=sitemap_xml,
             )
-        rows.sort(key=lambda r: r["ratio"])       # failures first
-        tokens["contrast"] = rows[:24]
-    else:
-        tokens["contrast"] = contrast_report(palette)
+            intel_report = analyzer.analyze_all()
+            log(f"  ✓ 14 intelligence audits completed (Security: {intel_report['overview']['scores']['security_grade']}, A11y: {intel_report['overview']['scores']['accessibility']}%, SEO: {intel_report['overview']['scores']['seo']}%)")
+        except Exception as exc:
+            warn(f"Intelligence analysis encountered an issue: {exc}")
 
-    tokens["audit"] = build_audit(
-        palette, overlays, off_grid, grid, tokens["contrast"], shadow_suspects,
-        fonts, len(breakpoints), raw_widths,
-    )
+    if intel_report:
+        tokens["intelligence"] = intel_report.get("overview", {})
+        tokens["intelligence_summary"] = {
+            "components_detected": len(intel_report.get("components", {}).get("detected", [])),
+            "accessibility_score": intel_report.get("overview", {}).get("scores", {}).get("accessibility", 0),
+            "seo_score": intel_report.get("overview", {}).get("scores", {}).get("seo", 0),
+            "security_grade": intel_report.get("overview", {}).get("scores", {}).get("security_grade", "B"),
+            "technologies": [t["name"] for t in intel_report.get("technology", {}).get("all_detected", [])][:8],
+        }
 
     log("\n▸ Writing")
     (out / "design-tokens.json").write_text(
@@ -2331,6 +2901,25 @@ def run(args: argparse.Namespace) -> int:
         ),
         encoding="utf-8",
     )
+    if intel_report:
+        (out / "site-intelligence.json").write_text(
+            json.dumps(intel_report, indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        exports_data = intel_report.get("exports", {})
+        react_code = exports_data.get("react_components", "")
+        if react_code:
+            (out / "react-components.jsx").write_text(react_code, encoding="utf-8")
+        ts_theme = exports_data.get("typescript_theme", "")
+        if ts_theme:
+            (out / "theme.ts").write_text(ts_theme, encoding="utf-8")
+        w3c_tokens = exports_data.get("json_tokens_w3c", "")
+        if w3c_tokens:
+            (out / "tokens.w3c.json").write_text(w3c_tokens, encoding="utf-8")
+        vue_comp = exports_data.get("vue_composable", "")
+        if vue_comp:
+            (out / "useTokens.ts").write_text(vue_comp, encoding="utf-8")
+
     (out / "theme.css").write_text(emit_theme_css(tokens, primary), encoding="utf-8")
     (out / "components.css").write_text(
         f"/* Generated from {primary} */\n" + COMPONENTS_TEMPLATE, encoding="utf-8"
@@ -2341,9 +2930,11 @@ def run(args: argparse.Namespace) -> int:
     (out / "tailwind.config.js").write_text(
         emit_tailwind_v3(tokens, primary), encoding="utf-8"
     )
+    (out / "DESIGN.md").write_text(
+        emit_design_md(tokens, primary, intel_report), encoding="utf-8"
+    )
 
     stats = {
-        "issues": len(tokens["audit"]),
         "pages": len(pages),
         "stylesheets": len(assets),
         "declarations": len(all_decls),
@@ -2351,24 +2942,40 @@ def run(args: argparse.Namespace) -> int:
         "type sizes": len(font_sizes),
         "spacing steps": len(spacing),
         "breakpoints": len(tokens["breakpoints"]),
+        "gradients": len(tokens["gradients"]),
+        "keyframes": len(tokens["animations"]["keyframes"]),
+        "font files": len(tokens["font_files"]),
+        "frameworks": len(tokens["frameworks"]),
+        "components": len(intel_report.get("components", {}).get("detected", [])) if intel_report else 0,
+        "security grade": intel_report.get("overview", {}).get("scores", {}).get("security_grade", "N/A") if intel_report else "N/A",
+        "logo": 1 if logo_info else 0,
     }
     (out / "style-guide.html").write_text(
         emit_style_guide(tokens, primary, stats), encoding="utf-8"
     )
 
-    print()
-    print("  extract-theme — done")
-    print("  " + "─" * 46)
+    # Use UTF-8 for console output to handle box-drawing chars on Windows
+    _out = sys.stdout
+    if hasattr(_out, "buffer"):
+        import io
+        _out = io.TextIOWrapper(_out.buffer, encoding="utf-8", errors="replace")
+    _p = lambda s: print(s, file=_out)  # noqa: E731
+    _p("")
+    _p("  extract-theme \u2014 done")
+    _p("  " + "\u2500" * 46)
     for k, v in stats.items():
-        print(f"  {k:<16} {v}")
-    print("  " + "─" * 46)
-    for f in (
-        "style-guide.html", "design-tokens.json", "theme.css",
+        _p(f"  {k:<16} {v}")
+    _p("  " + "\u2500" * 46)
+    out_files = [
+        "style-guide.html", "DESIGN.md", "design-tokens.json", "theme.css",
         "components.css", "tailwind.theme.css", "tailwind.config.js",
-        "raw/combined.css",
-    ):
-        print(f"  {out / f}")
-    print()
+    ]
+    if intel_report:
+        out_files.extend(["site-intelligence.json", "react-components.jsx"])
+    out_files.append("raw/combined.css")
+    for f in out_files:
+        _p(f"  {(out / f).as_posix()}")
+    _p("")
     return 0
 
 
@@ -2387,7 +2994,7 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     p.add_argument("urls", nargs="+", help="page URL(s) or local .html/.css path(s)")
-    p.add_argument("-o", "--out", default="extracted-theme", help="output directory")
+    p.add_argument("-o", "--out", default=None, help="output directory (default: domain of first URL)")
     p.add_argument("--crawl", type=int, default=0, metavar="N",
                    help="also scan up to N same-site pages (default 0)")
     p.add_argument("--max-colors", type=int, default=48)
@@ -2401,7 +3008,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--timeout", type=int, default=25)
     p.add_argument("--workers", type=int, default=8)
     p.add_argument("--user-agent", default=DEFAULT_UA)
-    p.add_argument("--insecure", action="store_true", help="skip TLS verification")
+    p.add_argument("--insecure", "--no-verify", dest="insecure", action="store_true", help="skip TLS verification")
     p.add_argument("-q", "--quiet", action="store_true")
     p.add_argument("-v", "--verbose", action="store_true")
     p.add_argument("--version", action="version", version=f"extract-theme {__version__}")
@@ -2412,10 +3019,27 @@ def main(argv: Sequence[str] | None = None) -> int:
     global _VERBOSITY
     args = build_parser().parse_args(argv)
     _VERBOSITY = 0 if args.quiet else (2 if args.verbose else 1)
+    if args.insecure:
+        try:
+            import urllib3
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        except Exception:
+            pass
+    if args.out is None:
+        first = args.urls[0]
+        parsed = urlparse(first if "://" in first else f"https://{first}")
+        host = parsed.hostname or "extracted-theme"
+        host = host.removeprefix("www.")
+        args.out = host
     try:
         return run(args)
     except KeyboardInterrupt:
         return 130
+    except Exception as exc:
+        log(f"\n❌ Unhandled error during extraction: {exc}")
+        import traceback
+        log(traceback.format_exc(), level=1)
+        return 1
 
 
 if __name__ == "__main__":

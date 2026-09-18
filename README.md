@@ -8,7 +8,7 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_v3_%26_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
-![ExtractDesign Studio Web Workbench](homepage.png)
+![ExtractDesign Studio Web Workbench](docs/assets/homepage.png)
 
 ---
 
@@ -44,6 +44,47 @@ example.com/
     ├── combined.css      # Consolidated & absolutised stylesheet
     └── sheet-001.css     # Raw fetched stylesheets
 ```
+
+---
+
+## 🏗️ Codebase Architecture & Structure
+
+The repository is organized into modular packages for maintainability, plug-and-play CLI usage, and multi-tenant scaling:
+
+```
+├── core/                  # Core Business Logic & Extraction Engines
+│   ├── extractor.py       # Web crawler, CSS parser (tinycss2), font & token extractor
+│   ├── analyzer.py        # 6-pillar site intelligence & scoring audit
+│   └── storage.py         # Local disk & Cloudflare R2 / AWS S3 hybrid storage provider
+│
+├── db/                    # Multi-Tenancy & Data Persistence
+│   ├── database.py        # SQLite WAL engine, connection pooling, schema migrations
+│   └── auth.py            # JWT sessions, RBAC (owner, admin, member, viewer), quota gatekeeper
+│
+├── public/                # Frontend Presentation Layer
+│   ├── index.html         # ExtractDesign Studio SPA dashboard
+│   ├── app.css, app.js    # Studio styles & interactive workflows
+│   ├── landing.html       # Marketing showcase & public presentation
+│   └── landing.css, landing.js
+│
+├── docs/                  # Modular Technical Documentation
+│   ├── README.md          # Documentation index
+│   ├── multi_tenant_plan.md # Multi-user/tenant specification & plan
+│   ├── market_analysis.md # Value proposition, monetization & customer segments
+│   ├── landing_copy.md    # Landing page marketing copy
+│   └── assets/            # Screenshots & architecture diagrams
+│
+├── examples/              # Sample Outputs & Demonstration Demos
+│   ├── example-style-guide.html
+│   └── example-style-guide_update.html
+│
+├── api/                   # Cloud & Serverless Deployment Entrypoints
+│   ├── index.py           # Vercel WSGI entrypoint for Flask
+│   └── requirements.txt
+│
+└── [Plug-and-play root shims]: server.py, extract_theme.py, analyzer.py, storage.py, auth.py
+```
+
 
 ---
 

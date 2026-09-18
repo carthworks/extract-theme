@@ -23,6 +23,7 @@ from pathlib import Path
 from flask import (
     Flask,
     Response,
+    g,
     jsonify,
     request,
     send_file,
@@ -31,11 +32,16 @@ from flask import (
 )
 from flask_cors import CORS
 
+import auth
+import db
 from storage import get_mime_type, storage
 
 BASE_DIR = Path(__file__).parent.resolve()
 PUBLIC_DIR = BASE_DIR / "public"
 DOWNLOADED_THEMES_DIR = BASE_DIR / "downloaded-themes"
+
+# Initialize Database & Run Auto-Migration
+db.init_db()
 
 # Initialize Flask application
 app = Flask(
@@ -88,13 +94,6 @@ def serve_studio():
     return jsonify({"error": "index.html not found"}), 404
 
 
-@app.route("/<path:filename>")
-def serve_static(filename: str):
-    target = (PUBLIC_DIR / filename).resolve()
-    # Prevent path traversal outside PUBLIC_DIR
-    if target.is_file() and str(target).startswith(str(PUBLIC_DIR.resolve())):
-        return send_from_directory(PUBLIC_DIR, filename)
-    return jsonify({"error": "File not found"}), 404
 
 
 # =============================================================================
@@ -115,7 +114,7 @@ def api_health():
 
 
 # =============================================================================
-# API: Magic Link Authentication (Passwordless)
+# API: Magic Link Authentication (Passwordless & JWT)
 # =============================================================================
 @app.route("/api/auth/magic-link", methods=["POST"])
 @app.route("/api/magic-link", methods=["POST"])
@@ -125,14 +124,144 @@ def api_magic_link():
     if not email or "@" not in email or "." not in email:
         return jsonify({"error": "A valid email address is required"}), 400
 
-    token = hashlib.sha256(f"{email}:{time.time()}".encode()).hexdigest()[:32]
-    return jsonify({
+    user_id = f"usr_{email.replace('@', '_at_').replace('.', '_')}"
+    with db.db_cursor() as cur:
+        cur.execute("INSERT OR IGNORE INTO users (id, email, full_name) VALUES (?, ?, ?);",
+                    (user_id, email, email.split("@")[0].capitalize()))
+        # Assign to default workspace if not already assigned
+        cur.execute("INSERT OR IGNORE INTO tenant_members (tenant_id, user_id, role) VALUES ('ten_default', ?, 'member');",
+                    (user_id,))
+
+    # Find first accessible tenant
+    tenants = db.get_user_tenants(user_id)
+    active_tenant_id = tenants[0]["id"] if tenants else "ten_default"
+
+    token = auth.generate_token(user_id, email, active_tenant_id)
+    response = jsonify({
         "status": "ok",
         "message": "Magic access link generated successfully.",
         "email": email,
         "token": token,
+        "active_tenant_id": active_tenant_id,
         "access_url": f"/studio?auth={token}&user={email}",
     })
+    response.set_cookie("extract_session", token, max_age=3600 * 24 * 7, httponly=True, samesite="Lax")
+    return response
+
+
+# =============================================================================
+# API: Multi-Tenant & User Management
+# =============================================================================
+@app.route("/api/user/me", methods=["GET"])
+@auth.require_auth
+def api_user_me():
+    user = g.current_user
+    tenant = g.current_tenant
+    role = g.tenant_role
+    tenants = db.get_user_tenants(user["id"])
+    if not tenants:
+        tenants = [{"id": tenant["id"], "name": tenant["name"], "role": role, "plan_id": tenant.get("plan_id", "pro")}]
+
+    plan_and_quota = db.get_tenant_plan_and_quota(tenant["id"])
+
+    return jsonify({
+        "status": "ok",
+        "user": user,
+        "current_tenant": tenant,
+        "role": role,
+        "tenants": tenants,
+        "plan_and_quota": plan_and_quota,
+    })
+
+
+@app.route("/api/user/switch-tenant", methods=["POST"])
+@auth.require_auth
+def api_switch_tenant():
+    data = request.get_json(silent=True) or {}
+    target_tenant_id = data.get("tenant_id", "").strip()
+    if not target_tenant_id:
+        return jsonify({"error": "Missing tenant_id parameter"}), 400
+
+    user_id = g.current_user["id"]
+    email = g.current_user["email"]
+
+    # Verify membership
+    with db.db_cursor() as cur:
+        cur.execute("SELECT role FROM tenant_members WHERE tenant_id = ? AND user_id = ?;", (target_tenant_id, user_id))
+        row = cur.fetchone()
+        if not row and user_id != "usr_admin":
+            return jsonify({"error": "You are not a member of this workspace"}), 403
+
+    new_token = auth.generate_token(user_id, email, target_tenant_id)
+    target_tenant = db.get_tenant_by_id(target_tenant_id) or {"id": target_tenant_id, "name": "Workspace"}
+
+    response = jsonify({
+        "status": "ok",
+        "token": new_token,
+        "active_tenant": target_tenant,
+        "message": f"Switched to workspace '{target_tenant.get('name')}'",
+    })
+    response.set_cookie("extract_session", new_token, max_age=3600 * 24 * 7, httponly=True, samesite="Lax")
+    return response
+
+
+@app.route("/api/tenants", methods=["POST"])
+@auth.require_auth
+def api_create_tenant():
+    data = request.get_json(silent=True) or {}
+    name = str(data.get("name", "")).strip()
+    if not name:
+        return jsonify({"error": "Workspace name is required"}), 400
+
+    new_t = db.create_new_tenant(name=name, owner_user_id=g.current_user["id"], plan_id="free")
+    new_token = auth.generate_token(g.current_user["id"], g.current_user["email"], new_t["id"])
+
+    response = jsonify({
+        "status": "ok",
+        "tenant": new_t,
+        "token": new_token,
+        "message": f"Workspace '{name}' created successfully.",
+    })
+    response.set_cookie("extract_session", new_token, max_age=3600 * 24 * 7, httponly=True, samesite="Lax")
+    return response
+
+
+@app.route("/api/tenants/<tenant_id>/members", methods=["GET"])
+@auth.require_auth
+def api_tenant_members(tenant_id: str):
+    members = db.get_tenant_members(tenant_id)
+    return jsonify({
+        "status": "ok",
+        "members": members,
+    })
+
+
+@app.route("/api/tenants/<tenant_id>/invites", methods=["POST"])
+@auth.require_role("admin")
+def api_tenant_invite(tenant_id: str):
+    data = request.get_json(silent=True) or {}
+    email = str(data.get("email", "")).strip().lower()
+    role = str(data.get("role", "member")).lower()
+    if not email or "@" not in email:
+        return jsonify({"error": "A valid email address is required"}), 400
+    if role not in ("admin", "member", "viewer"):
+        role = "member"
+
+    res = db.add_or_invite_member(tenant_id, email, role=role)
+    return jsonify({
+        "status": "ok",
+        "message": f"Invited {email} as {role}.",
+        "member": res,
+    })
+
+
+@app.route("/api/tenants/<tenant_id>/members/<user_id>", methods=["DELETE"])
+@auth.require_role("admin")
+def api_remove_member(tenant_id: str, user_id: str):
+    ok = db.remove_tenant_member(tenant_id, user_id)
+    if not ok:
+        return jsonify({"error": "Cannot remove member or member is workspace owner"}), 400
+    return jsonify({"status": "ok", "message": "Member removed."})
 
 
 # =============================================================================
@@ -252,10 +381,12 @@ def api_reset_settings():
 
 
 # =============================================================================
-# API: Projects Listing
+# API: Projects Listing (Multi-Tenant Scoped)
 # =============================================================================
 @app.route("/api/projects", methods=["GET"])
+@auth.require_auth
 def api_projects():
+    tenant_id = g.current_tenant.get("id", "ten_default")
     projects_by_domain: dict[str, dict] = {}
 
     def _scan_dir(dir_path: Path):
@@ -264,7 +395,7 @@ def api_projects():
         for item in dir_path.iterdir():
             try:
                 if not item.is_dir() or item.name in {
-                    ".git", "public", "__pycache__", ".agents", "api", "node_modules", "downloaded-themes"
+                    ".git", "public", "__pycache__", ".agents", "api", "node_modules", "downloaded-themes", "tenants"
                 }:
                     continue
 
@@ -339,18 +470,40 @@ def api_projects():
                                     return False
                             return False
 
-                        vibrant = [c for c in unique_colors if _is_vibrant(c)]
-                        meta["brand_colors"] = vibrant[:8] if vibrant else unique_colors[:8]
+                        brand_candidates = [c for c in unique_colors if _is_vibrant(c)]
+                        if not brand_candidates:
+                            brand_candidates = unique_colors[:5]
+
+                        meta["brand_colors"] = brand_candidates[:4]
                         meta["top_colors"] = unique_colors[:8]
 
-                        # Resolve roles mapping
-                        roles_dict = tokens.get("roles", {})
-                        resolved_roles = {}
-                        if isinstance(roles_dict, dict):
-                            for r_k, r_v in roles_dict.items():
-                                if isinstance(r_v, str):
-                                    resolved_roles[r_k] = colors_dict.get(r_v, r_v) if isinstance(colors_dict, dict) else r_v
-                        meta["roles"] = resolved_roles
+                        # Semantic roles mapping
+                        meta["roles"] = {
+                            "primary": brand_candidates[0] if brand_candidates else "#6366f1",
+                            "secondary": brand_candidates[1] if len(brand_candidates) > 1 else (brand_candidates[0] if brand_candidates else "#06b6d4"),
+                            "surface": next((c for c in unique_colors if c.lower() in ("#ffffff", "#000000", "#0f172a", "#18181b", "#111827", "#f8fafc", "#f9fafb")), "#0f172a"),
+                        }
+
+                    # Attach site intelligence details
+                    if intel_file.exists():
+                        try:
+                            intel_data = json.loads(intel_file.read_text(encoding="utf-8"))
+                            meta["intelligence"] = intel_data
+                            metadata = intel_data.get("metadata", {})
+                            if "style_archetype" in metadata:
+                                meta["style_archetype"] = metadata["style_archetype"]
+                            if "brand_name" in metadata and not meta.get("brand_name"):
+                                meta["brand_name"] = metadata["brand_name"]
+                            if "logo_type" in metadata:
+                                meta["logo_type"] = metadata["logo_type"]
+                            if "typography" in metadata:
+                                meta["typography_primary"] = metadata["typography"].get("primary_font")
+                            if "intelligence_scores" in metadata:
+                                meta["intelligence_scores"] = metadata["intelligence_scores"]
+                            if "components_count" in metadata:
+                                meta["components_count"] = metadata["components_count"]
+                        except Exception:
+                            pass
 
                     if "intelligence_summary" in tokens:
                         meta["intelligence_scores"] = {
@@ -360,7 +513,6 @@ def api_projects():
                         }
                         meta["components_count"] = tokens["intelligence_summary"].get("components_detected", 0)
 
-                    # Always ensure default metadata fields exist as valid types
                     meta.setdefault("colors_count", 0)
                     meta.setdefault("fonts_count", 0)
                     meta.setdefault("font_files_count", 0)
@@ -403,20 +555,24 @@ def api_projects():
                         "files": files,
                         "has_style_guide": guide_file.exists(),
                         "has_tokens": tokens_file.exists(),
-                        "has_intelligence": intel_file.exists() or ("intelligence_summary" in tokens),
                         "meta": meta,
-                        "source_type": "local",
                     }
             except Exception as exc:
-                print(f"Error reading project item {item}: {exc}")
+                print(f"Error reading local project folder {item.name}: {exc}")
 
-    # 1. Scan downloaded-themes directory first, root BASE_DIR, and temporary output dirs
+    # 1. Scan local directories (Tenant-partitioned + root fallback)
     try:
-        _scan_dir(DOWNLOADED_THEMES_DIR)
-        _scan_dir(BASE_DIR)
-        tmp_output = Path(tempfile.gettempdir()) / "extract_theme_output"
-        _scan_dir(tmp_output / "downloaded-themes")
-        _scan_dir(tmp_output)
+        tenant_dir = DOWNLOADED_THEMES_DIR / "tenants" / tenant_id
+        if tenant_dir.is_dir():
+            _scan_dir(tenant_dir)
+
+        # In primary workspace or if tenant folder is empty, scan main downloaded-themes
+        if tenant_id == "ten_default" or not projects_by_domain:
+            _scan_dir(DOWNLOADED_THEMES_DIR)
+            _scan_dir(BASE_DIR)
+            temp_output = Path(tempfile.gettempdir()) / "extract_theme_output" / "downloaded-themes"
+            if temp_output.is_dir():
+                _scan_dir(temp_output)
     except Exception as exc:
         print(f"Error scanning local projects: {exc}")
 
@@ -456,7 +612,14 @@ def api_projects():
         return (ts, str(meta.get("generated") or ""))
 
     projects.sort(key=_project_sort_key, reverse=True)
-    return jsonify({"projects": projects, "storage_configured": storage.is_configured()})
+    plan_info = db.get_tenant_plan_and_quota(tenant_id)
+    return jsonify({
+        "status": "ok",
+        "tenant": plan_info,
+        "role": g.tenant_role,
+        "projects": projects,
+        "storage_configured": storage.is_configured(),
+    })
 
 
 # =============================================================================
@@ -678,6 +841,7 @@ def api_download():
 # API: Extraction Pipeline (Streaming Execution)
 # =============================================================================
 @app.route("/api/extract", methods=["GET", "POST"])
+@auth.require_auth
 def api_extract():
     if request.method == "GET":
         url_param = request.args.get("url", "").strip()
@@ -713,6 +877,12 @@ def api_extract():
     url = payload.get("url", "").strip()
     if not url:
         return jsonify({"error": "URL parameter is required"}), 400
+
+    # Quota and feature gate check
+    crawl_val = int(payload.get("crawl") or 0)
+    gate_err = auth.check_quota_and_gates("scan", crawl_depth=crawl_val)
+    if gate_err:
+        return jsonify(gate_err), 403
 
     if not (url.startswith("http://") or url.startswith("https://") or url.endswith(".html")):
         url = "https://" + url
@@ -828,6 +998,20 @@ def api_extract():
         base_url = f"{proto}://{host_header}"
 
         if proc_returncode == 0:
+            try:
+                tenant_id = auth.get_current_tenant_id()
+                crawl_cnt = int(payload.get("crawl") or 0)
+                db.increment_tenant_scan(tenant_id, is_crawl=(crawl_cnt > 1), depth=crawl_cnt)
+                db.register_tenant_project(
+                    tenant_id=tenant_id,
+                    domain=domain,
+                    storage_path=f"downloaded-themes/{domain}",
+                    user_id=g.current_user.get("id") if hasattr(g, "current_user") else "usr_admin",
+                    crawl_depth=crawl_cnt,
+                )
+            except Exception as reg_exc:
+                print(f"[DB] Warning: Failed to record tenant scan in db: {reg_exc}")
+
             if storage.is_configured():
                 yield f"\n☁️ Syncing extracted theme to persistent S3/R2 storage ({storage.bucket})...\n"
                 count = storage.upload_theme_directory(domain, target_dir)
@@ -851,6 +1035,18 @@ def api_extract():
         mimetype="text/plain; charset=utf-8",
         headers={"X-Content-Type-Options": "nosniff"},
     )
+
+
+
+@app.route("/<path:filename>")
+def serve_static(filename: str):
+    if filename.startswith("api/") or filename == "api":
+        return jsonify({"error": f"API endpoint '/{filename}' not found"}), 404
+    target = (PUBLIC_DIR / filename).resolve()
+    # Prevent path traversal outside PUBLIC_DIR
+    if target.is_file() and str(target).startswith(str(PUBLIC_DIR.resolve())):
+        return send_from_directory(PUBLIC_DIR, filename)
+    return jsonify({"error": "File not found"}), 404
 
 
 # =============================================================================
