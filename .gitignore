@@ -54,4 +54,5 @@ credentials.json
 *.db-shm
 *.db-wal
 studio.db
-
+*.zip
+website-redesign-and-improvement_b/

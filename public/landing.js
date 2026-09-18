@@ -1,260 +1,391 @@
-// landing.js — ExtractDesign Studio Landing Page Interactivity
+/**
+ * ExtractDesign Studio — Landing Page JS
+ * Ported from website-redesign-and-improvement_b (React/framer-motion)
+ * Vanilla JS — no framework dependencies
+ */
 
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize Lucide icons
-  function refreshIcons() {
-    if (window.lucide && typeof window.lucide.createIcons === 'function') {
-      window.lucide.createIcons();
+/* ============================================================
+   SCROLL-AWARE NAV
+   ============================================================ */
+(function () {
+  const nav = document.querySelector('.site-nav');
+  if (!nav) return;
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+
+/* ============================================================
+   MOBILE MENU TOGGLE
+   ============================================================ */
+(function () {
+  const btn = document.getElementById('nav-menu-btn');
+  const drawer = document.getElementById('nav-mobile');
+  const iconMenu = document.getElementById('nav-icon-menu');
+  const iconClose = document.getElementById('nav-icon-close');
+  if (!btn || !drawer) return;
+
+  btn.addEventListener('click', () => {
+    const open = drawer.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+    if (iconMenu) iconMenu.style.display = open ? 'none' : '';
+    if (iconClose) iconClose.style.display = open ? '' : 'none';
+  });
+
+  // Close on any mobile link click
+  drawer.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      if (iconMenu) iconMenu.style.display = '';
+      if (iconClose) iconClose.style.display = 'none';
+    });
+  });
+})();
+
+/* ============================================================
+   HERO SCAN ANIMATION
+   ============================================================ */
+(function () {
+  const urlInput = document.getElementById('hero-url-input');
+  const analyzeBtn = document.getElementById('hero-analyze-btn');
+  const analyzeBtnText = document.getElementById('analyze-btn-text');
+  const analyzeScanIcon = document.getElementById('analyze-icon-scan');
+  const analyzeSpinIcon = document.getElementById('analyze-icon-spin');
+  const heroProgress = document.getElementById('hero-progress');
+  const heroProgressFill = document.getElementById('hero-progress-fill');
+  const heroProgressStage = document.getElementById('hero-progress-stage');
+
+  // Dashboard elements
+  const scanOverlay = document.getElementById('scan-overlay');
+  const scanProgressFill = document.getElementById('scan-progress-fill');
+  const scanProgressPct = document.getElementById('scan-progress-pct');
+  const scanStageText = document.getElementById('scan-stage-text');
+  const doneToast = document.getElementById('done-toast');
+  const dbUrlDisplay = document.getElementById('db-url-display');
+
+  if (!analyzeBtn || !urlInput) return;
+
+  const STAGES = [
+    'Fetching rendered DOM & computed styles',
+    'Resolving CSS variables & @font-face rules',
+    'Extracting color, type & spacing tokens',
+    'Mapping recurrent components',
+    'Running WCAG 2.1 contrast audits',
+    'Indexing SVG, icon & font assets',
+  ];
+
+  let raf = null;
+  let doneTimer = null;
+  let scanning = false;
+
+  function setPhase(phase, progress = 0) {
+    const stageIndex = Math.min(STAGES.length - 1, Math.floor(progress * STAGES.length));
+    const pct = Math.round(progress * 100);
+    const url = (urlInput.value || 'stripe.com').replace(/^https?:\/\//, '');
+
+    if (phase === 'scanning') {
+      // Button state
+      analyzeBtn.disabled = true;
+      if (analyzeScanIcon) analyzeScanIcon.style.display = 'none';
+      if (analyzeSpinIcon) analyzeSpinIcon.style.display = '';
+      if (analyzeBtnText) analyzeBtnText.textContent = 'Analyzing…';
+
+      // Hero inline progress
+      if (heroProgress) heroProgress.classList.add('visible');
+      if (heroProgressFill) heroProgressFill.style.width = `${pct}%`;
+      if (heroProgressStage) heroProgressStage.textContent = `› ${STAGES[stageIndex]}…`;
+
+      // Dashboard overlay
+      if (scanOverlay) scanOverlay.classList.add('active');
+      if (scanProgressFill) scanProgressFill.style.width = `${pct}%`;
+      if (scanProgressPct) scanProgressPct.textContent = `${pct}% · scanning ${url}`;
+      if (scanStageText) scanStageText.textContent = `${STAGES[stageIndex]}…`;
+      if (doneToast) doneToast.classList.remove('visible');
+    } else if (phase === 'done') {
+      analyzeBtn.disabled = false;
+      if (analyzeScanIcon) analyzeScanIcon.style.display = '';
+      if (analyzeSpinIcon) analyzeSpinIcon.style.display = 'none';
+      if (analyzeBtnText) analyzeBtnText.textContent = 'Analyze';
+      if (heroProgress) heroProgress.classList.remove('visible');
+      if (heroProgressFill) heroProgressFill.style.width = '100%';
+
+      // Hide overlay, show toast
+      if (scanOverlay) scanOverlay.classList.remove('active');
+      if (doneToast) doneToast.classList.add('visible');
+
+      doneTimer = setTimeout(() => {
+        if (doneToast) doneToast.classList.remove('visible');
+      }, 5200);
+    } else {
+      // idle
+      analyzeBtn.disabled = false;
+      if (analyzeScanIcon) analyzeScanIcon.style.display = '';
+      if (analyzeSpinIcon) analyzeSpinIcon.style.display = 'none';
+      if (analyzeBtnText) analyzeBtnText.textContent = 'Analyze';
+      if (heroProgress) heroProgress.classList.remove('visible');
+      if (scanOverlay) scanOverlay.classList.remove('active');
     }
   }
-  refreshIcons();
 
-  // 2. DOM Elements
-  const heroForm = document.getElementById('hero-analyze-form');
-  const heroUrlInput = document.getElementById('hero-target-url');
-  const presetTags = document.querySelectorAll('.preset-tag');
-  const liveDemoBtns = document.querySelectorAll('.btn-open-demo');
-  const consoleTargetLabel = document.getElementById('console-target-label');
-  
-  // Console Tab Buttons & Panels
-  const consoleTabs = document.querySelectorAll('.console-tab');
-  const consolePanels = document.querySelectorAll('.console-panel');
+  function startScan() {
+    if (scanning) return;
+    scanning = true;
+    cancelAnimationFrame(raf);
+    clearTimeout(doneTimer);
 
-  // Login / Workspace Modal Elements
-  const loginModal = document.getElementById('login-modal');
-  const openLoginBtns = document.querySelectorAll('.btn-open-login');
-  const closeLoginBtn = document.getElementById('close-login-modal');
-  const modalBackdrop = loginModal ? loginModal.querySelector('.modal-backdrop') : null;
-  const modalMagicForm = document.getElementById('modal-magic-form');
-  const modalMagicInput = document.getElementById('modal-magic-email');
-  const modalMagicFeedback = document.getElementById('modal-magic-feedback');
-  const modalSubmitBtn = document.getElementById('modal-magic-submit');
+    // Update dashboard URL display
+    const url = (urlInput.value || 'stripe.com').replace(/^https?:\/\//, '');
+    if (dbUrlDisplay) dbUrlDisplay.textContent = url;
 
-  // Inline Section Magic Form Elements
-  const inlineMagicForm = document.getElementById('inline-magic-form');
-  const inlineMagicInput = document.getElementById('inline-magic-email');
-  const inlineMagicFeedback = document.getElementById('inline-magic-feedback');
-  const inlineSubmitBtn = document.getElementById('inline-magic-submit');
+    const duration = 2800;
+    const start = performance.now();
 
-  // Pricing Unlock Buttons
-  const unlockReportBtns = document.querySelectorAll('.btn-unlock-report');
-
-  // 3. Hero Console Tab Switching
-  consoleTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const targetTab = tab.getAttribute('data-tab');
-      if (!targetTab) return;
-
-      // Update active tab button
-      consoleTabs.forEach(t => {
-        t.classList.remove('active');
-        t.setAttribute('aria-selected', 'false');
-      });
-      tab.classList.add('active');
-      tab.setAttribute('aria-selected', 'true');
-
-      // Update active panel
-      consolePanels.forEach(panel => {
-        panel.classList.remove('active');
-      });
-      const activePanel = document.getElementById(`tab-panel-${targetTab}`);
-      if (activePanel) {
-        activePanel.classList.add('active');
-      }
-
-      refreshIcons();
-    });
-  });
-
-  // 4. Check existing session
-  const storedUser = localStorage.getItem('extract_design_user');
-  if (storedUser) {
-    const userBadge = document.getElementById('user-session-badge');
-    if (userBadge) {
-      userBadge.innerHTML = `
-        <span class="user-pill" style="font-size:12px;color:#38bdf8;background:rgba(56,189,248,0.1);padding:4px 10px;border-radius:9999px;border:1px solid rgba(56,189,248,0.25);display:flex;align-items:center;gap:6px;">
-          <i data-lucide="user-check" style="width:13px;height:13px;"></i>
-          <span>${escapeHtml(storedUser)}</span>
-        </span>
-      `;
-      refreshIcons();
-    }
-  }
-
-  // 5. Hero URL Form Submission
-  if (heroForm && heroUrlInput) {
-    heroForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const rawUrl = heroUrlInput.value.trim();
-      if (!rawUrl) return;
-      redirectToStudio(rawUrl);
-    });
-  }
-
-  // Preset Tags Click Handlers
-  presetTags.forEach((tag) => {
-    tag.addEventListener('click', () => {
-      const url = tag.getAttribute('data-url');
-      if (url) {
-        if (heroUrlInput) heroUrlInput.value = url;
-        if (consoleTargetLabel) {
-          try {
-            const parsed = new URL(url.startsWith('http') ? url : `https://${url}`);
-            consoleTargetLabel.textContent = parsed.hostname;
-          } catch {
-            consoleTargetLabel.textContent = url;
-          }
-        }
-        redirectToStudio(url);
-      }
-    });
-  });
-
-  // Live Demo Handlers
-  liveDemoBtns.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      redirectToStudio('https://stripe.com');
-    });
-  });
-
-  function redirectToStudio(url) {
-    let cleanUrl = url.trim();
-    if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
-      cleanUrl = 'https://' + cleanUrl;
-    }
-    window.location.href = `/studio?url=${encodeURIComponent(cleanUrl)}`;
-  }
-
-  // 6. Modal Open/Close Controls
-  function openModal() {
-    if (!loginModal) return;
-    loginModal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-    if (modalMagicInput) modalMagicInput.focus();
-    refreshIcons();
-  }
-
-  function closeModal() {
-    if (!loginModal) return;
-    loginModal.classList.add('hidden');
-    document.body.style.overflow = '';
-  }
-
-  openLoginBtns.forEach(btn => btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    openModal();
-  }));
-
-  if (closeLoginBtn) closeLoginBtn.addEventListener('click', closeModal);
-  if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && loginModal && !loginModal.classList.contains('hidden')) {
-      closeModal();
-    }
-  });
-
-  // Unlock Full Report Button Click Handler
-  unlockReportBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      openModal();
-      const modalTitle = document.getElementById('modal-title');
-      const modalSub = document.getElementById('modal-sub');
-      if (modalTitle) modalTitle.textContent = 'Unlock Full Report — ₹149';
-      if (modalSub) modalSub.textContent = 'Enter your email to complete checkout or restore your unlocked intelligence workspace.';
-    });
-  });
-
-  // 7. Handle Magic Link Submission (Modal Form)
-  if (modalMagicForm && modalMagicInput) {
-    modalMagicForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = modalMagicInput.value.trim();
-      if (!email) return;
-      await submitMagicLink(email, modalMagicFeedback, modalSubmitBtn, () => {
-        setTimeout(() => {
-          closeModal();
-          window.location.href = '/studio';
-        }, 1800);
-      });
-    });
-  }
-
-  // 8. Handle Magic Link Submission (Inline Form)
-  if (inlineMagicForm && inlineMagicInput) {
-    inlineMagicForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = inlineMagicInput.value.trim();
-      if (!email) return;
-      await submitMagicLink(email, inlineMagicFeedback, inlineSubmitBtn, () => {
-        setTimeout(() => {
-          window.location.href = '/studio';
-        }, 2000);
-      });
-    });
-  }
-
-  async function submitMagicLink(email, feedbackEl, btnEl, onSuccess) {
-    if (!feedbackEl) return;
-    feedbackEl.className = 'magic-feedback';
-    feedbackEl.style.display = 'none';
-
-    const btnText = btnEl ? btnEl.querySelector('.btn-text') : null;
-    const spinner = btnEl ? btnEl.querySelector('.spinner') : null;
-
-    if (btnText) btnText.textContent = 'Verifying...';
-    if (spinner) spinner.classList.remove('hidden');
-    if (btnEl) btnEl.disabled = true;
-
-    try {
-      const resp = await fetch('/api/auth/magic-link', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
-      });
-
-      const data = await resp.json();
-
-      if (resp.ok && data.status === 'ok') {
-        localStorage.setItem('extract_design_user', email);
-        feedbackEl.className = 'magic-feedback success';
-        feedbackEl.innerHTML = `
-          <strong>✓ Magic link verified!</strong><br>
-          Access granted for <strong>${escapeHtml(email)}</strong>. Redirecting to your workspace...
-        `;
-        feedbackEl.style.display = 'block';
-
-        if (typeof onSuccess === 'function') onSuccess();
+    function tick(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      setPhase('scanning', eased);
+      if (t < 1) {
+        raf = requestAnimationFrame(tick);
       } else {
-        feedbackEl.className = 'magic-feedback error';
-        feedbackEl.textContent = data.error || 'Failed to send access link. Please check your email and try again.';
-        feedbackEl.style.display = 'block';
+        scanning = false;
+        setPhase('done', 1);
       }
-    } catch (err) {
-      // Offline / network fallback: allow instant local session demo
-      localStorage.setItem('extract_design_user', email);
-      feedbackEl.className = 'magic-feedback success';
-      feedbackEl.innerHTML = `
-        <strong>✓ Magic access enabled!</strong><br>
-        Workspace unlocked for <strong>${escapeHtml(email)}</strong>. Redirecting to studio...
-      `;
-      feedbackEl.style.display = 'block';
-      if (typeof onSuccess === 'function') onSuccess();
-    } finally {
-      if (btnText) btnText.textContent = 'Send Access Link';
-      if (spinner) spinner.classList.add('hidden');
-      if (btnEl) btnEl.disabled = false;
+    }
+
+    setPhase('scanning', 0);
+    raf = requestAnimationFrame(tick);
+  }
+
+  analyzeBtn.addEventListener('click', startScan);
+  urlInput.addEventListener('keydown', e => { if (e.key === 'Enter') startScan(); });
+
+  // Add spin animation via CSS injection (for the spinner icon)
+  const style = document.createElement('style');
+  style.textContent = `.spin-icon { animation: spin 0.8s linear infinite; }`;
+  document.head.appendChild(style);
+})();
+
+/* ============================================================
+   HERO SAMPLE CHIPS
+   ============================================================ */
+(function () {
+  const urlInput = document.getElementById('hero-url-input');
+  const dbUrlDisplay = document.getElementById('db-url-display');
+  const chips = document.querySelectorAll('.sample-chip');
+  if (!chips.length || !urlInput) return;
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const url = chip.dataset.url;
+      urlInput.value = url;
+      if (dbUrlDisplay) dbUrlDisplay.textContent = url;
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+  // Keep active chip in sync with manual input
+  urlInput.addEventListener('input', () => {
+    const val = urlInput.value.replace(/^https?:\/\//, '');
+    chips.forEach(c => c.classList.toggle('active', c.dataset.url === val));
+  });
+})();
+
+/* ============================================================
+   STAT COUNTER ANIMATION (IntersectionObserver)
+   ============================================================ */
+(function () {
+  const EASE = (t) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  const stats = document.querySelectorAll('.stat-value[data-count]');
+  if (!stats.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      observer.unobserve(entry.target);
+      const el = entry.target;
+      const target = parseFloat(el.dataset.count);
+      const decimals = parseInt(el.dataset.decimals || '0', 10);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1800;
+      const start = performance.now();
+
+      function tick(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const val = EASE(t) * target;
+        el.textContent = val.toFixed(decimals) + suffix;
+        if (t < 1) requestAnimationFrame(tick);
+        else el.textContent = target.toFixed(decimals) + suffix;
+      }
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.2, rootMargin: '-40px' });
+
+  stats.forEach(s => observer.observe(s));
+})();
+
+/* ============================================================
+   SCROLL REVEAL (IntersectionObserver)
+   ============================================================ */
+(function () {
+  const revealEls = document.querySelectorAll('.reveal');
+  if (!revealEls.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      observer.unobserve(entry.target);
+      entry.target.classList.add('revealed');
+    });
+  }, { threshold: 0.08, rootMargin: '-70px' });
+
+  revealEls.forEach(el => observer.observe(el));
+})();
+
+/* ============================================================
+   PRICING BILLING TOGGLE
+   ============================================================ */
+(function () {
+  const monthlyBtn = document.getElementById('billing-monthly');
+  const annualBtn = document.getElementById('billing-annual');
+  const proAmount = document.getElementById('pro-amount');
+  const proPeriod = document.getElementById('pro-period');
+  const annualBadge = document.getElementById('annual-badge');
+  if (!monthlyBtn || !annualBtn) return;
+
+  function setBilling(billing) {
+    const isAnnual = billing === 'annual';
+
+    monthlyBtn.classList.toggle('active', !isAnnual);
+    annualBtn.classList.toggle('active', isAnnual);
+
+    if (proAmount) {
+      proAmount.classList.add('animating');
+      setTimeout(() => {
+        proAmount.innerHTML = isAnnual
+          ? '₹799<span style="font-size:16px;font-weight:700;color:#94a3b8;">/mo</span>'
+          : '₹999<span style="font-size:16px;font-weight:700;color:#94a3b8;">/mo</span>';
+        proAmount.classList.remove('animating');
+      }, 100);
+    }
+
+    if (proPeriod) {
+      proPeriod.textContent = isAnnual ? 'Billed yearly · save ₹2,400' : 'Billed monthly';
+    }
+
+    if (annualBadge) {
+      annualBadge.className = 'billing-annual-badge ' + (isAnnual ? 'active-annual' : 'default');
     }
   }
 
-  function escapeHtml(str) {
-    if (!str) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
-});
+  monthlyBtn.addEventListener('click', () => setBilling('monthly'));
+  annualBtn.addEventListener('click', () => setBilling('annual'));
+})();
+
+/* ============================================================
+   FAQ ACCORDION
+   ============================================================ */
+(function () {
+  const questions = document.querySelectorAll('.faq-question');
+  if (!questions.length) return;
+
+  questions.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = btn.dataset.faq;
+      const answer = document.getElementById(`faq-answer-${idx}`);
+      const isOpen = btn.classList.contains('open');
+
+      // Close all
+      questions.forEach(q => {
+        q.classList.remove('open');
+        q.setAttribute('aria-expanded', 'false');
+        const a = document.getElementById(`faq-answer-${q.dataset.faq}`);
+        if (a) a.classList.remove('open');
+      });
+
+      // Toggle clicked
+      if (!isOpen) {
+        btn.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        if (answer) answer.classList.add('open');
+      }
+    });
+  });
+})();
+
+/* ============================================================
+   WORKSPACE MAGIC-LINK FORM
+   ============================================================ */
+(function () {
+  const form = document.getElementById('workspace-form');
+  const emailInput = document.getElementById('workspace-email');
+  const submitBtn = document.getElementById('workspace-submit');
+  const sendIcon = document.getElementById('ws-send-icon');
+  const checkIcon = document.getElementById('ws-check-icon');
+  const btnText = document.getElementById('ws-btn-text');
+  if (!form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!emailInput || !emailInput.value) return;
+
+    // Show sent state
+    if (submitBtn) submitBtn.classList.add('sent');
+    if (sendIcon) sendIcon.style.display = 'none';
+    if (checkIcon) checkIcon.style.display = '';
+    if (btnText) btnText.textContent = 'Magic link sent';
+
+    // Reset after 4s on new input
+    if (emailInput) {
+      const reset = () => {
+        if (submitBtn) submitBtn.classList.remove('sent');
+        if (sendIcon) sendIcon.style.display = '';
+        if (checkIcon) checkIcon.style.display = 'none';
+        if (btnText) btnText.textContent = 'Send Access Link';
+        emailInput.removeEventListener('input', reset);
+      };
+      emailInput.addEventListener('input', reset);
+    }
+  });
+})();
+
+/* ============================================================
+   MARQUEE HOVER-PAUSE
+   ============================================================ */
+(function () {
+  const track = document.getElementById('marquee-track');
+  if (!track) return;
+  track.addEventListener('mouseenter', () => track.style.animationPlayState = 'paused');
+  track.addEventListener('mouseleave', () => track.style.animationPlayState = '');
+})();
+
+/* ============================================================
+   SMOOTH SCROLL for anchor links
+   ============================================================ */
+(function () {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      const href = anchor.getAttribute('href');
+      if (href === '#') return;
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+})();
+
+/* ============================================================
+   CONSOLE SIGNATURE
+   ============================================================ */
+(function () {
+  const s = [
+    '%cExtractDesign Studio',
+    'font-size:18px;font-weight:800;background:linear-gradient(to right,#818cf8,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;padding:4px 0;',
+  ];
+  console.log(...s);
+  console.log('%cEngineering-grade website intelligence · by @carthworks', 'color:#64748b;font-size:12px;');
+  console.log('%c→ https://github.com/carthworks/extract-theme', 'color:#818cf8;font-size:12px;');
+})();

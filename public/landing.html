@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ExtractDesign Studio — Engineering-Grade Website Intelligence, Simplified</title>
-  <meta name="description" content="Reverse-engineer design systems, UI components & website intelligence from any live URL. Extract tokens, components, assets, accessibility, SEO and performance audits.">
+  <title>ExtractDesign Studio — Point at any website. Extract the intelligence.</title>
+  <meta name="description" content="Reverse-engineer production design systems, tokens, UI components and six-pillar technical audits from any public URL — in seconds, not a sprint.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
   <meta name="author" content="Karthikeyan T (@carthworks)">
-  <meta name="theme-color" content="#07090e">
-  <link rel="canonical" href="http://localhost:8000/">
+  <meta name="theme-color" content="#04060e">
+  <link rel="canonical" href="https://extractdesign.studio/">
 
-  <!-- Open Graph & Social Cards -->
+  <!-- Open Graph -->
   <meta property="og:title" content="ExtractDesign Studio — Engineering-Grade Website Intelligence">
   <meta property="og:description" content="Point it at any public URL. ExtractDesign Studio reveals the design system behind it alongside accessibility, SEO, security and performance analysis.">
   <meta property="og:type" content="website">
@@ -18,632 +18,1181 @@
   <meta name="twitter:title" content="ExtractDesign Studio — Reverse-Engineer Design Systems">
   <meta name="twitter:description" content="Get the essentials free. Unlock complete intelligence reports for ₹149.">
 
-  <!-- Typography & Resource Hints -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="landing.css?v=2">
-
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="landing.css?v=3">
 </head>
 <body>
 
-  <!-- Ambient Glowing Mesh Background -->
-  <div class="ambient-background" aria-hidden="true">
-    <div class="ambient-orb orb-top-left"></div>
-    <div class="ambient-orb orb-mid-right"></div>
-    <div class="ambient-orb orb-bottom-center"></div>
-    <div class="grid-overlay"></div>
+<!-- ============================================================
+     FIXED AMBIENT BACKGROUND
+     ============================================================ -->
+<div class="ambient-background" aria-hidden="true">
+  <div style="position:absolute;inset:0;background:#04060e;"></div>
+  <div class="ambient-grid"></div>
+  <div class="ambient-orb-top"></div>
+  <div class="ambient-orb-right"></div>
+  <div class="ambient-orb-left"></div>
+  <div class="ambient-noise"></div>
+</div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header id="top" class="site-nav" id="site-nav">
+  <div class="container-x nav-inner">
+
+    <!-- Logo -->
+    <a href="/" class="nav-logo" aria-label="ExtractDesign Studio home">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">ExtractDesign<span>Studio</span></span>
+    </a>
+
+    <!-- Desktop nav links -->
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#capabilities">Extraction
+        <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a href="#pillars">Intelligence
+        <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a href="#personas">Use Cases
+        <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a href="/vibe-coders" class="nav-hot">Vibe Coders
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;color:#67e8f9;flex-shrink:0;"><path d="M12 3l1.88 5.82h6.12l-4.95 3.6 1.88 5.82L12 14.64l-4.93 3.6 1.88-5.82L4 8.82h6.12z"/></svg>
+      </a>
+      <a href="#pricing">Pricing &amp; Access
+        <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a href="/studio#settings" id="nav-settings">Settings</a>
+    </nav>
+
+    <!-- Desktop actions -->
+    <div class="nav-actions">
+      <button type="button" class="nav-btn-login btn-open-login" title="Access your workspace">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="3"/><path d="M7 20.662V19a5 5 0 0 1 10 0v1.662"/><path d="M12 3v1"/><path d="M6.343 5.657l.707.707"/><path d="M3 11h1"/></svg>
+        Workspace Login
+      </button>
+      <a href="/studio" class="nav-btn-primary shine">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Studio Workbench
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+    <!-- Mobile menu button -->
+    <button class="nav-menu-btn" id="nav-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+      <svg id="nav-icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="nav-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
   </div>
 
-  <!-- Navigation Header -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="/" class="brand-link">
-        <div class="brand-icon">
-          <i data-lucide="palette" style="width:20px;height:20px;"></i>
+  <!-- Mobile drawer -->
+  <div class="nav-mobile" id="nav-mobile">
+    <div class="container-x">
+      <div class="nav-mobile-inner">
+        <a href="#capabilities">Extraction</a>
+        <a href="#pillars">Intelligence</a>
+        <a href="#personas">Use Cases</a>
+        <a href="/vibe-coders" style="color:#a5b4fc;">
+          Vibe Coders
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:#67e8f9;"><path d="M12 3l1.88 5.82h6.12l-4.95 3.6 1.88 5.82L12 14.64l-4.93 3.6 1.88-5.82L4 8.82h6.12z"/></svg>
+        </a>
+        <a href="#pricing">Pricing &amp; Access</a>
+        <a href="/studio#settings">Settings</a>
+        <div class="nav-mobile-actions">
+          <button type="button" class="nav-mobile-btn-secondary btn-open-login">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><circle cx="12" cy="11" r="3"/><path d="M7 20.662V19a5 5 0 0 1 10 0v1.662"/></svg>
+            Workspace Login
+          </button>
+          <a href="/studio" class="nav-mobile-btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Studio Workbench
+          </a>
         </div>
-        <div class="brand-title">ExtractDesign <span>Studio</span></div>
-      </a>
+      </div>
+    </div>
+  </div>
+</header>
 
-      <nav aria-label="Main Navigation">
-        <ul class="nav-links">
-          <li><a href="#hero" class="nav-link">Extraction</a></li>
-          <li><a href="#showcase" class="nav-link">Intelligence</a></li>
-          <li><a href="#use-cases" class="nav-link">Use Cases</a></li>
-          <li><a href="/vibe-coders" class="nav-link" style="color:#a5b4fc;"><i data-lucide="zap" style="width:13px;height:13px;vertical-align:middle;margin-right:3px;"></i> Vibe Coders</a></li>
-          <li><a href="#pricing" class="nav-link">Pricing & Access</a></li>
-          <li><a href="/studio#settings" class="nav-link"><i data-lucide="settings" style="width:13px;height:13px;vertical-align:middle;margin-right:3px;"></i> Settings</a></li>
-        </ul>
-      </nav>
+<main>
 
-      <div class="header-actions">
-        <div id="user-session-badge"></div>
-        <button type="button" class="btn btn-secondary btn-sm btn-open-login" title="Access your workspace">
-          <i data-lucide="key-round" style="width:14px;height:14px;"></i>
-          <span>Workspace Login</span>
+<!-- ============================================================
+     HERO SECTION
+     ============================================================ -->
+<section id="hero" class="hero-section">
+  <div class="hero-glow-top" aria-hidden="true"></div>
+  <div class="hero-glow-right" aria-hidden="true"></div>
+
+  <div class="container-x hero-grid">
+
+    <!-- LEFT: Pitch -->
+    <div>
+      <span class="eyebrow">
+        <span class="pulse-dot"></span>
+        Engineering-Grade Website Intelligence
+      </span>
+
+      <h1 class="hero-title">
+        Point at any<br>
+        website.<br>
+        <span class="text-gradient">Extract the<br>intelligence.</span>
+      </h1>
+
+      <p class="hero-desc">
+        Reverse-engineer production design systems, tokens, UI components and six-pillar
+        technical audits from any public URL — in seconds, not a sprint.
+      </p>
+
+      <!-- Analyzer Input -->
+      <div class="hero-analyzer glass" id="hero-analyzer">
+        <div class="hero-analyzer-row">
+          <span class="hero-analyzer-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </span>
+          <input
+            id="hero-url-input"
+            type="text"
+            class="hero-analyzer-input"
+            value="stripe.com"
+            placeholder="https://any-website.com"
+            aria-label="Website URL to analyze"
+            spellcheck="false"
+            autocomplete="off"
+          >
+          <button id="hero-analyze-btn" class="hero-analyze-btn shine" type="button">
+            <svg id="analyze-icon-scan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="12" y1="7" x2="12" y2="17"/></svg>
+            <svg id="analyze-icon-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;" class="spin-icon"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+            <span id="analyze-btn-text">Analyze</span>
+          </button>
+        </div>
+        <div class="hero-progress" id="hero-progress">
+          <div class="hero-progress-inner">
+            <div class="hero-progress-bar">
+              <div class="hero-progress-fill" id="hero-progress-fill"></div>
+            </div>
+            <p class="hero-progress-stage" id="hero-progress-stage">› Fetching rendered DOM &amp; computed styles…</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample chips -->
+      <div class="hero-samples">
+        <span class="hero-samples-label">Samples:</span>
+        <button class="sample-chip active" data-url="stripe.com" type="button">stripe.com</button>
+        <button class="sample-chip" data-url="linear.app" type="button">linear.app</button>
+        <button class="sample-chip" data-url="vercel.com" type="button">vercel.com</button>
+        <button class="sample-chip" data-url="airbnb.com" type="button">airbnb.com</button>
+      </div>
+
+      <!-- CTAs -->
+      <div class="hero-ctas">
+        <a href="/studio" class="btn-demo">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;color:#67e8f9;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Open Live Demo
+        </a>
+        <span class="hero-pricing-note">
+          <strong>Free essentials</strong>
+          <span class="dot-sep"></span>
+          <span style="font-family:var(--font-mono);">Full Report ₹149</span>
+        </span>
+      </div>
+
+      <!-- Trust signals -->
+      <div class="hero-trust">
+        <span class="hero-trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          No signup needed
+        </span>
+        <span class="hero-trust-item">
+          <span class="hero-stars">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </span>
+          Loved by <strong style="color:#cbd5e1;font-weight:600;margin:0 3px;">2,400+</strong> freelancers
+        </span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Dashboard mockup -->
+    <div class="hero-dashboard-wrap reveal">
+      <div class="hero-dashboard-glow" aria-hidden="true"></div>
+
+      <!-- Floating badge: Visual Consistency -->
+      <div class="float-badge float-badge-right" aria-hidden="true">
+        <div class="score-ring">
+          <svg viewBox="0 0 54 54">
+            <defs>
+              <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#22d3ee"/>
+              </linearGradient>
+            </defs>
+            <circle cx="27" cy="27" r="22" fill="none" stroke="rgba(148,163,184,0.15)" stroke-width="4"/>
+            <circle cx="27" cy="27" r="22" fill="none" stroke="url(#ringGrad)" stroke-width="4" stroke-linecap="round"
+              stroke-dasharray="138.2" stroke-dashoffset="11" style="transform:rotate(-90deg);transform-origin:27px 27px;"/>
+          </svg>
+          <span class="score-ring-val">A−</span>
+        </div>
+        <div>
+          <p>Visual consistency</p>
+          <span>A− · 92 / 100</span>
+        </div>
+      </div>
+
+      <!-- Floating badge: WCAG -->
+      <div class="float-badge float-badge-bottom" aria-hidden="true" style="border-color:rgba(52,211,153,0.20);">
+        <div class="float-badge-icon" style="background:rgba(16,185,129,0.15);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#6ee7b7;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <div>
+          <p>WCAG 2.1 · AA</p>
+          <span style="font-family:var(--font-mono);">contrast 7.4 : 1</span>
+        </div>
+      </div>
+
+      <!-- Floating badge: Export -->
+      <div class="float-badge float-badge-left" aria-hidden="true">
+        <div class="float-badge-icon" style="background:rgba(99,102,241,0.15);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#a5b4fc;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div>
+          <p style="font-family:var(--font-mono);">tailwind.config.ts</p>
+          <span style="color:#6ee7b7;display:flex;align-items:center;gap:4px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="width:10px;height:10px;"><polyline points="20 6 9 17 4 12"/></svg>
+            Exported · v3.4
+          </span>
+        </div>
+      </div>
+
+      <!-- Dashboard window -->
+      <div class="dashboard-window">
+        <!-- Title bar -->
+        <div class="dashboard-titlebar">
+          <div class="traffic-lights">
+            <span class="tl-red"></span>
+            <span class="tl-yellow"></span>
+            <span class="tl-green"></span>
+          </div>
+          <div class="url-bar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span id="db-url-display">stripe.com</span>
+          </div>
+          <div class="dashboard-tabs">
+            <span class="dashboard-tab active">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px;"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              Tokens
+            </span>
+            <span class="dashboard-tab">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              6 Audits
+            </span>
+            <span class="dashboard-tab">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px;"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11m0 0H5a2 2 0 0 1-2-2V9m6 5h10a2 2 0 0 0 2-2V9m-6 9v3m-3-3h6"/></svg>
+              AI Insights
+            </span>
+            <span class="dashboard-tab">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Exports
+            </span>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="dashboard-body">
+          <div class="scan-beam" aria-hidden="true"></div>
+
+          <div class="dashboard-content">
+            <!-- Color palette -->
+            <div class="db-section-title">
+              <p>Color Palette &amp; Tokens</p>
+              <span class="db-badge-cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px;"><path d="M12 3l1.88 5.82h6.12l-4.95 3.6 1.88 5.82L12 14.64l-4.93 3.6 1.88-5.82L4 8.82h6.12z"/></svg>
+                <span id="db-token-count">40</span> values extracted
+              </span>
+            </div>
+            <div class="db-swatches">
+              <div class="db-swatch-item">
+                <p style="background:#6366F1;"></p>
+                <p class="db-swatch-hex">#6366F1</p>
+                <p class="db-swatch-label">Brand Primary</p>
+              </div>
+              <div class="db-swatch-item">
+                <p style="background:#06B6D4;"></p>
+                <p class="db-swatch-hex">#06B6D4</p>
+                <p class="db-swatch-label">Cyan Accent</p>
+              </div>
+              <div class="db-swatch-item">
+                <p style="background:#0F172A;"></p>
+                <p class="db-swatch-hex">#0F172A</p>
+                <p class="db-swatch-label">Surface Dark</p>
+              </div>
+              <div class="db-swatch-item">
+                <p style="background:#10B981;"></p>
+                <p class="db-swatch-hex">#10B981</p>
+                <p class="db-swatch-label">Success</p>
+              </div>
+            </div>
+
+            <!-- Typography + Layout -->
+            <div class="db-2col">
+              <div class="db-panel">
+                <p class="db-panel-label" style="color:rgba(103,232,249,0.90);">Typography</p>
+                <div class="db-typography-demo">
+                  <span class="big">Ag</span>
+                  <span class="sm">Ag</span>
+                </div>
+                <p class="db-panel-title">Inter · JetBrains Mono</p>
+                <p class="db-panel-sub">5 scale steps • 400/600/800</p>
+              </div>
+              <div class="db-panel">
+                <p class="db-panel-label" style="color:rgba(192,132,252,0.90);">Layout &amp; Radius</p>
+                <div class="db-grid-vis">
+                  <span class="filled"></span><span class="filled"></span><span class="filled"></span>
+                  <span class="filled"></span><span class="filled"></span><span class="filled"></span>
+                  <span class="filled"></span><span class="filled"></span><span class="filled"></span>
+                  <span class="empty"></span><span class="empty"></span><span class="empty"></span>
+                </div>
+                <p class="db-panel-title">8pt System • 16px Max-R</p>
+                <p class="db-panel-sub">1180px Max-W • 12-col grid</p>
+              </div>
+            </div>
+
+            <!-- Components + Assets -->
+            <div class="db-2col">
+              <div class="db-panel">
+                <p class="db-panel-label" style="color:rgba(129,140,248,0.90);">Recurrent Components</p>
+                <div class="db-tags">
+                  <span class="db-tag">NavHeader</span>
+                  <span class="db-tag">HeroForm</span>
+                  <span class="db-tag">PricingCard</span>
+                  <span class="db-tag">MetricBadge</span>
+                </div>
+              </div>
+              <div class="db-panel">
+                <p class="db-panel-label" style="color:rgba(52,211,153,0.90);">Public Assets</p>
+                <div class="db-svgs-row">
+                  <span class="db-svg-dot" style="background:#6366f1;opacity:1;"></span>
+                  <span class="db-svg-dot" style="background:#06b6d4;opacity:0.75;"></span>
+                  <span class="db-svg-dot" style="background:#10b981;opacity:0.5;"></span>
+                  <span style="font-size:10px;font-weight:700;color:#fff;margin-left:2px;">28 SVGs</span>
+                </div>
+                <p class="db-panel-title">14 Icons • 3 Fonts</p>
+                <p class="db-panel-sub">All media indexed &amp; inspectable</p>
+              </div>
+            </div>
+
+            <!-- All passed -->
+            <div class="db-passed">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                All 6 audit pillars passed
+              </span>
+              <time>30.4s</time>
+            </div>
+          </div>
+
+          <!-- Scan overlay -->
+          <div class="scan-overlay" id="scan-overlay" aria-live="polite" aria-label="Scanning in progress">
+            <div class="scan-overlay-inner">
+              <div class="scan-spinner">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+              </div>
+              <p class="scan-stage-text" id="scan-stage-text">Fetching rendered DOM &amp; computed styles…</p>
+              <div class="scan-progress-bar-wrap">
+                <div class="scan-progress-fill" id="scan-progress-fill"></div>
+              </div>
+              <p class="scan-progress-pct" id="scan-progress-pct">0% · scanning stripe.com</p>
+            </div>
+          </div>
+
+          <!-- Done toast -->
+          <div class="done-toast" id="done-toast" role="status">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Report ready · 40 tokens · 6 audits
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROOF / STATS SECTION
+     ============================================================ -->
+<section class="proof-section" aria-label="Social proof and stats">
+  <div class="container-x">
+    <div class="reveal">
+      <p class="proof-label">Works on any stack — paste any public URL</p>
+    </div>
+
+    <div class="reveal reveal-delay-1 mask-fade-x marquee-wrap" style="margin-top:24px;">
+      <div class="marquee-track" id="marquee-track">
+        <!-- Sites duplicated for infinite scroll -->
+        <div class="domain-pill"><span class="domain-avatar" style="background:#635bff;">S</span><span class="domain-name">stripe.com</span><span class="domain-stack">Next.js</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#5e6ad2;">L</span><span class="domain-name">linear.app</span><span class="domain-stack">Next.js</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#fff;color:#000;">V</span><span class="domain-name">vercel.com</span><span class="domain-stack">Vite</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#ff5a5f;">A</span><span class="domain-name">airbnb.com</span><span class="domain-stack">React</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#fff;color:#000;">N</span><span class="domain-name">notion.so</span><span class="domain-stack">Next.js</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#a259ff;">F</span><span class="domain-name">figma.com</span><span class="domain-stack">TypeScript</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#d0d7de;color:#000;">G</span><span class="domain-name">github.com</span><span class="domain-stack">Rails</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#96bf48;color:#000;">S</span><span class="domain-name">shopify.com</span><span class="domain-stack">Hydrogen</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#ff6363;">R</span><span class="domain-name">raycast.com</span><span class="domain-stack">Next.js</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#39d0a5;color:#000;">M</span><span class="domain-name">mintlify.com</span><span class="domain-stack">MDX</span></div>
+        <!-- duplicate for seamless loop -->
+        <div class="domain-pill"><span class="domain-avatar" style="background:#635bff;">S</span><span class="domain-name">stripe.com</span><span class="domain-stack">Next.js</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#5e6ad2;">L</span><span class="domain-name">linear.app</span><span class="domain-stack">Next.js</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#fff;color:#000;">V</span><span class="domain-name">vercel.com</span><span class="domain-stack">Vite</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#ff5a5f;">A</span><span class="domain-name">airbnb.com</span><span class="domain-stack">React</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#fff;color:#000;">N</span><span class="domain-name">notion.so</span><span class="domain-stack">Next.js</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#a259ff;">F</span><span class="domain-name">figma.com</span><span class="domain-stack">TypeScript</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#d0d7de;color:#000;">G</span><span class="domain-name">github.com</span><span class="domain-stack">Rails</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#96bf48;color:#000;">S</span><span class="domain-name">shopify.com</span><span class="domain-stack">Hydrogen</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#ff6363;">R</span><span class="domain-name">raycast.com</span><span class="domain-stack">Next.js</span></div>
+        <div class="domain-pill"><span class="domain-avatar" style="background:#39d0a5;color:#000;">M</span><span class="domain-name">mintlify.com</span><span class="domain-stack">MDX</span></div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-cell reveal">
+        <span class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+        </span>
+        <span class="stat-value" data-count="1.2" data-decimals="1" data-suffix="M+">0</span>
+        <span class="stat-label">design tokens mapped</span>
+      </div>
+      <div class="stat-cell reveal reveal-delay-1">
+        <span class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+        </span>
+        <span class="stat-value" data-count="6" data-decimals="0" data-suffix="">0</span>
+        <span class="stat-label">audit pillars per report</span>
+      </div>
+      <div class="stat-cell reveal reveal-delay-2">
+        <span class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </span>
+        <span class="stat-value" data-count="30" data-decimals="0" data-suffix="s">0</span>
+        <span class="stat-label">median full-site scan</span>
+      </div>
+      <div class="stat-cell reveal reveal-delay-3">
+        <span class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        </span>
+        <span class="stat-value" data-count="6" data-decimals="0" data-suffix="+">0</span>
+        <span class="stat-label">billable hours saved / pitch</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PERSONAS SECTION
+     ============================================================ -->
+<section id="personas" class="personas-section" aria-labelledby="personas-title">
+  <div class="container-x">
+    <div class="section-header reveal">
+      <span class="eyebrow"><span class="pulse-dot"></span> Built for builders &amp; agencies</span>
+      <h2 id="personas-title" class="section-title">
+        Save 4–6 billable hours per pitch.
+        <span class="text-gradient">Win redesign contracts before coding.</span>
+      </h2>
+      <p class="section-desc">Purpose-built for the people who turn someone else's website into the next signed proposal.</p>
+    </div>
+
+    <div class="personas-grid">
+
+      <div class="persona-card reveal">
+        <div class="persona-card-glow" style="background:rgba(99,102,241,0.14);"></div>
+        <div class="persona-card-top">
+          <span class="persona-icon" style="background:rgba(99,102,241,0.14);color:#818cf8;--ring:rgba(129,140,248,0.35);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </span>
+          <svg class="persona-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </div>
+        <h3 class="persona-title">Agencies &amp; Freelancers</h3>
+        <p class="persona-body">Share branded whitelabel style guides with clients. Win redesign proposals by presenting the audit before you write a single line of code.</p>
+        <span class="persona-tag" style="background:rgba(99,102,241,0.14);color:#818cf8;">Whitelabel client link</span>
+      </div>
+
+      <div class="persona-card reveal reveal-delay-1">
+        <div class="persona-card-glow" style="background:rgba(6,182,212,0.14);"></div>
+        <div class="persona-card-top">
+          <span class="persona-icon" style="background:rgba(6,182,212,0.14);color:#22d3ee;--ring:rgba(34,211,238,0.35);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </span>
+          <svg class="persona-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </div>
+        <h3 class="persona-title">Frontend Engineers</h3>
+        <p class="persona-body">Instant one-click Tailwind v3/v4 config, Figma Tokens Studio JSON and TypeScript theme.ts exports. Zero manual re-typing of hex values.</p>
+        <span class="persona-tag" style="background:rgba(6,182,212,0.14);color:#22d3ee;">4 framework exports</span>
+      </div>
+
+      <div class="persona-card reveal reveal-delay-2">
+        <div class="persona-card-glow" style="background:rgba(168,85,247,0.14);"></div>
+        <div class="persona-card-top">
+          <span class="persona-icon" style="background:rgba(168,85,247,0.14);color:#c084fc;--ring:rgba(192,132,252,0.35);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          </span>
+          <svg class="persona-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </div>
+        <h3 class="persona-title">Design System Leads</h3>
+        <p class="persona-body">Automated visual consistency score (A–F), 8pt spacing-grid adherence and a full WCAG 2.1 contrast matrix across every page.</p>
+        <span class="persona-tag" style="background:rgba(168,85,247,0.14);color:#c084fc;">Consistency scorecard</span>
+      </div>
+
+      <div class="persona-card reveal reveal-delay-3">
+        <div class="persona-card-glow" style="background:rgba(16,185,129,0.14);"></div>
+        <div class="persona-card-top">
+          <span class="persona-icon" style="background:rgba(16,185,129,0.14);color:#34d399;--ring:rgba(52,211,153,0.35);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </span>
+          <svg class="persona-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </div>
+        <h3 class="persona-title">Growth &amp; Product Teams</h3>
+        <p class="persona-body">Benchmark competitors' tech stacks, typography pairings and layout structures in 30 seconds — then ship the better version.</p>
+        <span class="persona-tag" style="background:rgba(16,185,129,0.14);color:#34d399;">Competitor teardowns</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CAPABILITIES SECTION
+     ============================================================ -->
+<section id="capabilities" class="capabilities-section" aria-labelledby="capabilities-title">
+  <div class="capabilities-glow" aria-hidden="true"></div>
+  <div class="container-x">
+    <div class="section-header reveal">
+      <span class="eyebrow"><span class="pulse-dot"></span> High-impact commercial capabilities</span>
+      <h2 id="capabilities-title" class="section-title">
+        What teams &amp; agencies <span class="text-gradient">pay for</span>
+      </h2>
+      <p class="section-desc">Every scan ends in a client-ready artifact — not another spreadsheet you have to typeset yourself.</p>
+    </div>
+
+    <div class="capabilities-grid">
+
+      <!-- Whitelabel -->
+      <div class="cap-col-3 cap-card reveal">
+        <div class="cap-icon" style="background:rgba(129,140,248,0.12);color:#818cf8;--ring:rgba(129,140,248,0.33);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <h3 class="cap-title">Whitelabel Client Presentation Link</h3>
+        <p class="cap-body">Present interactive style guides under your agency's brand name directly to prospective clients — your domain, your logo, your edge.</p>
+        <div class="cap-preview">
+          <div class="wl-window">
+            <div class="wl-titlebar">
+              <span style="background:#ff5f57;"></span>
+              <span style="background:#febc2e;"></span>
+              <span style="background:#28c840;"></span>
+              <span class="wl-url-bar">styleguide.northwind.studio/p/stripe</span>
+            </div>
+            <div class="wl-body">
+              <p class="wl-prepared">Prepared for</p>
+              <p class="wl-site-title">Design Audit — Stripe.com</p>
+              <div class="wl-meta">
+                <span class="wl-avatars">
+                  <span class="wl-avatar" style="background:#6366f1;"></span>
+                  <span class="wl-avatar" style="background:#06b6d4;"></span>
+                  <span class="wl-avatar" style="background:#a855f7;"></span>
+                </span>
+                <span class="wl-brand-badge">Northwind Studio</span>
+              </div>
+              <div class="wl-link-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                <span>extractdesign.studio/northwind/stripe</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#94a3b8;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1-Click Exports -->
+      <div class="cap-col-3 cap-card reveal reveal-delay-1">
+        <div class="cap-icon" style="background:rgba(34,211,238,0.12);color:#22d3ee;--ring:rgba(34,211,238,0.33);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <h3 class="cap-title">1-Click Framework &amp; Figma Configs</h3>
+        <p class="cap-body">Export tailwind.config.js, Figma Tokens Studio JSON and TypeScript theme.ts without ever re-typing a hex value by hand.</p>
+        <div class="cap-preview">
+          <div class="code-window">
+            <div class="code-titlebar">
+              <span class="code-file-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </span>
+              <span class="code-file-name">tailwind.config.ts</span>
+              <span class="code-ready-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                ready
+              </span>
+            </div>
+            <pre class="code-pre"><span class="kw">colors</span><span class="punc">: {</span>
+  brand: <span class="str">'#6366F1'</span>,
+  accent: <span class="str">'#06B6D4'</span>,
+  surface: <span class="str">'#0F172A'</span>,
+  success: <span class="str">'#10B981'</span>,
+<span class="punc">},</span>
+<span class="kw">borderRadius</span><span class="punc">:</span> <span class="punc">{</span> card: <span class="str">'16px'</span> <span class="punc">},</span></pre>
+            <div class="code-footer">
+              <span class="code-badge">Tailwind v3/v4</span>
+              <span class="code-badge">Figma Tokens</span>
+              <span class="code-badge">theme.ts</span>
+              <span class="code-badge">CSS vars</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scorecard -->
+      <div class="cap-col-2 cap-card reveal">
+        <div class="cap-icon" style="background:rgba(192,132,252,0.12);color:#c084fc;--ring:rgba(192,132,252,0.33);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3 class="cap-title">Executive Scorecard (PDF / Print)</h3>
+        <p class="cap-body">An executive-ready report detailing WCAG contrast violations and visual inconsistency for clean client handoff.</p>
+        <div class="cap-preview">
+          <div class="mini-panel">
+            <div class="score-row">
+              <div class="score-mini-ring">
+                <svg viewBox="0 0 48 48">
+                  <defs><linearGradient id="scoreGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient></defs>
+                  <circle cx="24" cy="24" r="20" fill="none" stroke="rgba(148,163,184,0.15)" stroke-width="4"/>
+                  <circle cx="24" cy="24" r="20" fill="none" stroke="url(#scoreGrad)" stroke-width="4" stroke-linecap="round"
+                    stroke-dasharray="125.6" stroke-dashoffset="10" style="transform:rotate(-90deg);transform-origin:24px 24px;"/>
+                </svg>
+                <span class="score-mini-val">A−</span>
+              </div>
+              <div class="score-bars">
+                <div class="score-bar-row">
+                  <div class="score-bar-meta"><span>Contrast · AA</span><span>96%</span></div>
+                  <div class="score-bar-track"><div class="score-bar-fill" style="width:96%;"></div></div>
+                </div>
+                <div class="score-bar-row">
+                  <div class="score-bar-meta"><span>Type scale</span><span>89%</span></div>
+                  <div class="score-bar-track"><div class="score-bar-fill" style="width:89%;"></div></div>
+                </div>
+                <div class="score-bar-row">
+                  <div class="score-bar-meta"><span>Spacing grid</span><span>92%</span></div>
+                  <div class="score-bar-track"><div class="score-bar-fill" style="width:92%;"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="mini-download-row">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#c084fc;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>executive-report.pdf</span>
+              <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deep Crawling -->
+      <div class="cap-col-2 cap-card reveal reveal-delay-1">
+        <div class="cap-icon" style="background:rgba(52,211,153,0.12);color:#34d399;--ring:rgba(52,211,153,0.33);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3 class="cap-title">Deep Multi-Page Crawling</h3>
+        <p class="cap-body">Crawl 5, 10 or 20 subpages across an entire domain to catch rogue components and stylesheet variations.</p>
+        <div class="cap-preview">
+          <div class="mini-panel">
+            <div class="crawl-list">
+              <div class="crawl-row">
+                <span class="crawl-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="crawl-path">/</span>
+                <span class="crawl-status-done">40 tokens</span>
+              </div>
+              <div class="crawl-row">
+                <span class="crawl-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="crawl-path">/pricing</span>
+                <span class="crawl-status-done">38 tokens</span>
+              </div>
+              <div class="crawl-row">
+                <span class="crawl-pulse"></span>
+                <span class="crawl-path">/checkout</span>
+                <span class="crawl-status-active">scanning…</span>
+              </div>
+              <div class="crawl-row">
+                <span class="crawl-pulse" style="opacity:0.4;"></span>
+                <span class="crawl-path">/blog</span>
+                <span class="crawl-status-done">queued</span>
+              </div>
+            </div>
+            <div class="crawl-progress">
+              <div class="crawl-progress-fill"></div>
+            </div>
+            <p class="crawl-meta">20 pages · 384 tokens mapped</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Six Pillars -->
+      <div class="cap-col-2 cap-card reveal reveal-delay-2">
+        <div id="pillars" style="scroll-margin-top:96px;">
+          <div class="cap-icon" style="background:rgba(251,191,36,0.12);color:#fbbf24;--ring:rgba(251,191,36,0.33);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </div>
+          <h3 class="cap-title">The Six-Pillar Technical Audit</h3>
+          <p class="cap-body">Every report ships all six audits — they're the product, never a paid add-on.</p>
+        </div>
+        <div class="cap-preview">
+          <div class="mini-panel">
+            <div class="pillars-list">
+              <div class="pillar-item"><span class="pillar-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>Color &amp; Tokens</div>
+              <div class="pillar-item"><span class="pillar-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>Typography</div>
+              <div class="pillar-item"><span class="pillar-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>Spacing &amp; Grid</div>
+              <div class="pillar-item"><span class="pillar-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>Components</div>
+              <div class="pillar-item"><span class="pillar-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>WCAG 2.1</div>
+              <div class="pillar-item"><span class="pillar-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>Tech Stack</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HOW IT WORKS SECTION
+     ============================================================ -->
+<section id="workflow" class="how-section" aria-labelledby="how-title">
+  <div class="container-x">
+    <div class="section-header reveal">
+      <span class="eyebrow"><span class="pulse-dot"></span> From URL to pitch in 30 seconds</span>
+      <h2 id="how-title" class="section-title">Three steps. <span class="text-gradient">Zero busywork.</span></h2>
+      <p class="section-desc">No SDK, no browser extension, no manual screenshotting. The production site is the design file.</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="steps-connector" aria-hidden="true"></div>
+
+      <div class="step-card reveal">
+        <span class="step-number" aria-hidden="true">01</span>
+        <div class="step-icon" style="background:rgba(129,140,248,0.12);color:#818cf8;--ring:rgba(129,140,248,0.33);box-shadow:inset 0 0 0 1px rgba(129,140,248,0.33);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3 class="step-title">Paste any public URL</h3>
+        <p class="step-body">Drop in any production website. Staging environments, auth walls and private data are never touched — only what a visitor's browser already receives.</p>
+        <span class="step-tag" style="color:#818cf8;">
+          <span class="step-tag-dot" style="background:#818cf8;"></span>
+          0:00 · no extension
+        </span>
+      </div>
+
+      <div class="step-card reveal reveal-delay-1">
+        <span class="step-number" aria-hidden="true">02</span>
+        <div class="step-icon" style="position:relative;background:rgba(34,211,238,0.12);color:#22d3ee;box-shadow:inset 0 0 0 1px rgba(34,211,238,0.33);">
+          <span class="step-icon-ping" style="border-color:rgba(103,232,249,0.40);"></span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="12" y1="7" x2="12" y2="17"/></svg>
+        </div>
+        <h3 class="step-title">The engine extracts</h3>
+        <p class="step-body">Rendered DOM, computed styles, tokens, recurrent components and media are fingerprinted while six technical audits run in parallel.</p>
+        <span class="step-tag" style="color:#22d3ee;">
+          <span class="step-tag-dot" style="background:#22d3ee;"></span>
+          ~30 seconds
+        </span>
+      </div>
+
+      <div class="step-card reveal reveal-delay-2">
+        <span class="step-number" aria-hidden="true">03</span>
+        <div class="step-icon" style="background:rgba(52,211,153,0.12);color:#34d399;box-shadow:inset 0 0 0 1px rgba(52,211,153,0.33);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3 class="step-title">Export &amp; win the pitch</h3>
+        <p class="step-body">Ship Tailwind configs, Figma Tokens Studio JSON, theme.ts, executive PDF scorecards and whitelabel client links — branded as you.</p>
+        <span class="step-tag" style="color:#34d399;">
+          <span class="step-tag-dot" style="background:#34d399;"></span>
+          ∞ reuse
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING SECTION
+     ============================================================ -->
+<section id="pricing" class="pricing-section" aria-labelledby="pricing-title">
+  <div class="pricing-glow" aria-hidden="true"></div>
+  <div class="container-x">
+    <div class="section-header reveal" style="display:flex;flex-direction:column;align-items:center;">
+      <span class="eyebrow"><span class="pulse-dot"></span> Pricing &amp; packaging</span>
+      <h2 id="pricing-title" class="section-title">
+        Start free. Pay per scan or
+        <span class="text-gradient">subscribe as your agency grows.</span>
+      </h2>
+      <p class="section-desc">Transparent pricing. High ROI. Instant magic-link workspace access.</p>
+
+      <!-- Billing toggle -->
+      <div class="billing-toggle" role="group" aria-label="Billing period">
+        <button class="billing-btn active" id="billing-monthly" data-billing="monthly" type="button">Monthly</button>
+        <button class="billing-btn" id="billing-annual" data-billing="annual" type="button">
+          Annual
+          <span class="billing-annual-badge default" id="annual-badge">−20%</span>
         </button>
-        <a href="/studio" class="btn btn-primary btn-sm btn-glow">
-          <i data-lucide="layout-dashboard" style="width:14px;height:14px;"></i>
-          <span>Studio Workbench</span>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+
+      <!-- Community -->
+      <div class="reveal">
+        <article class="plan-card">
+          <p class="plan-label">Community</p>
+          <div class="plan-price"><span class="plan-amount">₹0</span></div>
+          <p class="plan-period">Forever free</p>
+          <p class="plan-desc">Essential exploration for quick site checks.</p>
+          <ul class="plan-features">
+            <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>3 analyses / month</li>
+            <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Color palette &amp; font tokens</li>
+            <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Technology stack detection</li>
+            <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Basic UI components list</li>
+            <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>HTML style guide preview</li>
+          </ul>
+          <a href="/studio" class="plan-cta cta-ghost">Start Free in Studio</a>
+        </article>
+      </div>
+
+      <!-- Pay-per-scan (featured) -->
+      <div class="reveal reveal-delay-1">
+        <div class="plan-card featured">
+          <div class="plan-card-inner">
+            <span class="plan-popular-badge">Most popular for freelancers</span>
+            <p class="plan-label">Pay-Per-Scan</p>
+            <div class="plan-price">
+              <span class="plan-amount">₹149</span>
+              <span class="plan-unit">(~$2 / $9)</span>
+            </div>
+            <p class="plan-period">One-time payment · Lifetime report access</p>
+            <p class="plan-desc">Full reverse-engineered system and deep six-pillar technical audit.</p>
+            <ul class="plan-features">
+              <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Full design system ZIP bundle</li>
+              <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>All 6 deep technical audits</li>
+              <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Tailwind, Figma &amp; TypeScript exports</li>
+              <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Executive Audit Scorecard (Print/PDF)</li>
+              <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Brand assets &amp; @font-face WOFF2 files</li>
+              <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Zero recurring subscription commitments</li>
+            </ul>
+            <a href="/studio" class="plan-cta cta-primary shine">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Unlock Full Report — ₹149
+            </a>
+            <p class="plan-cta-note">Instant delivery · Zero subscription lock-in</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pro -->
+      <div class="reveal reveal-delay-2">
+        <article class="plan-card">
+          <p class="plan-label">Pro plan</p>
+          <div class="plan-price">
+            <span class="plan-amount pro-amount" id="pro-amount">₹999<span style="font-size:16px;font-weight:700;color:#94a3b8;">/mo</span></span>
+            <span class="plan-unit">(~$12 / $29)</span>
+          </div>
+          <p class="plan-period" id="pro-period">Billed monthly</p>
+          <p class="plan-desc">For active freelancers &amp; boutique agencies. Unlimited extractions with deep multi-page crawling.</p>
+          <ul class="plan-features">
+            <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Unlimited site scans</li>
+            <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Deep crawl up to 20 subpages</li>
+            <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Whitelabel client presentation links</li>
+            <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Figma Tokens Studio live sync</li>
+            <li class="plan-feature"><span class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Export executive PDF scorecards</li>
+          </ul>
+          <a href="/studio" class="plan-cta cta-indigo">Get Started with Pro</a>
+        </article>
+      </div>
+
+      <!-- Workspace access -->
+      <div class="reveal reveal-delay-3">
+        <article class="workspace-card" id="workspace">
+          <div class="workspace-header">
+            <span class="workspace-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+            <p class="plan-label">Workspace access</p>
+          </div>
+          <h3 class="workspace-title">Already unlocked?</h3>
+          <p class="workspace-subtitle text-gradient-cyan">Instant magic-link access</p>
+          <p class="workspace-desc">Enter your email to retrieve unlocked intelligence reports, ZIP bundles and client links.</p>
+          <form class="workspace-form" id="workspace-form" novalidate>
+            <div class="workspace-email-row">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <input type="email" class="workspace-email-input" id="workspace-email" placeholder="you@studio.com" required autocomplete="email">
+            </div>
+            <button type="submit" class="workspace-submit" id="workspace-submit">
+              <svg id="ws-send-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              <svg id="ws-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;color:#10b981;"><polyline points="20 6 9 17 4 12"/></svg>
+              <span id="ws-btn-text">Send Access Link</span>
+            </button>
+          </form>
+          <p class="workspace-footer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="3"/><path d="M7 20.662V19a5 5 0 0 1 10 0v1.662"/></svg>
+            Passwordless · Fast · Secure
+          </p>
+        </article>
+      </div>
+
+    </div>
+
+    <!-- Guarantees -->
+    <div class="guarantees reveal">
+      <span class="guarantee-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#10b981;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        30-day money-back guarantee
+      </span>
+      <span class="guarantee-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#06b6d4;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        Cancel Pro anytime
+      </span>
+      <span class="guarantee-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#a5b4fc;"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        UPI, cards &amp; global payments
+      </span>
+      <span class="guarantee-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#c084fc;"><path d="M12 3l1.88 5.82h6.12l-4.95 3.6 1.88 5.82L12 14.64l-4.93 3.6 1.88-5.82L4 8.82h6.12z"/></svg>
+        Reports never expire
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ SECTION
+     ============================================================ -->
+<section class="faq-section" aria-labelledby="faq-title">
+  <div class="container-x faq-grid">
+
+    <!-- Left sticky -->
+    <div class="reveal">
+      <div class="faq-sticky">
+        <span class="eyebrow"><span class="pulse-dot"></span> Questions, answered</span>
+        <h2 id="faq-title" class="section-title">
+          Everything before <span class="text-gradient">you hit Analyze.</span>
+        </h2>
+        <p class="section-desc" style="font-size:14px;">Still deciding? Run a free essentials scan first — the full ₹149 report only unlocks when you're already convinced.</p>
+        <a href="mailto:hello@extractdesign.studio" class="faq-chat-link">
+          <span class="faq-chat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </span>
+          <span>
+            Talk to a human
+            <span class="faq-chat-sub">hello@extractdesign.studio</span>
+          </span>
         </a>
       </div>
     </div>
-  </header>
 
-  <main>
+    <!-- Right accordion -->
+    <div class="reveal reveal-delay-1">
+      <div class="faq-accordion" role="list">
 
-    <!-- VIEWPORT 1 · HERO POWERHOUSE (Show most in hero) -->
-    <section id="hero" class="hero-section">
-      <div class="container">
-        <div class="hero-grid">
-          
-          <!-- Left Column: Pitch, Input & Quick Start -->
-          <div class="hero-content">
-            <div class="hero-pill">
-              <span class="pulse-dot"></span>
-              <span>Engineering-Grade Website Intelligence</span>
-            </div>
-
-            <h1 class="hero-title">
-              Point at any website.<br>
-              <span class="gradient-text">Extract the intelligence.</span>
-            </h1>
-
-            <p class="hero-desc">
-              Reverse-engineer design systems, tokens, UI components, and technical audits from any public URL in seconds.
-            </p>
-
-            <!-- Interactive Hero URL Input -->
-            <div class="hero-input-container">
-              <form id="hero-analyze-form" class="hero-form">
-                <div class="hero-input-icon">
-                  <i data-lucide="globe" style="width:18px;height:18px;"></i>
-                </div>
-                <input 
-                  type="text" 
-                  id="hero-target-url" 
-                  class="hero-input" 
-                  placeholder="https://stripe.com or domain.com" 
-                  value="https://stripe.com" 
-                  required
-                  aria-label="Website URL to analyze"
-                >
-                <button type="submit" class="btn btn-primary btn-glow hero-submit-btn">
-                  <i data-lucide="scan" style="width:16px;height:16px;"></i>
-                  <span>Analyze</span>
-                </button>
-              </form>
-
-              <!-- Preset Sample Pills -->
-              <div class="preset-row">
-                <span class="preset-label">Samples:</span>
-                <button type="button" class="preset-tag" data-url="https://stripe.com">stripe.com</button>
-                <button type="button" class="preset-tag" data-url="https://linear.app">linear.app</button>
-                <button type="button" class="preset-tag" data-url="https://vercel.com">vercel.com</button>
-                <button type="button" class="preset-tag" data-url="https://airbnb.com">airbnb.com</button>
-              </div>
-            </div>
-
-            <!-- Quick Action & Pricing Pill -->
-            <div class="hero-meta-row">
-              <button type="button" class="btn btn-secondary btn-sm btn-open-demo">
-                <i data-lucide="play" style="width:14px;height:14px;fill:currentColor;"></i>
-                <span>Open Live Demo</span>
-              </button>
-              <div class="hero-pricing-pill">
-                <span>Free essentials</span>
-                <span class="dot-sep">•</span>
-                <span class="highlight">Full Report ₹149</span>
-              </div>
-              <div class="hero-trust-tag">
-                <i data-lucide="shield-check" style="width:14px;height:14px;"></i>
-                <span>No signup needed</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right Column: Interactive Live Intelligence Showcase Console -->
-          <div id="showcase" class="hero-showcase">
-            <div class="console-window">
-              <!-- Console Window Header & Tabs -->
-              <div class="console-header">
-                <div class="window-controls">
-                  <span class="dot dot-red"></span>
-                  <span class="dot dot-yellow"></span>
-                  <span class="dot dot-green"></span>
-                </div>
-                <div class="console-target-badge">
-                  <i data-lucide="link-2" style="width:12px;height:12px;"></i>
-                  <span id="console-target-label">stripe.com</span>
-                </div>
-                <!-- Interactive Tabs -->
-                <div class="console-tabs" role="tablist">
-                  <button type="button" class="console-tab active" data-tab="tokens" role="tab" aria-selected="true">
-                    <i data-lucide="palette" style="width:13px;height:13px;"></i>
-                    <span>Tokens</span>
-                  </button>
-                  <button type="button" class="console-tab" data-tab="audits" role="tab" aria-selected="false">
-                    <i data-lucide="shield-alert" style="width:13px;height:13px;"></i>
-                    <span>6 Audits</span>
-                  </button>
-                  <button type="button" class="console-tab" data-tab="insights" role="tab" aria-selected="false">
-                    <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
-                    <span>AI Insights</span>
-                  </button>
-                  <button type="button" class="console-tab" data-tab="exports" role="tab" aria-selected="false">
-                    <i data-lucide="code-2" style="width:13px;height:13px;"></i>
-                    <span>Exports</span>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Panel 1: Tokens & UI Specs -->
-              <div id="tab-panel-tokens" class="console-panel active" role="tabpanel">
-                <div class="panel-section-title">
-                  <span>Color Palette & Tokens</span>
-                  <span class="token-count">40 values extracted</span>
-                </div>
-                <div class="swatch-grid">
-                  <div class="swatch-item">
-                    <div class="swatch-box" style="background:#6366f1;"></div>
-                    <span class="swatch-hex">#6366F1</span>
-                    <span class="swatch-name">Brand Primary</span>
-                  </div>
-                  <div class="swatch-item">
-                    <div class="swatch-box" style="background:#06b6d4;"></div>
-                    <span class="swatch-hex">#06B6D4</span>
-                    <span class="swatch-name">Cyan Accent</span>
-                  </div>
-                  <div class="swatch-item">
-                    <div class="swatch-box" style="background:#0f172a;"></div>
-                    <span class="swatch-hex">#0F172A</span>
-                    <span class="swatch-name">Surface Dark</span>
-                  </div>
-                  <div class="swatch-item">
-                    <div class="swatch-box" style="background:#10b981;"></div>
-                    <span class="swatch-hex">#10B981</span>
-                    <span class="swatch-name">Success</span>
-                  </div>
-                </div>
-
-                <div class="token-specs-row">
-                  <div class="spec-card">
-                    <div class="spec-label">TYPOGRAPHY</div>
-                    <div class="spec-val">Inter, JetBrains Mono</div>
-                    <div class="spec-sub">5 scale steps • 400/600/800</div>
-                  </div>
-                  <div class="spec-card">
-                    <div class="spec-label">LAYOUT & RADIUS</div>
-                    <div class="spec-val">8pt System • 16px Max-R</div>
-                    <div class="spec-sub">1180px Max-W • 12-col grid</div>
-                  </div>
-                </div>
-
-                <div class="token-specs-row">
-                  <div class="spec-card">
-                    <div class="spec-label">RECURRENT COMPONENTS</div>
-                    <div class="spec-badges">
-                      <span class="mini-badge">NavHeader</span>
-                      <span class="mini-badge">HeroForm</span>
-                      <span class="mini-badge">PricingCard</span>
-                      <span class="mini-badge">MetricBadge</span>
-                    </div>
-                  </div>
-                  <div class="spec-card">
-                    <div class="spec-label">PUBLIC ASSETS</div>
-                    <div class="spec-val">28 SVGs • 14 Icons • 3 Fonts</div>
-                    <div class="spec-sub">All media indexed & inspectable</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Panel 2: 6 Deep Engineering Audits -->
-              <div id="tab-panel-audits" class="console-panel" role="tabpanel">
-                <div class="panel-section-title">
-                  <span>Full Website Technical Health</span>
-                  <span class="token-count">6 Pillars Analyzed</span>
-                </div>
-                <div class="audits-compact-grid">
-                  <div class="audit-chip">
-                    <div class="audit-chip-icon icon-green">♿</div>
-                    <div class="audit-chip-body">
-                      <div class="audit-chip-title">Accessibility (WCAG 2.1)</div>
-                      <div class="audit-chip-desc">Contrast 4.5:1 pass • ARIA labels verified</div>
-                    </div>
-                    <span class="audit-score score-high">96/100</span>
-                  </div>
-
-                  <div class="audit-chip">
-                    <div class="audit-chip-icon icon-cyan">⚡</div>
-                    <div class="audit-chip-body">
-                      <div class="audit-chip-title">Performance & Vitals</div>
-                      <div class="audit-chip-desc">Page weight 1.2MB • Script tree optimized</div>
-                    </div>
-                    <span class="audit-score score-high">94/100</span>
-                  </div>
-
-                  <div class="audit-chip">
-                    <div class="audit-chip-icon icon-blue">🔍</div>
-                    <div class="audit-chip-body">
-                      <div class="audit-chip-title">SEO & Metadata</div>
-                      <div class="audit-chip-desc">Canonical, OpenGraph, JSON-LD Schema OK</div>
-                    </div>
-                    <span class="audit-score score-perfect">100/100</span>
-                  </div>
-
-                  <div class="audit-chip">
-                    <div class="audit-chip-icon icon-emerald">🔐</div>
-                    <div class="audit-chip-body">
-                      <div class="audit-chip-title">Security Headers</div>
-                      <div class="audit-chip-desc">HTTPS, HSTS, CSP, X-Frame headers</div>
-                    </div>
-                    <span class="audit-score score-grade">A+</span>
-                  </div>
-
-                  <div class="audit-chip">
-                    <div class="audit-chip-icon icon-purple">🛠</div>
-                    <div class="audit-chip-body">
-                      <div class="audit-chip-title">Technology Stack</div>
-                      <div class="audit-chip-desc">Next.js • React • Tailwind • Vercel CDN</div>
-                    </div>
-                    <span class="audit-badge-tag">Detected</span>
-                  </div>
-
-                  <div class="audit-chip">
-                    <div class="audit-chip-icon icon-amber">📝</div>
-                    <div class="audit-chip-body">
-                      <div class="audit-chip-title">Content & Hierarchy</div>
-                      <div class="audit-chip-desc">Value prop mapped • Clear H1-H3 flow</div>
-                    </div>
-                    <span class="audit-score score-high">92/100</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Panel 3: AI Insights (Facts vs AI Interpretation) -->
-              <div id="tab-panel-insights" class="console-panel" role="tabpanel">
-                <div class="panel-section-title">
-                  <span>Facts First. Intelligence Second.</span>
-                  <span class="token-count">Zero hallucination</span>
-                </div>
-                <div class="insights-preview-split">
-                  <div class="insight-preview-card">
-                    <div class="insight-label-row">
-                      <span class="insight-pill fact-pill">
-                        <i data-lucide="check-circle-2" style="width:11px;height:11px;"></i>
-                        <span>Observed Facts</span>
-                      </span>
-                    </div>
-                    <p class="insight-body">
-                      Extracted 40 distinct CSS color variables, 12 font size declarations, and 6 media query breakpoints from computed styles.
-                    </p>
-                  </div>
-                  <div class="insight-preview-card">
-                    <div class="insight-label-row">
-                      <span class="insight-pill ai-pill">
-                        <i data-lucide="sparkles" style="width:11px;height:11px;"></i>
-                        <span>AI Interpretation</span>
-                      </span>
-                    </div>
-                    <p class="insight-body">
-                      Design follows an enterprise SaaS structure with high-contrast primary CTAs and cohesive dark-mode glassmorphism layering.
-                    </p>
-                  </div>
-                </div>
-                <div class="console-footer-note">
-                  <i data-lucide="info" style="width:13px;height:13px;"></i>
-                  <span>Guaranteed separation: Never disguises predictions as raw DOM facts.</span>
-                </div>
-              </div>
-
-              <!-- Panel 4: Ready-to-Use Developer Exports -->
-              <div id="tab-panel-exports" class="console-panel" role="tabpanel">
-                <div class="panel-section-title">
-                  <span>Production-Ready Code Exports</span>
-                  <span class="token-count">Ready in 1-Click</span>
-                </div>
-                <div class="export-chips-grid">
-                  <div class="export-item-card">
-                    <i data-lucide="code-2" style="width:16px;height:16px;"></i>
-                    <div class="export-item-info">
-                      <div class="export-item-title">JSON Design Tokens</div>
-                      <div class="export-item-sub">W3C Design Token format</div>
-                    </div>
-                    <span class="export-status-badge">Ready</span>
-                  </div>
-                  <div class="export-item-card">
-                    <i data-lucide="hash" style="width:16px;height:16px;"></i>
-                    <div class="export-item-info">
-                      <div class="export-item-title">CSS Custom Properties</div>
-                      <div class="export-item-sub">:root variables ready to paste</div>
-                    </div>
-                    <span class="export-status-badge">Ready</span>
-                  </div>
-                  <div class="export-item-card">
-                    <i data-lucide="layers" style="width:16px;height:16px;"></i>
-                    <div class="export-item-info">
-                      <div class="export-item-title">Tailwind Config</div>
-                      <div class="export-item-sub">tailwind.config.js theme extension</div>
-                    </div>
-                    <span class="export-status-badge">Ready</span>
-                  </div>
-                  <div class="export-item-card">
-                    <i data-lucide="file-text" style="width:16px;height:16px;"></i>
-                    <div class="export-item-info">
-                      <div class="export-item-title">DESIGN.md & Style Guide</div>
-                      <div class="export-item-sub">Complete visual documentation</div>
-                    </div>
-                    <span class="export-status-badge">Ready</span>
-                  </div>
-                </div>
-                <div class="console-export-cta">
-                  <a href="/studio?url=https://stripe.com" class="btn btn-secondary btn-sm" style="width:100%;">
-                    <i data-lucide="arrow-up-right" style="width:14px;height:14px;"></i>
-                    <span>Inspect Full Bundle in Studio Workbench</span>
-                  </a>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEWPORT 2 · USE CASES, PRICING & INSTANT ACCESS (1 scroll down) -->
-    
-    <!-- 02 · Built For Builders Strip & Commercial Value -->
-    <section id="use-cases" class="use-cases-section">
-      <div class="container">
-        <div class="use-cases-header">
-          <span class="section-label">BUILT FOR BUILDERS &amp; AGENCIES</span>
-          <h2 class="use-cases-title">Save 4–6 billable hours per pitch. Win redesign contracts before coding.</h2>
-        </div>
-        <div class="personas-strip">
-          <div class="persona-mini-card">
-            <div class="persona-icon-box"><i data-lucide="briefcase" style="width:18px;height:18px;"></i></div>
-            <div class="persona-role">Agencies &amp; Freelancers</div>
-            <div class="persona-desc">Share branded whitelabel style guides with clients. Win redesign proposals by presenting the audit upfront.</div>
-          </div>
-          <div class="persona-mini-card">
-            <div class="persona-icon-box"><i data-lucide="code" style="width:18px;height:18px;"></i></div>
-            <div class="persona-role">Frontend Engineers</div>
-            <div class="persona-desc">Instant 1-click Tailwind v3/v4, Figma Tokens &amp; TypeScript <code>theme.ts</code>. Zero manual token re-typing.</div>
-          </div>
-          <div class="persona-mini-card">
-            <div class="persona-icon-box"><i data-lucide="palette" style="width:18px;height:18px;"></i></div>
-            <div class="persona-role">Design System Leads</div>
-            <div class="persona-desc">Automated visual consistency score (A–F), 8pt spacing grid adherence, and WCAG 2.1 contrast matrix.</div>
-          </div>
-          <div class="persona-mini-card">
-            <div class="persona-icon-box"><i data-lucide="target" style="width:18px;height:18px;"></i></div>
-            <div class="persona-role">Growth &amp; Product Teams</div>
-            <div class="persona-desc">Benchmark competitors' tech stacks, typography pairings, and layout structures in 30 seconds.</div>
+        <div class="faq-item" role="listitem">
+          <button class="faq-question open" aria-expanded="true" data-faq="0">
+            What exactly counts as one scan?
+            <span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-answer open" id="faq-answer-0">
+            <p>One scan analyzes a single public URL with the full six-pillar audit and every available export format. Pro plans upgrade a job into a multi-page crawl across 5, 10 or 20 subpages of the same domain — still one job, one billable action.</p>
           </div>
         </div>
 
-        <!-- 4 Key High-Converting Value Drivers -->
-        <div style="margin-top:32px;background:var(--bg-surface-2, rgba(15,23,42,0.6));border:1px solid var(--border-color, rgba(255,255,255,0.08));border-radius:14px;padding:24px 28px;">
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--primary,#6366f1);margin-bottom:6px;">High-Impact Commercial Capabilities</div>
-          <div style="font-size:17px;font-weight:700;color:var(--text-main,#f8fafc);margin-bottom:16px;">What Teams &amp; Agencies Pay For</div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:16px;">
-            <div style="display:flex;gap:10px;align-items:flex-start;">
-              <i data-lucide="share-2" style="width:18px;height:18px;color:#10b981;flex-shrink:0;margin-top:2px;"></i>
-              <div>
-                <div style="font-size:13.5px;font-weight:700;color:var(--text-main,#f8fafc);">Whitelabel Client Presentation Link</div>
-                <div style="font-size:12px;color:var(--text-sub,#94a3b8);line-height:1.4;margin-top:2px;">Present interactive style guides under your agency's brand name directly to prospective clients.</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:10px;align-items:flex-start;">
-              <i data-lucide="file-code" style="width:18px;height:18px;color:#6366f1;flex-shrink:0;margin-top:2px;"></i>
-              <div>
-                <div style="font-size:13.5px;font-weight:700;color:var(--text-main,#f8fafc);">1-Click Framework &amp; Figma Configs</div>
-                <div style="font-size:12px;color:var(--text-sub,#94a3b8);line-height:1.4;margin-top:2px;">Export <code>tailwind.config.js</code>, Figma Tokens Studio JSON, and TypeScript <code>theme.ts</code> without manual typing.</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:10px;align-items:flex-start;">
-              <i data-lucide="printer" style="width:18px;height:18px;color:#38bdf8;flex-shrink:0;margin-top:2px;"></i>
-              <div>
-                <div style="font-size:13.5px;font-weight:700;color:var(--text-main,#f8fafc);">Executive Scorecard (PDF / Print)</div>
-                <div style="font-size:12px;color:var(--text-sub,#94a3b8);line-height:1.4;margin-top:2px;">A ready-made, executive-ready report detailing WCAG contrast violations and visual inconsistency for client handoff.</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:10px;align-items:flex-start;">
-              <i data-lucide="layers" style="width:18px;height:18px;color:#f59e0b;flex-shrink:0;margin-top:2px;"></i>
-              <div>
-                <div style="font-size:13.5px;font-weight:700;color:var(--text-main,#f8fafc);">Deep Multi-Page Crawling</div>
-                <div style="font-size:12px;color:var(--text-sub,#94a3b8);line-height:1.4;margin-top:2px;">Crawl 5, 10, or 20 subpages across an entire domain to catch all rogue components and stylesheet variations.</div>
-              </div>
-            </div>
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" data-faq="1">
+            Which frameworks and formats can I export to?
+            <span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-answer" id="faq-answer-1">
+            <p>Tailwind CSS v3/v4 config, Figma Tokens Studio JSON, W3C design tokens, TypeScript theme.ts and raw CSS custom properties — plus a print-ready executive PDF scorecard and a ZIP bundle of indexed brand assets and @font-face WOFF2 files.</p>
           </div>
         </div>
 
-      </div>
-    </section>
-
-    <!-- 03 · Unified Pricing & Workspace Access -->
-    <section id="pricing" class="pricing-unified-section">
-      <div class="container">
-        <div class="section-header-compact">
-          <span class="section-label">PRICING &amp; PACKAGING</span>
-          <h2 class="section-title-compact">Start free. Pay per scan or subscribe as your agency grows.</h2>
-          <p class="section-desc-compact">Transparent pricing. High ROI. Instant magic-link workspace access.</p>
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" data-faq="2">
+            How does the WCAG 2.1 audit work?
+            <span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-answer" id="faq-answer-2">
+            <p>We compute real contrast ratios from the site's rendered colors (including gradients and text over images), flag touch-target sizes, focus states and type-scale issues, then map every finding to WCAG 2.1 AA inside the executive scorecard.</p>
+          </div>
         </div>
 
-        <div class="pricing-unified-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
-          <!-- Card 1: Free Tier -->
-          <div class="pricing-box">
-            <div class="pricing-box-header">
-              <span class="tier-badge">COMMUNITY</span>
-              <div class="tier-price">₹0</div>
-              <div class="tier-frequency">Forever free</div>
-            </div>
-            <p class="tier-summary">Essential exploration for quick site checks.</p>
-            <ul class="tier-bullets">
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>3 analyses / month</span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Color palette &amp; font tokens</span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Technology stack detection</span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Basic UI components list</span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>HTML style guide preview</span></li>
-            </ul>
-            <a href="/studio" class="btn btn-secondary btn-md" style="width:100%;">
-              <span>Start Free in Studio</span>
-            </a>
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" data-faq="3">
+            Do you crawl pages behind logins or store private data?
+            <span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-answer" id="faq-answer-3">
+            <p>Never. The engine only reads what the public web already sends to every visitor's browser — rendered HTML, computed CSS and publicly hosted assets. Reports live in your passwordless workspace and can be purged at any time.</p>
           </div>
-
-          <!-- Card 2: Featured Pay-Per-Scan -->
-          <div class="pricing-box featured">
-            <div class="featured-badge">MOST POPULAR FOR FREELANCERS</div>
-            <div class="pricing-box-header">
-              <span class="tier-badge tier-badge-accent">PAY-PER-SCAN</span>
-              <div class="tier-price">₹149 <span style="font-size:14px;font-weight:400;color:var(--text-sub);">(~$2 / $9)</span></div>
-              <div class="tier-frequency">One-time payment • Lifetime report access</div>
-            </div>
-            <p class="tier-summary">Full reverse-engineered system and deep 6-pillar technical audit.</p>
-            <ul class="tier-bullets">
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span><strong>Full design system ZIP bundle</strong></span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span><strong>All 6 deep technical audits</strong></span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Tailwind, Figma &amp; TypeScript exports</span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Executive Audit Scorecard (Print/PDF)</span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Brand assets &amp; @font-face WOFF2 files</span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Zero recurring subscription commitments</span></li>
-            </ul>
-            <button type="button" class="btn btn-primary btn-md btn-glow btn-unlock-report" style="width:100%;">
-              <i data-lucide="sparkles" style="width:15px;height:15px;"></i>
-              <span>Unlock Full Report — ₹149</span>
-            </button>
-            <div class="box-footnote">Instant delivery • Zero subscription lock-in</div>
-          </div>
-
-          <!-- Card 3: Pro Subscription -->
-          <div class="pricing-box">
-            <div class="pricing-box-header">
-              <span class="tier-badge">PRO PLAN</span>
-              <div class="tier-price">₹999 <span style="font-size:13px;font-weight:400;color:var(--text-sub);">/mo (~$12 / $29)</span></div>
-              <div class="tier-frequency">For active freelancers &amp; boutique agencies</div>
-            </div>
-            <p class="tier-summary">Unlimited site extractions with deep multi-page crawling.</p>
-            <ul class="tier-bullets">
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span><strong>Unlimited site scans</strong></span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Deep crawl up to <strong>20 subpages</strong></span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Whitelabel client presentation links</span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Figma Tokens Studio live sync</span></li>
-              <li><i data-lucide="check" style="width:14px;height:14px;"></i><span>Export executive PDF scorecards</span></li>
-            </ul>
-            <a href="/studio" class="btn btn-secondary btn-md" style="width:100%;">
-              <span>Get Started with Pro</span>
-            </a>
-          </div>
-
-          <!-- Card 4: Instant Workspace Magic Link Access -->
-          <div class="pricing-box workspace-box">
-            <div class="pricing-box-header">
-              <span class="tier-badge tier-badge-subtle">WORKSPACE ACCESS</span>
-              <div class="tier-title-custom">Already Unlocked?</div>
-              <div class="tier-frequency">Instant magic link access</div>
-            </div>
-            <p class="tier-summary">Enter your email to retrieve your unlocked intelligence reports, ZIP bundles, and client links.</p>
-            
-            <form id="inline-magic-form" class="workspace-inline-form">
-              <div class="input-with-icon">
-                <i data-lucide="mail" style="width:15px;height:15px;"></i>
-                <input 
-                  type="email" 
-                  id="inline-magic-email" 
-                  class="workspace-input" 
-                  placeholder="you@studio.com" 
-                  required
-                  aria-label="Email address for workspace access"
-                >
-              </div>
-              <button type="submit" id="inline-magic-submit" class="btn btn-secondary btn-md" style="width:100%;">
-                <span class="spinner hidden"></span>
-                <span class="btn-text">Send Access Link</span>
-              </button>
-            </form>
-
-            <div id="inline-magic-feedback" class="magic-feedback"></div>
-            <div class="box-footnote" style="margin-top:auto;">Passwordless. Fast. Secure.</div>
-          </div>
-
         </div>
-      </div>
-    </section>
 
-  </main>
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" data-faq="4">
+            Is it legal to extract another website's design?
+            <span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-answer" id="faq-answer-4">
+            <p>Auditing publicly rendered code is comparable to viewing source — but designs, logos and trademarks remain their owners' property. ExtractDesign is built for competitive analysis, audits and education; you're responsible for how you reuse the output and for respecting each site's terms.</p>
+          </div>
+        </div>
 
-  <!-- Login & Magic Link Modal -->
-  <div id="login-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-backdrop"></div>
-    <div class="modal-card">
-      <button type="button" id="close-login-modal" class="modal-close-btn" aria-label="Close modal">
-        <i data-lucide="x" style="width:18px;height:18px;"></i>
-      </button>
-      
-      <div class="modal-header-icon">
-        <i data-lucide="mail-check" style="width:22px;height:22px;"></i>
-      </div>
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false" data-faq="5">
+            Can reports carry my agency's branding?
+            <span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-answer" id="faq-answer-5">
+            <p>Yes. Pay-per-scan and Pro reports unlock whitelabel presentation links hosted on your own subdomain, with your logo, your colors and no ExtractDesign branding in front of your client.</p>
+          </div>
+        </div>
 
-      <h3 id="modal-title" class="modal-title">Access Your Workspace</h3>
-      <p id="modal-sub" class="modal-sub">Enter your email address to receive an instant access link and retrieve all previously unlocked reports.</p>
-
-      <form id="modal-magic-form" class="magic-link-form" style="max-width:100%;">
-        <input 
-          type="email" 
-          id="modal-magic-email" 
-          class="magic-input" 
-          placeholder="you@studio.com" 
-          required
-          aria-label="Email address"
-        >
-        <button type="submit" id="modal-magic-submit" class="btn btn-primary btn-lg btn-glow" style="width:100%;">
-          <span class="spinner hidden"></span>
-          <span class="btn-text">Send Access Link</span>
-        </button>
-      </form>
-
-      <div id="modal-magic-feedback" class="magic-feedback"></div>
-
-      <div class="workspace-footnote" style="margin-top:16px;text-align:center;">
-        No password. No account to remember.
       </div>
     </div>
   </div>
+</section>
 
-  <!-- Streamlined Site Footer -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-compact-row">
-        <div class="brand-link">
-          <div class="brand-icon" style="width:28px;height:28px;">
-            <i data-lucide="palette" style="width:15px;height:15px;"></i>
+<!-- ============================================================
+     CLOSING CTA + FOOTER
+     ============================================================ -->
+<footer class="closing-section">
+  <div class="container-x">
+
+    <!-- Final CTA Band -->
+    <div class="reveal">
+      <section id="workbench" class="cta-band" aria-labelledby="cta-title">
+        <div class="cta-band-grid" aria-hidden="true"></div>
+        <div class="cta-glow-left" aria-hidden="true"></div>
+        <div class="cta-glow-right" aria-hidden="true"></div>
+        <div class="cta-band-inner">
+          <span class="eyebrow"><span class="pulse-dot"></span> Your first scan is free</span>
+          <h2 id="cta-title" class="cta-title">Point. Extract. <span class="text-gradient">Win the pitch.</span></h2>
+          <p class="cta-desc">Your first full report takes about 30 seconds. No credit card, no extension, no signup to explore the essentials.</p>
+          <div class="cta-btns">
+            <a href="/studio" class="cta-btn-primary shine">
+              Open Studio Workbench
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="/studio" class="cta-btn-secondary">
+              <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#67e8f9;color:#67e8f9;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Watch the 2-min demo
+            </a>
           </div>
-          <span style="font-weight:700;font-size:14px;color:#fff;">ExtractDesign Studio</span>
+          <div class="cta-url-demo">
+            <span class="scheme">https://</span>
+            your-client.com
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg>
+            <span class="result">tokens · audits · exports</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <div class="site-footer">
+      <div class="footer-grid">
+
+        <!-- Brand column -->
+        <div>
+          <a href="/" class="nav-logo" aria-label="ExtractDesign Studio home">
+            <div class="nav-logo-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+              </svg>
+            </div>
+            <span class="nav-logo-text">ExtractDesign<span>Studio</span></span>
+          </a>
+          <p class="footer-brand-desc">Engineering-grade website intelligence. Reverse-engineer any public design system in seconds — then ship the better version.</p>
+          <div class="footer-socials">
+            <a href="https://github.com/carthworks" class="footer-social-link" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.26 5.67.41.36.78 1.06.78 2.14 0 1.55-.01 2.79-.01 3.17 0 .31.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+            </a>
+            <a href="https://x.com/carthworks" class="footer-social-link" aria-label="X / Twitter">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://linkedin.com/in/carthworks" class="footer-social-link" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+            </a>
+          </div>
+          <span class="status-badge">
+            <span class="pulse-dot"></span>
+            All systems operational
+          </span>
         </div>
 
-        <ul class="footer-compact-links">
-          <li><a href="/studio">Studio Workbench</a></li>
-          <li><a href="/studio#settings">Settings</a></li>
-          <li><a href="#hero">Extract</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#pricing">Workspace Access</a></li>
-          <li><a href="https://github.com/carthworks/extract-theme" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-        </ul>
-
-        <div class="footer-author-tag">
-          Created by Karthikeyan T (<a href="https://github.com/carthworks" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">@carthworks</a>) • Apache-2.0
+        <!-- Link columns -->
+        <div>
+          <h4 class="footer-col-title">Product</h4>
+          <ul class="footer-col-links">
+            <li><a href="#capabilities">Extraction Engine</a></li>
+            <li><a href="#pillars">AI Insights</a></li>
+            <li><a href="#capabilities">Deep Multi-Page Crawl</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="/studio">Changelog</a></li>
+          </ul>
+        </div>
+        <div id="settings">
+          <h4 class="footer-col-title">Resources</h4>
+          <ul class="footer-col-links">
+            <li><a href="/studio">Studio Workbench</a></li>
+            <li><a href="/studio#settings">Settings</a></li>
+            <li><a href="/studio">API Access</a></li>
+            <li><a href="/studio">Documentation</a></li>
+            <li><a href="https://github.com/carthworks">GitHub</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">Company</h4>
+          <ul class="footer-col-links">
+            <li><a href="#personas">Use Cases</a></li>
+            <li><a href="/vibe-coders">Vibe Coders</a></li>
+            <li><a href="#personas">Agencies &amp; Freelancers</a></li>
+            <li><a href="#personas">Product Teams</a></li>
+            <li><a href="mailto:hello@extractdesign.studio">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">Legal</h4>
+          <ul class="footer-col-links">
+            <li><a href="/studio">Privacy</a></li>
+            <li><a href="/studio">Terms</a></li>
+            <li><a href="/studio">Security</a></li>
+            <li><a href="/studio">Responsible Use</a></li>
+            <li><a href="https://github.com/carthworks">Apache-2.0 License</a></li>
+          </ul>
         </div>
       </div>
-      <div class="footer-legal-notice">
-        All extracted brand logos, design tokens and trademarks remain the intellectual property of their respective owners.
+
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          © 2026 ExtractDesign Studio · Created by Karthikeyan T
+          <a href="https://x.com/carthworks">(@carthworks)</a>
+          · Apache-2.0
+        </p>
+        <p class="footer-legal">Extracted brand logos, design tokens and trademarks remain the property of their respective owners.</p>
       </div>
     </div>
-  </footer>
 
-  <!-- Scripts -->
-  <script src="landing.js?v=2"></script>
+  </div>
+</footer>
+
+</main>
+
+<script src="landing.js?v=3"></script>
 </body>
 </html>
